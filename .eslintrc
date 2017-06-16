@@ -20,7 +20,8 @@
   },
   "rules": {
     "key-spacing"          : "off",
-    "jsx-quotes"           : [2, "prefer-single"],
+    "react/jsx-boolean-value"    : [2, "always"],
+    "jsx-quotes"           : [2, "prefer-double"],
     "max-len"              : [2, 120, 2],
     "object-curly-spacing" : [2, "always"],
     "comma-dangle"         : "off"

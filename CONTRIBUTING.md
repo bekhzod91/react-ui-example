@@ -26,10 +26,10 @@ Lines should not exceed 100 characters. This allows the message to be easier to 
 
 ```
  #271 feat(standard): add style config and refactor to match
- #270 fix(config): only override publicPath when served by webpack 
- #269 feat(eslint-config-defaults): replace eslint-config-airbnb 
- #268 feat(config): allow user to configure webpack stats output 
-``` 
+ #270 fix(config): only override publicPath when served by webpack
+ #269 feat(eslint-config-defaults): replace eslint-config-airbnb
+ #268 feat(config): allow user to configure webpack stats output
+```
 
 #### Type
 

@@ -11,6 +11,9 @@ The primary goal of this project is to provide a stable foundation upon which to
 
 Finally, This project wouldn't be possible without the help of our many contributors. What you see today is the product of hundreds changes made to keep up with an ever-evolving ecosystem. [Thank you](#thank-you) for all of your help.
 
+### Before start read react style guid
+[![Airbnb react style guid](https://github.com/airbnb/javascript/tree/master/react)
+
 ## Table of Contents
 1. [Requirements](#requirements)
 1. [Installation](#getting-started)

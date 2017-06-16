@@ -20,6 +20,10 @@ const createStore = (initialState = {}) => {
     if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
       composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     }
+
+    // Enable redux change log
+    const logger = require('redux-logger').default
+    middleware.push(logger)
   }
 
   // ======================================================

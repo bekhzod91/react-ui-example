@@ -1,21 +1,45 @@
-@import 'base';
-@import '~bootstrap/scss/bootstrap.scss';
+@import './fonts/fonts.css';
+@import './normalize.css';
 
+$loginBackground: #516073;
+$primaryColor: #42a5f5;
 // Some best-practice CSS that's useful for most apps
 // Just remove them if they're not what you want
-html {
-  box-sizing: border-box;
+html * {
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
 }
 
-html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  color: #607188;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  color: $loginBackground;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
+a {
+  color: $primaryColor;
+  text-decoration: none;
+}
+
+a:link, a:visited {
+  transition: all .5s ease;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.divider, hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 1px;
+  width: 100%;
+  background: #E3ECF7;
 }

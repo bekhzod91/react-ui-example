@@ -5,7 +5,7 @@ const TEST_BUNDLER = './tests/test-bundler.js'
 
 const karmaConfig = {
   basePath: '../',
-  browsers: ['PhantomJS'],
+  browsers: ['Chrome'],
   singleRun: !argv.watch,
   coverageReporter: {
     reporters: [

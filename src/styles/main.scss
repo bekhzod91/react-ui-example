@@ -43,3 +43,7 @@ hr {
   width: 100%;
   background: #E3ECF7;
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px white inset;
+}

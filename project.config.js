@@ -5,6 +5,8 @@ module.exports = {
   env: NODE_ENV,
   /** The full path to the project's root directory */
   basePath: __dirname,
+  /** Host name **/
+  API_HOST: NODE_ENV !== 'development' || process.env.API_HOST ? process.env.API_HOST : 'api.unkata.com',
   /** The name of the directory containing the application source code */
   srcDir: 'src',
   /** The file name of the application's entry point */

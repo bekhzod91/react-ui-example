@@ -1,13 +1,9 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import TextField from 'material-ui/TextField'
-import Checkbox from 'material-ui/Checkbox'
-import * as STYLE from '../../../styles/style'
-import FaceBookIcon from '../../../components/FaceBookIcon'
-import GooglePlusIcon from '../../../components/GooglePlusIcon'
-import TwitterIcon from '../../../components/TwitterIcon'
-import RaisedButton from '../../../components/RaisedButton'
+import LinearProgress from 'material-ui/LinearProgress'
+import SignInForm from '../components/SignInForm'
+import SignInSocialButtons from '../components/SignInSocialButtons'
 import logoImg from './logo.png'
 
 const styles = {
@@ -15,6 +11,14 @@ const styles = {
     position: 'relative',
     margin: '5% auto auto',
     width: '375px',
+  },
+
+  loader: {
+    position: 'absolute',
+    width: '100%',
+    right: 0,
+    opacity: props => props.loading ? 1 : 0,
+    transition: 'opacity 0.5s ease-out'
   },
 
   content: {
@@ -65,20 +69,6 @@ const styles = {
     }
   },
 
-  loginAction: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    padding: '15px 0 0px',
-  },
-
-  signInButton: {
-    marginTop: '40px',
-    marginBottom: '10px'
-  },
-
   footer: {
     padding: 15,
     '& p': {
@@ -87,9 +77,13 @@ const styles = {
   }
 }
 
-export const SignIn = ({ classes, onSubmit }) => (
+export const SignIn = ({ classes, loading, onSubmit, handleSocialSignIn }) => (
   <div className={classes.wrapper}>
     <div className={classes.content}>
+      <div className={classes.loader}>
+        {loading && <LinearProgress mode="indeterminate" style={{ borderRadius: 0 }} />}
+      </div>
+
       <div className={classes.logo}>
         <img src={logoImg} className={classes.logoImg} alt="logo" />
       </div>
@@ -97,72 +91,14 @@ export const SignIn = ({ classes, onSubmit }) => (
       <h1 className={classes.logoTitle}>Sign In to your account</h1>
 
       <div>
-        <form onSubmit={onSubmit}>
-          <TextField
-            hintText="Email"
-            floatingLabelText="Enter Email"
-            fullWidth={true}
-          /><br />
-
-          <TextField
-            hintText="Password"
-            floatingLabelText="Enter Password"
-            type="password"
-            fullWidth={true}
-          /><br />
-
-          <div className={classes.loginAction}>
-            <Checkbox
-              label="Remember me"
-              labelStyle={{ fontWeight: 400 }}
-              style={{ maxWidth: '200px' }}
-            />
-            <a href="javascript:void(0)">Forgot Password?</a>
-          </div>
-
-          <RaisedButton
-            id="signInButton"
-            type="submit"
-            className={classes.signInButton}
-            label="Sign In"
-            primary={true}
-            fullWidth={true}
-          />
-        </form>
+        <SignInForm onSubmit={onSubmit} />
 
         <div className={classes.loginOption}>
           <span>OR</span>
           <hr />
         </div>
 
-        <div>
-          <RaisedButton
-            label="Sign In with FaceBook"
-            labelColor={STYLE.SECOND_TEXT_COLOR}
-            icon={<FaceBookIcon />}
-            fullWidth={true}
-            backgroundColor={STYLE.SOCIAL_FACEBOOK_COLOR}
-            style={{ margin: '12px 0' }}
-          />
-
-          <RaisedButton
-            label="Sign In with FaceBook"
-            labelColor={STYLE.SECOND_TEXT_COLOR}
-            icon={<GooglePlusIcon />}
-            fullWidth={true}
-            backgroundColor={STYLE.SOCIAL_GOOGLEPLUS_COLOR}
-            style={{ margin: '12px 0' }}
-          />
-
-          <RaisedButton
-            label="Sign In with Twitter"
-            labelColor={STYLE.SECOND_TEXT_COLOR}
-            icon={<TwitterIcon />}
-            fullWidth={true}
-            backgroundColor={STYLE.SOCIAL_TWITTER_COLOR}
-            style={{ margin: '12px 0' }}
-          />
-        </div>
+        <SignInSocialButtons handleSocialSignIn={handleSocialSignIn} />
 
         <div className={classes.footer}>
           <p>Don't have an account? <a href="/sign-up">Create an account</a></p>
@@ -174,7 +110,13 @@ export const SignIn = ({ classes, onSubmit }) => (
 
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  handleSocialSignIn: PropTypes.shape({
+    handleFacebookSignIn: PropTypes.func.isRequired,
+    handleGooglePlusSignIn: PropTypes.func.isRequired,
+    handleTwitterSignIn: PropTypes.func.isRequired,
+  })
 }
 
 export default injectSheet(styles)(SignIn)

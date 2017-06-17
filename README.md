@@ -174,3 +174,8 @@ This project wouldn't be possible without help from the community, so I'd like t
 * [Jonas Matser](https://github.com/mtsr) - For your help in triaging issues and unending support in our Gitter channel.
 
 And to everyone else who has contributed, even if you are not listed here your work is appreciated.
+
+## HRM not working
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```

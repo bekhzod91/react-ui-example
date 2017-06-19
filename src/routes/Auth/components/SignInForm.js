@@ -46,7 +46,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
       hintText="Email"
       floatingLabelText="Enter Email"
       fullWidth={true}
-        /><br />
+    /><br />
 
     <Field
       name="password"

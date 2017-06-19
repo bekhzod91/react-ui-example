@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import axios from '../../../helper/axios'
-import { API_URL } from '../../../constants'
 import thunkReducer from '../../../helper/thunkReducer'
 
 // ------------------------------------
@@ -11,9 +10,11 @@ export const SIGN_IN = 'SIGN_IN'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export const API_SIGN_IN_URL = `/user/auth/`
+
 export const singInAction = (data) => {
   const payload = axios()
-    .post(`${API_URL}/user/auth/`, data)
+    .post(API_SIGN_IN_URL, data)
     .then((response) => _.get(response, 'data'))
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 

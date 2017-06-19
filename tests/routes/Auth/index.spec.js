@@ -5,7 +5,7 @@ describe('(Route) Auth', () => {
     expect(typeof Auth({})).to.equal('object')
   })
 
-  it('has a path \'counter\'', () => {
+  it('has a path \'sign-in\'', () => {
     expect(Auth({}).path).to.equal('sign-in')
   })
 })

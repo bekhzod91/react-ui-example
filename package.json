@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-starter-kit",
+  "name": "Unkata",
   "version": "3.0.1",
-  "description": "Get started with React, Redux, and React-Router!",
+  "description": "Unkata is high quality erp system",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",

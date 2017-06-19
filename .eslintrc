@@ -24,6 +24,8 @@
     "jsx-quotes"           : [2, "prefer-double"],
     "max-len"              : [2, 120, 2],
     "object-curly-spacing" : [2, "always"],
+    "indent"               : ["error", 2],
+    "react/jsx-indent"     : [2, 2],
     "comma-dangle"         : "off"
   }
 }

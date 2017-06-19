@@ -17,6 +17,6 @@ export default (store) => ({
       cb(null, SignIn)
 
     /* Webpack named bundle   */
-    }, 'counter')
+    }, 'sign_in')
   }
 })

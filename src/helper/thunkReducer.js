@@ -1,7 +1,7 @@
 import createReducer from './createReducer'
 import toCamelCase from './toCamelCase'
 
-const defaultState = {
+export const initialState = {
   data: null,
   error: null,
   loading: false,
@@ -9,7 +9,7 @@ const defaultState = {
 }
 
 const createThunkReducer = (actionName) => {
-  return createReducer(defaultState, {
+  return createReducer(initialState, {
     [`${actionName}_PENDING`] (state, action) {
       return {
         ...state,
@@ -35,7 +35,7 @@ const createThunkReducer = (actionName) => {
       }
     },
     [`${actionName}_CLEAR`] () {
-      return defaultState
+      return initialState
     }
   })
 }

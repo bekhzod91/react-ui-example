@@ -13,11 +13,7 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
-  },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": "UnkataInc <myrubapa@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.2",
@@ -45,6 +41,7 @@
     "reselect": "^3.0.1"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
@@ -86,6 +83,7 @@
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-webpack-with-fast-source-maps": "^1.10.0",
     "mocha": "^3.2.0",
+    "nock": "^9.0.13",
     "node-sass": "^4.5.3",
     "phantomjs-prebuilt": "^2.1.14",
     "react-addons-test-utils": "^15.5.1",

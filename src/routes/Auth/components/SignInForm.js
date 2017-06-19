@@ -46,7 +46,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
       hintText="Email"
       floatingLabelText="Enter Email"
       fullWidth={true}
-    /><br />
+        /><br />
 
     <Field
       name="password"
@@ -65,6 +65,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
         labelStyle={{ fontWeight: 400 }}
         style={{ maxWidth: '200px' }}
       />
+
       <a href="javascript:void(0)">Forgot Password?</a>
     </div>
 

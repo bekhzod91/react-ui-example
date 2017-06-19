@@ -1,6 +1,7 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router'
 import LinearProgress from 'material-ui/LinearProgress'
 import SignInForm from '../components/SignInForm'
 import SignInSocialButtons from '../components/SignInSocialButtons'
@@ -101,7 +102,7 @@ export const SignIn = ({ classes, loading, onSubmit, handleSocialSignIn }) => (
         <SignInSocialButtons handleSocialSignIn={handleSocialSignIn} />
 
         <div className={classes.footer}>
-          <p>Don't have an account? <a href="/sign-up">Create an account</a></p>
+          <p>Don't have an account? <Link to="/sign-up">Create an account</Link></p>
         </div>
       </div>
     </div>

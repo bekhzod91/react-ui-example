@@ -12,7 +12,7 @@ export const SIGN_IN = 'SIGN_IN'
 // Actions
 // ------------------------------------
 export const singInAction = (data) => {
-  const payload = axios({ raw: true })
+  const payload = axios()
     .post(`${API_URL}/user/auth/`, data)
     .then((response) => _.get(response, 'data'))
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))

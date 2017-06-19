@@ -38,7 +38,7 @@ const SignInSocialButtons = ({ handleSocialSignIn }) => (
       fullWidth={true}
       backgroundColor={STYLE.SOCIAL_TWITTER_COLOR}
       style={{ margin: '12px 0' }}
-      onTouchTap={handleSocialSignIn.handleFacebookSignIn}
+      onTouchTap={handleSocialSignIn.handleTwitterSignIn}
     />
   </div>
 )

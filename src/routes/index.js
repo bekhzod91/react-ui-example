@@ -3,6 +3,7 @@ import LoginLayout from '../layouts/LoginLayout/LoginLayout'
 import Home from './Home'
 import CounterRoute from './Counter'
 import AuthRoute from './Auth'
+import Dashboard from './Dashboard'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -14,6 +15,7 @@ export const createRoutes = (store) => ({
   childRoutes : [
     CounterRoute(store),
     AuthRoute(store),
+    Dashboard(store)
   ]
 })
 

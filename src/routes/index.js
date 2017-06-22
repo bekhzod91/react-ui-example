@@ -1,19 +1,20 @@
 // We only need to import the modules necessary for initial render
-import LoginLayout from '../layouts/LoginLayout/LoginLayout'
+import PageLayout from '../layouts/PageLayout/PageLayout'
 import Home from './Home'
 import CounterRoute from './Counter'
-import AuthRoute from './Auth'
+import { SignIn, SelectCompany } from './Auth'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
 
 export const createRoutes = (store) => ({
   path        : '/',
-  component   : LoginLayout,
+  component   : PageLayout,
   indexRoute  : Home,
   childRoutes : [
     CounterRoute(store),
-    AuthRoute(store),
+    SignIn(store),
+    SelectCompany(store),
   ]
 })
 

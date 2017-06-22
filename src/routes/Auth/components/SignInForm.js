@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../components/Form/SimpleFields/TextField'
 import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
 import RaisedButton from '../../../components/RaisedButton'
-import validate from '../../../helper/validate'
+import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
 
 const styles = {
@@ -14,6 +14,7 @@ const styles = {
     textAlign: 'center',
     color: STYLE.DANGER_COLOR,
   },
+
   loginAction: {
     display: 'flex',
     justifyContent: 'space-between',

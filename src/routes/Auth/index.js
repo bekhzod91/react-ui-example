@@ -1,22 +1,24 @@
 import { injectReducer } from '../../store/reducers'
+import * as ROUTE from './routes'
 
-export default (store) => ({
-  path : 'sign-in',
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
-    require.ensure([], (require) => {
-      /*  Webpack - use require callback to define
-          dependencies for bundling   */
-      const SignIn = require('./containers/SignInContainer').default
-      const reducer = require('./modules/sign_in').default
-
-      /*  Add the reducer to the store on key 'counter'  */
+export const SignIn = store => ({
+  path : ROUTE.SIGN_IN_URL,
+  getComponent: (nextState, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/signIn').default
       injectReducer(store, { key: 'signIn', reducer })
-
-      /*  Return getComponent   */
-      cb(null, SignIn)
-
-    /* Webpack named bundle   */
+      cb(null, require('./containers/SignInContainer').default)
     }, 'sign_in')
   }
+})
+
+export const SelectCompany = store => ({
+  path : ROUTE.COMPANY_SELECT_URL,
+  getComponent: (nextState, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/myCompaneis').default
+      injectReducer(store, { key: 'myCompanies', reducer })
+      cb(null, require('./containers/SelectCompanyContainer').default)
+    }, 'select_company')
+  },
 })

@@ -5,28 +5,32 @@ import SvgIcon from 'material-ui/SvgIcon'
 import IconButton from 'material-ui/IconButton'
 import * as STYLE from '../styles/style'
 
-const style = {
-  sidebarIcon: {
+const styles = {
+  accountIcon: {
     color: `${STYLE.SECOND_TEXT_COLOR} !important`
   }
 }
 
-const SidebarIcon = (props) => {
+const path = `M12,4A4,4 0 0,1 16,8A4,4 0 0,1 
+12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 
+20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z`
+
+const AccoountIcon = (props) => {
   const { classes, onTouchTap, position } = props
-  const translate = position ? 'translate(250px)' : 'translate(50px) scale(-1)'
+  const translate = position ? 'translate(290px)' : 'translate(90px)'
   return (
     <IconButton onTouchTap={onTouchTap} style={{ transform: translate, position: 'absolute' }}>
-      <SvgIcon className={classes.sidebarIcon}>
-        <path d="M5,13L9,17L7.6,18.42L1.18,12L7.6,5.58L9,7L5,11H21V13H5M21,6V8H11V6H21M21,16V18H11V16H21Z" />
+      <SvgIcon className={classes.accountIcon}>
+        <path d={path} />
       </SvgIcon>
     </IconButton>
   )
 }
 
-SidebarIcon.propTypes = {
+AccoountIcon.propTypes = {
   classes: PropTypes.object.isRequired,
   onTouchTap: PropTypes.func.isRequired,
   position: PropTypes.bool
 }
 
-export default injectSheet(style)(SidebarIcon)
+export default injectSheet(styles)(AccoountIcon)

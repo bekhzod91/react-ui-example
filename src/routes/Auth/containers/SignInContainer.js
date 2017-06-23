@@ -1,8 +1,11 @@
 import _ from 'lodash'
 import { compose, mapProps } from 'recompose'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
+import { setToken } from '../../../helpers/token'
 import SignIn from '../components/SignIn'
-import { singInAction } from '../modules/sign_in'
+import { singInAction } from '../modules/signIn'
+import * as ROUTER from '../routes'
 
 const mapStateToProps = (state) => ({
   loading: _.get(state, ['signIn', 'loading']),
@@ -10,7 +13,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  singInAction
+  singInAction,
 }
 
 const mapPropsToComponent = props => {
@@ -22,14 +25,23 @@ const mapPropsToComponent = props => {
 
   return {
     onSubmit: () => {
-      return props.singInAction(props.formValues)
+      return props
+        .singInAction(props.formValues)
+        .then((data) => {
+          const token = _.get(data, ['value', 'token'])
+          setToken(token, _.get(props.formValues, 'rememberMe'))
+
+          browserHistory.push(ROUTER.COMPANY_SELECT_URL)
+        })
     },
     loading: props.loading,
     handleSocialSignIn
   }
 }
 
-export default compose(
+const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
   mapProps(mapPropsToComponent)
-)(SignIn)
+)
+
+export default enhance(SignIn)

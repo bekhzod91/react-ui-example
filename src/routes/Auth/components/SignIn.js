@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import LinearProgress from 'material-ui/LinearProgress'
 import SignInForm from '../components/SignInForm'
+import Logo from '../components/Logo'
 import SignInSocialButtons from '../components/SignInSocialButtons'
-import logoImg from './logo.png'
 
 const styles = {
   wrapper: {
@@ -85,9 +85,7 @@ export const SignIn = ({ classes, loading, onSubmit, handleSocialSignIn }) => (
         {loading && <LinearProgress mode="indeterminate" style={{ borderRadius: 0 }} />}
       </div>
 
-      <div className={classes.logo}>
-        <img src={logoImg} className={classes.logoImg} alt="logo" />
-      </div>
+      <Logo />
 
       <h1 className={classes.logoTitle}>Sign In to your account</h1>
 

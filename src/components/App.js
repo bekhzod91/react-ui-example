@@ -2,19 +2,16 @@ import React from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 import PropTypes from 'prop-types'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import * as STYLE from '../styles/style'
-
-injectTapEventPlugin()
 
 const muiTheme = getMuiTheme({
   // spacing: spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: STYLE.PRIMARY_COLOR,
-    // primary2Color: cyan700,
+    primary2Color: STYLE.PRIMARY_700_COLOR,
     // primary3Color: grey400,
     // accent1Color: pinkA200,
     // accent2Color: grey100,

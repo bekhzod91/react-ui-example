@@ -9,7 +9,7 @@ import { Card, CardHeader } from 'material-ui/Card'
 import avatar from './assets/photo.jpg'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 
-const SmallSidebarMemu = (props) => {
+const SmallSidebarMenu = (props) => {
   const { open } = props
   const accountState = _.get(open, 'account')
   return (
@@ -35,8 +35,8 @@ const SmallSidebarMemu = (props) => {
   )
 }
 
-SmallSidebarMemu.propTypes = {
+SmallSidebarMenu.propTypes = {
   open: PropTypes.object
 }
 
-export default SmallSidebarMemu
+export default SmallSidebarMenu

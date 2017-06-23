@@ -6,13 +6,10 @@ import SidebarIcon from './SidebarIcon'
 
 const SidebarButton = (props) => {
   const { position, positionChange } = props
-  const translate = _.get(position, 'open') ? 'translate(250px)' : 'translate(50px) scale(-1)'
   const onTouchTap = _.get(position, 'open')
     ? () => positionChange({ ...position, open: false }) : () => positionChange({ ...position, open: true })
   return (
-    <IconButton
-      onTouchTap={onTouchTap}
-      style={{ transform: translate, position: 'absolute' }}>
+    <IconButton onTouchTap={onTouchTap}>
       <SidebarIcon />
     </IconButton>
   )

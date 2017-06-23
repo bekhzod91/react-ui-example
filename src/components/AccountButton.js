@@ -6,13 +6,10 @@ import AccountIcon from './AccountIcon'
 
 const AccountButton = (props) => {
   const { position, positionChange } = props
-  const translate = _.get(position, 'open') ? 'translate(290px)' : 'translate(90px)'
   const onTouchTap = _.get(position, 'account')
     ? () => positionChange({ ...position, account: false }) : () => positionChange({ ...position, account: true })
   return (
-    <IconButton
-      onTouchTap={onTouchTap}
-      style={{ transform: translate, position: 'absolute' }}>
+    <IconButton onTouchTap={onTouchTap}>
       <AccountIcon />
     </IconButton>
   )

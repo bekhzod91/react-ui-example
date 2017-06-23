@@ -15,6 +15,12 @@ const styles = {
   title: {
     paddingLeft: '15px !important',
     color: `${STYLE.SECOND_TEXT_COLOR} !important`
+  },
+  buttons: {
+    color: 'white',
+    position: 'absolute',
+    display: 'flex',
+    transform: props => _.get(props, ['open', 'open']) ? 'translate(250px)' : 'translate(50px)'
   }
 }
 
@@ -27,8 +33,10 @@ const LeftAppbar = (props) => {
         <img src={logo} alt="logo" />
       </div>
       {toolbarState && <ToolbarTitle text="Unkata" className={classes.title} />}
-      <SidebarButton position={open} positionChange={positionChange} />
-      <AccountButton position={open} positionChange={positionChange} />
+      <div className={classes.buttons}>
+        <SidebarButton position={open} positionChange={positionChange} />
+        <AccountButton position={open} positionChange={positionChange} />
+      </div>
     </ToolbarGroup>
   )
 }

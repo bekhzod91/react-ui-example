@@ -8,7 +8,7 @@ import Drawer from 'material-ui/Drawer'
 import LeftAppbar from './LeftAppbar'
 import RightAppbar from './RightAppbar'
 import BigSideBarMenu from './BigSidebarMenu'
-import SmallSidebarMemu from './SmallSidebarMenu'
+import SmallSidebarMenu from './SmallSidebarMenu'
 import * as STYLE from '../styles/style'
 
 const styles = {
@@ -61,7 +61,7 @@ const Layout = enhance((props) => {
         containerClassName={classes.sidebarMenu}
         containerStyle={{ width: sideBarSize ? '256px' : '56px' }}
       >
-        {sideBarSize ? <BigSideBarMenu open={state} /> : <SmallSidebarMemu open={state} />}
+        {sideBarSize ? <BigSideBarMenu open={state} /> : <SmallSidebarMenu open={state} />}
       </Drawer>
 
       <div className={classes.content}>

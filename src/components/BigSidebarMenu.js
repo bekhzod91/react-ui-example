@@ -1,6 +1,7 @@
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withState, withHandlers } from 'recompose'
+import { compose, withState } from 'recompose'
 import injectSheet from 'react-jss'
 import { List, ListItem } from 'material-ui/List'
 import { Card, CardHeader, CardActions } from 'material-ui/Card'
@@ -20,37 +21,21 @@ const styles = {
 
 const enhance = compose(
   withState('expanded', 'setExpanded', false),
-  withHandlers({
-    handleOpenExpanded: props => () => {
-      const { setExpanded } = props
-      setExpanded(true)
-    },
-    handleCloseExpanded: props => () => {
-      const { setExpanded } = props
-      setExpanded(false)
-    }
-  }),
   injectSheet(styles)
 )
 
 const BigSideBarMenu = enhance((props) => {
-  const {
-    classes,
-    expanded,
-    handleOpenExpanded,
-    handleCloseExpanded,
-    state,
-    account
-  } = props
-  const onExpandChange = expanded ? handleCloseExpanded : handleOpenExpanded
+  const { classes, expanded, setExpanded, state } = props
+  const onExpandChange = expanded ? () => setExpanded(false) : () => setExpanded(true)
   return (
     <List className={classes.menu}>
-      {account && <Card expanded={expanded} onExpandChange={onExpandChange} initiallyExpanded={account}>
+      {_.get(state, 'account') &&
+      <Card expanded={expanded} onExpandChange={onExpandChange} initiallyExpanded={_.get(state, 'account')}>
         <CardHeader
           title="Admin"
           subtitle="admin@example.com"
           avatar={avatar}
-          showExpandableButton={state}
+          showExpandableButton={_.get(state, 'open')}
         />
         <CardActions expandable={true}>
           <List>
@@ -95,10 +80,7 @@ const BigSideBarMenu = enhance((props) => {
 BigSideBarMenu.propTypes = {
   classes: PropTypes.object,
   expanded: PropTypes.bool,
-  handleOpenExpanded: PropTypes.func,
-  handleCloseExpanded: PropTypes.func,
-  state: PropTypes.bool,
-  account: PropTypes.bool
+  setExpanded: PropTypes.func
 }
 
 export default BigSideBarMenu

@@ -19,24 +19,24 @@ const styles = {
 }
 
 const LeftAppbar = (props) => {
-  const { classes, state, setState } = props
+  const { classes, open, positionChange } = props
+  const toolbarState = _.get(open, 'open')
   return (
     <ToolbarGroup firstChild={true}>
       <div className={classes.logo}>
         <img src={logo} alt="logo" />
       </div>
-      {_.get(state, 'open') &&
-      <ToolbarTitle text="Unkata" className={classes.title} />}
-      <SidebarButton position={state} setState={setState} />
-      <AccountButton position={state} setState={setState} />
+      {toolbarState && <ToolbarTitle text="Unkata" className={classes.title} />}
+      <SidebarButton position={open} positionChange={positionChange} />
+      <AccountButton position={open} positionChange={positionChange} />
     </ToolbarGroup>
   )
 }
 
 LeftAppbar.propTypes = {
   classes: PropTypes.object.isRequired,
-  state: PropTypes.object,
-  setState: PropTypes.func.isRequired
+  open: PropTypes.object,
+  positionChange: PropTypes.func.isRequired
 }
 
 export default injectSheet(styles)(LeftAppbar)

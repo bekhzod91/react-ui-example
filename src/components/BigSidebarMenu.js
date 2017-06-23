@@ -20,22 +20,27 @@ const styles = {
 }
 
 const enhance = compose(
-  withState('expanded', 'setExpanded', false),
+  withState('state', 'setState', false),
   injectSheet(styles)
 )
 
 const BigSideBarMenu = enhance((props) => {
-  const { classes, expanded, setExpanded, state } = props
-  const onExpandChange = expanded ? () => setExpanded(false) : () => setExpanded(true)
+  const { classes, open, state, setState } = props
+  const openState = _.get(open, 'open')
+  const accountState = _.get(open, 'account')
+  const onExpandChange = state ? () => setState(false) : () => setState(true)
   return (
     <List className={classes.menu}>
-      {_.get(state, 'account') &&
-      <Card expanded={expanded} onExpandChange={onExpandChange} initiallyExpanded={_.get(state, 'account')}>
+      {accountState && <Card
+        expanded={state}
+        onExpandChange={onExpandChange}
+        initiallyExpanded={accountState}>
+
         <CardHeader
           title="Admin"
           subtitle="admin@example.com"
           avatar={avatar}
-          showExpandableButton={_.get(state, 'open')}
+          showExpandableButton={openState}
         />
         <CardActions expandable={true}>
           <List>
@@ -79,8 +84,9 @@ const BigSideBarMenu = enhance((props) => {
 
 BigSideBarMenu.propTypes = {
   classes: PropTypes.object,
-  expanded: PropTypes.bool,
-  setExpanded: PropTypes.func
+  open: PropTypes.object,
+  state: PropTypes.bool,
+  setState: PropTypes.func
 }
 
 export default BigSideBarMenu

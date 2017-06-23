@@ -5,10 +5,10 @@ import IconButton from 'material-ui/IconButton'
 import AccountIcon from './AccountIcon'
 
 const AccountButton = (props) => {
-  const { position, setState } = props
+  const { position, positionChange } = props
   const translate = _.get(position, 'open') ? 'translate(290px)' : 'translate(90px)'
   const onTouchTap = _.get(position, 'account')
-    ? () => setState({ ...position, account: false }) : () => setState({ ...position, account: true })
+    ? () => positionChange({ ...position, account: false }) : () => positionChange({ ...position, account: true })
   return (
     <IconButton
       onTouchTap={onTouchTap}
@@ -20,7 +20,7 @@ const AccountButton = (props) => {
 
 AccountButton.propTypes = {
   position: PropTypes.object,
-  setState: PropTypes.func.isRequired
+  positionChange: PropTypes.func.isRequired
 }
 
 export default AccountButton

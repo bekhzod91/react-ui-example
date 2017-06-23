@@ -48,20 +48,20 @@ const enhance = compose(
 
 const Layout = enhance((props) => {
   const { classes, children, state, setState } = props
+  const sideBarSize = _.get(state, 'open')
   return (
     <div>
       <Toolbar className={classes.appBar}>
-        <LeftAppbar state={state} setState={setState} />
+        <LeftAppbar open={state} positionChange={setState} />
         <RightAppbar />
       </Toolbar>
 
       <Drawer
         open={true}
         containerClassName={classes.sidebarMenu}
-        containerStyle={{ width: _.get(state, 'open') ? '256px' : '56px' }}
+        containerStyle={{ width: sideBarSize ? '256px' : '56px' }}
       >
-        {_.get(state, 'open')
-          ? <BigSideBarMenu state={state} /> : <SmallSidebarMemu state={state} />}
+        {sideBarSize ? <BigSideBarMenu open={state} /> : <SmallSidebarMemu open={state} />}
       </Drawer>
 
       <div className={classes.content}>

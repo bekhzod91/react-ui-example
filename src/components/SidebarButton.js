@@ -5,10 +5,10 @@ import IconButton from 'material-ui/IconButton'
 import SidebarIcon from './SidebarIcon'
 
 const SidebarButton = (props) => {
-  const { position, setState } = props
+  const { position, positionChange } = props
   const translate = _.get(position, 'open') ? 'translate(250px)' : 'translate(50px) scale(-1)'
   const onTouchTap = _.get(position, 'open')
-    ? () => setState({ ...position, open: false }) : () => setState({ ...position, open: true })
+    ? () => positionChange({ ...position, open: false }) : () => positionChange({ ...position, open: true })
   return (
     <IconButton
       onTouchTap={onTouchTap}
@@ -20,7 +20,7 @@ const SidebarButton = (props) => {
 
 SidebarButton.propTypes = {
   position: PropTypes.object,
-  setState: PropTypes.func.isRequired
+  positionChange: PropTypes.func.isRequired
 }
 
 export default SidebarButton

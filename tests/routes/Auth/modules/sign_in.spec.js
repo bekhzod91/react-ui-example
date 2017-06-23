@@ -22,5 +22,9 @@ describe('(Redux Module) SignIn', () => {
     it('Should return an action with type "SIGN_IN".', () => {
       expect(singInAction()).to.have.property('type', SIGN_IN)
     })
+
+    it('Should return', () => {
+      expect(singInAction()).to.have.property('type', SIGN_IN)
+    })
   })
 })

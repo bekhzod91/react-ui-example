@@ -1,13 +1,14 @@
 import _ from 'lodash'
-import { compose, withPropsOnChange } from 'recompose'
+import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
-import { DEFAULT_TIMEOUT } from '../../../constants'
 import SelectCompany from '../components/SelectCompany'
 import { fetchMyCompaniesAction } from '../modules/myCompaneis'
+import 'rxjs/add/observable/interval'
 
 const mapStateToProps = (state) => ({
   loading: _.get(state, ['myCompanies', 'loading']),
-  list: _.get(state, ['myCompanies', 'data'])
+  list: _.get(state, ['myCompanies', 'data']),
+  loadingFail: _.get(state, ['myCompanies', 'failed']),
 })
 
 const mapDispatchToProps = {
@@ -16,8 +17,13 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withPropsOnChange(
-    props => !(props.list && !props.loading),
-    _.debounce(props => props.fetchMyCompaniesAction(), DEFAULT_TIMEOUT)
-  )
+  mapPropsStream(props$ => {
+    props$.subscribe(props => {
+      if (!props.list && !props.loading) {
+        props.fetchMyCompaniesAction()
+      }
+    })
+
+    return props$
+  })
 )(SelectCompany)

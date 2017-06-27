@@ -39,6 +39,7 @@
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "rxjs": "^5.4.1",
     "sprintf": "^0.1.5"
   },
   "devDependencies": {

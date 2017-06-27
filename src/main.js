@@ -1,14 +1,25 @@
+import Rx from 'rxjs'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { setObservableConfig } from 'recompose'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import createStore from './store/createStore'
 import './styles/main.scss'
 
+// Touch events
+// ------------------------------------
 injectTapEventPlugin()
 
 // Store Initialization
 // ------------------------------------
 const store = createStore(window.__INITIAL_STATE__)
+
+// RxJs setup
+// ------------------------------------
+setObservableConfig({
+  // Converts a plain ES observable to an RxJS 5 observable
+  fromESObservable: Rx.Observable.from
+})
 
 // Render Setup
 // ------------------------------------

@@ -26,7 +26,7 @@ const SmallSidebarMenu = (props) => {
         menuItemStyle={{ width: '58px' }}>
         <MenuItem
           leftIcon={<ActionDashboard />}
-          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          anchorOrigin={{ horizontal:'right', vertical:'top' }}
           targetOrigin={{ horizontal:'left', vertical:'top' }}
           menuItems={[
             <Subheader>Actions</Subheader>,
@@ -35,7 +35,7 @@ const SmallSidebarMenu = (props) => {
           ]} />
         <MenuItem
           leftIcon={<ActionCardGiftcard />}
-          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          anchorOrigin={{ horizontal:'right', vertical:'top' }}
           targetOrigin={{ horizontal:'left', vertical:'top' }}
           menuItems={[
             <Subheader>Actions</Subheader>,
@@ -44,7 +44,7 @@ const SmallSidebarMenu = (props) => {
           ]} />
         <MenuItem
           leftIcon={<ActionDns />}
-          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          anchorOrigin={{ horizontal:'right', vertical:'top' }}
           targetOrigin={{ horizontal:'left', vertical:'top' }}
           menuItems={[
             <Subheader>Actions</Subheader>,

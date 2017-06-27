@@ -13,7 +13,6 @@ import ActionDns from 'material-ui/svg-icons/action/dns'
 const SmallSidebarMenu = (props) => {
   const { open } = props
   const accountState = _.get(open, 'account')
-  console.log(props)
   return (
     <div>
       {accountState && <Card>

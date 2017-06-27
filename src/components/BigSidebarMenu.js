@@ -5,13 +5,11 @@ import { compose, withState } from 'recompose'
 import injectSheet from 'react-jss'
 import { List, ListItem } from 'material-ui/List'
 import { Card, CardHeader, CardActions } from 'material-ui/Card'
-import ContentSend from 'material-ui/svg-icons/content/send'
-import ContentDrafts from 'material-ui/svg-icons/content/drafts'
-import ActionGrade from 'material-ui/svg-icons/action/grade'
 import ActionDashboard from 'material-ui/svg-icons/action/dashboard'
 import ActionCardGiftcard from 'material-ui/svg-icons/action/card-giftcard'
 import Subheader from 'material-ui/Subheader'
 import avatar from './assets/photo.jpg'
+import ActionDns from 'material-ui/svg-icons/action/dns'
 
 const styles = {
   menu: {
@@ -46,7 +44,7 @@ const BigSideBarMenu = enhance((props) => {
           <List>
             <ListItem
               primaryText="profile"
-              leftIcon={<ActionGrade />}
+              leftIcon={<ActionDns />}
             />
           </List>
         </CardActions>
@@ -59,22 +57,22 @@ const BigSideBarMenu = enhance((props) => {
       <ListItem
         primaryText="Cards"
         leftIcon={<ActionCardGiftcard />}
+      />
+      <ListItem
+        primaryText="Actions"
+        leftIcon={<ActionDns />}
         initiallyOpen={false}
         primaryTogglesNestedList={true}
         nestedItems={[
           <ListItem
             key={1}
             primaryText="Starred"
-            leftIcon={<ActionGrade />}
+            leftIcon={<ActionDns />}
           />,
           <ListItem
             key={2}
             primaryText="Sent Mail"
-            leftIcon={<ContentSend />}
-            disabled={true}
-            nestedItems={[
-              <ListItem key={1} primaryText="Drafts" leftIcon={<ContentDrafts />} />,
-            ]}
+            leftIcon={<ActionDns />}
           />
         ]}
       />

@@ -6,12 +6,14 @@ import MenuItem from 'material-ui/MenuItem'
 import ActionDashboard from 'material-ui/svg-icons/action/dashboard'
 import ActionCardGiftcard from 'material-ui/svg-icons/action/card-giftcard'
 import { Card, CardHeader } from 'material-ui/Card'
+import Subheader from 'material-ui/Subheader'
 import avatar from './assets/photo.jpg'
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import ActionDns from 'material-ui/svg-icons/action/dns'
 
 const SmallSidebarMenu = (props) => {
   const { open } = props
   const accountState = _.get(open, 'account')
+  console.log(props)
   return (
     <div>
       {accountState && <Card>
@@ -20,16 +22,36 @@ const SmallSidebarMenu = (props) => {
           avatar={avatar}
         />
       </Card>}
-      <Menu>
-        <MenuItem leftIcon={<ActionDashboard />} />
-        <MenuItem leftIcon={<ActionCardGiftcard />} />
-        <MenuItem leftIcon={<ArrowDropRight />}
+      <Menu
+        autoWidth={false}
+        menuItemStyle={{ width: '58px' }}>
+        <MenuItem
+          leftIcon={<ActionDashboard />}
+          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          targetOrigin={{ horizontal:'left', vertical:'top' }}
           menuItems={[
-            <MenuItem primaryText="Grid lines" checked={true} />,
-            <MenuItem primaryText="Page breaks" insetChildren={true} />,
-            <MenuItem primaryText="Rules" checked={true} />,
-          ]}
-        />
+            <Subheader>Actions</Subheader>,
+            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
+            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
+          ]} />
+        <MenuItem
+          leftIcon={<ActionCardGiftcard />}
+          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          targetOrigin={{ horizontal:'left', vertical:'top' }}
+          menuItems={[
+            <Subheader>Actions</Subheader>,
+            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
+            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
+          ]} />
+        <MenuItem
+          leftIcon={<ActionDns />}
+          anchorOrigin={{ horizontal:'right', vertical:'center' }}
+          targetOrigin={{ horizontal:'left', vertical:'top' }}
+          menuItems={[
+            <Subheader>Actions</Subheader>,
+            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
+            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
+          ]} />
       </Menu>
     </div>
   )

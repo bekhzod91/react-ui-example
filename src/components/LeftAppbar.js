@@ -32,7 +32,7 @@ const LeftAppbar = (props) => {
       <div className={classes.logo}>
         <img src={logo} alt="logo" />
       </div>
-      {toolbarState && <ToolbarTitle text="Unkata" className={classes.title} />}
+      {toolbarState && <ToolbarTitle text="Company Name" className={classes.title} />}
       <div className={classes.buttons}>
         <SidebarButton position={open} positionChange={positionChange} />
         <AccountButton position={open} positionChange={positionChange} />

@@ -10,7 +10,12 @@ import * as STYLE from '../../../styles/style'
 const SignInSocialButtons = ({ handleSocialSignIn }) => (
   <div>
     <FacebookSDK>
-      <FacebookButton />
+      <FacebookButton
+        fbLoad={() => {}}
+        fbLoading={false}
+        onLoad={handleSocialSignIn.handleFacebookSignIn}
+        onError={() => console.log('error')}
+      />
     </FacebookSDK>
 
     <RaisedButton

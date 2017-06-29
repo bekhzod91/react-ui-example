@@ -5,7 +5,7 @@ import FaceBookIcon from './FaceBookIcon'
 import RaisedButton from './RaisedButton'
 import * as STYLE from '../styles/style'
 
-const FacebookButton = ({ fbLoading, fbLoad, ...defaultProps }) => {
+const FacebookButton = ({ fbLoading, fbLoad, onLoad, onError, ...defaultProps }) => {
   return (
     <RaisedButton
       id="facebook"
@@ -16,14 +16,16 @@ const FacebookButton = ({ fbLoading, fbLoad, ...defaultProps }) => {
       backgroundColor={STYLE.SOCIAL_FACEBOOK_COLOR}
       style={{ margin: '12px 0' }}
       {...defaultProps}
-      onTouchTap={() => fbLoad().then(() => console.log(FB)).catch(() => console.log('error'))}
+      onTouchTap={() => fbLoad().then(() => onLoad(FB)).catch((error) => onError(error))}
     />
   )
 }
 
 FacebookButton.propTypes = {
-  fbLoading: PropTypes.bool,
-  fbLoad: PropTypes.func
+  fbLoading: PropTypes.bool.isRequired,
+  fbLoad: PropTypes.func.isRequired,
+  onLoad: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired
 }
 
 export default FacebookButton

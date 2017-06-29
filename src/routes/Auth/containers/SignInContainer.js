@@ -3,6 +3,7 @@ import { compose, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import { setToken } from '../../../helpers/token'
+import facebookSDK from '../../../helpers/facebookSDK'
 import SignIn from '../components/SignIn'
 import { singInAction } from '../modules/signIn'
 import * as ROUTER from '../../../constants/routes'
@@ -18,7 +19,16 @@ const mapDispatchToProps = {
 
 const mapPropsToComponent = props => {
   const handleSocialSignIn = {
-    handleFacebookSignIn: event => {},
+    handleFacebookSignIn: FB => {
+      const sdk = facebookSDK(FB)
+      sdk.facebookGetAccessToken()
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(() => {
+          console.log('login cancel login')
+        })
+    },
     handleGooglePlusSignIn: event => {},
     handleTwitterSignIn: event => {}
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import { ToolbarGroup } from 'material-ui/Toolbar'
 import AvPlaylistAdd from 'material-ui/svg-icons/av/playlist-add'
 
-const RightAppbar = (props) => {
+const RightAppBar = (props) => {
   return (
     <ToolbarGroup>
       <AvPlaylistAdd style={{ color: 'white' }} />
@@ -10,4 +10,4 @@ const RightAppbar = (props) => {
   )
 }
 
-export default RightAppbar
+export default RightAppBar

@@ -9,6 +9,7 @@ export const getToken = () => {
 }
 
 export const setToken = (token, local) => {
+  removeToken()
   const isLocal = local || false
   const storage = getStorage(isLocal)
 

@@ -23,6 +23,7 @@
     "karma-chrome-launcher": "^2.1.1",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.3",
+    "moment": "^2.18.1",
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",

@@ -1,5 +1,5 @@
 import { injectReducer } from '../../store/reducers'
-import * as ROUTE from './routes'
+import * as ROUTE from '../../constants/routes'
 
 export const SignIn = store => ({
   path : ROUTE.SIGN_IN_URL,
@@ -13,7 +13,7 @@ export const SignIn = store => ({
 })
 
 export const SelectCompany = store => ({
-  path : ROUTE.COMPANY_SELECT_URL,
+  path : ROUTE.COMPANY_MY_LIST_URL,
   getComponent: (nextState, cb) => {
     require.ensure([], require => {
       const reducer = require('./modules/myCompaneis').default

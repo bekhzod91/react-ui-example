@@ -1,7 +1,7 @@
 // We only need to import the modules necessary for initial render
 import PageLayout from '../layouts/PageLayout/PageLayout'
 import Home from './Home'
-import CounterRoute from './Counter'
+// import CounterRoute from './Counter'
 import Dashboard from './Dashboard'
 import { SignIn, SelectCompany } from './Auth'
 
@@ -13,7 +13,6 @@ export const createRoutes = (store) => ({
   component   : PageLayout,
   indexRoute  : Home,
   childRoutes : [
-    CounterRoute(store),
     Dashboard(store),
     SignIn(store),
     SelectCompany(store)

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import axios from 'axios'
-import { API_URL } from '../constants'
+import { API_URL } from '../constants/api'
 import { getToken } from './token'
 
 const axiosRequest = (config) => {

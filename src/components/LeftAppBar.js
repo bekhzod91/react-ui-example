@@ -24,7 +24,7 @@ const styles = {
   }
 }
 
-const LeftAppbar = (props) => {
+const LeftAppBar = (props) => {
   const { classes, open, positionChange } = props
   const toolbarState = _.get(open, 'open')
   return (
@@ -41,10 +41,10 @@ const LeftAppbar = (props) => {
   )
 }
 
-LeftAppbar.propTypes = {
+LeftAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.object,
   positionChange: PropTypes.func.isRequired
 }
 
-export default injectSheet(styles)(LeftAppbar)
+export default injectSheet(styles)(LeftAppBar)

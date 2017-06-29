@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaceBookIcon from '../../../components/FaceBookIcon'
+import FacebookSDK from '../../../components/FacebookSDK'
+import FacebookButton from '../../../components/FacebookButton'
 import GooglePlusIcon from '../../../components/GooglePlusIcon'
 import TwitterIcon from '../../../components/TwitterIcon'
 import RaisedButton from '../../../components/RaisedButton'
@@ -8,16 +9,9 @@ import * as STYLE from '../../../styles/style'
 
 const SignInSocialButtons = ({ handleSocialSignIn }) => (
   <div>
-    <RaisedButton
-      id="facebook"
-      label="Sign In with FaceBook"
-      labelColor={STYLE.SECOND_TEXT_COLOR}
-      icon={<FaceBookIcon />}
-      fullWidth={true}
-      backgroundColor={STYLE.SOCIAL_FACEBOOK_COLOR}
-      style={{ margin: '12px 0' }}
-      onTouchTap={handleSocialSignIn.handleFacebookSignIn}
-    />
+    <FacebookSDK>
+      <FacebookButton />
+    </FacebookSDK>
 
     <RaisedButton
       id="googleplus"

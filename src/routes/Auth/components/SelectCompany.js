@@ -1,13 +1,17 @@
 import _ from 'lodash'
+import sprintf from 'sprintf'
 import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
+import { browserHistory } from 'react-router'
 import Avatar from 'material-ui/Avatar'
 import { List, ListItem } from 'material-ui/List'
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
 import CircularProgress from 'material-ui/CircularProgress'
 import Logo from '../components/Logo'
+import * as ROUTE from '../../../constants/routes'
+import { fromNow } from '../../../helpers/dateFormat'
 import * as STYLE from '../../../styles/style'
 
 const styles = {
@@ -69,9 +73,15 @@ const styles = {
 
 const SelectCompany = ({ classes, loading, list }) => {
   const companies = _.map(list, (item, index) => {
+    const id = _.get(item, 'id')
     const name = _.get(item, 'name')
     const logoUrl = _.get(item, ['logo', 'uri'])
-    const lastActivity = _.get(item, 'lastActivity')
+    const lastActivityDate = _.get(item, 'lastActivity')
+    const activityInfo = lastActivityDate ? (
+      `Last activity ${fromNow(lastActivityDate, 'D MMM YYYY')}`
+    ) : 'Never been activity'
+    const companyPage = sprintf(ROUTE.COMPANY_MY_PATH, id)
+
     const logo = logoUrl ? (
       <Avatar
         src={logoUrl}
@@ -92,8 +102,9 @@ const SelectCompany = ({ classes, loading, list }) => {
         key={index}
         insetChildren={true}
         primaryText={name}
-        secondaryText={lastActivity}
+        secondaryText={activityInfo}
         leftAvatar={logo}
+        onTouchTap={() => browserHistory.push(companyPage)}
         rightIcon={<KeyboardArrowRight />}
       />
     )
@@ -111,6 +122,7 @@ const SelectCompany = ({ classes, loading, list }) => {
         insetChildren={true}
         className={classes.goBack}
         primaryText="Go back"
+        onTouchTap={() => console.log('123')}
         leftIcon={<KeyboardArrowLeft />}
       />
     </List>
@@ -131,7 +143,7 @@ const SelectCompany = ({ classes, loading, list }) => {
 
 SelectCompany.propTypes = {
   classes: PropTypes.object.isRequired,
-  list: PropTypes.any.isRequired,
+  list: PropTypes.any,
   loading: PropTypes.bool.isRequired,
 }
 

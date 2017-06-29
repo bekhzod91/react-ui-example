@@ -5,8 +5,8 @@ import { compose, withState } from 'recompose'
 import injectSheet from 'react-jss'
 import { Toolbar } from 'material-ui/Toolbar'
 import Drawer from 'material-ui/Drawer'
-import LeftAppbar from './LeftAppbar'
-import RightAppbar from './RightAppbar'
+import LeftAppBar from './LeftAppBar'
+import RightAppBar from './RightAppBar'
 import BigSideBarMenu from './BigSidebarMenu'
 import SmallSidebarMenu from './SmallSidebarMenu'
 import * as STYLE from '../styles/style'
@@ -46,21 +46,21 @@ const enhance = compose(
   injectSheet(styles)
 )
 
-const Layout = enhance((props) => {
+const Layout = (props) => {
   const { classes, children, state, setState } = props
   const sideBarSize = _.get(state, 'open')
+
   return (
     <div>
       <Toolbar className={classes.appBar}>
-        <LeftAppbar open={state} positionChange={setState} />
-        <RightAppbar />
+        <LeftAppBar open={state} positionChange={setState} />
+        <RightAppBar />
       </Toolbar>
 
       <Drawer
         open={true}
         containerClassName={classes.sidebarMenu}
-        containerStyle={{ width: sideBarSize ? '256px' : '56px' }}
-      >
+        containerStyle={{ width: sideBarSize ? '256px' : '56px' }}>
         {sideBarSize ? <BigSideBarMenu open={state} /> : <SmallSidebarMenu open={state} />}
       </Drawer>
 
@@ -69,7 +69,7 @@ const Layout = enhance((props) => {
       </div>
     </div>
   )
-})
+}
 
 Layout.propTypes = {
   classes: PropTypes.object,
@@ -78,4 +78,4 @@ Layout.propTypes = {
   setState: PropTypes.func
 }
 
-export default Layout
+export default enhance(Layout)

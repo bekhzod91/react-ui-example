@@ -8,6 +8,7 @@ const SidebarButton = (props) => {
   const { position, positionChange } = props
   const onTouchTap = _.get(position, 'open')
     ? () => positionChange({ ...position, open: false }) : () => positionChange({ ...position, open: true })
+
   return (
     <IconButton onTouchTap={onTouchTap}>
       <SidebarIcon />

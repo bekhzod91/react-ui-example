@@ -1,7 +1,8 @@
 import { injectReducer } from '../../store/reducers'
+import { COMPANY_MY_URL } from '../../constants/routes'
 
 export default (store) => ({
-  path : 'dashboard',
+  path : COMPANY_MY_URL,
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point

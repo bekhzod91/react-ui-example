@@ -37,7 +37,8 @@ const styles = {
   sidebarMenu: {
     backgroundColor: `${STYLE.SECOND_TEXT_COLOR} !important`,
     top: '65px !important',
-    transition: 'width 218ms !important'
+    transition: 'width 218ms !important',
+    overflow: 'visible !important'
   }
 }
 

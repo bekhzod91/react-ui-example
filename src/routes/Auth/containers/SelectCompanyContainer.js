@@ -3,7 +3,6 @@ import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import SelectCompany from '../components/SelectCompany'
 import { fetchMyCompaniesAction } from '../modules/myCompaneis'
-import 'rxjs/add/observable/interval'
 
 const mapStateToProps = (state) => ({
   loading: _.get(state, ['myCompanies', 'loading']),

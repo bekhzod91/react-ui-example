@@ -6,7 +6,12 @@ import * as API from '../constants/api'
 
 class FacebookSDK extends React.Component {
   static propTypes = {
+    async: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired
+  }
+
+  static defaultProps = {
+    async: true
   }
 
   constructor (props) {
@@ -18,12 +23,15 @@ class FacebookSDK extends React.Component {
   }
 
   componentDidMount () {
+    const { async } = this.props
+
     window.fbAsyncInit = () => {
       FB.init({
         appId      : API.FACEBOOK_API_APP_ID,
         cookie     : true,
         xfbml      : true,
-        version    : API.FACEBOOK_API_VERSION
+        version    : API.FACEBOOK_API_VERSION,
+        status     : true
       })
 
       FB.AppEvents.logPageView()
@@ -31,6 +39,8 @@ class FacebookSDK extends React.Component {
       this.setState({ fbLoading: false })
       this.resolve()
     }
+
+    !async && this.injectFacebookSdk()
   }
 
   injectFacebookSdk = () => {

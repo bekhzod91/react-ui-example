@@ -9,7 +9,8 @@ const FacebookButton = ({ fbLoading, fbLoad, onLoad, onError, ...defaultProps })
   return (
     <RaisedButton
       id="facebook"
-      label={!fbLoading ? 'Sign In with FaceBook' : 'Loading'}
+      label="Sign In with FaceBook"
+      disabled={fbLoading}
       labelColor={STYLE.SECOND_TEXT_COLOR}
       icon={<FaceBookIcon />}
       fullWidth={true}

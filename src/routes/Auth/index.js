@@ -5,8 +5,9 @@ export const SignIn = store => ({
   path : ROUTE.SIGN_IN_URL,
   getComponent: (nextState, cb) => {
     require.ensure([], require => {
-      const reducer = require('./modules/signIn').default
-      injectReducer(store, { key: 'signIn', reducer })
+      const reducer = require('./modules/signIn')
+      injectReducer(store, { key: reducer.SING_IN_STATE_NAME, reducer: reducer.singInReducer })
+      injectReducer(store, { key: reducer.TWITTER_REDIRECT_STATE, reducer: reducer.twitterRedirectReducer })
       cb(null, require('./containers/SignInContainer').default)
     }, 'sign_in')
   }

@@ -2,7 +2,7 @@ import {
   SIGN_IN,
   singInAction,
   default as signInReducer
-} from 'routes/Auth/modules/sign_in'
+} from 'routes/Auth/modules/signIn'
 
 describe('(Redux Module) SignIn', () => {
   it('Should export a constant SIGN_IN.', () => {

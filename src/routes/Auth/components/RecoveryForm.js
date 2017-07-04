@@ -3,13 +3,12 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router'
-import * as ROUTER from '../../../constants/routes'
 import TextField from '../../../components/Form/SimpleFields/TextField'
-import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
 import RaisedButton from '../../../components/RaisedButton'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
+
+export const FORM_NAME = 'RecoverForm'
 
 const styles = {
   generalError: {
@@ -35,11 +34,11 @@ const styles = {
 const enhance = compose(
   injectSheet(styles),
   reduxForm({
-    form: 'SignInForm'
+    form: FORM_NAME
   })
 )
 
-export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
+const RecoverForm = ({ classes, error, handleSubmit, ...props }) => (
   <form onSubmit={handleSubmit(() => props.onSubmit().catch(validate))}>
     {error && <div className={classes.generalError}>{error}</div>}
 
@@ -51,42 +50,21 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
       fullWidth={true}
     /><br />
 
-    <Field
-      name="password"
-      component={TextField}
-      type="password"
-      hintText="Password"
-      floatingLabelText="Enter Password"
-      fullWidth={true}
-    /><br />
-
-    <div className={classes.loginAction}>
-      <Field
-        name="rememberMe"
-        component={Checkbox}
-        label="Remember me"
-        labelStyle={{ fontWeight: 400 }}
-        style={{ maxWidth: '200px' }}
-      />
-
-      <Link to={ROUTER.RECOVERY_URL}>Forgot Password?</Link>
-    </div>
-
     <RaisedButton
       type="submit"
       className={classes.signInButton}
-      label="Sign In"
+      label="Reset"
       primary={true}
       fullWidth={true}
     />
   </form>
 )
 
-SignIn.propTypes = {
+RecoverForm.propTypes = {
   classes: PropTypes.object.isRequired,
   error: PropTypes.any,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 }
 
-export default enhance(SignIn)
+export default enhance(RecoverForm)

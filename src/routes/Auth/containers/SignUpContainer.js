@@ -6,19 +6,22 @@ import * as ROUTER from '../../../constants/routes'
 import { setToken } from '../../../helpers/token'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
-import SignIn from '../components/SignIn'
+import SignUp from '../components/SignUp'
+import { SIGN_UP_FORM } from '../components/SignUpForm'
 import {
   actions,
-  SING_IN_STATE_NAME,
-  TWITTER_REDIRECT_STATE
+  SIGN_UP_STATE_NAME,
+} from '../modules/signUp'
+import {
+  TWITTER_REDIRECT_STATE,
 } from '../modules/signIn'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [SING_IN_STATE_NAME, 'loading']) || _.get(state, [TWITTER_REDIRECT_STATE, 'loading']),
+  loading: _.get(state, [SIGN_UP_STATE_NAME, 'loading']) || _.get(state, [TWITTER_REDIRECT_STATE, 'loading']),
   twitter: _.get(state, [TWITTER_REDIRECT_STATE, 'data', 'redirect']) || null,
-  token: _.get(state, [SING_IN_STATE_NAME, 'data', 'token']),
-  error: _.get(state, [SING_IN_STATE_NAME, 'error']),
-  formValues: _.get(state, ['form', 'SignInForm', 'values'])
+  token: _.get(state, [SIGN_UP_STATE_NAME, 'data', 'token']),
+  error: _.get(state, [SIGN_UP_STATE_NAME, 'error']),
+  formValues: _.get(state, ['form', SIGN_UP_FORM, 'values'])
 })
 
 const mapDispatchToProps = actions
@@ -29,17 +32,17 @@ const mapPropsToComponent = props => {
       handle: () => {
         window.location.href = fbLoginURL()
       },
-      label: 'Sign In with FaceBook',
+      label: 'Sign Up with FaceBook',
     },
     google: {
       handle: () => {
         window.location.href = googleLoginURL()
       },
-      label: 'Sign In with Google',
+      label: 'Sign Up with Google',
     },
     twitter: {
       handle: () => props.fetchTwitterRedirectURLAction(),
-      label: 'Sign In with Twitter',
+      label: 'Sign Up with Twitter',
     }
   }
 
@@ -90,4 +93,4 @@ const enhance = compose(
   })
 )
 
-export default enhance(SignIn)
+export default enhance(SignUp)

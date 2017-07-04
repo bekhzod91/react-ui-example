@@ -6,49 +6,58 @@ import TwitterIcon from '../../../components/TwitterIcon'
 import RaisedButton from '../../../components/RaisedButton'
 import * as STYLE from '../../../styles/style'
 
-const SignInSocialButtons = ({ handleSocialSignIn }) => (
+const SocialButtons = ({ buttons }) => (
   <div>
     <RaisedButton
       id="facebook"
-      label="Sign In with FaceBook"
+      label={buttons.facebook.label}
       labelColor={STYLE.SECOND_TEXT_COLOR}
       icon={<FaceBookIcon />}
       fullWidth={true}
       backgroundColor={STYLE.SOCIAL_FACEBOOK_COLOR}
       style={{ margin: '12px 0' }}
-      onTouchTap={handleSocialSignIn.handleFacebookSignIn}
+      onTouchTap={buttons.facebook.handle}
     />
 
     <RaisedButton
       id="googleplus"
-      label="Sign In with FaceBook"
+      label={buttons.google.label}
       labelColor={STYLE.SECOND_TEXT_COLOR}
       icon={<GooglePlusIcon />}
       fullWidth={true}
       backgroundColor={STYLE.SOCIAL_GOOGLEPLUS_COLOR}
       style={{ margin: '12px 0' }}
-      onTouchTap={handleSocialSignIn.handleGooglePlusSignIn}
+      onTouchTap={buttons.google.handle}
     />
 
     <RaisedButton
       id="twitter"
-      label="Sign In with Twitter"
+      label={buttons.twitter.label}
       labelColor={STYLE.SECOND_TEXT_COLOR}
       icon={<TwitterIcon />}
       fullWidth={true}
       backgroundColor={STYLE.SOCIAL_TWITTER_COLOR}
       style={{ margin: '12px 0' }}
-      onTouchTap={handleSocialSignIn.handleTwitterSignIn}
+      onTouchTap={buttons.twitter.handle}
     />
   </div>
 )
 
-SignInSocialButtons.propTypes = {
-  handleSocialSignIn: PropTypes.shape({
-    handleFacebookSignIn: PropTypes.func.isRequired,
-    handleGooglePlusSignIn: PropTypes.func.isRequired,
-    handleTwitterSignIn: PropTypes.func.isRequired,
+SocialButtons.propTypes = {
+  buttons: PropTypes.shape({
+    facebook: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      handle: PropTypes.func.isRequired,
+    }),
+    google: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      handle: PropTypes.func.isRequired,
+    }),
+    twitter: PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      handle: PropTypes.func.isRequired,
+    })
   })
 }
 
-export default SignInSocialButtons
+export default SocialButtons

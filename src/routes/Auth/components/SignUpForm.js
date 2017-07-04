@@ -3,13 +3,12 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router'
-import * as ROUTER from '../../../constants/routes'
 import TextField from '../../../components/Form/SimpleFields/TextField'
-import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
 import RaisedButton from '../../../components/RaisedButton'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
+
+export const SIGN_UP_FORM = 'SignUpForm'
 
 const styles = {
   generalError: {
@@ -44,10 +43,34 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     {error && <div className={classes.generalError}>{error}</div>}
 
     <Field
+      name="company"
+      component={TextField}
+      hintText="Company Name"
+      floatingLabelText="Enter Company Name"
+      fullWidth={true}
+    /><br />
+
+    <Field
       name="email"
       component={TextField}
       hintText="Email"
       floatingLabelText="Enter Email"
+      fullWidth={true}
+    /><br />
+
+    <Field
+      name="first_name"
+      component={TextField}
+      hintText="First name"
+      floatingLabelText="Enter First name"
+      fullWidth={true}
+    /><br />
+
+    <Field
+      name="second_name"
+      component={TextField}
+      hintText="Second name"
+      floatingLabelText="Enter Second name"
       fullWidth={true}
     /><br />
 
@@ -60,22 +83,10 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
       fullWidth={true}
     /><br />
 
-    <div className={classes.loginAction}>
-      <Field
-        name="rememberMe"
-        component={Checkbox}
-        label="Remember me"
-        labelStyle={{ fontWeight: 400 }}
-        style={{ maxWidth: '200px' }}
-      />
-
-      <Link to={ROUTER.RECOVERY_URL}>Forgot Password?</Link>
-    </div>
-
     <RaisedButton
       type="submit"
       className={classes.signInButton}
-      label="Sign In"
+      label="Sign Up"
       primary={true}
       fullWidth={true}
     />

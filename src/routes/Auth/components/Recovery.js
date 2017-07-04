@@ -4,37 +4,30 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../components/AuthLayout'
-import SignInForm from '../components/SignInForm'
-import LineText from '../components/LineText'
-import SocialButtons from '../components/SocialButtons'
+import RecoveryForm from '../components/RecoveryForm'
 
 const styles = {
   footer: wrapStyle.footer
 }
 
-export const SignIn = ({ classes, loading, onSubmit, buttons }) => (
+export const Recovery = ({ classes, loading, onSubmit }) => (
   <AuthLayout
     title="Sign In to your account"
     loading={loading}>
     <div>
-      <SignInForm onSubmit={onSubmit} />
-
-      <LineText text="OR" />
-
-      <SocialButtons buttons={buttons} />
+      <RecoveryForm onSubmit={onSubmit} />
 
       <div className={classes.footer}>
-        <p>Don't have an account? <Link to={ROUTER.SIGN_UP_URL}>Create an account</Link></p>
+        <p>Do you want return previous page? <Link to={ROUTER.SIGN_IN_URL}>Sign In</Link></p>
       </div>
     </div>
   </AuthLayout>
 )
 
-SignIn.propTypes = {
+Recovery.propTypes = {
   classes: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  buttons: PropTypes.any.isRequired
 }
 
-export default injectSheet(styles)(SignIn)
+export default injectSheet(styles)(Recovery)

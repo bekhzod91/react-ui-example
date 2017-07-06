@@ -1,11 +1,9 @@
 import _ from 'lodash'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
-import * as ROUTER from '../../../constants/routes'
-import { setToken } from '../../../helpers/token'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
+import { watchAuthLocation, watchAuthToken } from '../helpers'
 import SignIn from '../components/SignIn'
 import {
   actions,
@@ -20,8 +18,6 @@ const mapStateToProps = (state) => ({
   error: _.get(state, [SING_IN_STATE_NAME, 'error']),
   formValues: _.get(state, ['form', 'SignInForm', 'values'])
 })
-
-const mapDispatchToProps = actions
 
 const mapPropsToComponent = props => {
   const buttons = {
@@ -50,43 +46,17 @@ const mapPropsToComponent = props => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, { ...actions }),
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {
       window.location.href = twitter
     }
   }),
-  withPropsOnChange(['token'], ({ token, formValues }) => {
-    if (token) {
-      setToken(token, _.get(formValues, 'rememberMe'))
-      browserHistory.push(ROUTER.COMPANY_MY_LIST_URL)
-    }
-  }),
-  withPropsOnChange(['location'], ({ location, ...props }) => {
-    // Twitter
-    const oauthToken = _.get(location, ['query', 'oauth_token'])
-    const oauthVerifier = _.get(location, ['query', 'oauth_verifier'])
-    if (oauthToken && oauthVerifier) {
-      props.twitterSingInAction({ oauthToken, oauthVerifier })
-    }
-
-    // Google
-    const googleCode = _.get(location, ['query', 'code'])
-    const googleHash = _.get(location, 'hash')
-    if (googleCode && !googleHash) {
-      props.googleSingInAction({ code: googleCode })
-    }
-
-    // Facebook
-    const fbCode = _.get(location, ['query', 'code'])
-    const fbHash = _.get(location, 'hash')
-    if (fbCode && fbHash === '#_=_') {
-      props.facebookSingInAction({ code: fbCode })
-    }
-  }),
+  withPropsOnChange(['token'], watchAuthToken),
+  withPropsOnChange(['location'], watchAuthLocation),
   withHandlers({
-    onSubmit: props => () => props.singInAction(props.formValues),
+    onSubmit: props => () => props.signInAction(props.formValues),
   })
 )
 

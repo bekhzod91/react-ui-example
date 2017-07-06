@@ -3,12 +3,13 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../components/Form/SimpleFields/TextField'
 import RaisedButton from '../../../components/RaisedButton'
+import TextField from '../../../components/Form/SimpleFields/TextField'
+import PasswordViewField from '../../../components/Form/SmartFields/PasswordViewField'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
 
-export const SIGN_UP_FORM = 'SignUpForm'
+export const FORM = 'SignUpForm'
 
 const styles = {
   generalError: {
@@ -34,7 +35,7 @@ const styles = {
 const enhance = compose(
   injectSheet(styles),
   reduxForm({
-    form: 'SignInForm'
+    form: FORM
   })
 )
 
@@ -59,7 +60,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     /><br />
 
     <Field
-      name="first_name"
+      name="firstName"
       component={TextField}
       hintText="First name"
       floatingLabelText="Enter First name"
@@ -67,7 +68,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     /><br />
 
     <Field
-      name="second_name"
+      name="secondName"
       component={TextField}
       hintText="Second name"
       floatingLabelText="Enter Second name"
@@ -76,8 +77,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
 
     <Field
       name="password"
-      component={TextField}
-      type="password"
+      component={PasswordViewField}
       hintText="Password"
       floatingLabelText="Enter Password"
       fullWidth={true}

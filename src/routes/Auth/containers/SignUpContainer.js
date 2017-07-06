@@ -2,29 +2,30 @@ import _ from 'lodash'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-import * as ROUTER from '../../../constants/routes'
-import { setToken } from '../../../helpers/token'
+import * as ROUTE from '../../../constants/routes'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
+import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/withState/Snackbar/actions'
+import { watchAuthLocation, watchAuthToken } from '../helpers'
 import SignUp from '../components/SignUp'
-import { SIGN_UP_FORM } from '../components/SignUpForm'
+import { FORM } from '../components/SignUpForm'
 import {
-  actions,
+  signUpAction,
   SIGN_UP_STATE_NAME,
 } from '../modules/signUp'
 import {
+  actions,
+  SING_IN_STATE_NAME,
   TWITTER_REDIRECT_STATE,
 } from '../modules/signIn'
 
 const mapStateToProps = (state) => ({
   loading: _.get(state, [SIGN_UP_STATE_NAME, 'loading']) || _.get(state, [TWITTER_REDIRECT_STATE, 'loading']),
   twitter: _.get(state, [TWITTER_REDIRECT_STATE, 'data', 'redirect']) || null,
-  token: _.get(state, [SIGN_UP_STATE_NAME, 'data', 'token']),
-  error: _.get(state, [SIGN_UP_STATE_NAME, 'error']),
-  formValues: _.get(state, ['form', SIGN_UP_FORM, 'values'])
+  token: _.get(state, [SING_IN_STATE_NAME, 'data', 'token']),
+  signUp: _.get(state, [SIGN_UP_STATE_NAME, 'data']),
+  formValues: _.get(state, ['form', FORM, 'values'])
 })
-
-const mapDispatchToProps = actions
 
 const mapPropsToComponent = props => {
   const buttons = {
@@ -53,43 +54,28 @@ const mapPropsToComponent = props => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, { ...actions, signUpAction, openSnackbarAction }),
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {
       window.location.href = twitter
     }
   }),
-  withPropsOnChange(['token'], ({ token, formValues }) => {
-    if (token) {
-      setToken(token, _.get(formValues, 'rememberMe'))
-      browserHistory.push(ROUTER.COMPANY_MY_LIST_URL)
+  withPropsOnChange(['signUp'], (props) => {
+    const email = _.get(props, ['signUp', 'email'])
+    if (email) {
+      props.openSnackbarAction({
+        action: SUCCESS_TYPE,
+        message: 'Please check your email address and confirm',
+        duration: 10000
+      })
+      browserHistory.push(ROUTE.SIGN_IN_URL)
     }
   }),
-  withPropsOnChange(['location'], ({ location, ...props }) => {
-    // Twitter
-    const oauthToken = _.get(location, ['query', 'oauth_token'])
-    const oauthVerifier = _.get(location, ['query', 'oauth_verifier'])
-    if (oauthToken && oauthVerifier) {
-      props.twitterSingInAction({ oauthToken, oauthVerifier })
-    }
-
-    // Google
-    const googleCode = _.get(location, ['query', 'code'])
-    const googleHash = _.get(location, 'hash')
-    if (googleCode && !googleHash) {
-      props.googleSingInAction({ code: googleCode })
-    }
-
-    // Facebook
-    const fbCode = _.get(location, ['query', 'code'])
-    const fbHash = _.get(location, 'hash')
-    if (fbCode && fbHash === '#_=_') {
-      props.facebookSingInAction({ code: fbCode })
-    }
-  }),
+  withPropsOnChange(['token'], watchAuthToken),
+  withPropsOnChange(['location'], watchAuthLocation),
   withHandlers({
-    onSubmit: props => () => props.singInAction(props.formValues),
+    onSubmit: props => () => props.signUpAction(props.formValues),
   })
 )
 

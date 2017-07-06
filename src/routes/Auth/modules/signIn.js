@@ -10,7 +10,7 @@ export const SING_IN_STATE_NAME = 'signIn'
 export const SIGN_IN = 'SIGN_IN'
 export const API_SIGN_IN_URL = `/user/auth/`
 
-export const singInAction = (formValues) => {
+export const signInAction = (formValues) => {
   const data = signInSerializer(formValues)
   const payload = axios().post(API_SIGN_IN_URL, data)
     .then((response) => _.get(response, 'data'))
@@ -89,7 +89,7 @@ export const facebookSingInAction = (data) => {
 }
 
 export const actions = {
-  singInAction,
+  signInAction,
   fetchTwitterRedirectURLAction,
   twitterSingInAction,
   googleSingInAction,
@@ -99,5 +99,5 @@ export const actions = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export const singInReducer = thunkReducer(SIGN_IN)
+export const signInReducer = thunkReducer(SIGN_IN)
 export const twitterRedirectReducer = thunkReducer(TWITTER_REDIRECT)

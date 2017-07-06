@@ -1,6 +1,7 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import Snackbar from '../../components/withState/Snackbar/Snackbar'
 
 const styles = {
   '@global': {
@@ -22,6 +23,7 @@ const styles = {
 export const PageLayout = ({ children }) => (
   <div style={styles.page}>
     {children}
+    <Snackbar />
   </div>
 )
 

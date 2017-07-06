@@ -9,8 +9,8 @@ export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const RESET_PASSWORD_STATE_NAME = 'resetPassword'
 export const API_RESET_PASSWORD_URL = `/user/recovery-confirm/`
 
-export const resetPasswordAction = (data) => {
-  const payload = axios().put(API_RESET_PASSWORD_URL, data)
+export const resetPasswordAction = (code, data) => {
+  const payload = axios().put(`${API_RESET_PASSWORD_URL}${code}/`, data)
     .then((response) => _.get(response, 'data'))
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 

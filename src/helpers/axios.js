@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import axios from 'axios'
 import { API_URL } from '../constants/api'
+import toCamelCase from '../helpers/toCamelCase'
 import { getToken } from './token'
 
 const axiosRequest = (config) => {
@@ -9,7 +10,11 @@ const axiosRequest = (config) => {
   axios.defaults.baseURL = API_URL
   axios.defaults.headers.common['Authorization'] = token ? `Token ${token}` : undefined
 
-  return axios
+  return axios.create({
+    transformResponse: [(data) => {
+      return toCamelCase(JSON.parse(data))
+    }]
+  })
 }
 
 export default axiosRequest

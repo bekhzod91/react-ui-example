@@ -20,8 +20,13 @@ export const recoveryAction = (data) => {
   }
 }
 
+export const recoveryClearAction = () => ({
+  type: `${RECOVERY}_CLEAR`
+})
+
 export const actions = {
   recoveryAction,
+  recoveryClearAction,
 }
 
 // ------------------------------------

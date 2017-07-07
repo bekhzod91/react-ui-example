@@ -6,6 +6,10 @@ export const SIGN_IN_URL = `/${SIGN_IN}`
 export const RECOVERY = 'recovery'
 export const RECOVERY_URL = `/${RECOVERY}`
 
+// RECOVERY THANK YOU ROUTES
+export const RECOVERY_THANK_YOU = 'thank-you'
+export const RECOVERY_THANK_YOU_URL = `/${RECOVERY}/${RECOVERY_THANK_YOU}`
+
 // RESET PASSWORD
 export const RESET_PASSWORD = 'reset-password'
 export const RESET_PASSWORD_URL = `/${RESET_PASSWORD}/:code`
@@ -14,6 +18,14 @@ export const RESET_PASSWORD_URL = `/${RESET_PASSWORD}/:code`
 export const SIGN_UP = `sign-up`
 export const SIGN_UP_URL = `/${SIGN_UP}`
 export const SIGN_UP_VERIFY_URL = `/${SIGN_UP}-verify/:code`
+
+// SIGN UP THANK YOU ROUTE
+export const SIGN_UP_THANK_YOU = `thank-you`
+export const SIGN_UP_THANK_YOU_URL = `/${SIGN_UP}/${SIGN_UP_THANK_YOU}`
+
+// SIGN UP THANK YOU ROUTE
+export const SIGN_UP_RESEND_MESSAGE = `resend`
+export const SIGN_UP_RESEND_MESSAGE_URL = `/${SIGN_UP}/${SIGN_UP_RESEND_MESSAGE}`
 
 // COMPANY ROUTES
 export const COMPANY_MY = 'c'

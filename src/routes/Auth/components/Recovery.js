@@ -12,7 +12,7 @@ const styles = {
 
 export const Recovery = ({ classes, loading, onSubmit }) => (
   <AuthLayout
-    title="Sign In to your account"
+    title="Forgot Password"
     loading={loading}>
     <div>
       <RecoveryForm onSubmit={onSubmit} />

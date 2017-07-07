@@ -35,6 +35,7 @@ module.exports = {
     'prop-types',
     'react',
     'react-dom',
+    'react-hammerjs',
     'react-jss',
     'react-redux',
     'react-router',

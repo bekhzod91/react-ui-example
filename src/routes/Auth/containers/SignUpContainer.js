@@ -5,8 +5,7 @@ import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
-import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/withState/Snackbar/actions'
-import { watchAuthLocation, watchAuthToken } from '../helpers'
+import { watchSocailAuth, watchAuthToken } from '../helpers'
 import SignUp from '../components/SignUp'
 import { FORM } from '../components/SignUpForm'
 import {
@@ -54,28 +53,21 @@ const mapPropsToComponent = props => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions, signUpAction, openSnackbarAction }),
+  connect(mapStateToProps, { ...actions, signUpAction }),
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {
       window.location.href = twitter
     }
   }),
-  withPropsOnChange(['signUp'], (props) => {
-    const email = _.get(props, ['signUp', 'email'])
-    if (email) {
-      props.openSnackbarAction({
-        action: SUCCESS_TYPE,
-        message: 'Please check your email address and confirm',
-        duration: 10000
-      })
-      browserHistory.push(ROUTE.SIGN_IN_URL)
-    }
-  }),
   withPropsOnChange(['token'], watchAuthToken),
-  withPropsOnChange(['location'], watchAuthLocation),
+  withPropsOnChange(['location'], watchSocailAuth),
   withHandlers({
-    onSubmit: props => () => props.signUpAction(props.formValues),
+    onSubmit: props => () => {
+      return props
+        .signUpAction(props.formValues)
+        .then(() => browserHistory.push(ROUTE.SIGN_UP_THANK_YOU_URL))
+    }
   })
 )
 

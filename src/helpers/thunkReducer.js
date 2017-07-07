@@ -19,7 +19,7 @@ const createThunkReducer = (actionName) => {
     [`${actionName}_FULFILLED`] (state, action) {
       return {
         ...state,
-        data: toCamelCase(action.payload),
+        data: action.payload,
         error: null,
         loading: false,
         failed: false
@@ -29,7 +29,7 @@ const createThunkReducer = (actionName) => {
       return {
         ...state,
         data: null,
-        error: toCamelCase(action.payload),
+        error: action.payload,
         loading: false,
         failed: true
       }

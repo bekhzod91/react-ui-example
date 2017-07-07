@@ -3,11 +3,10 @@ import toCamelCase from './toCamelCase'
 import { SubmissionError } from 'redux-form'
 
 const validate = (data) => {
-  const errors = toCamelCase(data)
-  const nonFieldErrors = _.get(errors, 'nonFieldErrors') || _.get(errors, 'detail')
+  const nonFieldErrors = _.get(data, 'nonFieldErrors') || _.get(data, 'detail')
 
   throw new SubmissionError({
-    ...errors,
+    ...data,
     _error: nonFieldErrors
   })
 }

@@ -23,6 +23,17 @@ const Recovery = store => ({
   }
 })
 
+const RecoveryThankYou = store => ({
+  path : ROUTE.RECOVERY_THANK_YOU_URL,
+  getComponent: (location, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/recovery')
+      injectReducer(store, { key: reducer.RECOVERY_STATE_NAME, reducer: reducer.recoveryReducer })
+      cb(null, require('./containers/RecoveryThankYouContainer').default)
+    }, 'recovery')
+  }
+})
+
 const ResetPassword = store => ({
   path : ROUTE.RESET_PASSWORD_URL,
   getComponent: (location, cb) => {
@@ -47,12 +58,35 @@ const SignUp = store => ({
   },
 })
 
+const SignUpThankYou = store => ({
+  path : ROUTE.SIGN_UP_THANK_YOU_URL,
+  getComponent: (location, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/signUp')
+      injectReducer(store, { key: reducer.SIGN_UP_STATE_NAME, reducer: reducer.signUpReducer })
+      injectReducer(store, { key: reducer.RESEND_MESSAGE_STATE_NAME, reducer: reducer.resendReducer })
+      cb(null, require('./containers/SignUpThankYouContainer').default)
+    }, 'sign_up_thank_you')
+  },
+})
+
+const SignUpResendMessage = store => ({
+  path : ROUTE.SIGN_UP_RESEND_MESSAGE_URL,
+  getComponent: (location, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/signUp')
+      injectReducer(store, { key: reducer.SIGN_UP_STATE_NAME, reducer: reducer.signUpReducer })
+      cb(null, require('./containers/SignUpResendMessageContainer').default)
+    }, 'sign_up_resend_message')
+  },
+})
+
 const SignIn = store => ({
   path : ROUTE.SIGN_IN_URL,
   getComponent: (location, cb) => {
     require.ensure([], require => {
       const reducer = require('./modules/signIn')
-      injectReducer(store, { key: reducer.SING_IN_STATE_NAME, reducer: reducer.singInReducer })
+      injectReducer(store, { key: reducer.SING_IN_STATE_NAME, reducer: reducer.signInReducer })
       injectReducer(store, { key: reducer.TWITTER_REDIRECT_STATE, reducer: reducer.twitterRedirectReducer })
       cb(null, require('./containers/SignInContainer').default)
     }, 'sign_in')
@@ -64,11 +98,13 @@ const Auth = store => ({
   getChildRoutes: (location, cb) => {
     require.ensure([], (require) => {
       cb(null, [
-        // Remove imports!
         SignIn(store),
         Recovery(store),
+        RecoveryThankYou(store),
         ResetPassword(store),
         SignUp(store),
+        SignUpThankYou(store),
+        SignUpResendMessage(store),
         SelectCompany(store)
       ])
     })

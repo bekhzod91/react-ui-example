@@ -3,7 +3,7 @@ import { setToken } from '../../helpers/token'
 import { browserHistory } from 'react-router'
 import * as ROUTER from '../../constants/routes'
 
-export const watchAuthLocation = ({ location, ...props }) => {
+export const watchSocailAuth = ({ location, ...props }) => {
   // Twitter
   const oauthToken = _.get(location, ['query', 'oauth_token'])
   const oauthVerifier = _.get(location, ['query', 'oauth_verifier'])

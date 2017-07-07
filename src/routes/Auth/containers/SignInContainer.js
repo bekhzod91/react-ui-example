@@ -3,7 +3,7 @@ import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
-import { watchAuthLocation, watchAuthToken } from '../helpers'
+import { watchSocailAuth, watchAuthToken } from '../helpers'
 import SignIn from '../components/SignIn'
 import {
   actions,
@@ -54,7 +54,7 @@ const enhance = compose(
     }
   }),
   withPropsOnChange(['token'], watchAuthToken),
-  withPropsOnChange(['location'], watchAuthLocation),
+  withPropsOnChange(['location'], watchSocailAuth),
   withHandlers({
     onSubmit: props => () => props.signInAction(props.formValues),
   })

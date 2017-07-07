@@ -21,7 +21,7 @@ export const resetPasswordAction = (code, data) => {
 }
 
 export const actions = {
-  resetPasswordAction,
+  resetPasswordAction
 }
 
 // ------------------------------------

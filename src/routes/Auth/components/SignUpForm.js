@@ -44,14 +44,6 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     {error && <div className={classes.generalError}>{error}</div>}
 
     <Field
-      name="company"
-      component={TextField}
-      hintText="Company Name"
-      floatingLabelText="Enter Company Name"
-      fullWidth={true}
-    /><br />
-
-    <Field
       name="email"
       component={TextField}
       hintText="Email"

@@ -81,6 +81,20 @@ const SignUpResendMessage = store => ({
   },
 })
 
+const SignUpEmailConfirm = store => ({
+  path : ROUTE.SIGN_UP_EMAIL_CONFIRM_URL,
+  getComponent: (location, cb) => {
+    require.ensure([], require => {
+      const reducer = require('./modules/signUp')
+      injectReducer(store, {
+        key: reducer.SIGN_UP_EMAIL_CONFIRM_STATE_NAME,
+        reducer: reducer.signUpEmailConfirmReducer
+      })
+      cb(null, require('./containers/SignUpEmailConfirmContainer').default)
+    }, 'sign_up_email_confirm')
+  },
+})
+
 const SignIn = store => ({
   path : ROUTE.SIGN_IN_URL,
   getComponent: (location, cb) => {
@@ -105,6 +119,7 @@ const Auth = store => ({
         SignUp(store),
         SignUpThankYou(store),
         SignUpResendMessage(store),
+        SignUpEmailConfirm(store),
         SelectCompany(store)
       ])
     })

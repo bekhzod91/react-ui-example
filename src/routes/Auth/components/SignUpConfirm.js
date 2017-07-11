@@ -9,36 +9,37 @@ import AuthLayout, { styles as wrapStyle } from '../components/AuthLayout'
 
 const styles = {
   title: wrapStyle.title,
-  footer: wrapStyle.footer
+  footer: wrapStyle.footer,
+  center: {
+    textAlign: 'center'
+  }
 }
 
-export const SingUpMessageResend = ({ classes, email, firstName }) => (
+export const SingUpConfirm = ({ classes, loading, data, failed }) => (
   <AuthLayout
-    title={`Message Sent`}
-    loading={false}>
-    <div>
-      <p style={{ textAlign: 'center' }}>OK. We've sent the confirmation message to:<br />{ email }</p>
+    title={loading ? ' ' : `Welcome ${_.get(data, 'firstName')}`}
+    loading={loading}>
+    {!loading && <div>
+      <p className={classes.center}>Thanks for sign up</p>
 
-      <p style={{ textAlign: 'center' }}>Make sure to check your junk or spam folder</p>
+      <p className={classes.center}>You can sign in with email address {_.get(data, 'email')}</p>
 
       <div className={classes.footer}>
         <p>Do you want return main page? <Link to={ROUTE.SIGN_IN_URL}>Sign In</Link></p>
       </div>
-    </div>
+    </div>}
   </AuthLayout>
 )
 
-SingUpMessageResend.propTypes = {
+SingUpConfirm.propTypes = {
   classes: PropTypes.object.isRequired,
-  email: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired
+  data: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  failed: PropTypes.bool.isRequired,
 }
 
 const enhance = compose(
-  injectSheet(styles),
-  (render =>
-      branch(render, renderNothing)
-  )(props => !_.get(props, 'email')),
+  injectSheet(styles)
 )
 
-export default enhance(SingUpMessageResend)
+export default enhance(SingUpConfirm)

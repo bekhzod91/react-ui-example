@@ -1,19 +1,11 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import Logo from '../components/Logo'
 import LinearProgress from 'material-ui/LinearProgress'
+import Logo from '../components/Logo'
+import BgImgWrapper from '../../../components/BgImgWrapper'
 
 export const styles = {
-  wrapper: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-    width: '100%'
-  },
-
   content: {
     overflow: 'hidden',
     background: '#fff',
@@ -23,7 +15,8 @@ export const styles = {
     width: 375,
     padding: '0 30px 30px',
     boxSizing: 'border-box',
-    margin: 'auto'
+    margin: 'auto',
+    zIndex: 2
   },
 
   loader: {
@@ -79,7 +72,7 @@ export const styles = {
 }
 
 export const AuthLayout = ({ classes, title, loading, children }) => (
-  <div className={classes.wrapper}>
+  <BgImgWrapper>
     <div className={classes.content}>
       <div className={classes.loaderContent} />
       <div className={classes.loader}>
@@ -92,7 +85,7 @@ export const AuthLayout = ({ classes, title, loading, children }) => (
 
       {children}
     </div>
-  </div>
+  </BgImgWrapper>
 )
 
 AuthLayout.propTypes = {

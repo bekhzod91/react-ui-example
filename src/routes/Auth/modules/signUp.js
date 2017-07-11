@@ -37,9 +37,25 @@ export const resendMessageAction = (email) => {
   }
 }
 
+export const SIGN_UP_EMAIL_CONFIRM = 'SIGN_UP_EMAIL_CONFIRM'
+export const SIGN_UP_EMAIL_CONFIRM_STATE_NAME = 'signUpEmailConfirm'
+export const API_SIGN_UP_EMAIL_CONFIRM_URL = 'user/register-confirm/'
+
+export const signUpEmailConfirmAction = (code) => {
+  const payload = axios().get(`${API_SIGN_UP_EMAIL_CONFIRM_URL}${code}/`)
+    .then((response) => _.get(response, 'data'))
+    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+
+  return {
+    type: SIGN_UP_EMAIL_CONFIRM,
+    payload
+  }
+}
+
 export const actions = {
   signUpAction,
-  resendMessageAction
+  resendMessageAction,
+  signUpEmailConfirmAction
 }
 
 // ------------------------------------
@@ -47,3 +63,4 @@ export const actions = {
 // ------------------------------------
 export const signUpReducer = thunkReducer(SIGN_UP)
 export const resendReducer = thunkReducer(RESEND_MESSAGE)
+export const signUpEmailConfirmReducer = thunkReducer(SIGN_UP_EMAIL_CONFIRM)

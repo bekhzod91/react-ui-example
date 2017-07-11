@@ -35,7 +35,6 @@ const enhance = compose(
     }
   }),
   mapProps((props) => {
-    console.log(props)
     const email = _.get(props, [SIGN_UP, 'email'])
     const firstName = _.get(props, [SIGN_UP, 'firstName'])
 

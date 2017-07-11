@@ -15,17 +15,25 @@ export const RESET_PASSWORD = 'reset-password'
 export const RESET_PASSWORD_URL = `/${RESET_PASSWORD}/:code`
 
 // SIGN UP ROUTES
-export const SIGN_UP = `sign-up`
+export const SIGN_UP = 'sign-up'
 export const SIGN_UP_URL = `/${SIGN_UP}`
 export const SIGN_UP_VERIFY_URL = `/${SIGN_UP}-verify/:code`
 
 // SIGN UP THANK YOU ROUTE
-export const SIGN_UP_THANK_YOU = `thank-you`
+export const SIGN_UP_THANK_YOU = 'thank-you'
 export const SIGN_UP_THANK_YOU_URL = `/${SIGN_UP}/${SIGN_UP_THANK_YOU}`
 
 // SIGN UP THANK YOU ROUTE
-export const SIGN_UP_RESEND_MESSAGE = `resend`
+export const SIGN_UP_RESEND_MESSAGE = 'resend'
 export const SIGN_UP_RESEND_MESSAGE_URL = `/${SIGN_UP}/${SIGN_UP_RESEND_MESSAGE}`
+
+// SIGN UP THANK YOU ROUTE
+export const SIGN_UP_EMAIL_CONFIRM = 'confirm'
+export const SIGN_UP_EMAIL_CONFIRM_URL = `/${SIGN_UP}/${SIGN_UP_EMAIL_CONFIRM}/:code`
+
+// INTERNAL SERVER ERROR PAGE
+export const INTERNAL_SERVER_ERROR = '500'
+export const INTERNAL_SERVER_ERROR_URL = `/${INTERNAL_SERVER_ERROR}`
 
 // COMPANY ROUTES
 export const COMPANY_MY = 'c'

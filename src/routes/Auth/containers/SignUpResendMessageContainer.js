@@ -3,7 +3,7 @@ import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
-import SingUpMessageResend from '../components/SingUpMessageResend'
+import SignUpMessageResend from '../components/SignUpMessageResend'
 import {
   resendMessageAction,
   SIGN_UP_STATE_NAME as SIGN_UP
@@ -34,4 +34,4 @@ const enhance = compose(
   })
 )
 
-export default enhance(SingUpMessageResend)
+export default enhance(SignUpMessageResend)

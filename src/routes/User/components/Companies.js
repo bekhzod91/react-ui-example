@@ -9,36 +9,12 @@ import { List, ListItem } from 'material-ui/List'
 import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
 import CircularProgress from 'material-ui/CircularProgress'
-import Logo from '../components/Logo'
 import * as ROUTE from '../../../constants/routes'
 import { fromNow } from '../../../helpers/dateFormat'
 import * as STYLE from '../../../styles/style'
+import AuthLayout from '../../../components/AuthLayout'
 
 const styles = {
-  wrapper: {
-    position: 'relative',
-    margin: '5% auto auto',
-    width: '375px',
-  },
-
-  content: {
-    overflow: 'hidden',
-    background: '#fff',
-    boxShadow: '0 5px 12px rgba(0,0,0,.2)',
-    transition: 'all,.2s,ease-in-out',
-    position: 'relative',
-    width: 375,
-    padding: '0 30px 30px',
-    boxSizing: 'border-box'
-  },
-
-  logoTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-    margin: '10px auto',
-    textTransform: 'uppercase'
-  },
-
   loader: {
     display: 'flex',
     justifyContent: 'center',
@@ -71,7 +47,7 @@ const styles = {
   },
 }
 
-const SelectCompany = ({ classes, loading, list }) => {
+const Companies = ({ classes, loading, list }) => {
   const companies = _.map(list, (item, index) => {
     const id = _.get(item, 'id')
     const name = _.get(item, 'name')
@@ -122,29 +98,27 @@ const SelectCompany = ({ classes, loading, list }) => {
         insetChildren={true}
         className={classes.goBack}
         primaryText="Go back"
-        onTouchTap={() => console.log('123')}
+        onTouchTap={() => browserHistory.push(ROUTE.SIGN_IN_URL)}
         leftIcon={<KeyboardArrowLeft />}
       />
     </List>
   )
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.content}>
-        <Logo />
-
-        <h1 className={classes.logoTitle}>For continue Sing-In select company</h1>
-
+    <AuthLayout
+      title="FOR CONTINUE SING-IN SELECT COMPANY"
+      loading={loading}>
+      <div>
         {content}
       </div>
-    </div>
+    </AuthLayout>
   )
 }
 
-SelectCompany.propTypes = {
+Companies.propTypes = {
   classes: PropTypes.object.isRequired,
-  list: PropTypes.any,
+  list: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
 }
 
-export default injectSheet(styles)(SelectCompany)
+export default injectSheet(styles)(Companies)

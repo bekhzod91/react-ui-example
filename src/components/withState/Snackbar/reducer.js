@@ -8,7 +8,7 @@ export const defaultState = {
   duration: 3000
 }
 
-const snackbarReducer = () => {
+const reducer = () => {
   return createReducer(defaultState, {
     [`${actions.SNACKBAR_OPEN}`] (state, { payload }) {
       return {
@@ -27,4 +27,4 @@ const snackbarReducer = () => {
   })
 }
 
-export default snackbarReducer
+export default reducer

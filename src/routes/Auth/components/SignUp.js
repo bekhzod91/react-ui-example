@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
 import SignUpForm from '../components/SignUpForm'
-import AuthLayout, { styles as wrapStyle } from '../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
 import SocialButtons from '../components/SocialButtons'
 
 const styles = {

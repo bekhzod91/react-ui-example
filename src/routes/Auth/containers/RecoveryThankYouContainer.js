@@ -3,14 +3,12 @@ import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
+import * as STATE from '../../../constants/state'
 import RecoveryThankYou from '../components/RecoveryThankYou'
-import {
-  actions,
-  RECOVERY_STATE_NAME
-} from '../modules/recovery'
+import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  recovery: _.get(state, [RECOVERY_STATE_NAME, 'data']),
+  recovery: _.get(state, [STATE.RECOVERY, 'data']),
 })
 
 const enhance = compose(

@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import logoImg from './logo.png'
+import logoImg from '../routes/Auth/components/logo.png'
 
 const styles = {
   logo: {

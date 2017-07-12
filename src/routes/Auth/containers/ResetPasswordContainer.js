@@ -3,17 +3,15 @@ import { compose, withHandlers, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
+import * as STATE from '../../../constants/state'
 import ResetPassword from '../components/ResetPassword'
 import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/withState/Snackbar/actions'
 import { FORM } from '../components/ResetPasswordForm'
-import {
-  actions,
-  RESET_PASSWORD_STATE_NAME
-} from '../modules/resetPassword'
+import actions from '../actions/resetPassword'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [RESET_PASSWORD_STATE_NAME, 'loading']),
-  resetPassword: _.get(state, [RESET_PASSWORD_STATE_NAME, 'data']),
+  loading: _.get(state, [STATE.RESET_PASSWORD, 'loading']),
+  resetPassword: _.get(state, [STATE.RESET_PASSWORD, 'data']),
   formValues: _.get(state, ['form', FORM, 'values']),
 })
 

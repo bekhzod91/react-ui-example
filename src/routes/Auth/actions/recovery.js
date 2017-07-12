@@ -1,12 +1,10 @@
 import _ from 'lodash'
 import axios from '../../../helpers/axios'
-import thunkReducer from '../../../helpers/thunkReducer'
+import * as actionsTypes from '../constants/actionTypes'
 
 // ------------------------------------
-// Action recovery
+// Action account recovery
 // ------------------------------------
-export const RECOVERY = 'RECOVERY'
-export const RECOVERY_STATE_NAME = 'recovery'
 export const API_RECOVERY_URL = `/user/recovery/`
 
 export const recoveryAction = (data) => {
@@ -15,21 +13,16 @@ export const recoveryAction = (data) => {
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
   return {
-    type: RECOVERY,
+    type: actionsTypes.RECOVERY,
     payload
   }
 }
 
 export const recoveryClearAction = () => ({
-  type: `${RECOVERY}_CLEAR`
+  type: `${actionsTypes.RECOVERY}_CLEAR`
 })
 
-export const actions = {
+export default {
   recoveryAction,
   recoveryClearAction,
 }
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-export const recoveryReducer = thunkReducer(RECOVERY)

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { compose, branch, renderNothing } from 'recompose'
 import * as ROUTE from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
 
 const styles = {
   title: wrapStyle.title,

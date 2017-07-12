@@ -3,6 +3,7 @@ import PageLayout from '../layouts/PageLayout/PageLayout'
 import Home from './Home'
 import Dashboard from './Dashboard'
 import Auth from './Auth'
+import User from './User'
 import Error from './Error'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -15,7 +16,8 @@ export const createRoutes = (store) => ({
   childRoutes : [
     Dashboard(store),
     Auth(store),
-    Error(store)
+    User(store),
+    Error(store),
   ],
 })
 

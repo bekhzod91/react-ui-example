@@ -5,6 +5,7 @@ export const initialState = {
   data: null,
   error: null,
   loading: false,
+  success: false,
   failed: false
 }
 
@@ -21,6 +22,7 @@ const createThunkReducer = (actionName) => {
         ...state,
         data: action.payload,
         error: null,
+        success: true,
         loading: false,
         failed: false
       }
@@ -31,6 +33,7 @@ const createThunkReducer = (actionName) => {
         data: null,
         error: action.payload,
         loading: false,
+        success: false,
         failed: true
       }
     },

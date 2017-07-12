@@ -1,7 +1,14 @@
+import _ from 'lodash'
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import { compose, withPropsOnChange, lifecycle } from 'recompose'
+import { connect } from 'react-redux'
+import * as STATE from '../../constants/state'
+import { getToken } from '../../helpers/token'
+import { fetchProfileAction } from '../../actions/profile'
 import Snackbar from '../../components/withState/Snackbar/Snackbar'
+import { setTokenAction } from '../../routes/User/actions/token'
 
 const styles = {
   '@global': {
@@ -20,6 +27,15 @@ const styles = {
   }
 }
 
+const mapStateToProps = (state) => ({
+  token: _.get(state, [STATE.SING_IN, 'data']),
+  loading: !(
+    _.get(state, [STATE.PROFILE, 'loading']) ||
+    _.get(state, [STATE.PROFILE, 'success']) ||
+    _.get(state, [STATE.PROFILE, 'failed'])
+  ),
+})
+
 export const PageLayout = ({ children }) => (
   <div style={styles.page}>
     {children}
@@ -31,4 +47,18 @@ PageLayout.propTypes = {
   children: PropTypes.node,
 }
 
-export default injectSheet(styles)(PageLayout)
+const enhance = compose(
+  connect(mapStateToProps, { fetchProfileAction, setTokenAction }),
+  lifecycle({
+    componentWillMount () {
+      const token = getToken()
+      token && this.props.setTokenAction()
+    }
+  }),
+  withPropsOnChange(['token'], (props) => {
+    props.token && props.fetchProfileAction()
+  }),
+  injectSheet(styles)
+)
+
+export default enhance(PageLayout)

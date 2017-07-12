@@ -1,0 +1,10 @@
+// API STATE
+export const SING_IN = 'signIn'
+export const SIGN_UP = 'signUp'
+export const SIGN_UP_EMAIL_CONFIRM = 'signUpEmailConfirm'
+export const RESEND_MESSAGE = 'resendMessage'
+export const TWITTER_REDIRECT = 'twitterRedirect'
+export const RECOVERY = 'recovery'
+export const RESET_PASSWORD = 'resetPassword'
+export const USER_COMPANIES = 'userCompanies'
+export const PROFILE = 'userProfile'

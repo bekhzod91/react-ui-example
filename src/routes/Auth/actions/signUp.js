@@ -1,13 +1,11 @@
 import _ from 'lodash'
 import axios from '../../../helpers/axios'
-import thunkReducer from '../../../helpers/thunkReducer'
+import * as actionTypes from '../constants/actionTypes'
 import { signUpSerializer } from '../serializers/SignUpSerializer'
 
 // ------------------------------------
-// Action signUp
+// Action Sign Up
 // ------------------------------------
-export const SIGN_UP = 'SIGN_UP'
-export const SIGN_UP_STATE_NAME = 'signUp'
 export const API_SIGN_UP_URL = '/user/register/'
 
 export const signUpAction = (formValues) => {
@@ -17,13 +15,14 @@ export const signUpAction = (formValues) => {
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
   return {
-    type: SIGN_UP,
+    type: actionTypes.SIGN_UP,
     payload
   }
 }
 
-export const RESEND_MESSAGE = 'RESEND_MESSAGE'
-export const RESEND_MESSAGE_STATE_NAME = 'resendMessage'
+// ------------------------------------
+// Action resend Sign Up message
+// ------------------------------------
 export const API_RESEND_MESSAGE_URL = 'user/register/resend/'
 
 export const resendMessageAction = (email) => {
@@ -32,13 +31,14 @@ export const resendMessageAction = (email) => {
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
   return {
-    type: RESEND_MESSAGE,
+    type: actionTypes.RESEND_MESSAGE,
     payload
   }
 }
 
-export const SIGN_UP_EMAIL_CONFIRM = 'SIGN_UP_EMAIL_CONFIRM'
-export const SIGN_UP_EMAIL_CONFIRM_STATE_NAME = 'signUpEmailConfirm'
+// ------------------------------------
+// Action Sign Up confirm
+// ------------------------------------
 export const API_SIGN_UP_EMAIL_CONFIRM_URL = 'user/register-confirm/'
 
 export const signUpEmailConfirmAction = (code) => {
@@ -47,20 +47,13 @@ export const signUpEmailConfirmAction = (code) => {
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
   return {
-    type: SIGN_UP_EMAIL_CONFIRM,
+    type: actionTypes.SIGN_UP_EMAIL_CONFIRM,
     payload
   }
 }
 
-export const actions = {
+export default {
   signUpAction,
   resendMessageAction,
   signUpEmailConfirmAction
 }
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-export const signUpReducer = thunkReducer(SIGN_UP)
-export const resendReducer = thunkReducer(RESEND_MESSAGE)
-export const signUpEmailConfirmReducer = thunkReducer(SIGN_UP_EMAIL_CONFIRM)

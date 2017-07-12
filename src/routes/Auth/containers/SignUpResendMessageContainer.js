@@ -3,28 +3,26 @@ import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
+import * as STATE from '../../../constants/state'
 import SignUpMessageResend from '../components/SignUpMessageResend'
-import {
-  resendMessageAction,
-  SIGN_UP_STATE_NAME as SIGN_UP
-} from '../modules/signUp'
+import { resendMessageAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
-  [SIGN_UP]: _.get(state, [SIGN_UP, 'data'])
+  data: _.get(state, [STATE.SIGN_UP, 'data'])
 })
 
 const enhance = compose(
   connect(mapStateToProps, { resendMessageAction }),
-  withPropsOnChange([SIGN_UP], (props) => {
-    const email = _.get(props, [SIGN_UP, 'email'])
+  withPropsOnChange(['data'], (props) => {
+    const email = _.get(props, ['data', 'email'])
 
     if (!email) {
       browserHistory.push(ROUTE.SIGN_IN_URL)
     }
   }),
   mapProps((props) => {
-    const email = _.get(props, [SIGN_UP, 'email'])
-    const firstName = _.get(props, [SIGN_UP, 'firstName'])
+    const email = _.get(props, ['data', 'email'])
+    const firstName = _.get(props, ['data', 'firstName'])
 
     return {
       email,

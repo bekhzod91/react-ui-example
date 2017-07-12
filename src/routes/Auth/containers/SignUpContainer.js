@@ -3,26 +3,20 @@ import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
+import * as STATE from '../../../constants/state'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
 import { watchSocailAuth, watchAuthToken } from '../helpers'
 import SignUp from '../components/SignUp'
 import { FORM } from '../components/SignUpForm'
-import {
-  signUpAction,
-  SIGN_UP_STATE_NAME,
-} from '../modules/signUp'
-import {
-  actions,
-  SING_IN_STATE_NAME,
-  TWITTER_REDIRECT_STATE,
-} from '../modules/signIn'
+import { signUpAction } from '../actions/signUp'
+import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [SIGN_UP_STATE_NAME, 'loading']) || _.get(state, [TWITTER_REDIRECT_STATE, 'loading']),
-  twitter: _.get(state, [TWITTER_REDIRECT_STATE, 'data', 'redirect']) || null,
-  token: _.get(state, [SING_IN_STATE_NAME, 'data', 'token']),
-  signUp: _.get(state, [SIGN_UP_STATE_NAME, 'data']),
+  loading: _.get(state, [STATE.SIGN_UP, 'loading']) || _.get(state, [STATE.TWITTER_REDIRECT, 'loading']),
+  twitter: _.get(state, [STATE.TWITTER_REDIRECT, 'data', 'redirect']) || null,
+  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
+  signUp: _.get(state, [STATE.SIGN_UP, 'data']),
   formValues: _.get(state, ['form', FORM, 'values'])
 })
 

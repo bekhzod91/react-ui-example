@@ -1,12 +1,10 @@
 import _ from 'lodash'
 import axios from '../../../helpers/axios'
-import thunkReducer from '../../../helpers/thunkReducer'
+import * as actionsTypes from '../constants/actionTypes'
 
 // ------------------------------------
-// Action recovery_verify
+// Action reset user password
 // ------------------------------------
-export const RESET_PASSWORD = 'RESET_PASSWORD'
-export const RESET_PASSWORD_STATE_NAME = 'resetPassword'
 export const API_RESET_PASSWORD_URL = `/user/recovery-confirm/`
 
 export const resetPasswordAction = (code, data) => {
@@ -15,16 +13,11 @@ export const resetPasswordAction = (code, data) => {
     .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
   return {
-    type: RESET_PASSWORD,
+    type: actionsTypes.RESET_PASSWORD,
     payload
   }
 }
 
-export const actions = {
+export default {
   resetPasswordAction
 }
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
-export const resetPasswordReducer = thunkReducer(RESET_PASSWORD)

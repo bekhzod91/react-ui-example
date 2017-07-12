@@ -1,0 +1,1 @@
+export const USER_COMPANIES = 'USER_COMPANIES'

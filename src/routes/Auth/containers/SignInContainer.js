@@ -1,21 +1,21 @@
 import _ from 'lodash'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
+import * as STATE from '../../../constants/state'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
 import { watchSocailAuth, watchAuthToken } from '../helpers'
 import SignIn from '../components/SignIn'
-import {
-  actions,
-  SING_IN_STATE_NAME,
-  TWITTER_REDIRECT_STATE
-} from '../modules/signIn'
+import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [SING_IN_STATE_NAME, 'loading']) || _.get(state, [TWITTER_REDIRECT_STATE, 'loading']),
-  twitter: _.get(state, [TWITTER_REDIRECT_STATE, 'data', 'redirect']) || null,
-  token: _.get(state, [SING_IN_STATE_NAME, 'data', 'token']),
-  error: _.get(state, [SING_IN_STATE_NAME, 'error']),
+  loading: (
+    _.get(state, [STATE.SING_IN, 'loading']) ||
+    _.get(state, [STATE.TWITTER_REDIRECT, 'loading'])
+  ),
+  twitter: _.get(state, [STATE.TWITTER_REDIRECT, 'data', 'redirect']) || null,
+  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
+  error: _.get(state, [STATE.SING_IN, 'error']),
   formValues: _.get(state, ['form', 'SignInForm', 'values'])
 })
 

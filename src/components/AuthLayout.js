@@ -2,8 +2,8 @@ import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import LinearProgress from 'material-ui/LinearProgress'
-import Logo from '../components/Logo'
-import BgImgWrapper from '../../../components/BgImgWrapper'
+import Logo from './Logo'
+import BgImgWrapper from './BgImgWrapper'
 
 export const styles = {
   content: {
@@ -49,7 +49,7 @@ export const styles = {
 
   title: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: '1.5em',
     margin: '10px auto',
     textTransform: 'uppercase'
   },

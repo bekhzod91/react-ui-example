@@ -7,7 +7,8 @@ import { connect } from 'react-redux'
 import * as STATE from '../../constants/state'
 import { getToken } from '../../helpers/token'
 import { fetchProfileAction } from '../../actions/profile'
-import Snackbar from '../../components/withState/Snackbar/Snackbar'
+import Snackbar from '../../components/withState/Snackbar'
+import PageLoading from '../../components/withState/PageLoading'
 import { setTokenAction } from '../../routes/User/actions/token'
 
 const styles = {
@@ -38,6 +39,7 @@ const mapStateToProps = (state) => ({
 
 export const PageLayout = ({ children }) => (
   <div style={styles.page}>
+    <PageLoading />
     {children}
     <Snackbar />
   </div>

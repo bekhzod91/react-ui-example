@@ -6,12 +6,14 @@ import * as STATE from '../constants/state'
 import * as actionTypes from '../constants/actionTypes'
 import thunkReducer from '../helpers/thunkReducer'
 import snackbarReducer from '../components/withState/Snackbar/reducer'
+import pageLoadingReducer from '../components/withState/PageLoading/reducer'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
     form: formReducer,
     snackbar: snackbarReducer(),
+    pageLoading: pageLoadingReducer(),
     [STATE.PROFILE]: thunkReducer(actionTypes.PROFILE),
     ...asyncReducers
   })

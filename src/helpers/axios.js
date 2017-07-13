@@ -25,7 +25,6 @@ const axiosRequest = (config) => {
   axiosInstance.interceptors.response.use((response) => {
     return response
   }, (error) => {
-    console.log(error.response)
     if (error.response.status === 500) {
       browserHistory.push(ROUTE.INTERNAL_SERVER_ERROR)
     }

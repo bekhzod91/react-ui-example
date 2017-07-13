@@ -1,9 +1,16 @@
 import { injectReducers } from '../../store/reducers'
 import * as ROUTE from '../../constants/routes'
+import {
+  startLoadingAction,
+  finishLoadingAction
+} from '../../components/withState/PageLoading/actions'
 
 const Auth = store => ({
   path : '',
   getChildRoutes: (location, cb) => {
+    // Start loading
+    store.dispatch(startLoadingAction())
+
     require.ensure([], (require) => {
       injectReducers(store, require('./reducers').default)
       cb(null, [
@@ -40,7 +47,10 @@ const Auth = store => ({
           component: require('./containers/SignInContainer').default
         }
       ])
-    }, 'auth')
+    }, 'auth').then(() => {
+      // Finish loading
+      store.dispatch(finishLoadingAction())
+    })
   }
 })
 

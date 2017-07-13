@@ -20,7 +20,6 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPropsOnChange(['loading'], (props) => {
-    console.log(props)
     !props.loading && props.fetchMyCompaniesAction()
   })
 )(Companies)

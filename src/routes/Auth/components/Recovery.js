@@ -3,14 +3,14 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 import RecoveryForm from '../components/RecoveryForm'
 
 const styles = {
   footer: wrapStyle.footer
 }
 
-export const Recovery = ({ classes, loading, onSubmit }) => (
+const Recovery = ({ classes, loading, onSubmit }) => (
   <AuthLayout
     title="Forgot Password"
     loading={loading}>

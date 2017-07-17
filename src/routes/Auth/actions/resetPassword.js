@@ -8,13 +8,15 @@ import * as actionsTypes from '../constants/actionTypes'
 export const API_RESET_PASSWORD_URL = `/user/recovery-confirm/`
 
 export const resetPasswordAction = (code, data) => {
-  const payload = axios().put(`${API_RESET_PASSWORD_URL}${code}/`, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).put(`${API_RESET_PASSWORD_URL}${code}/`, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionsTypes.RESET_PASSWORD,
-    payload
+    return dispatch({
+      type: actionsTypes.RESET_PASSWORD,
+      payload
+    })
   }
 }
 

@@ -8,13 +8,15 @@ import * as actionsTypes from '../constants/actionTypes'
 export const API_RECOVERY_URL = `/user/recovery/`
 
 export const recoveryAction = (data) => {
-  const payload = axios().put(API_RECOVERY_URL, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).put(API_RECOVERY_URL, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionsTypes.RECOVERY,
-    payload
+    return dispatch({
+      type: actionsTypes.RECOVERY,
+      payload
+    })
   }
 }
 

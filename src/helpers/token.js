@@ -9,14 +9,14 @@ export const getToken = () => {
 }
 
 export const setToken = (token, local) => {
-  removeToken()
+  clearToken()
   const isLocal = local || false
   const storage = getStorage(isLocal)
 
   storage.setItem(TOKEN_KEY, token)
 }
 
-export const removeToken = () => {
+export const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY)
   sessionStorage.removeItem(TOKEN_KEY)
 }

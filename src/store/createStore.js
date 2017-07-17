@@ -2,7 +2,7 @@ import { applyMiddleware, compose, createStore as createReduxStore } from 'redux
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import { browserHistory } from 'react-router'
-import makeRootReducer from './reducers'
+import { makeRootReducer } from './reducers'
 import { updateLocation } from './location'
 
 const createStore = (initialState = {}) => {

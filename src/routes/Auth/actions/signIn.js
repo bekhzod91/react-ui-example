@@ -10,14 +10,16 @@ import { signInSerializer, twitterSignInSerializer } from '../serializers/SignIn
 export const API_SIGN_IN_URL = `/user/auth/`
 
 export const signInAction = (formValues) => {
-  const data = signInSerializer(formValues)
-  const payload = axios().post(API_SIGN_IN_URL, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const data = signInSerializer(formValues)
+    const payload = axios({ dispatch, getState }).post(API_SIGN_IN_URL, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: globalActionTypes.SIGN_IN,
-    payload
+    return dispatch({
+      type: globalActionTypes.SIGN_IN,
+      payload
+    })
   }
 }
 
@@ -27,13 +29,15 @@ export const signInAction = (formValues) => {
 export const API_TWITTER_REDIRECT_URL = `/user/auth/twitter/`
 
 export const fetchTwitterRedirectURLAction = () => {
-  const payload = axios().get(API_TWITTER_REDIRECT_URL)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).get(API_TWITTER_REDIRECT_URL)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionTypes.TWITTER_REDIRECT,
-    payload
+    return dispatch({
+      type: actionTypes.TWITTER_REDIRECT,
+      payload
+    })
   }
 }
 
@@ -43,13 +47,15 @@ export const fetchTwitterRedirectURLAction = () => {
 export const API_TWITTER_SIGN_IN_URL = `/user/auth/twitter/`
 
 export const twitterSingInAction = (data) => {
-  const payload = axios().post(API_TWITTER_SIGN_IN_URL, twitterSignInSerializer(data))
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).post(API_TWITTER_SIGN_IN_URL, twitterSignInSerializer(data))
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: globalActionTypes.SIGN_IN,
-    payload
+    return dispatch({
+      type: globalActionTypes.SIGN_IN,
+      payload
+    })
   }
 }
 
@@ -59,13 +65,15 @@ export const twitterSingInAction = (data) => {
 export const API_GOOGLE_SIGN_IN_URL = `/user/auth/google/`
 
 export const googleSingInAction = (data) => {
-  const payload = axios().post(API_GOOGLE_SIGN_IN_URL, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).post(API_GOOGLE_SIGN_IN_URL, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: globalActionTypes.SIGN_IN,
-    payload
+    return dispatch({
+      type: globalActionTypes.SIGN_IN,
+      payload
+    })
   }
 }
 
@@ -75,13 +83,15 @@ export const googleSingInAction = (data) => {
 export const API_FACEBOOK_SIGN_IN_URL = `/user/auth/facebook/`
 
 export const facebookSingInAction = (data) => {
-  const payload = axios().post(API_FACEBOOK_SIGN_IN_URL, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).post(API_FACEBOOK_SIGN_IN_URL, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: globalActionTypes.SIGN_IN,
-    payload
+    return dispatch({
+      type: globalActionTypes.SIGN_IN,
+      payload
+    })
   }
 }
 

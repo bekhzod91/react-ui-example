@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import SvgIcon from 'material-ui/SvgIcon'
-import * as STYLE from '../styles/style'
+import * as STYLE from '../../styles/style'
 
 const styles = {
   accountIcon: {

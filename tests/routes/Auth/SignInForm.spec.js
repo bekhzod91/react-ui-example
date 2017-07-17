@@ -2,15 +2,15 @@ import _ from 'lodash'
 import React from 'react'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
-import SignInForm from 'routes/Auth/components/SignInForm'
-import TextField from 'components/Form/SimpleFields/TextField'
-import axios from 'helpers/axios'
 import MockAdapter from 'axios-mock-adapter'
-import { singInAction, API_SIGN_IN_URL, default as reducer } from 'routes/Auth/modules/signIn'
-import createStore from 'store/createStore'
-import { injectReducer } from 'store/reducers'
 import { Provider } from 'react-redux'
-import MuiThemeProvider from '../../../MuiThemeProvider'
+import SignInForm from '../../../src/routes/Auth/components/SignInForm'
+import * as STATE from '../../../src/constants/state'
+import TextField from '../../../src/components/Form/SimpleFields/TextField'
+import axios from '../../../src/helpers/axios'
+import { signInAction, API_SIGN_IN_URL } from '../../../src/routes/Auth/actions/signIn'
+import createStore from '../../../src/store/createStore.js'
+import MuiThemeProvider from '../../MuiThemeProvider'
 
 describe('(Component) SignInForm', () => {
   let submit, component, store
@@ -21,14 +21,13 @@ describe('(Component) SignInForm', () => {
 
   it('form submit event', (done) => {
     store = createStore({})
-    injectReducer(store, { key: 'signIn', reducer })
 
     submit = sinon.spy(() => {
       const values = _.get(store.getState(), ['form', 'SignInForm', 'values'])
-      return store.dispatch(singInAction(values))
+      return store.dispatch(signInAction(values))
     })
 
-    const mock = new MockAdapter(axios())
+    const mock = new MockAdapter(axios(store))
 
     // Mock any GET request to /users
     // arguments for reply are (status, data, headers)
@@ -54,9 +53,10 @@ describe('(Component) SignInForm', () => {
     expect(formValues.email).to.equal('user@example.com')
     expect(formValues.password).to.equal('password')
     expect(formValues.rememberMe).to.equal(true)
-    expect(_.get(store.getState(), ['signIn', 'loading'])).to.equal(true)
+    expect(_.get(store.getState(), [STATE.SING_IN, 'loading'])).to.equal(true)
 
     setTimeout(() => {
+      console.log(component.find(TextField).at(0).props())
       expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
       expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['password'][0])
 

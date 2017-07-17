@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import toCamelCase from './toCamelCase'
 import { SubmissionError } from 'redux-form'
 
 const validate = (data) => {

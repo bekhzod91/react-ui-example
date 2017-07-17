@@ -26,9 +26,9 @@ export const watchSocailAuth = ({ location, ...props }) => {
   }
 }
 
-export const watchAuthToken = ({ token, formValues }) => {
+export const watchAuthToken = ({ token, formValues, location }) => {
   if (token) {
     setToken(token, _.get(formValues, 'rememberMe'))
-    browserHistory.push(ROUTER.COMPANY_MY_LIST_URL)
+    browserHistory.push(_.get(location, ['query', 'redirect']) || ROUTER.COMPANY_MY_LIST_URL)
   }
 }

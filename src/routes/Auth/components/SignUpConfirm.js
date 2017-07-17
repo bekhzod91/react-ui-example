@@ -3,9 +3,8 @@ import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import { compose, branch, renderNothing } from 'recompose'
 import * as ROUTE from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
 const styles = {
   title: wrapStyle.title,
@@ -38,8 +37,4 @@ SingUpConfirm.propTypes = {
   failed: PropTypes.bool.isRequired,
 }
 
-const enhance = compose(
-  injectSheet(styles)
-)
-
-export default enhance(SingUpConfirm)
+export default injectSheet(styles)(SingUpConfirm)

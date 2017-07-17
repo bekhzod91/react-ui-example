@@ -1,5 +1,6 @@
 import { injectReducer } from '../../store/reducers'
 import { COMPANY_MY_URL } from '../../constants/routes'
+import UserIsAuthenticated from '../../permissions/UserIsAuthenticated'
 
 export default (store) => ({
   path : COMPANY_MY_URL,
@@ -17,7 +18,7 @@ export default (store) => ({
       injectReducer(store, { key: 'dashboard', reducer })
 
       /*  Return getComponent   */
-      cb(null, Counter)
+      cb(null, UserIsAuthenticated(Counter))
 
       /* Webpack named bundle   */
     }, 'dashboard')

@@ -1,38 +1,40 @@
 import _ from 'lodash'
-import axios from 'axios'
+import defaultAxios from 'axios'
 import { browserHistory } from 'react-router'
 import { API_URL } from '../constants/api'
 import * as ROUTE from '../constants/routes'
+import * as STATE from '../constants/state'
 import toCamelCase from '../helpers/toCamelCase'
-import { getToken } from './token'
 
-const axiosRequest = (config) => {
-  const token = _.get(config, 'token') || getToken()
+export default ({ getState }) => {
+  const state = getState()
+  const token = _.get(state, [STATE.SING_IN, 'data', 'token'])
 
-  const axiosInstance = axios.create({
+  const axios = defaultAxios.create({
     baseURL: API_URL,
-    transformResponse: [(data) => {
-      try {
+    transformResponse: [(data, response) => {
+      console.log(data)
+      if (response['content-type'] === 'application/json') {
         return toCamelCase(JSON.parse(data))
-      } catch (e) {
-        return data
       }
+
+      return data
     }]
   })
 
-  axiosInstance.defaults.headers.common['Authorization'] = token ? `Token ${token}` : undefined
+  axios.defaults.headers.common['Authorization'] = token && `Token ${token}`
 
-  axiosInstance.interceptors.response.use((response) => {
-    return response
-  }, (error) => {
-    if (error.response.status === 500) {
-      browserHistory.push(ROUTE.INTERNAL_SERVER_ERROR)
-    }
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const status = _.get(error, ['response', 'status'])
 
-    return Promise.reject(error)
-  })
+      if (status === 500) {
+        browserHistory.push(ROUTE.INTERNAL_SERVER_ERROR)
+      }
 
-  return axiosInstance
+      return Promise.reject(error)
+    })
+
+  return axios
 }
-
-export default axiosRequest

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaceBookIcon from '../../../components/FaceBookIcon'
-import GooglePlusIcon from '../../../components/GooglePlusIcon'
-import TwitterIcon from '../../../components/TwitterIcon'
+import FaceBookIcon from '../../../components/Icon/FaceBookIcon'
+import GooglePlusIcon from '../../../components/Icon/GooglePlusIcon'
+import TwitterIcon from '../../../components/Icon/TwitterIcon'
 import RaisedButton from '../../../components/RaisedButton'
 import * as STYLE from '../../../styles/style'
 

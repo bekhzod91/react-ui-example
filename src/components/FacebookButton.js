@@ -1,7 +1,7 @@
 /* global FB */
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaceBookIcon from './FaceBookIcon'
+import FaceBookIcon from './Icon/FaceBookIcon'
 import RaisedButton from './RaisedButton'
 import * as STYLE from '../styles/style'
 

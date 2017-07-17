@@ -32,7 +32,7 @@ const styles = {
   }
 }
 
-export const BgImgWrapper = ({ classes, img, children }) => (
+const BgImgWrapper = ({ classes, img, children }) => (
   <div className={classes.wrapper} style={{ backgroundImage: `url(${img})` }}>
     {children}
   </div>

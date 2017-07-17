@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import ReactTestUtils from 'react-dom/test-utils'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
-import SignInSocialButtons from 'routes/Auth/components/SignInSocialButtons'
-import MuiThemeProvider from '../../../MuiThemeProvider'
+import SignInSocialButtons from '../../../src/routes/Auth/components/SocialButtons'
+import MuiThemeProvider from '../../MuiThemeProvider'
 
 describe('(Component) SignInSocialButtons', () => {
   let submit, handleSocialSignIn, component

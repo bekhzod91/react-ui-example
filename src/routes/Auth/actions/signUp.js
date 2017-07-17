@@ -9,14 +9,16 @@ import { signUpSerializer } from '../serializers/SignUpSerializer'
 export const API_SIGN_UP_URL = '/user/register/'
 
 export const signUpAction = (formValues) => {
-  const data = signUpSerializer(formValues)
-  const payload = axios().post(API_SIGN_UP_URL, data)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const data = signUpSerializer(formValues)
+    const payload = axios({ dispatch, getState }).post(API_SIGN_UP_URL, data)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionTypes.SIGN_UP,
-    payload
+    return dispatch({
+      type: actionTypes.SIGN_UP,
+      payload
+    })
   }
 }
 
@@ -26,13 +28,15 @@ export const signUpAction = (formValues) => {
 export const API_RESEND_MESSAGE_URL = 'user/register/resend/'
 
 export const resendMessageAction = (email) => {
-  const payload = axios().post(API_RESEND_MESSAGE_URL, { email })
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).post(API_RESEND_MESSAGE_URL, { email })
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionTypes.RESEND_MESSAGE,
-    payload
+    return dispatch({
+      type: actionTypes.RESEND_MESSAGE,
+      payload
+    })
   }
 }
 
@@ -42,13 +46,15 @@ export const resendMessageAction = (email) => {
 export const API_SIGN_UP_EMAIL_CONFIRM_URL = 'user/register-confirm/'
 
 export const signUpEmailConfirmAction = (code) => {
-  const payload = axios().get(`${API_SIGN_UP_EMAIL_CONFIRM_URL}${code}/`)
-    .then((response) => _.get(response, 'data'))
-    .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+  return (dispatch, getState) => {
+    const payload = axios({ dispatch, getState }).get(`${API_SIGN_UP_EMAIL_CONFIRM_URL}${code}/`)
+      .then((response) => _.get(response, 'data'))
+      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
-  return {
-    type: actionTypes.SIGN_UP_EMAIL_CONFIRM,
-    payload
+    return dispatch({
+      type: actionTypes.SIGN_UP_EMAIL_CONFIRM,
+      payload
+    })
   }
 }
 

@@ -3,7 +3,7 @@ import * as ROUTE from '../../constants/routes'
 import {
   startLoadingAction,
   finishLoadingAction
-} from '../../components/withState/PageLoading/actions'
+} from '../../components/WithState/PageLoading/actions'
 
 const Auth = store => ({
   path : '',

@@ -1,5 +1,4 @@
 import createReducer from './createReducer'
-import toCamelCase from './toCamelCase'
 
 export const initialState = {
   data: null,

@@ -2,8 +2,8 @@ import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import LinearProgress from 'material-ui/LinearProgress'
-import Logo from './Logo'
-import BgImgWrapper from './BgImgWrapper'
+import Logo from '../Logo'
+import BgImgWrapper from '../BgImgWrapper'
 
 export const styles = {
   content: {
@@ -71,7 +71,7 @@ export const styles = {
   }
 }
 
-export const AuthLayout = ({ classes, title, loading, children }) => (
+const AuthLayout = ({ classes, title, loading, children }) => (
   <BgImgWrapper>
     <div className={classes.content}>
       <div className={classes.loaderContent} />

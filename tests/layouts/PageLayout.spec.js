@@ -1,5 +1,5 @@
 import React from 'react'
-import PageLayout from 'layouts/PageLayout/PageLayout'
+import PageLayout from '../../src/components/Layouts/PageLayout.js'
 import { shallow } from 'enzyme'
 
 describe('(Layout) PageLayout', () => {

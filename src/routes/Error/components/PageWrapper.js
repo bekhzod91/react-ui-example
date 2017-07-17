@@ -36,7 +36,7 @@ const styles = {
   }
 }
 
-export const PageWrapper = ({ classes, title, children }) => (
+const PageWrapper = ({ classes, title, children }) => (
   <BgImgWrapper>
     <div className={classes.content}>
       <h1 className={classes.h1}>{title}</h1>

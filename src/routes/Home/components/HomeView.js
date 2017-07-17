@@ -1,7 +1,7 @@
 import React from 'react'
 import './HomeView.scss'
 
-export const HomeView = () => (
+const HomeView = () => (
   <div>
     <h4>Welcome!</h4>
   </div>

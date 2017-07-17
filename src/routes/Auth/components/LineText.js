@@ -20,7 +20,7 @@ const styles = {
   }
 }
 
-export const LineText = ({ classes, text }) => (
+const LineText = ({ classes, text }) => (
   <div className={classes.loginOption}>
     <span>{text}</span>
     <hr />

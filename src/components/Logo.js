@@ -19,7 +19,7 @@ const styles = {
   }
 }
 
-export const Logo = ({ classes }) => (
+const Logo = ({ classes }) => (
   <div className={classes.logo}>
     <img src={logoImg} className={classes.logoImg} alt="logo" />
   </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import PageWrapper from './PageWrapper'
 
-export const Page500 = () => (
+const Page500 = () => (
   <PageWrapper title="500">
     <span style={{ fontSize: '2em' }}>Whoops!</span>
     <br />

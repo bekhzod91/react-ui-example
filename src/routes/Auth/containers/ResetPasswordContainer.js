@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
 import ResetPassword from '../components/ResetPassword'
-import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/withState/Snackbar/actions'
+import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/WithState/Snackbar/actions'
 import { FORM } from '../components/ResetPasswordForm'
 import actions from '../actions/resetPassword'
 

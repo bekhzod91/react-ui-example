@@ -5,11 +5,11 @@ import { compose, withState } from 'recompose'
 import injectSheet from 'react-jss'
 import { Toolbar } from 'material-ui/Toolbar'
 import Drawer from 'material-ui/Drawer'
-import LeftAppBar from './LeftAppBar'
-import RightAppBar from './RightAppBar'
-import BigSideBarMenu from './BigSidebarMenu'
-import SmallSidebarMenu from './SmallSidebarMenu'
-import * as STYLE from '../styles/style'
+import LeftAppBar from '../LeftAppBar'
+import RightAppBar from '../RightAppBar'
+import BigSideBarMenu from '../BigSidebarMenu'
+import SmallSidebarMenu from '../SmallSidebarMenu'
+import * as STYLE from '../../styles/style'
 
 const styles = {
   appBar: {

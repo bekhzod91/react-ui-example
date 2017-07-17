@@ -1,12 +1,12 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import Layout from '../../../components/Layout'
+import DashboardLayout from '../../../components/Layouts/DashboardLayout'
 
 const Dashboard = () => {
   return (
-    <Layout>
+    <DashboardLayout>
       <div style={{ fontSize: '20px' }}>Content!</div>
-    </Layout>
+    </DashboardLayout>
   )
 }
 

@@ -1,7 +1,7 @@
 import { SIGN_IN } from '../../../constants/actionTypes'
 
 // ------------------------------------
-// Action setToken
+// Action set token to store
 // ------------------------------------
 export const setTokenAction = (data) => {
   return {
@@ -10,6 +10,16 @@ export const setTokenAction = (data) => {
   }
 }
 
+// ------------------------------------
+// Action clear token form store
+// ------------------------------------
+export const clearTokenAction = () => {
+  return {
+    type: `${SIGN_IN}_CLEAR`
+  }
+}
+
 export const actions = {
-  setTokenAction
+  setTokenAction,
+  clearTokenAction
 }

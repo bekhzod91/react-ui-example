@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { compose, branch, renderNothing } from 'recompose'
 import * as ROUTE from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
 const styles = {
   title: wrapStyle.title,
@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-export const SignUpMessageResend = ({ classes, email, firstName }) => (
+const SignUpMessageResend = ({ classes, email, firstName }) => (
   <AuthLayout
     title={`Message Sent`}
     loading={false}>

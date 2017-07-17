@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import IconButton from 'material-ui/IconButton'
-import AccountIcon from './AccountIcon'
+import AccountIcon from './Icon/AccountIcon'
 
 const AccountButton = (props) => {
   const { position, positionChange } = props

@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 import { compose, branch, renderNothing } from 'recompose'
 import { Link } from 'react-router'
 import * as ROUTE from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
 const styles = {
   footer: wrapStyle.footer
 }
 
-export const RecoveryThankYou = ({ classes, email, firstName, changeEmail }) => (
+const RecoveryThankYou = ({ classes, email, firstName, changeEmail }) => (
   <AuthLayout
     title={`Thank you ${firstName}`}
     loading={false}>

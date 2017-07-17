@@ -3,7 +3,7 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
-import AuthLayout, { styles as wrapStyle } from '../../../components/AuthLayout'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 import SignInForm from '../components/SignInForm'
 import LineText from '../components/LineText'
 import SocialButtons from '../components/SocialButtons'
@@ -12,7 +12,7 @@ const styles = {
   footer: wrapStyle.footer
 }
 
-export const SignIn = ({ classes, loading, onSubmit, buttons }) => (
+const SignIn = ({ classes, loading, onSubmit, buttons }) => (
   <AuthLayout
     title="Sign In to your account"
     loading={loading}>

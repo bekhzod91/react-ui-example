@@ -12,7 +12,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 import * as ROUTE from '../../../constants/routes'
 import { fromNow } from '../../../helpers/dateFormat'
 import * as STYLE from '../../../styles/style'
-import AuthLayout from '../../../components/AuthLayout'
+import AuthLayout from '../../../components/Layouts/AuthLayout'
 
 const styles = {
   loader: {

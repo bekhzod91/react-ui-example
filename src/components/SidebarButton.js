@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import IconButton from 'material-ui/IconButton'
-import SidebarIcon from './SidebarIcon'
+import SidebarIcon from './Icon/SidebarIcon'
 
 const styles = {
   sidebarButton: {

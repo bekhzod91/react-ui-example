@@ -3,24 +3,31 @@ import ReactDOM from 'react-dom'
 import ReactTestUtils from 'react-dom/test-utils'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
-import SignInSocialButtons from '../../../src/routes/Auth/components/SocialButtons'
+import SocialButtons from '../../../src/routes/Auth/components/SocialButtons'
 import MuiThemeProvider from '../../MuiThemeProvider'
 
 describe('(Component) SignInSocialButtons', () => {
-  let submit, handleSocialSignIn, component
+  let buttons, component
 
   beforeEach(() => {
-    submit = sinon.spy(() => Promise.resolve())
-
-    handleSocialSignIn = {
-      handleFacebookSignIn: sinon.spy(),
-      handleGooglePlusSignIn: sinon.spy(),
-      handleTwitterSignIn: sinon.spy(),
+    buttons = {
+      facebook: {
+        label: 'SignIn with Facebook',
+        handle: sinon.spy(),
+      },
+      google: {
+        label: 'SignIn with Google',
+        handle: sinon.spy(),
+      },
+      twitter: {
+        label: 'SignIn with Twitter',
+        handle: sinon.spy(),
+      }
     }
 
     component = mount(
       <MuiThemeProvider>
-        <SignInSocialButtons loading={false} onSubmit={submit} handleSocialSignIn={handleSocialSignIn} />
+        <SocialButtons buttons={buttons} />
       </MuiThemeProvider>
     )
   })
@@ -29,20 +36,23 @@ describe('(Component) SignInSocialButtons', () => {
     const element = component.find('#facebook')
     const node = ReactDOM.findDOMNode(element.node)
     ReactTestUtils.Simulate.touchTap(node)
-    expect(handleSocialSignIn.handleFacebookSignIn).to.have.property('callCount', 1)
+    expect(element.text()).to.equal('SignIn with Facebook')
+    expect(buttons.facebook.handle).to.have.property('callCount', 1)
   })
 
   it('google plus button touchtap event', () => {
     const element = component.find('#googleplus')
     const node = ReactDOM.findDOMNode(element.node)
     ReactTestUtils.Simulate.touchTap(node)
-    expect(handleSocialSignIn.handleGooglePlusSignIn).to.have.property('callCount', 1)
+    expect(element.text()).to.equal('SignIn with Google')
+    expect(buttons.google.handle).to.have.property('callCount', 1)
   })
 
   it('twitter button touchtap event', () => {
     const element = component.find('#twitter')
     const node = ReactDOM.findDOMNode(element.node)
     ReactTestUtils.Simulate.touchTap(node)
-    expect(handleSocialSignIn.handleTwitterSignIn).to.have.property('callCount', 1)
+    expect(element.text()).to.equal('SignIn with Twitter')
+    expect(buttons.twitter.handle).to.have.property('callCount', 1)
   })
 })

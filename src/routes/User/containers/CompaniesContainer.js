@@ -1,15 +1,12 @@
 import _ from 'lodash'
-import { compose, withPropsOnChange } from 'recompose'
+import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import Companies from '../components/Companies'
 import * as STATE from '../../../constants/state'
 import { fetchMyCompaniesAction } from '../actions/companeis'
 
 const mapStateToProps = (state) => ({
-  loading: (
-    _.get(state, [STATE.USER_COMPANIES, 'loading']) &&
-    !(_.get(state, [STATE.USER_COMPANIES, 'success']) || _.get(state, [STATE.USER_COMPANIES, 'failed']))
-  ),
+  loading: _.get(state, [STATE.USER_COMPANIES, 'loading']),
   list: _.get(state, [STATE.USER_COMPANIES, 'data']) || []
 })
 
@@ -19,7 +16,11 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withPropsOnChange(['loading'], (props) => {
-    !props.loading && props.fetchMyCompaniesAction()
+  mapPropsStream((props$) => {
+    props$
+      .first()
+      .subscribe(props => props.fetchMyCompaniesAction())
+
+    return props$
   })
 )(Companies)

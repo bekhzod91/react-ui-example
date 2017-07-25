@@ -1,5 +1,5 @@
 // We only need to import the modules necessary for initial render
-import PageLayout from '../components/Layouts/PageLayout'
+import PageLayout from './Home/containers/PageLayout'
 import Home from './Home'
 import Dashboard from './Dashboard'
 import Auth from './Auth'

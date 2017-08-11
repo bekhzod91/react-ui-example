@@ -1,12 +1,12 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
-import DashboardLayout from '../../../components/Layouts/DashboardLayout'
+import AppBar from '../../../components/AppBar'
 
 const Dashboard = () => {
   return (
-    <DashboardLayout>
+    <AppBar title={'Unkata'}>
       <div style={{ fontSize: '20px' }}>Content!</div>
-    </DashboardLayout>
+    </AppBar>
   )
 }
 

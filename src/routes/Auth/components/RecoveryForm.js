@@ -8,7 +8,7 @@ import RaisedButton from '../../../components/RaisedButton'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
 
-export const FORM_NAME = 'RecoverForm'
+export const FORM = 'RecoverForm'
 
 const styles = {
   generalError: {
@@ -34,7 +34,7 @@ const styles = {
 const enhance = compose(
   injectSheet(styles),
   reduxForm({
-    form: FORM_NAME
+    form: FORM
   })
 )
 

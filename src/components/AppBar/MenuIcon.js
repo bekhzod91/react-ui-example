@@ -9,7 +9,7 @@ import Avatar from 'material-ui/Avatar'
 import ActionDashboard from 'material-ui/svg-icons/action/dashboard'
 import ActionCardGiftcard from 'material-ui/svg-icons/action/card-giftcard'
 import Subheader from 'material-ui/Subheader'
-import avatar from './assets/photo.jpg'
+import avatar from '../assets/photo.jpg'
 import ActionDns from 'material-ui/svg-icons/action/dns'
 
 const styles = {

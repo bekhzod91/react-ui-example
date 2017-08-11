@@ -12,8 +12,12 @@ export default ({ getState }) => {
 
   axios.defaults.baseURL = API_URL
   axios.defaults.transformResponse = [(data, response) => {
-    if (response['content-type'] === 'application/json') {
+    if (_.get(response, 'content-type') === 'application/json') {
       return toCamelCase(JSON.parse(data))
+    }
+
+    if (_.isObject(data)) {
+      return toCamelCase(data)
     }
 
     return data

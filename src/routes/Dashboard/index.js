@@ -1,26 +1,25 @@
-import { injectReducer } from '../../store/reducers'
-import { COMPANY_MY_URL } from '../../constants/routes'
+import { injectReducers } from '../../reducers'
+import * as ROUTE from '../../constants/routes'
+import { startLoadingAction, finishLoadingAction } from '../../components/WithState/PageLoading/actions'
 import UserIsAuthenticated from '../../permissions/UserIsAuthenticated'
 
 export default (store) => ({
-  path : COMPANY_MY_URL,
-  /*  Async getComponent is only invoked when route matches   */
-  getComponent (nextState, cb) {
-    /*  Webpack - use 'require.ensure' to create a split point
-        and embed an async module loader (jsonp) when bundling   */
+  path: '',
+  getChildRoutes: (location, cb) => {
+    // Start loading
+    store.dispatch(startLoadingAction())
+
     require.ensure([], (require) => {
-      /*  Webpack - use require callback to define
-          dependencies for bundling   */
-      const Counter = require('./containers/DashboardContainer').default
-      const reducer = require('./actions/dashboard').default
-
-      /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'dashboard', reducer })
-
-      /*  Return getComponent   */
-      cb(null, UserIsAuthenticated(Counter))
-
-      /* Webpack named bundle   */
-    }, 'dashboard')
+      // injectReducers(store, require('./reducers').default)
+      cb(null, [
+        {
+          path: ROUTE.COMPANY_MY_URL,
+          component: UserIsAuthenticated(require('./containers/DashboardContainer').default)
+        },
+      ])
+    }, 'dashboard').then(() => {
+      // Finish loading
+      store.dispatch(finishLoadingAction())
+    })
   }
 })

@@ -14,7 +14,7 @@ export const fetchProfileAction = (data) => {
       .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
     return dispatch({
-      type: actionTypes.PROFILE,
+      type: actionTypes.USER_PROFILE,
       payload
     })
   }

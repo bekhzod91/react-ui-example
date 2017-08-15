@@ -1,9 +1,8 @@
-import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import MenuFullWidth from './MenuFullWidth'
 import MenuIcon from './MenuIcon'
-import menuList, { renderMenuList } from './MenuList'
+import menuList from './MenuList'
 
 const Menu = (props) => {
   const { open, showProfile } = props
@@ -11,10 +10,13 @@ const Menu = (props) => {
   return open ? (
     <MenuFullWidth
       showProfile={showProfile}
-      menuList={_.map(menuList, renderMenuList)}
+      menuList={menuList}
     />
   ) : (
-    <MenuIcon />
+    <MenuIcon
+      showProfile={showProfile}
+      menuList={menuList}
+    />
   )
 }
 

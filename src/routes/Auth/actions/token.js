@@ -1,4 +1,4 @@
-import { SIGN_IN } from '../../../constants/actionTypes'
+import { SIGN_IN } from '../constants/actionTypes'
 
 // ------------------------------------
 // Action set token to store

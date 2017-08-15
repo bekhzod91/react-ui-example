@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import axios from '../helpers/axios'
+import axios from '../../../helpers/axios'
 import * as actionTypes from '../constants/actionTypes'
 
 // ------------------------------------

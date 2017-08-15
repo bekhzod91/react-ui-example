@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import axios from '../../../helpers/axios'
-import * as globalActionTypes from '../../../constants/actionTypes'
 import * as actionTypes from '../constants/actionTypes'
 import { signInSerializer, twitterSignInSerializer } from '../serializers/SignInSerializer'
 
@@ -17,7 +16,7 @@ export const signInAction = (formValues) => {
       .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
     return dispatch({
-      type: globalActionTypes.SIGN_IN,
+      type: actionTypes.SIGN_IN,
       payload
     })
   }
@@ -53,7 +52,7 @@ export const twitterSingInAction = (data) => {
       .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
     return dispatch({
-      type: globalActionTypes.SIGN_IN,
+      type: actionTypes.SIGN_IN,
       payload
     })
   }
@@ -71,7 +70,7 @@ export const googleSingInAction = (data) => {
       .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
     return dispatch({
-      type: globalActionTypes.SIGN_IN,
+      type: actionTypes.SIGN_IN,
       payload
     })
   }
@@ -89,7 +88,7 @@ export const facebookSingInAction = (data) => {
       .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
 
     return dispatch({
-      type: globalActionTypes.SIGN_IN,
+      type: actionTypes.SIGN_IN,
       payload
     })
   }

@@ -1,3 +1,4 @@
+export const SIGN_IN = 'SIGN_IN'
 export const RECOVERY = 'RECOVERY'
 export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const TWITTER_REDIRECT = 'TWITTER_REDIRECT'

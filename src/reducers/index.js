@@ -2,9 +2,8 @@ import _ from 'lodash'
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import locationReducer from '../store/location'
-import * as STATE from '../constants/state'
-import * as actionTypes from '../constants/actionTypes'
-import thunkReducer from '../helpers/thunkReducer'
+import userReducers from '../routes/User/reducers/highOrderReducers'
+import authReducers from '../routes/Auth/reducers/highOrderReducers'
 import snackbarReducer from '../components/WithState/Snackbar/reducer'
 import pageLoadingReducer from '../components/WithState/PageLoading/reducer'
 
@@ -14,9 +13,8 @@ export const makeRootReducer = (asyncReducers) => {
     form: formReducer,
     snackbar: snackbarReducer(),
     pageLoading: pageLoadingReducer(),
-    [STATE.SING_IN]: thunkReducer(actionTypes.SIGN_IN),
-    [STATE.USER_PROFILE]: thunkReducer(actionTypes.USER_PROFILE),
-    [STATE.USER_PERMISSION]: thunkReducer(actionTypes.USER_PERMISSION),
+    ...userReducers,
+    ...authReducers,
     ...asyncReducers
   })
 }

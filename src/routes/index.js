@@ -1,6 +1,9 @@
 // We only need to import the modules necessary for initial render
-import PageLayout from './Home/containers/PageLayout'
-import Home from './Home'
+import { compose } from 'recompose'
+import BaseLayout from '../components/Layouts/BaseLayout'
+import AuthWrapperContainer from './Auth/containers/AuthWrapperContainer'
+import ProfileContainer from './User/containers/ProfileContainer'
+import PermissionContainer from './User/containers/PermissionContainer'
 import Dashboard from './Dashboard'
 import Auth from './Auth'
 import User from './User'
@@ -11,8 +14,12 @@ import Error from './Error'
 
 export const createRoutes = (store) => ({
   path        : '/',
-  component   : PageLayout,
-  indexRoute  : Home,
+  component   : compose(
+    AuthWrapperContainer,
+    ProfileContainer,
+    PermissionContainer
+  )(BaseLayout),
+  indexRoute  : Dashboard(store),
   childRoutes : [
     Dashboard(store),
     Auth(store),

@@ -3,73 +3,89 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import Menu from 'material-ui/Menu'
-import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
 import Avatar from 'material-ui/Avatar'
-import ActionDashboard from 'material-ui/svg-icons/action/dashboard'
-import ActionCardGiftcard from 'material-ui/svg-icons/action/card-giftcard'
-import Subheader from 'material-ui/Subheader'
+import * as STYLE from '../../styles/style'
 import avatar from '../assets/photo.jpg'
-import ActionDns from 'material-ui/svg-icons/action/dns'
 
-const styles = {
-  menuItemStyle: {
-    width: '58px',
-    borderRadius: '0px !important',
-    padding: '0 0 8px 0',
-  },
-  subheader: {
-    lineHeight: '33px',
-    fontWeight: 700
+export const renderMenuItems = (item, index, showTitle) => {
+  const title = _.get(item, 'title')
+  const icon = _.get(item, 'icon')
+  const name = _.get(item, 'name')
+  const children = _.get(item, 'children')
+
+  if (!_.isEmpty(children)) {
+    return (
+      <MenuItem
+        key={index}
+        leftIcon={icon}
+        value={name}
+        anchorOrigin={{ horizontal:'right', vertical:'top' }}
+        targetOrigin={{ horizontal:'left', vertical:'top' }}
+        menuItems={_.map(children, (item, index) => renderMenuItems(item, index, true))}
+      />
+    )
   }
-}
 
-const SmallSidebarMenu = ({ open, classes }) => {
-  const accountState = _.get(open, 'account')
   return (
-    <div>
-      {accountState && <Avatar src={avatar} style={{ margin: '10px 0 0 10px' }} />}
-      <Menu
-        autoWidth={false}
-        menuItemStyle={styles.menuItemStyle}>
-        <MenuItem
-          leftIcon={<ActionDashboard />}
-          anchorOrigin={{ horizontal:'right', vertical:'top' }}
-          targetOrigin={{ horizontal:'left', vertical:'top' }}
-          menuItems={[
-            <Subheader style={styles.subheader}>Actions</Subheader>,
-            <Divider />,
-            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
-            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
-          ]} />
-        <MenuItem
-          leftIcon={<ActionCardGiftcard />}
-          anchorOrigin={{ horizontal:'right', vertical:'top' }}
-          targetOrigin={{ horizontal:'left', vertical:'top' }}
-          menuItems={[
-            <Subheader style={styles.subheader}>Actions</Subheader>,
-            <Divider />,
-            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
-            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
-          ]} />
-        <MenuItem
-          leftIcon={<ActionDns />}
-          anchorOrigin={{ horizontal:'right', vertical:'top' }}
-          targetOrigin={{ horizontal:'left', vertical:'top' }}
-          menuItems={[
-            <Subheader style={styles.subheader}>Actions</Subheader>,
-            <Divider />,
-            <MenuItem primaryText="Starred" leftIcon={<ActionDns />} />,
-            <MenuItem primaryText="Sent Mail" leftIcon={<ActionDns />} />
-          ]} />
-      </Menu>
-    </div>
+    <MenuItem
+      key={index}
+      primaryText={showTitle ? title : null}
+      value={name}
+      leftIcon={icon}
+    />
   )
 }
 
-SmallSidebarMenu.propTypes = {
-  open: PropTypes.object,
-  classes: PropTypes.object.isRequired
+const styles = {
+  activeMenu: {
+    borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`,
+    backgroundColor: STYLE.HOVER_COLOR,
+    marginRight: '4px'
+  },
+  inActiveMenu: {},
+  avatar: {
+    margin: '10px 0 0 10px'
+  },
+  cardAnimation: (animation) => {
+    return animation ? {
+      maxHeight: '500px',
+      transition: 'max-height 1s ease-in',
+      overflow: 'hidden'
+    } : {
+      maxHeight: '0',
+      transition: 'max-height 0.5s ease-out',
+      overflow: 'hidden'
+    }
+  },
+  menuItemStyle: {
+    width: '56px',
+    borderRadius: '0px !important',
+    padding: '0 0 8px 0',
+  }
 }
 
-export default injectSheet(styles)(SmallSidebarMenu)
+const MenuIcon = ({ classes, ...props }) => (
+  <div>
+    <Avatar
+      src={avatar}
+      style={styles.cardAnimation(props.showProfile)}
+      className={classes.avatar}
+    />
+    <Menu
+      value="cards"
+      autoWidth={false}
+      menuItemStyle={styles.menuItemStyle}
+      selectedMenuItemStyle={styles.activeMenu}>
+      {_.map(props.menuList, (item, index) => renderMenuItems(item, index, false))}
+    </Menu>
+  </div>
+)
+
+MenuIcon.propTypes = {
+  showProfile: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired,
+  menuList: PropTypes.array.isRequired,
+}
+
+export default injectSheet(styles)(MenuIcon)

@@ -5,22 +5,15 @@ import { browserHistory } from 'react-router'
 import * as STATE from '../../../constants/state'
 import * as ROUTE from '../../../constants/routes'
 import { getToken, clearToken } from '../../../helpers/token'
-import { fetchProfileAction } from '../../../actions/profile'
-import PageLayout from '../../../components/Layouts/PageLayout'
-import { setTokenAction, clearTokenAction } from '../../../routes/User/actions/token'
-import { getPermissionsAction } from '../../../actions/permissions'
+import { fetchProfileAction } from '../actions/profile'
 
 const mapStateToProps = (state) => ({
-  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
   loading: _.get(state, [STATE.USER_PROFILE, 'loading'])
 })
 
-const enhance = compose(
+export default compose(
   connect(mapStateToProps, {
-    fetchProfileAction,
-    setTokenAction,
-    clearTokenAction,
-    getPermissionsAction
+    fetchProfileAction
   }),
   lifecycle({
     componentWillMount () {
@@ -41,15 +34,6 @@ const enhance = compose(
           })
       })
 
-    props$
-      .filter((props) => props.params.id)
-      .distinctUntilChanged(null, (props) => props.params.id)
-      .subscribe((props) => {
-        props.getPermissionsAction(props.params.id)
-      })
-
     return props$
   })
 )
-
-export default enhance(PageLayout)

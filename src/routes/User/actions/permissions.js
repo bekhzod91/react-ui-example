@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import sprintf from 'sprintf'
-import axios from '../helpers/axios'
+import axios from '../../../helpers/axios'
 import * as actionsTypes from '../constants/actionTypes'
 
 // ------------------------------------

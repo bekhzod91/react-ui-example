@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import withStyles from 'material-ui-next/styles/withStyles'
 import * as ROUTE from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
@@ -37,4 +37,4 @@ SingUpConfirm.propTypes = {
   failed: PropTypes.bool.isRequired,
 }
 
-export default injectSheet(styles)(SingUpConfirm)
+export default withStyles(styles)(SingUpConfirm)

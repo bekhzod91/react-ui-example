@@ -24,10 +24,13 @@ const styles = {
   },
 
   menuAction: {
-    color: 'white',
     position: 'absolute',
     display: 'flex',
     transform: props => _.get(props, 'menuOpen') ? 'translate(250px)' : 'translate(50px)'
+  },
+
+  icon: {
+    color: STYLE.ICON_COLOR
   }
 }
 
@@ -41,11 +44,16 @@ const TopBarLeft = ({ classes, title, menuOpen, setMenuOpen, setShowProfile }) =
       {menuOpen && <ToolbarTitle text={title} className={classes.title} />}
 
       <div className={classes.menuAction}>
-        <IconButton onTouchTap={setMenuOpen} className={classes.sidebar}>
+        <IconButton
+          iconStyle={styles.icon}
+          className={classes.sidebar}
+          onTouchTap={setMenuOpen}>
           <SidebarIcon />
         </IconButton>
 
-        <IconButton onTouchTap={setShowProfile}>
+        <IconButton
+          iconStyle={styles.icon}
+          onTouchTap={setShowProfile}>
           <AccountIcon />
         </IconButton>
       </div>

@@ -2,23 +2,34 @@ import _ from 'lodash'
 import sprintf from 'sprintf'
 import React from 'react'
 import PropTypes from 'prop-types'
-import injectSheet from 'react-jss'
 import { browserHistory } from 'react-router'
-import Avatar from 'material-ui/Avatar'
-import { List, ListItem } from 'material-ui/List'
-import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
-import CircularProgress from 'material-ui/CircularProgress'
+import Avatar from 'material-ui-next/Avatar'
+import List, {
+  ListItem, ListItemAvatar, ListItemText
+} from 'material-ui-next/List'
+import Divider from 'material-ui-next/Divider'
+import CircularProgress from 'material-ui-next/Progress/CircularProgress'
+import withStyles from 'material-ui-next/styles/withStyles'
+import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
+import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import * as ROUTE from '../../../constants/routes'
 import { fromNow } from '../../../helpers/dateFormat'
-import * as STYLE from '../../../styles/style'
 import AuthLayout from '../../../components/Layouts/AuthLayout'
 
-const styles = {
+const styles = theme => ({
+  avatarWithOutLogo: {
+    color: theme.palette.primary['A100'],
+    backgroundColor: theme.palette.primary['A700']
+  },
+
   loader: {
     display: 'flex',
     justifyContent: 'center',
     margin: '80px 0 '
+  },
+
+  companyItem: {
+    padding: '15px 10px !important'
   },
 
   companyLogo: {
@@ -28,24 +39,11 @@ const styles = {
   goBack: {
     marginTop: '20px !important',
     fontWeight: '700 !important',
-  },
-
-  loginOption: {
-    textAlign: 'center',
-    margin: '25px auto 0',
-    minHeight: 15,
-    position: 'relative',
-
-    '& span': {
-      position: 'absolute',
-      top: -9,
-      background: '#fff',
-      padding: '0 15px',
-      margin: 'auto',
-      left: '42%'
+    '& h3': {
+      fontSize: '14px'
     }
-  },
-}
+  }
+})
 
 const Companies = ({ classes, loading, list }) => {
   const companies = _.map(list, (item, index) => {
@@ -66,23 +64,25 @@ const Companies = ({ classes, loading, list }) => {
       />
     ) : (
       <Avatar
-        color={STYLE.PRIMARY_50_COLOR}
-        backgroundColor={STYLE.PRIMARY_COLOR}
+        className={classes.avatarWithOutLogo}
         size={40}
         style={styles.companyLogo}
       >{_.get(name, 0)}</Avatar>
     )
 
     return (
-      <ListItem
-        key={index}
-        insetChildren={true}
-        primaryText={name}
-        secondaryText={activityInfo}
-        leftAvatar={logo}
-        onTouchTap={() => browserHistory.push(companyPage)}
-        rightIcon={<KeyboardArrowRight />}
-      />
+      <div>
+        <ListItem
+          key={index}
+          button={true}
+          className={classes.companyItem}
+          onTouchTap={() => browserHistory.push(companyPage)}>
+          <ListItemAvatar>{logo}</ListItemAvatar>
+          <ListItemText primary={name} secondary={activityInfo} />
+          <KeyboardArrowRight />
+        </ListItem>
+        <Divider light={true} />
+      </div>
     )
   })
 
@@ -92,15 +92,15 @@ const Companies = ({ classes, loading, list }) => {
     </div>
   ) : (
     <List>
+      <Divider light={true} />
       {companies}
-
       <ListItem
-        insetChildren={true}
+        button={true}
         className={classes.goBack}
-        primaryText="Go back"
-        onTouchTap={() => browserHistory.push(ROUTE.SIGN_IN_URL)}
-        leftIcon={<KeyboardArrowLeft />}
-      />
+        onTouchTap={() => browserHistory.push(ROUTE.SIGN_IN_URL)}>
+        <KeyboardArrowLeft />
+        <ListItemText primary="Go back" />
+      </ListItem>
     </List>
   )
 
@@ -121,4 +121,4 @@ Companies.propTypes = {
   loading: PropTypes.bool.isRequired,
 }
 
-export default injectSheet(styles)(Companies)
+export default withStyles(styles)(Companies)

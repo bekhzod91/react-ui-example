@@ -1,7 +1,7 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import withStyles from 'material-ui-next/styles/withStyles'
 import * as ROUTER from '../../../constants/routes'
 import ResetPasswordForm from '../components/ResetPasswordForm'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
@@ -30,4 +30,4 @@ RecoveryVerify.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 }
 
-export default injectSheet(styles)(RecoveryVerify)
+export default withStyles(styles)(RecoveryVerify)

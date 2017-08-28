@@ -1,15 +1,16 @@
 import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, withState } from 'recompose'
+import { compose, withState, withHandlers } from 'recompose'
 import injectSheet from 'react-jss'
 import { Toolbar } from 'material-ui/Toolbar'
 import Drawer from 'material-ui/Drawer'
-import { getStorage, setStorage} from '../../helpers/localStorage'
+import { getStorage, setStorage } from '../../helpers/localStorage'
 import Menu from './Menu'
 import TopBarLeft from './TopBarLeft'
 import TopBarRight from './TopBarRight'
 import * as STYLE from '../../styles/style'
+import * as STATE from '../../constants/state'
 
 const styles = {
   topBar: {
@@ -27,10 +28,10 @@ const styles = {
 
   content: {
     transition: 'padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1)',
-    marginLeft: '25px',
+    marginLeft: props => _.get(props, ['state', 'menuOpen']) ? '256px' : '56px',
     paddingTop: '80px !important',
-    paddingRight: '20px !important',
-    paddingLeft: props => _.get(props, ['state', 'open']) ? '255px' : '50px'
+    paddingRight: '10px',
+    paddingLeft: '10px'
   },
 
   drawer: {
@@ -44,59 +45,81 @@ const styles = {
 }
 
 const enhance = compose(
-  injectSheet(styles),
   withState('state', 'setState', {
     menuOpen: getStorage('menuOpen', false),
     showProfile: getStorage('showProfile', false)
-  })
+  }),
+  withHandlers({
+    setMenuOpen: ({ state, setState }) => () => {
+      setStorage('menuOpen', !state.menuOpen)
+      setState({ ...state, menuOpen: !state.menuOpen })
+    },
+    setShowProfile: ({ state, setState, ...props }) => () => {
+      setStorage('showProfile', !state.showProfile)
+      setState({ ...state, showProfile: !state.showProfile })
+    }
+  }),
+  injectSheet(styles)
 )
 
-const AppBar = ({ classes, children, title, state, setState }) => {
-  const menuOpen = _.get(state, 'menuOpen')
-  const showProfile = _.get(state, 'showProfile')
-  const setMenuOpen = () => {
-    setStorage('menuOpen', !menuOpen)
-    setState({ ...state, menuOpen: !menuOpen })
-  }
-  const setShowProfile = () => {
-    setStorage('showProfile', !showProfile)
-    setState({ ...state, showProfile: !showProfile })
-  }
+const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile }) => (
+  <div>
+    <Toolbar className={classes.topBar}>
+      <TopBarLeft
+        title={title}
+        profile={profile}
+        menuOpen={state.menuOpen}
+        setMenuOpen={setMenuOpen}
+        setShowProfile={setShowProfile}
+      />
+      <TopBarRight />
+    </Toolbar>
 
-  return (
-    <div>
-      <Toolbar className={classes.topBar}>
-        <TopBarLeft
-          title={title}
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-          setShowProfile={setShowProfile}
-        />
-        <TopBarRight />
-      </Toolbar>
+    <Drawer
+      open={true}
+      containerClassName={classes.drawer}
+      containerStyle={styles.drawerContainer(state.menuOpen)}>
+      <Menu
+        profile={profile}
+        open={state.menuOpen}
+        showProfile={state.showProfile} />
+    </Drawer>
 
-      <Drawer
-        open={true}
-        containerClassName={classes.drawer}
-        containerStyle={styles.drawerContainer(menuOpen)}>
-        <Menu
-          open={menuOpen}
-          showProfile={showProfile} />
-      </Drawer>
-
-      <div className={classes.content}>
-        {children}
-      </div>
+    <div
+      className={classes.content}>
+      {children}
     </div>
-  )
-}
+  </div>
+)
 
 AppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.object.isRequired,
+  state: PropTypes.shape({
+    menuOpen: PropTypes.bool.isRequired,
+    showProfile: PropTypes.bool.isRequired
+  }).isRequired,
+  setMenuOpen: PropTypes.func.isRequired,
+  setShowProfile: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  state: PropTypes.object.isRequired,
-  setState: PropTypes.func.isRequired
+  profile: PropTypes.object.isRequired
+}
+
+export const getAppBarState = (state, companyId) => {
+  const company = _
+    .chain(state)
+    .get([STATE.USER_COMPANIES, 'data'])
+    .filter((item) => item.id === _.toInteger(companyId))
+    .first()
+    .value()
+
+  return {
+    profile: {
+      email: _.get(state, [STATE.USER_PROFILE, 'data', 'email']),
+      image: _.get(state, [STATE.USER_PROFILE, 'data', 'image']),
+    },
+    title: _.get(company, 'name') || ''
+  }
 }
 
 export default enhance(AppBar)

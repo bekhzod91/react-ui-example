@@ -69,7 +69,7 @@ const styles = {
     paddingTop: '0'
   },
   cardTitle: {
-    padding: '12px 16px'
+    padding: '13px 16px'
   },
   cardAnimation: (animation) => {
     return animation ? {
@@ -85,8 +85,12 @@ const styles = {
   collapse: {
     position: 'absolute',
     right: '10px',
-    top: '-2px',
+    top: '0',
     color: '#ccc',
+  },
+  dropDownButton: {
+    height: '42px !important',
+    padding: '10px !important'
   }
 }
 
@@ -106,9 +110,14 @@ const MenuFullWidth = ({ classes, state, ...props }) => (
       <CardMedia
         overlayContentStyle={styles.overlay}
         overlay={
-          <CardTitle style={styles.cardTitle} subtitle="admin@example.com" expandable={false}>
+          <CardTitle
+            style={styles.cardTitle}
+            subtitle={_.get(props, ['profile', 'email'])}
+            expandable={false}>
             <div className={classes.collapse}>
-              <IconButton onTouchTap={props.handleShowSettings}>
+              <IconButton
+                className={classes.dropDownButton}
+                onTouchTap={props.handleShowSettings}>
                 {state ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               </IconButton>
             </div>
@@ -156,6 +165,7 @@ MenuFullWidth.propTypes = {
   state: PropTypes.bool.isRequired,
   menuList: PropTypes.array.isRequired,
   handleShowSettings: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
 export default enhance(MenuFullWidth)

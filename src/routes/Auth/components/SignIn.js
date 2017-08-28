@@ -1,7 +1,7 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import withStyles from 'material-ui-next/styles/withStyles'
 import * as ROUTER from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 import SignInForm from '../components/SignInForm'
@@ -37,4 +37,4 @@ SignIn.propTypes = {
   buttons: PropTypes.any.isRequired
 }
 
-export default injectSheet(styles)(SignIn)
+export default withStyles(styles)(SignIn)

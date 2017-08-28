@@ -1,6 +1,6 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import withStyles from 'material-ui-next/styles/withStyles'
 import { browserHistory } from 'react-router'
 import RaisedButton from 'material-ui/RaisedButton'
 import * as ROUTE from '../../../constants/routes'
@@ -57,4 +57,4 @@ PageWrapper.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default injectSheet(styles)(PageWrapper)
+export default withStyles(styles)(PageWrapper)

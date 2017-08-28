@@ -1,62 +1,54 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../components/Form/SimpleFields/TextField'
-import RaisedButton from '../../../components/RaisedButton'
+import withStyles from 'material-ui-next/styles/withStyles'
+import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
+import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
-import * as STYLE from '../../../styles/style'
 
 export const FORM = 'RecoverForm'
 
-const styles = {
-  generalError: {
+const styles = theme => ({
+  errors: {
     textAlign: 'center',
-    color: STYLE.DANGER_COLOR,
+    color: theme.palette.error['A200'],
   },
 
-  loginAction: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    padding: '15px 0 0px',
-  },
-
-  signInButton: {
+  button: {
     marginTop: '40px',
-    marginBottom: '10px'
-  },
-}
+    marginBottom: '10px',
+    minHeight: '44px',
+  }
+})
 
 const enhance = compose(
-  injectSheet(styles),
   reduxForm({
     form: FORM
-  })
+  }),
+  withStyles(styles)
 )
 
 const RecoverForm = ({ classes, error, handleSubmit, ...props }) => (
   <form onSubmit={handleSubmit(() => props.onSubmit().catch(validate))}>
-    {error && <div className={classes.generalError}>{error}</div>}
+    {error && <div className={classes.errors}>{error}</div>}
 
     <Field
       name="email"
-      component={TextField}
-      hintText="Email"
-      floatingLabelText="Enter Email"
+      component={TextFieldNext}
+      label="Email"
+      placeholder="Enter Email"
       fullWidth={true}
+      margin="normal"
     /><br />
 
-    <RaisedButton
+    <Button
       type="submit"
-      className={classes.signInButton}
-      label="Reset"
-      primary={true}
-      fullWidth={true}
-    />
+      color="primary"
+      className={classes.button}
+      fullWidth={true}>
+      Reset
+    </Button>
   </form>
 )
 

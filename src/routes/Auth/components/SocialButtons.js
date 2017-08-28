@@ -1,49 +1,73 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import withStyles from 'material-ui-next/styles/withStyles'
 import FaceBookIcon from '../../../components/Icon/FaceBookIcon'
 import GooglePlusIcon from '../../../components/Icon/GooglePlusIcon'
 import TwitterIcon from '../../../components/Icon/TwitterIcon'
-import RaisedButton from '../../../components/RaisedButton'
-import * as STYLE from '../../../styles/style'
+import Button from '../../../components/Button'
 
-const SocialButtons = ({ buttons }) => (
+const styles = theme => ({
+  button: {
+    margin: '10px 0',
+    color: theme.palette.text.primary
+  },
+  icon: {
+    marginRight: '5px'
+  },
+  facebookButton: {
+    color: theme.app.facebookTextColor,
+    backgroundColor: theme.app.facebookColor,
+    '&:hover': {
+      backgroundColor: `${theme.app.facebookColor}`
+    }
+  },
+  googlePlusButton: {
+    color: theme.app.googlePlusTextColor,
+    backgroundColor: theme.app.googlePlusColor,
+    '&:hover': {
+      backgroundColor: `${theme.app.googlePlusColor}`
+    }
+  },
+  twitterButton: {
+    color: theme.app.twitterTextColor,
+    backgroundColor: theme.app.twitterColor,
+    '&:hover': {
+      backgroundColor: `${theme.app.twitterColor}`
+    }
+  },
+})
+
+const SocialButtons = ({ classes, buttons }) => (
   <div>
-    <RaisedButton
+    <Button
       id="facebook"
-      label={buttons.facebook.label}
-      labelColor={STYLE.SECOND_TEXT_COLOR}
-      icon={<FaceBookIcon />}
       fullWidth={true}
-      backgroundColor={STYLE.SOCIAL_FACEBOOK_COLOR}
-      style={{ margin: '12px 0' }}
       onTouchTap={buttons.facebook.handle}
-    />
+      className={classNames(classes.button, classes.facebookButton)}>
+      <FaceBookIcon className={classes.icon} />{buttons.facebook.label}
+    </Button>
 
-    <RaisedButton
+    <Button
       id="googleplus"
-      label={buttons.google.label}
-      labelColor={STYLE.SECOND_TEXT_COLOR}
-      icon={<GooglePlusIcon />}
       fullWidth={true}
-      backgroundColor={STYLE.SOCIAL_GOOGLEPLUS_COLOR}
-      style={{ margin: '12px 0' }}
       onTouchTap={buttons.google.handle}
-    />
+      className={classNames(classes.button, classes.googlePlusButton)}>
+      <GooglePlusIcon className={classes.icon} /> {buttons.google.label}
+    </Button>
 
-    <RaisedButton
+    <Button
       id="twitter"
-      label={buttons.twitter.label}
-      labelColor={STYLE.SECOND_TEXT_COLOR}
-      icon={<TwitterIcon />}
       fullWidth={true}
-      backgroundColor={STYLE.SOCIAL_TWITTER_COLOR}
-      style={{ margin: '12px 0' }}
       onTouchTap={buttons.twitter.handle}
-    />
+      className={classNames(classes.button, classes.twitterButton)}>
+      <TwitterIcon className={classes.icon} /> {buttons.twitter.label}
+    </Button>
   </div>
 )
 
 SocialButtons.propTypes = {
+  classes: PropTypes.object.isRequired,
   buttons: PropTypes.shape({
     facebook: PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -60,4 +84,4 @@ SocialButtons.propTypes = {
   })
 }
 
-export default SocialButtons
+export default withStyles(styles)(SocialButtons)

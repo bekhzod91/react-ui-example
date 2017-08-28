@@ -1,9 +1,12 @@
 export const getStorage = (key, defaultValue = null) => {
-  try {
-    return JSON.parse(localStorage.getItem(key))
-  } catch (e) {
-    return defaultValue
+  const value = localStorage.getItem(key)
+  if (value) {
+    try {
+      return JSON.parse(value)
+    } catch (e) {}
   }
+
+  return defaultValue
 }
 
 export const setStorage = (key, value) => {

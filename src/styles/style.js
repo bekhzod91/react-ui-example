@@ -17,6 +17,7 @@ export const DANGER_COLOR = '#EF5350'
 export const DEFAULT_TEXT_COLOR = '#758396'
 export const SECOND_TEXT_COLOR = '#fff'
 export const HOVER_COLOR = '#eaf3f8'
+export const ICON_COLOR = '#fff'
 
 // Social
 export const SOCIAL_FACEBOOK_COLOR = '#3b5998'

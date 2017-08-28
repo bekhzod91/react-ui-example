@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import { compose, branch, renderNothing } from 'recompose'
 import { Link } from 'react-router'
+import withStyles from 'material-ui-next/styles/withStyles'
 import * as ROUTE from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
@@ -39,10 +39,10 @@ RecoveryThankYou.propTypes = {
 }
 
 const enhance = compose(
-  injectSheet(styles),
   (render =>
     branch(render, renderNothing)
   )(props => !_.get(props, 'email')),
+  withStyles(styles)
 )
 
 export default enhance(RecoveryThankYou)

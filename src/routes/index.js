@@ -2,6 +2,7 @@
 import { compose } from 'recompose'
 import BaseLayout from '../components/Layouts/BaseLayout'
 import AuthWrapperContainer from './Auth/containers/AuthWrapperContainer'
+import CompanyContainer from './User/containers/CompanyContainer'
 import ProfileContainer from './User/containers/ProfileContainer'
 import PermissionContainer from './User/containers/PermissionContainer'
 import Dashboard from './Dashboard'
@@ -16,6 +17,7 @@ export const createRoutes = (store) => ({
   path        : '/',
   component   : compose(
     AuthWrapperContainer,
+    CompanyContainer,
     ProfileContainer,
     PermissionContainer
   )(BaseLayout),

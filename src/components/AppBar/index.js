@@ -1,3 +1,5 @@
-import AppBar from './AppBar'
+import AppBar, { getAppBarState } from './AppBar'
+
+export { getAppBarState }
 
 export default AppBar

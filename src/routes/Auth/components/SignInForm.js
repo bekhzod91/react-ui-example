@@ -1,13 +1,13 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import withStyles from 'material-ui-next/styles/withStyles'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
-import TextField from '../../../components/Form/SimpleFields/TextField'
+import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
 import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
-import RaisedButton from '../../../components/RaisedButton'
+import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
 
@@ -23,20 +23,21 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    padding: '15px 0 0px',
+    padding: '0px',
   },
 
   signInButton: {
     marginTop: '40px',
-    marginBottom: '10px'
+    marginBottom: '10px',
+    minHeight: '44px !important',
   },
 }
 
 const enhance = compose(
-  injectSheet(styles),
   reduxForm({
     form: 'SignInForm'
-  })
+  }),
+  withStyles(styles)
 )
 
 export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
@@ -45,19 +46,21 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
 
     <Field
       name="email"
-      component={TextField}
-      hintText="Email"
-      floatingLabelText="Enter Email"
+      component={TextFieldNext}
+      label="Email"
+      placeholder="Enter Email"
       fullWidth={true}
+      margin="normal"
     /><br />
 
     <Field
       name="password"
-      component={TextField}
       type="password"
-      hintText="Password"
-      floatingLabelText="Enter Password"
+      component={TextFieldNext}
+      label="Password"
+      placeholder="Enter Password"
       fullWidth={true}
+      margin="normal"
     /><br />
 
     <div className={classes.loginAction}>
@@ -65,20 +68,17 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
         name="rememberMe"
         component={Checkbox}
         label="Remember me"
-        labelStyle={{ fontWeight: 400 }}
-        style={{ maxWidth: '200px' }}
       />
 
       <Link to={ROUTER.RECOVERY_URL}>Forgot Password?</Link>
     </div>
 
-    <RaisedButton
+    <Button
       type="submit"
-      className={classes.signInButton}
-      label="Sign In"
-      primary={true}
-      fullWidth={true}
-    />
+      color="primary"
+      className={classes.signInButton}>
+      Sign In
+    </Button>
   </form>
 )
 

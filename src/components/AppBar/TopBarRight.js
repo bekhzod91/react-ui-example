@@ -1,11 +1,26 @@
 import React from 'react'
 import { ToolbarGroup } from 'material-ui/Toolbar'
-import AvPlaylistAdd from 'material-ui/svg-icons/av/playlist-add'
+import IconButton from 'material-ui/IconButton'
+import AvPlaylistAddIcon from 'material-ui/svg-icons/av/playlist-add'
+import LockOutlineIcon from 'material-ui/svg-icons/action/lock-outline'
+import * as STYLE from '../../styles/style'
+
+const styles = {
+  icon: {
+    color: STYLE.ICON_COLOR
+  }
+}
 
 const RightAppBar = () => {
   return (
     <ToolbarGroup>
-      <AvPlaylistAdd style={{ color: 'white' }} />
+      <IconButton iconStyle={styles.icon}>
+        <LockOutlineIcon />
+      </IconButton>
+
+      <IconButton iconStyle={styles.icon} >
+        <AvPlaylistAddIcon />
+      </IconButton>
     </ToolbarGroup>
   )
 }

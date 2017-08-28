@@ -1,5 +1,5 @@
 import React from 'react'
-import injectSheet from 'react-jss'
+import withStyles from 'material-ui-next/styles/withStyles'
 import PropTypes from 'prop-types'
 
 const styles = {
@@ -32,4 +32,4 @@ LineText.propTypes = {
   text: PropTypes.string.isRequired,
 }
 
-export default injectSheet(styles)(LineText)
+export default withStyles(styles)(LineText)

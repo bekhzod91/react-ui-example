@@ -10,7 +10,7 @@ import authReducers from '../../../src/routes/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import TextField from '../../../src/components/Form/SimpleFields/TextField'
+import TextFieldNext from '../../../src/components/Form/SimpleFields/TextFieldNext'
 import { recoveryAction, API_RECOVERY_URL } from '../../../src/routes/Auth/actions/recovery'
 import createStore from '../../../src/store/createStore'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -82,7 +82,7 @@ describe('(Component) RecoveryForm', () => {
     expect(_.get(store.getState(), [STATE.RECOVERY, 'loading'])).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextFieldNext).at(0).props().meta.error[0]).to.equal(response['email'][0])
 
       done()
     })

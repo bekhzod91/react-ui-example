@@ -9,7 +9,7 @@ import authReducers from '../../../src/routes/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import TextField from '../../../src/components/Form/SimpleFields/TextField'
+import TextFieldNext from '../../../src/components/Form/SimpleFields/TextFieldNext'
 import { signUpAction, API_SIGN_UP_URL } from '../../../src/routes/Auth/actions/signUp'
 import createStore from '../../../src/store/createStore.js'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -83,10 +83,10 @@ describe('(Component) SignUpForm', () => {
     expect(_.get(store.getState(), [STATE.SIGN_UP, 'loading'])).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['firstName'][0])
-      expect(component.find(TextField).at(2).props().meta.error[0]).to.equal(response['secondName'][0])
-      expect(component.find(TextField).at(3).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextFieldNext).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextFieldNext).at(1).props().meta.error[0]).to.equal(response['firstName'][0])
+      expect(component.find(TextFieldNext).at(2).props().meta.error[0]).to.equal(response['secondName'][0])
+      expect(component.find(TextFieldNext).at(3).props().meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

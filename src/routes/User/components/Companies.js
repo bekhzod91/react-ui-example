@@ -4,9 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { browserHistory } from 'react-router'
 import Avatar from 'material-ui-next/Avatar'
-import List, {
-  ListItem, ListItemAvatar, ListItemText
-} from 'material-ui-next/List'
+import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui-next/List'
 import Divider from 'material-ui-next/Divider'
 import CircularProgress from 'material-ui-next/Progress/CircularProgress'
 import withStyles from 'material-ui-next/styles/withStyles'

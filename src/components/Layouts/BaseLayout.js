@@ -21,7 +21,7 @@ const styles = {
   }
 }
 
-const PageLayout = ({ children }) => (
+const BaseLayout = ({ children }) => (
   <div style={styles.page}>
     <PageLoading />
     {children}
@@ -29,8 +29,8 @@ const PageLayout = ({ children }) => (
   </div>
 )
 
-PageLayout.propTypes = {
+BaseLayout.propTypes = {
   children: PropTypes.node,
 }
 
-export default injectSheet(styles)(PageLayout)
+export default injectSheet(styles)(BaseLayout)

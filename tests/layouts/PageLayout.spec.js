@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
-import PageLayout from '../../src/components/Layouts/PageLayout'
+import BaseLayout from '../../src/components/Layouts/BaseLayout'
 import createStore from '../../src/store/createStore'
 import MuiThemeProvider from '../MuiThemeProvider'
 
@@ -16,9 +16,9 @@ describe('(Layout) PageLayout', () => {
     const component = mount(
       <Provider store={store}>
         <MuiThemeProvider>
-          <PageLayout>
+          <BaseLayout>
             <div>Hello</div>
-          </PageLayout>
+          </BaseLayout>
         </MuiThemeProvider>
       </Provider>
     )
@@ -30,9 +30,9 @@ describe('(Layout) PageLayout', () => {
     const component = mount(
       <Provider store={store}>
         <MuiThemeProvider>
-          <PageLayout>
+          <BaseLayout>
             <Child />
-          </PageLayout>
+          </BaseLayout>
         </MuiThemeProvider>
       </Provider>
     )

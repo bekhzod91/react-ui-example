@@ -37,9 +37,10 @@ const ResetPasswordForm = ({ classes, error, handleSubmit, ...props }) => (
     <Field
       name="password"
       component={PasswordViewField}
-      hintText="New Password"
-      floatingLabelText="Enter New Password"
+      label="New Password"
+      placeholder="Enter New Password"
       fullWidth={true}
+      margin="normal"
     /><br />
 
     <Button

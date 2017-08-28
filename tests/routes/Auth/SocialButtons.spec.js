@@ -36,6 +36,7 @@ describe('(Component) SignInSocialButtons', () => {
     const element = component.find('#facebook')
     const node = ReactDOM.findDOMNode(element.node)
     ReactTestUtils.Simulate.touchTap(node)
+    console.log(element.text())
     expect(element.text()).to.equal('SignIn with Facebook')
     expect(buttons.facebook.handle).to.have.property('callCount', 1)
   })

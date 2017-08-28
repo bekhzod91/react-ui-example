@@ -53,7 +53,7 @@ const SocialButtons = ({ classes, buttons }) => (
       fullWidth={true}
       onTouchTap={buttons.google.handle}
       className={classNames(classes.button, classes.googlePlusButton)}>
-      <GooglePlusIcon className={classes.icon} /> {buttons.google.label}
+      <GooglePlusIcon className={classes.icon} />{buttons.google.label}
     </Button>
 
     <Button
@@ -61,7 +61,7 @@ const SocialButtons = ({ classes, buttons }) => (
       fullWidth={true}
       onTouchTap={buttons.twitter.handle}
       className={classNames(classes.button, classes.twitterButton)}>
-      <TwitterIcon className={classes.icon} /> {buttons.twitter.label}
+      <TwitterIcon className={classes.icon} />{buttons.twitter.label}
     </Button>
   </div>
 )

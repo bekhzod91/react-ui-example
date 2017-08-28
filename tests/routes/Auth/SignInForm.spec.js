@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import SignInForm from '../../../src/routes/Auth/components/SignInForm'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import TextField from '../../../src/components/Form/SimpleFields/TextField'
+import TextFieldNext from '../../../src/components/Form/SimpleFields/TextFieldNext'
 import { signInAction, API_SIGN_IN_URL } from '../../../src/routes/Auth/actions/signIn'
 import createStore from '../../../src/store/createStore'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -76,8 +76,8 @@ describe('(Component) SignInForm', () => {
     expect(_.get(store.getState(), [STATE.SING_IN, 'loading'])).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextFieldNext).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextFieldNext).at(1).props().meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

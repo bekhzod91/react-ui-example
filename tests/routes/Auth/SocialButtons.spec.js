@@ -35,7 +35,7 @@ describe('(Component) SignInSocialButtons', () => {
   it('facebook button touchtap event', () => {
     const element = component.find('#facebook')
     const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.touchTap(node)
+    ReactTestUtils.Simulate.onClick(node)
     console.log(element.text())
     expect(element.text()).to.equal('SignIn with Facebook')
     expect(buttons.facebook.handle).to.have.property('callCount', 1)
@@ -44,7 +44,7 @@ describe('(Component) SignInSocialButtons', () => {
   it('google plus button touchtap event', () => {
     const element = component.find('#googleplus')
     const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.touchTap(node)
+    ReactTestUtils.Simulate.onClick(node)
     expect(element.text()).to.equal('SignIn with Google')
     expect(buttons.google.handle).to.have.property('callCount', 1)
   })
@@ -52,7 +52,7 @@ describe('(Component) SignInSocialButtons', () => {
   it('twitter button touchtap event', () => {
     const element = component.find('#twitter')
     const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.touchTap(node)
+    ReactTestUtils.Simulate.onClick(node)
     expect(element.text()).to.equal('SignIn with Twitter')
     expect(buttons.twitter.handle).to.have.property('callCount', 1)
   })

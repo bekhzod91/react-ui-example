@@ -3,17 +3,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
 import injectSheet from 'react-jss'
+import { browserHistory } from 'react-router'
 import { List, ListItem } from 'material-ui/List'
-import Avatar from 'material-ui/Avatar'
-import IconButton from 'material-ui/IconButton'
+import Avatar from 'material-ui-next/Avatar'
+import IconButton from 'material-ui-next/IconButton'
 import { Card, CardTitle, CardMedia } from 'material-ui/Card'
 import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider'
-import KeyboardArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import KeyboardArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import AccountCircleIcon from 'material-ui/svg-icons/action/account-circle'
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
-import ExitToAppIcon from 'material-ui/svg-icons/action/exit-to-app'
+import Divider from 'material-ui-next/Divider'
+import KeyboardArrowDownIcon from 'material-ui-icons/KeyboardArrowDown'
+import KeyboardArrowUpIcon from 'material-ui-icons/KeyboardArrowUp'
+import AccountCircleIcon from 'material-ui-icons/AccountCircle'
+import SettingsIcon from 'material-ui-icons/Settings'
+import ExitToAppIcon from 'material-ui-icons/ExitToApp'
 import * as STYLE from '../../styles/style'
 import avatar from '../assets/photo.jpg'
 import backgroundImage from '../assets/header-sm-01.jpg'
@@ -21,10 +22,12 @@ import backgroundImage from '../assets/header-sm-01.jpg'
 export const renderListItems = (item, index) => {
   const title = _.get(item, 'title')
   const icon = _.get(item, 'icon')
+  const url = _.get(item, 'url')
   const children = _.get(item, 'children')
 
   if (!_.isEmpty(children)) {
     const style = index === 1 ? { borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`, background: STYLE.HOVER_COLOR } : {}
+
     return (
       <ListItem
         style={style}
@@ -45,12 +48,16 @@ export const renderListItems = (item, index) => {
       key={index}
       hoverColor={STYLE.HOVER_COLOR}
       primaryText={title}
+      onClick={() => browserHistory.push(url)}
       leftIcon={icon}
     />
   )
 }
 
 const styles = {
+  wrapper: {
+    width: 256
+  },
   menu: {
     padding: '0px 0px !important'
   },
@@ -60,10 +67,14 @@ const styles = {
     fontSize: '13px',
     textTransform: 'uppercase'
   },
-  avatar: {
+  avatarWrapper: {
     position: 'absolute',
     top: '15px',
     left: '10px'
+  },
+  avatar: {
+    height: 80,
+    width: 80
   },
   overlay: {
     paddingTop: '0'
@@ -123,8 +134,8 @@ const MenuFullWidth = ({ classes, state, ...props }) => (
             </div>
           </CardTitle>
         }>
-        <div className={classes.avatar}>
-          <Avatar src={avatar} size={80} />
+        <div className={classes.avatarWrapper}>
+          <Avatar src={avatar} classes={{ root: classes.avatar }} />
         </div>
         <img src={backgroundImage} alt="" />
       </CardMedia>

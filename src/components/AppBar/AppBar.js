@@ -2,47 +2,24 @@ import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
-import injectSheet from 'react-jss'
-import { Toolbar } from 'material-ui/Toolbar'
-import Drawer from 'material-ui/Drawer'
+import withStyles from 'material-ui-next/styles/withStyles'
+import Toolbar from 'material-ui-next/Toolbar'
+import MUIAppBar from 'material-ui-next/AppBar'
 import { getStorage, setStorage } from '../../helpers/localStorage'
+import { locationChange } from '../../store/location'
 import Menu from './Menu'
 import TopBarLeft from './TopBarLeft'
-import TopBarRight from './TopBarRight'
-import * as STYLE from '../../styles/style'
 import * as STATE from '../../constants/state'
 
-const styles = {
-  topBar: {
-    left: '0px',
-    right: '0 !important',
-    position: 'fixed !important',
-    width: 'auto !important',
-    height: '65px !important',
-    zIndex: '1310',
-    boxShadow: `rgba(0, 0, 0, 0.14) 0px 3px 4px 0px,
-                rgba(0, 0, 0, 0.12) 0px 3px 3px -2px,
-                rgba(0, 0, 0, 0.2) 0px 1px 8px 0px`,
-    backgroundColor: `${STYLE.PRIMARY_COLOR} !important`
+const styles = theme => ({
+  bodyWrapper: {
+    position: 'relative',
+    display: 'flex'
   },
-
   content: {
-    transition: 'padding-left 218ms cubic-bezier(0.4, 0, 0.2, 1)',
-    marginLeft: props => _.get(props, ['state', 'menuOpen']) ? '256px' : '56px',
-    paddingTop: '80px !important',
-    paddingRight: '10px',
-    paddingLeft: '10px'
-  },
-
-  drawer: {
-    top: '65px !important',
-    transition: 'width 218ms !important',
-    overflow: 'visible !important',
-    backgroundColor: `${STYLE.SECOND_TEXT_COLOR} !important`,
-  },
-
-  drawerContainer: (open) => ({ width: open ? '256px' : '56px' })
-}
+    padding: '10px'
+  }
+})
 
 const enhance = compose(
   withState('state', 'setState', {
@@ -59,35 +36,31 @@ const enhance = compose(
       setState({ ...state, showProfile: !state.showProfile })
     }
   }),
-  injectSheet(styles)
+  withStyles(styles)
 )
 
 const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile }) => (
   <div>
-    <Toolbar className={classes.topBar}>
-      <TopBarLeft
-        title={title}
-        profile={profile}
-        menuOpen={state.menuOpen}
-        setMenuOpen={setMenuOpen}
-        setShowProfile={setShowProfile}
-      />
-      <TopBarRight />
-    </Toolbar>
+    <MUIAppBar position="static">
+      <Toolbar>
+        <TopBarLeft
+          title={title}
+          profile={profile}
+          menuOpen={state.menuOpen}
+          setMenuOpen={setMenuOpen}
+          setShowProfile={setShowProfile}
+        />
+      </Toolbar>
+    </MUIAppBar>
 
-    <Drawer
-      open={true}
-      containerClassName={classes.drawer}
-      containerStyle={styles.drawerContainer(state.menuOpen)}>
+    <div className={classes.bodyWrapper}>
       <Menu
         profile={profile}
         open={state.menuOpen}
         showProfile={state.showProfile} />
-    </Drawer>
-
-    <div
-      className={classes.content}>
-      {children}
+      <div className={classes.content}>
+        {children}
+      </div>
     </div>
   </div>
 )
@@ -105,7 +78,7 @@ AppBar.propTypes = {
   profile: PropTypes.object.isRequired
 }
 
-export const getAppBarState = (state, companyId) => {
+export const mapStateToProps = (state, companyId) => {
   const company = _
     .chain(state)
     .get([STATE.USER_COMPANIES, 'data'])
@@ -120,6 +93,10 @@ export const getAppBarState = (state, companyId) => {
     },
     title: _.get(company, 'name') || ''
   }
+}
+
+export const mapDispatchToProps = {
+  locationChange
 }
 
 export default enhance(AppBar)

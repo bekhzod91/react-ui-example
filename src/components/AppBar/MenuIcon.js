@@ -5,7 +5,6 @@ import injectSheet from 'react-jss'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Avatar from 'material-ui/Avatar'
-import { Motion, spring } from 'react-motion'
 import * as STYLE from '../../styles/style'
 import avatar from '../assets/photo.jpg'
 import backgroundImage from '../assets/header-sm-01.jpg'
@@ -14,8 +13,7 @@ const STYLES_BG_IMG_SIZE = 65
 const styles = {
   activeMenu: {
     borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`,
-    backgroundColor: STYLE.HOVER_COLOR,
-    marginRight: '4px'
+    backgroundColor: STYLE.HOVER_COLOR
   },
   profileBackground: {
     padding: '0',
@@ -29,16 +27,25 @@ const styles = {
   avatar: {
     margin: '10px 8px 10px'
   },
-  profileAnimation: ({ height }) => {
-    return height !== STYLES_BG_IMG_SIZE ? {
-      transform: `translate3d(0, -${height}px, 0)`
-    } : {}
+  cardAnimation: (animation) => {
+    return animation ? {
+      maxHeight: '65px',
+      transition: 'max-height 0.5s ease-in',
+      overflow: 'hidden'
+    } : {
+      maxHeight: '0',
+      transition: 'max-height 0.25s ease-out',
+      overflow: 'hidden'
+    }
   },
   menu: {
-    maxWidth: '56px'
+    width: 'inherit !important',
+  },
+  menuList: {
+    display: 'block !important'
   },
   menuItemStyle: {
-    width: '56px',
+    maxWidth: 'inherit !important',
     borderRadius: '0px !important',
     padding: '0 0 8px 0',
   }
@@ -46,26 +53,25 @@ const styles = {
 
 const MenuIcon = ({ classes, ...props }) => (
   <div>
-    <Motion style={{ height: spring(props.showProfile ? 0 : STYLES_BG_IMG_SIZE) }}>
-      {(options) => (
-        <div style={styles.profileAnimation(options)}>
-          {options.height !== STYLES_BG_IMG_SIZE && <div
-            className={classes.profileBackground}>
-            <Avatar
-              src={avatar}
-              className={classes.avatar}
-            />
-          </div>}
-          <Menu
-            style={styles.menu}
-            value="cards"
-            menuItemStyle={styles.menuItemStyle}
-            selectedMenuItemStyle={styles.activeMenu}>
-            {_.map(props.menuList, (item, index) => renderMenuItems(item, index, false))}
-          </Menu>
-        </div>
-      )}
-    </Motion>
+    <div>
+      <div
+        style={styles.cardAnimation(props.showProfile)}
+        className={classes.profileBackground}>
+        <Avatar
+          src={avatar}
+          className={classes.avatar}
+        />
+      </div>
+      <Menu
+        value="cards"
+        autoWidth={false}
+        style={styles.menu}
+        listStyle={styles.menuList}
+        menuItemStyle={styles.menuItemStyle}
+        selectedMenuItemStyle={styles.activeMenu}>
+        {_.map(props.menuList, (item, index) => renderMenuItems(item, index, false))}
+      </Menu>
+    </div>
   </div>
 )
 

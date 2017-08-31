@@ -55,5 +55,8 @@ export const muiThemeNext = createMuiTheme({
     googlePlusTextColor: '#ffffff',
     twitterColor: '#55acee',
     twitterTextColor: '#ffffff'
+  },
+  menu: {
+    backgroundColor: '#ffffff'
   }
 })

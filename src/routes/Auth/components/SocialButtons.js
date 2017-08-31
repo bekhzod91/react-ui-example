@@ -43,7 +43,7 @@ const SocialButtons = ({ classes, buttons }) => (
     <Button
       id="facebook"
       fullWidth={true}
-      onTouchTap={buttons.facebook.handle}
+      onClick={buttons.facebook.handle}
       className={classNames(classes.button, classes.facebookButton)}>
       <FaceBookIcon className={classes.icon} />{buttons.facebook.label}
     </Button>
@@ -51,7 +51,7 @@ const SocialButtons = ({ classes, buttons }) => (
     <Button
       id="googleplus"
       fullWidth={true}
-      onTouchTap={buttons.google.handle}
+      onClick={buttons.google.handle}
       className={classNames(classes.button, classes.googlePlusButton)}>
       <GooglePlusIcon className={classes.icon} />{buttons.google.label}
     </Button>
@@ -59,7 +59,7 @@ const SocialButtons = ({ classes, buttons }) => (
     <Button
       id="twitter"
       fullWidth={true}
-      onTouchTap={buttons.twitter.handle}
+      onClick={buttons.twitter.handle}
       className={classNames(classes.button, classes.twitterButton)}>
       <TwitterIcon className={classes.icon} />{buttons.twitter.label}
     </Button>

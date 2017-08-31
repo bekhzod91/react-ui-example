@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
 import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
+import PasswordViewField from '../../../components/Form/SmartFields/PasswordViewField'
 import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
 import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
@@ -56,7 +57,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     <Field
       name="password"
       type="password"
-      component={TextFieldNext}
+      component={PasswordViewField}
       label="Password"
       placeholder="Enter Password"
       fullWidth={true}

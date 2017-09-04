@@ -5,17 +5,17 @@ import * as STATE from '../../../constants/state'
 import { getPermissionsAction } from '../actions/permissions'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [STATE.USER_PROFILE, 'loading'])
+  loading: _.get(state, [STATE.USER_PERMISSION, 'loading'])
 })
 
 export default compose(
   connect(mapStateToProps, { getPermissionsAction }),
   mapPropsStream((props$) => {
     props$
-      .filter((props) => props.params.id)
-      .distinctUntilChanged(null, (props) => props.params.id)
+      .filter((props) => _.get(props, ['params', 'companyId']))
+      .distinctUntilChanged(null, (props) => _.get(props, ['params', 'companyId']))
       .subscribe((props) => {
-        props.getPermissionsAction(props.params.id)
+        props.getPermissionsAction(_.get(props, ['params', 'companyId']))
       })
 
     return props$

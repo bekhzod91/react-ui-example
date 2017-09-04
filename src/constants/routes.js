@@ -38,5 +38,5 @@ export const INTERNAL_SERVER_ERROR_URL = `/${INTERNAL_SERVER_ERROR}`
 // COMPANY ROUTES
 export const COMPANY_MY = 'c'
 export const COMPANY_MY_LIST_URL = `/${COMPANY_MY}`
-export const COMPANY_MY_URL = `${COMPANY_MY_LIST_URL}/:id`
+export const COMPANY_MY_URL = `${COMPANY_MY_LIST_URL}/:companyId`
 export const COMPANY_MY_PATH = `${COMPANY_MY_LIST_URL}/%d`

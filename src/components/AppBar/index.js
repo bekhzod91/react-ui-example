@@ -1,5 +1,4 @@
-import AppBar, { mapDispatchToProps, mapStateToProps } from './AppBar'
+import AppBar, { getProps } from './AppBar'
 
-export const appBarMapDispatchToProps = mapDispatchToProps
-export const appBarMapStateToProps = mapStateToProps
+export { getProps }
 export default AppBar

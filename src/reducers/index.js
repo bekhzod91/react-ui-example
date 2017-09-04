@@ -1,16 +1,16 @@
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import locationReducer from '../store/location'
-import userReducers from '../routes/User/reducers/highOrderReducers'
-import authReducers from '../routes/Auth/reducers/highOrderReducers'
+import { routerReducer } from 'react-router-redux'
+import userReducers from '../modules/User/reducers/highOrderReducers'
+import authReducers from '../modules/Auth/reducers/highOrderReducers'
 import snackbarReducer from '../components/WithState/Snackbar/reducer'
 import pageLoadingReducer from '../components/WithState/PageLoading/reducer'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
-    location: locationReducer,
     form: formReducer,
+    routing: routerReducer,
     snackbar: snackbarReducer(),
     pageLoading: pageLoadingReducer(),
     ...userReducers,

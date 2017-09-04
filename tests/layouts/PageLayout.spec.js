@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import BaseLayout from '../../src/components/Layouts/BaseLayout'
-import createStore from '../../src/store/createStore'
+import createStore from '../../src/store'
 import MuiThemeProvider from '../MuiThemeProvider'
 
 describe('(Layout) PageLayout', () => {

@@ -18,7 +18,7 @@ const styles = theme => {
   }
 }
 
-const Menu = ({ classes, open, profile, showProfile }) => (
+const Menu = ({ classes, open, profile, showProfile, logout }) => (
   <Motion defaultStyle={{ width: 56 }} style={{ width: open ? spring(256) : spring(56) }}>
     {value => <div style={{ width: value.width }}>
       <div className={classes.menu}>
@@ -27,6 +27,7 @@ const Menu = ({ classes, open, profile, showProfile }) => (
             profile={profile}
             showProfile={showProfile}
             menuList={menuList}
+            logout={logout}
           />
         ) : (
           <MenuIcon
@@ -43,6 +44,7 @@ Menu.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   profile: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
   showProfile: PropTypes.bool.isRequired
 }
 

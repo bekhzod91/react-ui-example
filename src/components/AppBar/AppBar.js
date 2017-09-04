@@ -6,10 +6,8 @@ import withStyles from 'material-ui-next/styles/withStyles'
 import Toolbar from 'material-ui-next/Toolbar'
 import MUIAppBar from 'material-ui-next/AppBar'
 import { getStorage, setStorage } from '../../helpers/localStorage'
-import { locationChange } from '../../store/location'
 import Menu from './Menu'
 import TopBarLeft from './TopBarLeft'
-import * as STATE from '../../constants/state'
 
 const styles = theme => ({
   bodyWrapper: {
@@ -39,7 +37,7 @@ const enhance = compose(
   withStyles(styles)
 )
 
-const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile }) => (
+const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile, logout }) => (
   <div>
     <MUIAppBar position="static">
       <Toolbar>
@@ -56,6 +54,7 @@ const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShow
     <div className={classes.bodyWrapper}>
       <Menu
         profile={profile}
+        logout={logout}
         open={state.menuOpen}
         showProfile={state.showProfile} />
       <div className={classes.content}>
@@ -75,28 +74,19 @@ AppBar.propTypes = {
   setMenuOpen: PropTypes.func.isRequired,
   setShowProfile: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired
 }
 
-export const mapStateToProps = (state, companyId) => {
-  const company = _
-    .chain(state)
-    .get([STATE.USER_COMPANIES, 'data'])
-    .filter((item) => item.id === _.toInteger(companyId))
-    .first()
-    .value()
-
+export const getProps = (props) => {
   return {
+    logout: props.logoutAction,
     profile: {
-      email: _.get(state, [STATE.USER_PROFILE, 'data', 'email']),
-      image: _.get(state, [STATE.USER_PROFILE, 'data', 'image']),
+      email: _.get(props, 'userEmail'),
+      image: _.get(props, 'userImage'),
     },
-    title: _.get(company, 'name') || ''
+    title: _.get(props, 'companyName')
   }
-}
-
-export const mapDispatchToProps = {
-  locationChange
 }
 
 export default enhance(AppBar)

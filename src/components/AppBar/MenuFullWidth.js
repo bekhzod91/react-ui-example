@@ -113,7 +113,7 @@ const enhance = compose(
   })
 )
 
-const MenuFullWidth = ({ classes, state, ...props }) => (
+const MenuFullWidth = ({ classes, state, logout, ...props }) => (
   <div>
     <Card
       style={styles.cardAnimation(props.showProfile)}
@@ -153,7 +153,7 @@ const MenuFullWidth = ({ classes, state, ...props }) => (
         />
         <ListItem
           primaryText={'SignOut'}
-          onTouchTap={() => console.log(props)}
+          onTouchTap={() => logout()}
           leftIcon={<ExitToAppIcon />}
         />
       </List>
@@ -176,7 +176,8 @@ MenuFullWidth.propTypes = {
   state: PropTypes.bool.isRequired,
   menuList: PropTypes.array.isRequired,
   handleShowSettings: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 export default enhance(MenuFullWidth)

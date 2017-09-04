@@ -13,11 +13,12 @@ describe('(Layout) PageLayout', () => {
   })
 
   it('renders as a <div>', () => {
+    const Child = (appBar) => <div>Hello</div>
     const component = mount(
       <Provider store={store}>
         <MuiThemeProvider>
           <BaseLayout>
-            <div>Hello</div>
+            <Child />
           </BaseLayout>
         </MuiThemeProvider>
       </Provider>
@@ -26,7 +27,7 @@ describe('(Layout) PageLayout', () => {
   })
 
   it('renders its children inside of the viewport', () => {
-    const Child = () => <h2>child</h2>
+    const Child = (appBar) => <h2>child</h2>
     const component = mount(
       <Provider store={store}>
         <MuiThemeProvider>

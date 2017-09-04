@@ -123,6 +123,7 @@ const MenuFullWidth = ({ classes, state, logout, ...props }) => (
         overlay={
           <CardTitle
             style={styles.cardTitle}
+            id="userEmail"
             subtitle={_.get(props, ['profile', 'email'])}
             expandable={false}>
             <div className={classes.collapse}>

@@ -20,10 +20,10 @@ const styles = theme => ({
 })
 
 const enhance = compose(
-  withState('state', 'setState', {
+  withState('state', 'setState', () => ({
     menuOpen: getStorage('menuOpen', false),
     showProfile: getStorage('showProfile', false)
-  }),
+  })),
   withHandlers({
     setMenuOpen: ({ state, setState }) => () => {
       setStorage('menuOpen', !state.menuOpen)

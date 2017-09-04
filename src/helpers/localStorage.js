@@ -1,5 +1,6 @@
 export const getStorage = (key, defaultValue = null) => {
   const value = localStorage.getItem(key)
+
   if (value) {
     try {
       return JSON.parse(value)

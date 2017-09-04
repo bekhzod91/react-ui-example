@@ -1,4 +1,4 @@
-import _ from 'lodash'
+  import _ from 'lodash'
 import React from 'react'
 import sinon from 'sinon'
 import MockAdapter from 'axios-mock-adapter'

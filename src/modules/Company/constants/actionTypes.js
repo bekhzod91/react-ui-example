@@ -1,0 +1,5 @@
+export const COMPANY_LIST = 'COMPANY_LIST'
+export const COMPANY_DETAIL = 'COMPANY_DETAIL'
+export const COMPANY_ADD = 'COMPANY_ADD'
+export const COMPANY_EDIT = 'COMPANY_EDIT'
+export const COMPANY_DELETE = 'COMPANY_DELETE'

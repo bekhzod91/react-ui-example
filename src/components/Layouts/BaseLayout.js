@@ -24,7 +24,7 @@ const styles = {
 
 const BaseLayout = ({ children, ...props }) => {
   return (
-    <div style={styles.page}>
+    <div style={styles.page} key={'Base'}>
       <PageLoading />
       {children && React.cloneElement(children, { appBar: getProps(props) })}
       <Snackbar />

@@ -11,7 +11,8 @@ const styles = theme => {
     menu: {
       boxShadow: theme.shadows[5],
       position: 'fixed',
-      width: 'inherit',
+      minWidth: 'inherit',
+      maxWidth: 'inherit',
       height: '100%',
       backgroundColor: theme.menu.backgroundColor
     }
@@ -20,7 +21,7 @@ const styles = theme => {
 
 const Menu = ({ classes, open, profile, showProfile, logout }) => (
   <Motion defaultStyle={{ width: 56 }} style={{ width: open ? spring(256) : spring(56) }}>
-    {value => <div style={{ width: value.width }}>
+    {value => <div style={{ minWidth: value.width, maxWidth: value.width }}>
       <div className={classes.menu}>
         {open ? (
           <MenuFullWidth

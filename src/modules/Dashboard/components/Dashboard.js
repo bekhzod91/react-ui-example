@@ -5,7 +5,7 @@ import AppBar from '../../../components/AppBar'
 const Dashboard = ({ appBar }) => {
   return (
     <AppBar {...appBar}>
-      <div style={{ fontSize: '20px' }}>Content!</div>
+      Hello
     </AppBar>
   )
 }

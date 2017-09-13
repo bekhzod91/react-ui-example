@@ -76,6 +76,7 @@ config.module.rules.push({
       ],
       presets: [
         'babel-preset-react',
+        'flow',
         ['babel-preset-env', {
           targets: {
             ie9: true,
@@ -139,7 +140,7 @@ config.plugins.push(extractStyles)
 // Images
 // ------------------------------------
 config.module.rules.push({
-  test    : /\.(png|jpg|gif)$/,
+  test    : /\.(png|jpg|jpeg|gif)$/,
   loader  : 'url-loader',
   options : {
     limit : 8192,

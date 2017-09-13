@@ -58,5 +58,8 @@ export const muiThemeNext = createMuiTheme({
   },
   menu: {
     backgroundColor: '#ffffff'
+  },
+  table: {
+    backgroundColor: '#ffffff'
   }
 })

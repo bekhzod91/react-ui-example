@@ -12,10 +12,12 @@ import TopBarLeft from './TopBarLeft'
 const styles = theme => ({
   bodyWrapper: {
     position: 'relative',
-    display: 'flex'
+    display: 'flex',
+    marginTop: '64px'
   },
   content: {
-    padding: '10px'
+    padding: '15px 20px',
+    width: '100%'
   }
 })
 
@@ -39,7 +41,7 @@ const enhance = compose(
 
 const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile, logout }) => (
   <div>
-    <MUIAppBar position="static">
+    <MUIAppBar position="fixed">
       <Toolbar>
         <TopBarLeft
           title={title}

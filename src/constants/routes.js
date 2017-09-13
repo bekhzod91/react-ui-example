@@ -35,8 +35,21 @@ export const SIGN_UP_EMAIL_CONFIRM_URL = `/${SIGN_UP}/${SIGN_UP_EMAIL_CONFIRM}/:
 export const INTERNAL_SERVER_ERROR = '500'
 export const INTERNAL_SERVER_ERROR_URL = `/${INTERNAL_SERVER_ERROR}`
 
-// COMPANY ROUTES
+// COMPANY_MY ROUTES
 export const COMPANY_MY = 'c'
 export const COMPANY_MY_LIST_URL = `/${COMPANY_MY}`
 export const COMPANY_MY_URL = `${COMPANY_MY_LIST_URL}/:companyId`
 export const COMPANY_MY_PATH = `${COMPANY_MY_LIST_URL}/%d`
+
+// USER ROUTE
+export const USER = 'users'
+export const USER_LIST_URL = `${COMPANY_MY_URL}/${USER}`
+export const USER_DETAIL_URL = `${USER_LIST_URL}/:id`
+export const USER_DETAIL_PATH = `${USER_LIST_URL}/%d`
+
+// COMPANY ROUTES
+export const COMPANY = 'company'
+export const COMPANY_LIST_URL = `${COMPANY_MY_URL}/${COMPANY}`
+export const COMPANY_DETAIL_URL = `${COMPANY_LIST_URL}/:id`
+export const COMPANY_LIST_PATH = `${COMPANY_MY_PATH}/${COMPANY}`
+export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/%d`

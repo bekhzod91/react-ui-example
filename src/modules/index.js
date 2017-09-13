@@ -8,6 +8,7 @@ import Dashboard from './Dashboard'
 import Auth from './Auth'
 import User from './User'
 import Error from './Error'
+import Company from './Company'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -24,6 +25,7 @@ export const createRoutes = (store) => ({
     Dashboard(store),
     Auth(store),
     User(store),
+    Company(store),
     Error(store),
   ],
 })

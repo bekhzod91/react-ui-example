@@ -1,27 +1,17 @@
-import flow from 'lodash/fp/flow'
-import get from 'lodash/fp/get'
-import toInteger from 'lodash/fp/toInteger'
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '../../../components/NewAppBar/AppBar'
 import CompanyList from './CompanyList'
-import CompanyDetail from './CompanyDetail'
 
-const Company = ({ appBar, list, listLoading, detail, detailLoading, ...props }) => {
-  const companyId = flow(get(['params', 'companyId']), toInteger)(props)
-  const detailId = flow(get(['params', 'id']), toInteger)(props)
+const Company = ({ appBar, list, detail, ...props }) => {
+  const companyId = R.pipe(R.path(['params', 'id']), parseInt)(props)
+  const push = R.prop('push', props)
+  const route = { location, push, companyId }
 
   return (
     <AppBar {...appBar}>
-      <CompanyList
-        companyId={companyId}
-        detail={(
-          <CompanyDetail detail={detail} loading={detailLoading} />
-        )}
-        detailId={detailId}
-        list={list}
-        loading={listLoading}
-      />
+      <CompanyList router={route} list={list} detail={detail} />
     </AppBar>
   )
 }
@@ -31,7 +21,6 @@ Company.propTypes = {
   list: PropTypes.object,
   listLoading: PropTypes.bool.isRequired,
   detail: PropTypes.object,
-  detailLoading: PropTypes.bool.isRequired
 }
 
 export default Company

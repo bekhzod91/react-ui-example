@@ -1,6 +1,7 @@
 import R from 'ramda'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
 import {
   getCompanyListAction,
@@ -11,12 +12,19 @@ import {
 } from '../actions/company'
 import Company from '../components/Company'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+  const detailId = R.pipe(R.path(['params', 'id']), parseInt)(props)
+
   return {
-    list: R.path([STATE.COMPANY_LIST, 'data'], state),
-    listLoading: R.path([STATE.COMPANY_LIST, 'loading'], state),
-    detail: R.path([STATE.COMPANY_DETAIL, 'data'], state),
-    detailLoading: R.path([STATE.COMPANY_DETAIL, 'loading'], state),
+    list: {
+      loading: R.path([STATE.COMPANY_LIST, 'loading'], state),
+      data: R.path([STATE.COMPANY_LIST, 'data'], state)
+    },
+    detail: {
+      id: detailId,
+      loading: R.path([STATE.COMPANY_DETAIL, 'loading'], state),
+      data: R.path([STATE.COMPANY_DETAIL, 'data'], state),
+    }
   }
 }
 
@@ -25,7 +33,8 @@ const mapDispatchToProps = {
   getCompanyDetailAction,
   addCompanyAction,
   editCompanyAction,
-  deleteCompanyAction
+  deleteCompanyAction,
+  push
 }
 
 export default compose(

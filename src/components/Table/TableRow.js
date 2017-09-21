@@ -28,7 +28,7 @@ const styles = theme => ({
   }
 })
 
-const TableRow = ({ classes, children, list, selected, selector, detail, detailId }) => {
+const TableRow = ({ classes, children, list, checkboxEnable, selector, detail, detailId }) => {
   const rows = _.map(list, (item, index) => {
     const active = selector(item) === detailId
     const column = _.map(children, (chItem, chIndex) => {
@@ -42,7 +42,7 @@ const TableRow = ({ classes, children, list, selected, selector, detail, detailI
           [classes.detail]: active
         })}>
         <div className={classes.column}>
-          {selected && (
+          {checkboxEnable && (
             <div className={classes.checkbox}>
               <Checkbox />
             </div>
@@ -63,7 +63,7 @@ const TableRow = ({ classes, children, list, selected, selector, detail, detailI
 
 TableRow.propTypes = {
   classes: PropTypes.object.isRequired,
-  selected: PropTypes.bool,
+  checkboxEnable: PropTypes.bool.isRequired,
   children: PropTypes.node,
   selector: PropTypes.func,
   detailId: PropTypes.any,

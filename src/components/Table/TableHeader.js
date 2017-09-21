@@ -15,12 +15,12 @@ const styles = theme => ({
   },
 })
 
-const TableHeader = ({ classes, children, selected, selectIds }) => {
+const TableHeader = ({ classes, children, checkboxEnable, handleCheckAll }) => {
   return (
     <div className={classes.root}>
-      {selected && (
+      {checkboxEnable && (
         <div className={classes.checkbox}>
-          <Checkbox onChange={(event, value) => console.log(value)} />
+          <Checkbox onChange={handleCheckAll} />
         </div>
       )}
       {children}
@@ -31,8 +31,8 @@ const TableHeader = ({ classes, children, selected, selectIds }) => {
 TableHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.any,
-  selected: PropTypes.bool.isRequired,
-  selectIds: PropTypes.array.isRequired
+  checkboxEnable: PropTypes.bool.isRequired,
+  handleCheckAll: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(TableHeader)

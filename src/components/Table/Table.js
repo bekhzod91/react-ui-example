@@ -1,9 +1,4 @@
-import _ from 'lodash'
-import flow from 'lodash/fp/flow'
-import first from 'lodash/fp/first'
-import filter from 'lodash/fp/filter'
-import get from 'lodash/fp/get'
-import map from 'lodash/fp/map'
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
@@ -20,7 +15,6 @@ const styles = theme => ({
   },
 
   header: {
-    height: '75px',
     backgroundColor: theme.table.backgroundColor
   },
 
@@ -34,28 +28,28 @@ const styles = theme => ({
   }
 })
 
+const cloneFromChildren = R.curry((part, props, children) =>
+  R.pipe(
+    R.filter(item => R.equals(item.type, part)),
+    R.head,
+    item => item && React.cloneElement(item, props)
+  )(children)
+)
+
 const Table = (props) => {
   const { classes, children, list, loading, selected, selector, detail, detailId } = props
-  const tableHeader = flow(
-    filter(item => item.type === TableHeader),
-    first
-  )(children)
-
-  const tableRow = flow(
-    filter(item => item.type === TableRow),
-    first
-  )(children)
-
-  const selectIds = map(selector)(list)
+  const selectIds = R.map(selector, list)
+  const getHeader = cloneFromChildren(TableHeader, { selectIds, selected })
+  const getRow = cloneFromChildren(TableRow, {
+    list, loading, selected, selector, detailId, detail
+  })
 
   return (
     <div className={classes.root}>
       <div className={classes.wall}>
         <div className={classes.tableBody}>
-          {tableHeader && React.cloneElement(tableHeader, { selectIds, selected })}
-          {tableRow && React.cloneElement(tableRow, {
-            list, loading, selected, selector, detailId, detail
-          })}
+          {getHeader(children)}
+          {getRow(children)}
         </div>
       </div>
     </div>

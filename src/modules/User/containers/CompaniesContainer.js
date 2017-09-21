@@ -3,7 +3,7 @@ import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import Companies from '../components/Companies'
 import * as STATE from '../../../constants/state'
-import { fetchMyCompaniesAction } from '../actions/companeis'
+import { fetchMyCompaniesAction } from '../actions/myCompanies'
 
 const mapStateToProps = (state) => ({
   loading: _.get(state, [STATE.USER_COMPANIES, 'loading']),

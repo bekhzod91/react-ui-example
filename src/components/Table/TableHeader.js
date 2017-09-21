@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 import Checkbox from 'material-ui-next/Checkbox'
-import TableCell from './TableCell'
 
 const styles = theme => ({
   root: {
@@ -21,7 +20,7 @@ const TableHeader = ({ classes, children, selected, selectIds }) => {
     <div className={classes.root}>
       {selected && (
         <div className={classes.checkbox}>
-          <Checkbox />
+          <Checkbox onChange={(event, value) => console.log(value)} />
         </div>
       )}
       {children}

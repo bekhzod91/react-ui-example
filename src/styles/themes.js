@@ -1,7 +1,6 @@
 import blue from 'material-ui-next/colors/blue'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import createMuiTheme from 'material-ui-next/styles/theme'
-import createPalette from 'material-ui-next/styles/palette'
+import { createMuiTheme } from 'material-ui-next/styles'
 import * as STYLE from '../styles/style'
 
 export const muiTheme = getMuiTheme({
@@ -30,16 +29,14 @@ export const muiTheme = getMuiTheme({
 
 export const muiThemeNext = createMuiTheme({
   palette: {
-    ...createPalette({
-      type: 'light',
-      primary: {
-        ...blue,
-        A100: '#80d8ff',
-        A200: '#40c4ff',
-        A400: '#00b0ff',
-        A700: '#0091ea'
-      }
-    }),
+    type: 'light',
+    primary: {
+      ...blue,
+      A100: '#80d8ff',
+      A200: '#40c4ff',
+      A400: '#00b0ff',
+      A700: '#0091ea',
+    },
     input: {
       bottomLine: '#e3ecf7',
       helperText: 'rgba(0, 0, 0, 0.54)',
@@ -55,6 +52,9 @@ export const muiThemeNext = createMuiTheme({
     googlePlusTextColor: '#ffffff',
     twitterColor: '#55acee',
     twitterTextColor: '#ffffff'
+  },
+  appBar: {
+    buttonColor: '#ffffff'
   },
   menu: {
     backgroundColor: '#ffffff'

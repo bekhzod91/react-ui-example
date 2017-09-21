@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
-import { fetchMyCompaniesAction } from '../actions/companeis'
+import { fetchMyCompaniesAction } from '../actions/myCompanies'
 
 const mapStateToProps = (state, props) => {
   const companyId = _.get(props, ['params', 'companyId'])

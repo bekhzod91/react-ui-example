@@ -42,7 +42,6 @@ module.exports = {
     'react-redux',
     'react-router',
     'react-tap-event-plugin',
-    'react-tooltip',
     'recompose',
     'redbox-react',
     'redux',

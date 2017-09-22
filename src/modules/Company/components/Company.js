@@ -3,15 +3,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '../../../components/NewAppBar/AppBar'
 import CompanyList from './CompanyList'
+import CompanyDetail from './CompanyDetail'
 
-const Company = ({ appBar, list, detail, ...props }) => {
-  const companyId = R.pipe(R.path(['params', 'id']), parseInt)(props)
+const Company = ({ appBar, list, ...props }) => {
+  const companyId = R.pipe(R.path(['params', 'companyId']), parseInt)(props)
   const push = R.prop('push', props)
   const route = { location, push, companyId }
+  const detail = (
+    <CompanyDetail route={route} detail={R.prop('detail', props)} />
+  )
 
   return (
     <AppBar {...appBar}>
-      <CompanyList router={route} list={list} detail={detail} />
+      <CompanyList route={route} list={list} detail={detail} />
     </AppBar>
   )
 }
@@ -19,7 +23,6 @@ const Company = ({ appBar, list, detail, ...props }) => {
 Company.propTypes = {
   appBar: PropTypes.object.isRequired,
   list: PropTypes.object,
-  listLoading: PropTypes.bool.isRequired,
   detail: PropTypes.object,
 }
 

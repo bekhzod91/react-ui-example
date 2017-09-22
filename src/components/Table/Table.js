@@ -36,14 +36,37 @@ const cloneFromChildren = R.curry((part, props, children) =>
     item => item && React.cloneElement(item, props)
   )(children)
 )
+const getSelectIdsFromProps = R.pipe(
+  R.pathOr('', ['route', 'location', 'query', 'ids']),
+  R.split(','),
+  R.map(parseInt),
+  R.filter(R.pipe(isNaN, R.not)),
+  R.sort(R.gte)
+)
+
+const getIdsFromList = R.pipe(
+  R.pathOr([], ['data', 'results']),
+  R.map(
+    R.pipe(R.prop('id'), parseInt)
+  ),
+  R.sort(R.gte)
+)
+
+const selectIdsIncludeListIds = R.curry((selectIds, listIds) => R.equals(
+  R.without(selectIds, R.without(selectIds, listIds)),
+  listIds
+))
 
 const Table = ({ classes, children, list, detail, ...props }) => {
-  const location = R.path(['route', 'location'], props)
+  const { handleCheckAll, handleCheckItem } = props
+  const results = R.pathOr([], ['data', 'results'], list)
+  const listIds = getIdsFromList(list)
+  const selectIds = getSelectIdsFromProps(props)
   const checkboxEnable = R.prop('checkboxEnable', props)
-  const checkedIds = R.pipe(R.split(','), R.map(parseInt))
-  const listIds = R.map(R.pipe(R.prop('id'), parseInt))
-  const getHeader = cloneFromChildren(TableHeader, { checkboxEnable })
-  const getRow = cloneFromChildren(TableRow, { list, detail, checkboxEnable })
+  const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
+
+  const getHeader = cloneFromChildren(TableHeader, { checkboxEnable, checkboxIsChecked, handleCheckAll })
+  const getRow = cloneFromChildren(TableRow, { list: results, detail, checkboxEnable, handleCheckItem })
 
   return (
     <div className={classes.root}>
@@ -67,6 +90,9 @@ const enhance = compose(
       const { selector, list } = props
       const selectIds = R.map(selector, list)
       console.log(value, selectIds)
+    },
+    handleCheckItem: props => (id, isChecked) => {
+      console.log(id, isChecked)
     }
   }),
   withStyles(styles)
@@ -75,9 +101,7 @@ const enhance = compose(
 Table.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
-  list: PropTypes.arrayOf({
-    id: PropTypes.number
-  }).isRequired,
+  list: PropTypes.object.isRequired,
   detail: PropTypes.shape({
     id: PropTypes.number,
     loading: PropTypes.bool,
@@ -86,9 +110,9 @@ Table.propTypes = {
       results: PropTypes.array
     })
   }).isRequired,
-  selector: PropTypes.func.isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
+  handleCheckItem: PropTypes.func.isRequired,
 }
 
 export default enhance(Table)

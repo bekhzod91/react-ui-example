@@ -15,12 +15,12 @@ const styles = theme => ({
   },
 })
 
-const TableHeader = ({ classes, children, checkboxEnable, handleCheckAll }) => {
+const TableHeader = ({ classes, children, checkboxEnable, checkboxIsChecked, handleCheckAll }) => {
   return (
     <div className={classes.root}>
       {checkboxEnable && (
         <div className={classes.checkbox}>
-          <Checkbox onChange={handleCheckAll} />
+          <Checkbox onChange={handleCheckAll} checked={checkboxIsChecked} />
         </div>
       )}
       {children}
@@ -32,6 +32,7 @@ TableHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.any,
   checkboxEnable: PropTypes.bool.isRequired,
+  checkboxIsChecked: PropTypes.bool.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
 }
 

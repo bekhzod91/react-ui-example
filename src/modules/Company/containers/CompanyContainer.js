@@ -13,7 +13,10 @@ import {
 import Company from '../components/Company'
 
 const mapStateToProps = (state, props) => {
-  const detailId = R.pipe(R.path(['params', 'id']), parseInt)(props)
+  const detailId = R.pipe(
+    R.path(['params', 'id']),
+    parseInt
+  )(props)
 
   return {
     list: {

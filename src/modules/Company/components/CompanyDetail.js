@@ -1,10 +1,11 @@
-import get from 'lodash/fp/get'
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TableDetail } from '../../../components/Table'
 
-const CompanyDetail = ({ loading, detail }) => {
-  const name = get('name', detail)
+const CompanyDetail = ({ detail, route }) => {
+  const name = R.prop('name', detail)
+  const loading = R.prop('loading', detail)
 
   return (
     <TableDetail loading={loading}>
@@ -14,8 +15,14 @@ const CompanyDetail = ({ loading, detail }) => {
 }
 
 CompanyDetail.propTypes = {
-  detail: PropTypes.object,
-  loading: PropTypes.bool.isRequired
+  route: PropTypes.shape({
+    location: PropTypes.object.isRequired,
+    push: PropTypes.func.isRequired,
+    companyId: PropTypes.number.isRequired,
+  }).isRequired,
+  detail: PropTypes.shape({
+    id: PropTypes.number
+  }).isRequired
 }
 
 export default CompanyDetail

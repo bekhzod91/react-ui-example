@@ -1,10 +1,11 @@
 import R from 'ramda'
 import React from 'react'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
+import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 
 const styles = theme => ({
   root: {
@@ -44,29 +45,31 @@ const getSelectIdsFromProps = R.pipe(
   R.sort(R.gte)
 )
 
-const getIdsFromList = R.pipe(
+const getIdsFromList = R.curry((getById, list) => R.pipe(
   R.pathOr([], ['data', 'results']),
   R.map(
-    R.pipe(R.prop('id'), parseInt)
+    R.pipe(getById, parseInt)
   ),
   R.sort(R.gte)
-)
+)(list))
 
 const selectIdsIncludeListIds = R.curry((selectIds, listIds) => R.equals(
-  R.without(selectIds, R.without(selectIds, listIds)),
+  R.without(R.without(listIds, selectIds), selectIds),
   listIds
 ))
 
-const Table = ({ classes, children, list, detail, ...props }) => {
+const Table = ({ classes, children, getById, list, detail, ...props }) => {
   const { handleCheckAll, handleCheckItem } = props
   const results = R.pathOr([], ['data', 'results'], list)
-  const listIds = getIdsFromList(list)
+  const listIds = getIdsFromList(getById, list)
   const selectIds = getSelectIdsFromProps(props)
   const checkboxEnable = R.prop('checkboxEnable', props)
   const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
 
   const getHeader = cloneFromChildren(TableHeader, { checkboxEnable, checkboxIsChecked, handleCheckAll })
-  const getRow = cloneFromChildren(TableRow, { list: results, detail, checkboxEnable, handleCheckItem })
+  const getRow = cloneFromChildren(TableRow, {
+    list: results, detail, checkboxEnable, selectIds, getById, handleCheckItem
+  })
 
   return (
     <div className={classes.root}>
@@ -80,19 +83,37 @@ const Table = ({ classes, children, list, detail, ...props }) => {
   )
 }
 
-Table.defaultProps = {
-  checkboxEnable: true
-}
-
 const enhance = compose(
+  defaultProps({
+    getById: R.prop('id'),
+    checkboxEnable: true
+  }),
   withHandlers({
-    handleCheckAll: props => (event, value) => {
-      const { selector, list } = props
-      const selectIds = R.map(selector, list)
-      console.log(value, selectIds)
+    handleCheckAll: ({ getById, route, list }) => (isChecked) => {
+      const { push, location } = route
+      const listIds = getIdsFromList(getById, list)
+      const pathname = R.prop('pathname', location)
+      const search = R.prop('search', location)
+      const fullPath = `${pathname}${search}`
+
+      if (isChecked) {
+        return push(addItemToSelect(fullPath, 'ids', listIds))
+      }
+
+      return push(removeItemFromSelect(fullPath, 'ids', listIds))
     },
-    handleCheckItem: props => (id, isChecked) => {
-      console.log(id, isChecked)
+    handleCheckItem: ({ route }) => (isChecked, id) => {
+      const { push, location } = route
+      const pathname = R.prop('pathname', location)
+      const search = R.prop('search', location)
+      const fullPath = `${pathname}${search}`
+
+      if (isChecked) {
+        return push(addItemToSelect(fullPath, 'ids', id))
+      }
+
+      console.log(removeItemFromSelect(fullPath, 'ids', id), id)
+      return push(removeItemFromSelect(fullPath, 'ids', id))
     }
   }),
   withStyles(styles)
@@ -102,14 +123,11 @@ Table.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.any.isRequired,
   list: PropTypes.object.isRequired,
+  getById: PropTypes.func.isRequired,
   detail: PropTypes.shape({
     id: PropTypes.number,
-    loading: PropTypes.bool,
-    data: PropTypes.shape({
-      count: PropTypes.number,
-      results: PropTypes.array
-    })
-  }).isRequired,
+    node: PropTypes.node,
+  }),
   checkboxEnable: PropTypes.bool.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
   handleCheckItem: PropTypes.func.isRequired,

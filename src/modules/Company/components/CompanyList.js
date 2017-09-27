@@ -5,17 +5,20 @@ import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import * as ROUTE from '../../../constants/routes'
 import { fromNow } from '../../../helpers/dateFormat'
+import { appendParamsToUrl } from '../../../helpers/urls'
 
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
 
 const CompanyList = ({ list, detail, route }) => {
   const companyId = R.prop('companyId', route)
+  const query = R.path(['location', 'query'], route)
   const getLink = (item) => {
     const id = R.prop('id', item)
     const url = sprintf(ROUTE.COMPANY_DETAIL_PATH, parseInt(companyId), parseInt(id))
+    const urlWithParams = appendParamsToUrl(query, url)
 
     return (
-      <Link to={url}><strong>{id}</strong></Link>
+      <Link to={urlWithParams}><strong>{id}</strong></Link>
     )
   }
 
@@ -62,7 +65,10 @@ CompanyList.propTypes = {
     count: PropTypes.number,
     results: PropTypes.array
   }),
-  detail: PropTypes.node.isRequired,
+  detail: PropTypes.shape({
+    id: PropTypes.number,
+    detail: PropTypes.node
+  }).isRequired,
   route: PropTypes.object
 }
 

@@ -44,16 +44,10 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   mapPropsStream((props$) => {
     const getId = R.pipe(R.path(['params', 'id']), parseInt)
-    const getList = R.prop('list')
-    const detailWithoutList = R.pipe(
-      props => R.and(getId(props), getList(props)),
-      R.not
-    )
 
     // Get list
     props$
       .first()
-      .filter(detailWithoutList)
       .subscribe(props => props.getCompanyListAction())
 
     // Get detail

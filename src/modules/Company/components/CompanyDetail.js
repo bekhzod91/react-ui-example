@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { TableDetail } from '../../../components/Table'
 
 const CompanyDetail = ({ detail, route }) => {
-  const name = R.prop('name', detail)
-  const loading = R.prop('loading', detail)
+  const { id, loading, data } = detail
+  const name = R.prop('name', data)
 
   return (
     <TableDetail loading={loading}>
@@ -21,7 +21,9 @@ CompanyDetail.propTypes = {
     companyId: PropTypes.number.isRequired,
   }).isRequired,
   detail: PropTypes.shape({
-    id: PropTypes.number
+    id: PropTypes.number,
+    loading: PropTypes.bool,
+    data: PropTypes.object
   }).isRequired
 }
 

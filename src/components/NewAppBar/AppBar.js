@@ -10,10 +10,10 @@ import List from 'material-ui-next/List'
 import Typography from 'material-ui-next/Typography'
 import Divider from 'material-ui-next/Divider'
 import IconButton from 'material-ui-next/IconButton'
-import MenuIcon from 'material-ui-icons/Menu'
 import SidebarIcon from '../Icon/SidebarIcon'
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
 import { getStorage, setStorage } from '../../helpers/localStorage'
+import { Link } from 'react-router'
 
 const drawerWidth = 240
 
@@ -147,9 +147,9 @@ const AppBar = ({ classes, children, state, setMenuOpen }) => {
               </IconButton>
             </div>
             <Divider />
-            <List className={classes.list}>Text1</List>
+            <List className={classes.list}><Link to={'/c/0/company/'}>Company</Link></List>
             <Divider />
-            <List className={classes.list}>Text2</List>
+            <List className={classes.list}><Link to={'/c/0/'}>Company</Link></List>
           </div>
         </Drawer>
         <main className={classes.content}>

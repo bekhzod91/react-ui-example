@@ -8,10 +8,14 @@ import CompanyDetail from './CompanyDetail'
 const Company = ({ appBar, list, ...props }) => {
   const companyId = R.pipe(R.path(['params', 'companyId']), parseInt)(props)
   const push = R.prop('push', props)
+  const location = R.prop('location', props)
   const route = { location, push, companyId }
-  const detail = (
-    <CompanyDetail route={route} detail={R.prop('detail', props)} />
-  )
+  const detail = {
+    id: R.path(['detail', 'id'], props),
+    detail: (
+      <CompanyDetail route={route} detail={R.prop('detail', props)} />
+    )
+  }
 
   return (
     <AppBar {...appBar}>

@@ -76,7 +76,6 @@ config.module.rules.push({
       ],
       presets: [
         'babel-preset-react',
-        'flow',
         ['babel-preset-env', {
           targets: {
             ie9: true,

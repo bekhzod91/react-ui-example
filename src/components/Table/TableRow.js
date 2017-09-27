@@ -31,25 +31,31 @@ const renderColumn = R.curry((item, index, children) => mapWithIndex((chItem, ch
   React.cloneElement(chItem, { item, index, key: chIndex }), children
 ))
 
-const TableRow = ({ classes, children, list, checkboxEnable, detail, handleCheckItem }) => {
-  const detailId = R.path(['props', 'detail', 'id'], detail)
+const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable, detail, handleCheckItem }) => {
+  const detailNode = R.prop('detail', detail)
+  const detailId = R.prop('id', detail)
   const rows = mapWithIndex((item, index) => {
-    const id = R.prop('id', item)
+    const id = getById(item)
     const active = R.equals(id, detailId)
     const column = renderColumn(item, index, children)
     const className = classNames(classes.root, { [classes.detail]: active })
+    const checked = R.pipe(
+      R.filter((item) => item === id),
+      R.isEmpty,
+      R.not
+    )(selectIds)
 
     return (
       <div key={index} className={className}>
         <div className={classes.column}>
           {checkboxEnable && (
             <div className={classes.checkbox}>
-              <Checkbox onChange={(event, value) => handleCheckItem(value, id)} />
+              <Checkbox onChange={(event, value) => handleCheckItem(value, id)} checked={checked}/>
             </div>
           )}
           {column}
         </div>
-        {active && detail}
+        {active && detailNode}
       </div>
     )
   }, list)
@@ -63,6 +69,7 @@ const TableRow = ({ classes, children, list, checkboxEnable, detail, handleCheck
 
 TableRow.propTypes = {
   classes: PropTypes.object.isRequired,
+  getById: PropTypes.func.isRequired,
   handleCheckItem: PropTypes.func.isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
   children: PropTypes.node,

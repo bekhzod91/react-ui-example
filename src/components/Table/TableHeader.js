@@ -20,7 +20,7 @@ const TableHeader = ({ classes, children, checkboxEnable, checkboxIsChecked, han
     <div className={classes.root}>
       {checkboxEnable && (
         <div className={classes.checkbox}>
-          <Checkbox onChange={handleCheckAll} checked={checkboxIsChecked} />
+          <Checkbox onChange={(event, value) => handleCheckAll(value)} checked={checkboxIsChecked} />
         </div>
       )}
       {children}

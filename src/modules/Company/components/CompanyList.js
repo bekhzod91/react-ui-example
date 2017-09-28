@@ -45,7 +45,7 @@ const CompanyList = ({ list, detail, route }) => {
         <TableCell columnSize={3} sort="name">Title</TableCell>
         <TableCell sort="owner" columnSize={3}>Owner</TableCell>
         <TableCell columnSize={2} sort="status">Status</TableCell>
-        <TableCell columnSize={2} sort="Create date">Create date</TableCell>
+        <TableCell columnSize={2} sort="createDate">Create date</TableCell>
         <TableCell>Actions</TableCell>
       </TableHeader>
       <TableRow>

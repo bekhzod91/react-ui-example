@@ -53,6 +53,9 @@ export const muiThemeNext = createMuiTheme({
     twitterColor: '#55acee',
     twitterTextColor: '#ffffff'
   },
+  table: {
+
+  },
   appBar: {
     buttonColor: '#ffffff'
   },

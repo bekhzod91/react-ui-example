@@ -6,7 +6,16 @@ import Checkbox from 'material-ui-next/Checkbox'
 import withStyles from 'material-ui-next/styles/withStyles'
 
 const styles = theme => ({
-  root: {},
+  root: {
+    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+    '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
+    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
+    '& ~div:last-child': {
+      boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+      '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
+      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)'
+    }
+  },
   checkbox: {
     marginRight: '5px'
   },
@@ -22,7 +31,15 @@ const styles = theme => ({
   },
 
   detail: {
-    margin: '50px -20px 50px -20px'
+    margin: '50px -20px 50px -20px',
+    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+    '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
+    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
+    '& +div': {
+      boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+      '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
+      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
+    }
   }
 })
 
@@ -74,7 +91,8 @@ TableRow.propTypes = {
   checkboxEnable: PropTypes.bool.isRequired,
   children: PropTypes.node,
   detail: PropTypes.object,
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  selectIds: PropTypes.array,
 }
 
 export default withStyles(styles)(TableRow)

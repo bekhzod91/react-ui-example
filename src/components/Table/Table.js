@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
-import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
+import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 
 const styles = theme => ({
   root: {
@@ -37,8 +37,7 @@ const cloneFromChildren = R.curry((part, props, children) =>
     item => item && React.cloneElement(item, props)
   )(children)
 )
-const getSelectIdsFromProps = R.pipe(
-  R.pathOr('', ['route', 'location', 'query', 'ids']),
+const getSelectIdsFromQuery = R.pipe(
   R.split(','),
   R.map(parseInt),
   R.filter(R.pipe(isNaN, R.not)),
@@ -58,15 +57,16 @@ const selectIdsIncludeListIds = R.curry((selectIds, listIds) => R.equals(
   listIds
 ))
 
-const Table = ({ classes, children, getById, list, detail, ...props }) => {
-  const { handleCheckAll, handleCheckItem } = props
+const Table = ({ classes, children, route, ...props }) => {
+  const { list, detail, getById, handleCheckAll, handleCheckItem } = props
   const results = R.pathOr([], ['data', 'results'], list)
   const listIds = getIdsFromList(getById, list)
-  const selectIds = getSelectIdsFromProps(props)
+  const ids = R.pathOr('', ['location', 'query', 'ids'], route)
+  const selectIds = getSelectIdsFromQuery(ids)
   const checkboxEnable = R.prop('checkboxEnable', props)
   const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
 
-  const getHeader = cloneFromChildren(TableHeader, { checkboxEnable, checkboxIsChecked, handleCheckAll })
+  const getHeader = cloneFromChildren(TableHeader, { route, checkboxEnable, checkboxIsChecked, handleCheckAll })
   const getRow = cloneFromChildren(TableRow, {
     list: results, detail, checkboxEnable, selectIds, getById, handleCheckItem
   })
@@ -112,7 +112,6 @@ const enhance = compose(
         return push(addItemToSelect(fullPath, 'ids', id))
       }
 
-      console.log(removeItemFromSelect(fullPath, 'ids', id), id)
       return push(removeItemFromSelect(fullPath, 'ids', id))
     }
   }),
@@ -128,6 +127,11 @@ Table.propTypes = {
     id: PropTypes.number,
     node: PropTypes.node,
   }),
+  route: PropTypes.shape({
+    companyId: PropTypes.number.isRequired,
+    location: PropTypes.object.isRequired,
+    push: PropTypes.func.isRequired
+  }).isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
   handleCheckAll: PropTypes.func.isRequired,
   handleCheckItem: PropTypes.func.isRequired,

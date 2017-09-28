@@ -5,7 +5,7 @@ import { TableDetail } from '../../../components/Table'
 
 const CompanyDetail = ({ detail, route }) => {
   const { id, loading, data } = detail
-  const name = R.prop('name', data)
+  const name = R.pathOr('', ['name'], data)
 
   return (
     <TableDetail loading={loading}>

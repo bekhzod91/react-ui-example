@@ -29,6 +29,42 @@ const appendParamsToUrl = (appendParams, url) => {
   return pathname + '?' + paramsToSearch(newParams)
 }
 
+const sortingStatus = (url, key, value) => {
+  const params = getParamsFromUrl(url)
+  const currentValue = R.pipe(
+    R.pathOr('', [key]),
+    R.split(','),
+    R.findLast(R.endsWith(value))
+  )(params)
+
+  if (R.isNil(currentValue)) {
+    return 'not'
+  }
+
+  return R.pipe(
+    R.prop(0),
+    R.equals('-'),
+    descSort => descSort ? 'desc' : 'asc',
+  )(currentValue)
+}
+
+const sortingUrl = (url, key, value) => {
+  const params = getParamsFromUrl(url)
+  const sortValues = R.prop(key, params) || ''
+  const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
+  const status = sortingStatus(url, key, value)
+  const newValue = R.pipe(
+    R.split(','),
+    R.filter(R.pipe(R.endsWith(value), R.not)),
+    R.append(R.prop(status, possibleValue)),
+    R.filter(R.pipe(R.isEmpty, R.not)),
+    R.reverse,
+    R.join(',')
+  )(sortValues)
+
+  return appendParamsToUrl({ [key]: newValue }, url)
+}
+
 const removeItemFromSelect = (url, key, value) => {
   const params = getParamsFromUrl(url)
   const values = R.is(Array, value) ? R.map(String, value) : [String(value)]
@@ -66,6 +102,8 @@ const addItemToSelect = (url, key, value) => {
 
 export {
   appendParamsToUrl,
+  sortingUrl,
+  sortingStatus,
   removeItemFromSelect,
   addItemToSelect
 }

@@ -1,4 +1,6 @@
 import R from 'ramda'
+import React from 'react'
+import { Link } from 'react-router'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'

@@ -11,8 +11,13 @@ import { sortingUrl, sortingStatus } from '../../helpers/urls'
 const styles = {
   button: {
     background: 'transparent',
-    padding: '10px 10px 10px 10px ',
+    padding: '10px 10px 10px 10px',
+    boxSizing: 'border-box',
     justifyContent: 'center'
+  },
+  text: {
+    padding: '10px 10px 10px 10px',
+    boxSizing: 'border-box',
   },
   icon: {
     display: 'inline-block',
@@ -35,7 +40,7 @@ const TableCell = ({ classes, children, ...props }) => {
           <strong>{children}</strong>
         </ButtonBase>
         {icon && (<div className={classes.icon}>{icon}</div>)}
-      </div>) : (<strong>{children}</strong>)}
+      </div>) : (<strong className={classes.text}>{children}</strong>)}
     </div>
   )
 }

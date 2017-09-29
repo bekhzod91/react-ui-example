@@ -2,7 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 
-const styles = {}
+const styles = {
+  root: {
+    padding: '10px 10px 10px 10px',
+    boxSizing: 'border-box'
+  }
+}
 
 const FULL_WIDTH = 99.99999
 const MAX_COLUMN = 12
@@ -10,7 +15,7 @@ const COLUMN_SIZE = FULL_WIDTH / MAX_COLUMN
 
 const TableColumn = ({ classes, columnSize, item, index, content, style, ...props }) => {
   return (
-    <div style={{ width: `${columnSize * COLUMN_SIZE}%`, ...style }} {...props}>
+    <div className={classes.root} style={{ width: `${columnSize * COLUMN_SIZE}%`, ...style }} {...props}>
       {content(item, index)}
     </div>
   )

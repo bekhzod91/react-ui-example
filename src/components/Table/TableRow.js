@@ -48,7 +48,7 @@ const renderColumn = R.curry((item, index, children) => mapWithIndex((chItem, ch
   React.cloneElement(chItem, { item, index, key: chIndex }), children
 ))
 
-const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable, detail, handleCheckItem }) => {
+const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable, detail, onCheckItem }) => {
   const detailNode = R.prop('detail', detail)
   const detailId = R.prop('id', detail)
   const rows = mapWithIndex((item, index) => {
@@ -67,7 +67,7 @@ const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable,
         <div className={classes.column}>
           {checkboxEnable && (
             <div className={classes.checkbox}>
-              <Checkbox onChange={(event, value) => handleCheckItem(value, id)} checked={checked}/>
+              <Checkbox onChange={(event, value) => onCheckItem(value, id)} checked={checked}/>
             </div>
           )}
           {column}
@@ -87,7 +87,7 @@ const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable,
 TableRow.propTypes = {
   classes: PropTypes.object.isRequired,
   getById: PropTypes.func.isRequired,
-  handleCheckItem: PropTypes.func.isRequired,
+  onCheckItem: PropTypes.func.isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
   children: PropTypes.node,
   detail: PropTypes.object,

@@ -12,7 +12,7 @@ const User = store => ({
     store.dispatch(startLoadingAction())
 
     require.ensure([], (require) => {
-      injectReducers(store, require('./reducers').default)
+      // injectReducers(store, require('./reducers').default)
       cb(null, [
         {
           path: ROUTE.COMPANY_MY_LIST_URL,

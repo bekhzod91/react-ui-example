@@ -1,6 +1,4 @@
 import R from 'ramda'
-import React from 'react'
-import { Link } from 'react-router'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
@@ -13,6 +11,7 @@ import {
   deleteCompanyAction
 } from '../actions/company'
 import Company from '../components/Company'
+import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 
 const mapStateToProps = (state, props) => {
   const detailId = R.pipe(
@@ -43,20 +42,26 @@ const mapDispatchToProps = {
 }
 
 export default compose(
+  UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
   mapPropsStream((props$) => {
-    const getId = R.pipe(R.path(['params', 'id']), parseInt)
+    const getIdFromProps = R.pipe(R.path(['params', 'id']), parseInt)
+    const getListRequestFromProps = R.pipe(
+      R.path(['location', 'query']),
+      R.omit(['ids'])
+    )
 
     // Get list
     props$
       .first()
-      .subscribe(props => props.getCompanyListAction())
+      .distinctUntilChanged(null, props => JSON.stringify(getListRequestFromProps(props)))
+      .subscribe(props => props.getCompanyListAction(getListRequestFromProps(props)))
 
     // Get detail
     props$
-      .filter(getId)
-      .distinctUntilChanged(null, getId)
-      .subscribe(props => props.getCompanyDetailAction(getId(props)))
+      .filter(getIdFromProps)
+      .distinctUntilChanged(null, getIdFromProps)
+      .subscribe(props => props.getCompanyDetailAction(getIdFromProps(props)))
 
     return props$
   })

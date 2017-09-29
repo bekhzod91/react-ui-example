@@ -1,20 +1,18 @@
 import { injectReducers } from '../../reducers'
 import * as ROUTE from '../../constants/routes'
-import UserIsAuthenticated from '../../permissions/UserIsAuthenticated'
 import {
   startLoadingAction,
   finishLoadingAction
 } from '../../components/WithState/PageLoading/actions'
 
-const Company = store => ({
-  path : '',
+const CompanyRoute = store => ({
   getChildRoutes: (location, cb) => {
     // Start loading
     store.dispatch(startLoadingAction())
 
     require.ensure([], (require) => {
       const reducers = require('./reducers').default
-      const companyContainer = UserIsAuthenticated(require('./containers/CompanyContainer').default)
+      const companyContainer = require('./containers/CompanyContainer').default
       injectReducers(store, reducers)
 
       cb(null, [
@@ -34,4 +32,4 @@ const Company = store => ({
   }
 })
 
-export default Company
+export default CompanyRoute

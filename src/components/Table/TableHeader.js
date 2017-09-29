@@ -8,10 +8,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: theme.table.backgroundColor,
-    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
-    '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
-    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)'
+    backgroundColor: theme.table.backgroundColor
   },
   checkbox: {
     marginRight: '5px'
@@ -19,13 +16,13 @@ const styles = theme => ({
 })
 
 const TableHeader = ({ classes, children, route, ...props }) => {
-  const { checkboxEnable, checkboxIsChecked, handleCheckAll } = props
+  const { checkboxEnable, checkboxIsChecked, onCheckAll } = props
 
   return (
     <div className={classes.root}>
       {checkboxEnable && (
         <div className={classes.checkbox}>
-          <Checkbox onChange={(event, value) => handleCheckAll(value)} checked={checkboxIsChecked} />
+          <Checkbox onChange={(event, value) => onCheckAll(value)} checked={checkboxIsChecked} />
         </div>
       )}
       {React.Children.map(children, child => React.cloneElement(child, { route }))}
@@ -43,7 +40,7 @@ TableHeader.propTypes = {
   }).isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
   checkboxIsChecked: PropTypes.bool.isRequired,
-  handleCheckAll: PropTypes.func.isRequired,
+  onCheckAll: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(TableHeader)

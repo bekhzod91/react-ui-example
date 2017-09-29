@@ -3,7 +3,11 @@ import sprintf from 'sprintf'
 import React from 'react'
 import { Link } from 'react-router'
 import PropTypes from 'prop-types'
+import IconButton from 'material-ui-next/IconButton'
+import EditIcon from 'material-ui-icons/Edit'
+import DeleteIcon from 'material-ui-icons/Delete'
 import * as ROUTE from '../../../constants/routes'
+import * as DATE_FORMAT from '../../../constants/dateFromat'
 import { fromNow } from '../../../helpers/dateFormat'
 import { appendParamsToUrl } from '../../../helpers/urls'
 
@@ -35,7 +39,7 @@ const CompanyList = ({ list, detail, route }) => {
 
   const getCreateDate = R.pipe(
     R.prop('createdDate'),
-    R.curry(fromNow)(R.__, 'DD.MM.YYYY HH:mm')
+    R.curry(fromNow)(R.__, DATE_FORMAT.DEFAULT_FORMAT)
   )
 
   return (
@@ -54,7 +58,10 @@ const CompanyList = ({ list, detail, route }) => {
         <TableColumn content={getFullNameOrEmail} columnSize={3} />
         <TableColumn content={R.prop('status')} columnSize={2} />
         <TableColumn content={getCreateDate} columnSize={2} />
-        <TableColumn content={(item) => <button>Click</button>} />
+        <TableColumn content={(item) => <div>
+          <IconButton><EditIcon /></IconButton>
+          <IconButton><DeleteIcon /></IconButton>
+        </div>} />
       </TableRow>
     </Table>
   )

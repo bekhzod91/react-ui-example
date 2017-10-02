@@ -1,7 +1,7 @@
 import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import AppBar from '../../../components/NewAppBar/AppBar'
+import AppBar from '../../../components/AppBar'
 import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
 

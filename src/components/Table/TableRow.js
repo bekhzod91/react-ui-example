@@ -10,11 +10,15 @@ const styles = theme => ({
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    '& ~div:last-child': {
-      boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
-      '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
-      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)'
-    }
+    borderBottom: '2px solid #eee'
+  },
+  beforeActive: {
+    borderBottom: 'none'
+  },
+  afterActive: {
+    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+    '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
+    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
   },
   checkbox: {
     marginRight: '5px'
@@ -32,14 +36,10 @@ const styles = theme => ({
 
   detail: {
     margin: '50px -20px 50px -20px',
+    border: 'none',
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
-    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    '& +div': {
-      boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
-      '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
-      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    }
+    '0px 1px 2px 0px rgba(0, 0, 0, 0.12)'
   }
 })
 
@@ -53,9 +53,15 @@ const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable,
   const detailId = R.prop('id', detail)
   const rows = mapWithIndex((item, index) => {
     const id = getById(item)
+    const beforeActive = R.equals(getById(R.path([index + 1], list)), detailId)
+    const afterActive = R.equals(getById(R.path([index - 1], list)), detailId)
     const active = R.equals(id, detailId)
     const column = renderColumn(item, index, children)
-    const className = classNames(classes.root, { [classes.detail]: active })
+    const className = classNames(classes.root, {
+      [classes.detail]: active,
+      [classes.beforeActive]: beforeActive,
+      [classes.afterActive]: afterActive,
+    })
     const checked = R.pipe(
       R.filter((item) => item === id),
       R.isEmpty,

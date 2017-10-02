@@ -8,10 +8,14 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: theme.table.backgroundColor
+    backgroundColor: theme.palette.primary['300'],
+    color: theme.table.headerTextColor
   },
   checkbox: {
-    marginRight: '5px'
+    marginRight: '5px',
+    '& svg': {
+      color: theme.table.headerCheckboxColor
+    }
   },
 })
 
@@ -22,7 +26,10 @@ const TableHeader = ({ classes, children, route, ...props }) => {
     <div className={classes.root}>
       {checkboxEnable && (
         <div className={classes.checkbox}>
-          <Checkbox onChange={(event, value) => onCheckAll(value)} checked={checkboxIsChecked} />
+          <Checkbox
+            onChange={(event, value) => onCheckAll(value)}
+            checked={checkboxIsChecked}
+          />
         </div>
       )}
       {React.Children.map(children, child => React.cloneElement(child, { route }))}

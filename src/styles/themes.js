@@ -1,4 +1,5 @@
 import blue from 'material-ui-next/colors/blue'
+import purple from 'material-ui-next/colors/purple'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { createMuiTheme } from 'material-ui-next/styles'
 import * as STYLE from '../styles/style'
@@ -37,6 +38,7 @@ export const muiThemeNext = createMuiTheme({
       A400: '#00b0ff',
       A700: '#0091ea',
     },
+    secondary: purple,
     input: {
       bottomLine: '#e3ecf7',
       helperText: 'rgba(0, 0, 0, 0.54)',
@@ -47,22 +49,21 @@ export const muiThemeNext = createMuiTheme({
   },
   app: {
     facebookColor: '#3b5998',
-    facebookTextColor: '#ffffff',
+    facebookTextColor: '#fff',
     googlePlusColor:'#dd4b39',
-    googlePlusTextColor: '#ffffff',
+    googlePlusTextColor: '#fff',
     twitterColor: '#55acee',
-    twitterTextColor: '#ffffff'
-  },
-  table: {
-
+    twitterTextColor: '#fff'
   },
   appBar: {
-    buttonColor: '#ffffff'
+    buttonColor: '#fff'
   },
   menu: {
-    backgroundColor: '#ffffff'
+    backgroundColor: '#fff'
   },
   table: {
-    backgroundColor: '#ffffff'
+    headerTextColor: '#fff',
+    headerCheckboxColor: '#fff',
+    backgroundColor: '#fff'
   }
 })

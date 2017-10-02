@@ -50,7 +50,7 @@ const CompanyList = ({ list, detail, route }) => {
         <TableCell sort="owner" columnSize={3}>Owner</TableCell>
         <TableCell columnSize={2} sort="status">Status</TableCell>
         <TableCell columnSize={2} sort="createDate">Create date</TableCell>
-        <TableCell>Actions</TableCell>
+        <TableCell style={{ textAlign: 'center' }}>Actions</TableCell>
       </TableHeader>
       <TableRow>
         <TableColumn content={getLink} />

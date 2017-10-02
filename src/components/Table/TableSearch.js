@@ -78,7 +78,6 @@ export default compose(
   withState('search', 'setSearch', ''),
   withHandlers({
     onChange: ({ setSearch }) => (event) => {
-      console.log(event.target.value)
       setSearch(event.target.value)
     },
     onKeyPress: ({ search, onSubmit }) => (event) => {

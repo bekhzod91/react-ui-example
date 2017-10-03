@@ -2,8 +2,15 @@ import R from 'ramda'
 import React from 'react'
 import { compose, mapProps, withHandlers, setPropTypes, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import withStyles from 'material-ui-next/styles/withStyles'
+import IconButton from 'material-ui-next/IconButton'
 import { TableFooter, TablePagination } from 'material-ui-next/Table'
+import Badge from 'material-ui-next/Badge'
+import FilterListIcon from 'material-ui-icons/FilterList'
+import DeleteIcon from 'material-ui-icons/Delete'
+import DoneAllIcon from 'material-ui-icons/DoneAll'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
 import TableSearch from '../Table/TableSearch'
@@ -11,11 +18,11 @@ import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../
 
 const styles = theme => ({
   root: {
-    width: '100%'
-  },
-  wall: {
-    marginLeft: '10px',
-    marginRight: '10px'
+    width: '100%',
+    '& > div:first-child': {
+      marginLeft: '10px',
+      marginRight: '10px'
+    }
   },
 
   header: {
@@ -23,18 +30,44 @@ const styles = theme => ({
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    background: theme.palette.primary['400']
+    transition: '1s',
+    background: theme.palette.primary['400'],
+    '& svg': {
+      color: `${theme.table.headerIconColor} !important`
+    },
+    '& > div:first-child': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      margin: '5px 12px 5px 12px'
+    },
   },
 
-  action: {
-    display: 'flex',
-    margin: '5px 0 5px 5px'
+  search: {
+    '& input': {
+      color: theme.table.headerTextColor
+    }
   },
 
-  tableBody: {
+  select: {
+    background: theme.palette.secondary['400'],
+  },
+
+  selectCount: {
+    color: theme.table.headerTextColor
+  },
+
+  filter: {
+    minWidth: '280px',
+    display: 'inline-flex',
+    justifyContent: 'flex-end'
+  },
+
+  body: {
     display: 'flex',
     flexDirection: 'column'
   },
+
   footer: {
     position: 'relative',
     display: 'flex',
@@ -56,6 +89,7 @@ const cloneFromChildren = R.curry((part, props, children) =>
     item => item && React.cloneElement(item, props)
   )(children)
 )
+
 const getSelectIdsFromQuery = R.pipe(
   R.split(','),
   R.map(parseInt),
@@ -71,26 +105,66 @@ const getIdsFromList = R.curry((getById, list) => R.pipe(
   R.sort(R.gte)
 )(list))
 
-const selectIdsIncludeListIds = R.curry((selectIds, listIds) => R.equals(
-  R.without(R.without(listIds, selectIds), selectIds),
-  listIds
-))
+const getFullPathFromLocation = (location) => {
+  const pathname = R.prop('pathname', location)
+  const search = R.prop('search', location)
+
+  return `${pathname}${search}`
+}
+
+const selectIdsIncludeListIds = R.curry((selectIds, listIds) =>
+  R.equals(
+    R.without(R.without(listIds, selectIds), selectIds),
+    listIds
+  )
+)
+
+const selectIdsIncludeAnyListIds = R.curry((selectIds, listIds) =>
+  R.pipe(
+    R.map((item) => !R.isNil(R.findLast(R.equals(item), selectIds))),
+    R.any(R.equals(true))
+  )(listIds)
+)
 
 const Table = ({ classes, tableHeader, tableRows, ...props }) => {
-  const { page, count, rowsPerPage, onSearch, onChangePage, onChangeRowsPerPage } = props
+  const {
+    page, count, selectCount, rowsPerPage,
+    filterEnable, searchEnable, onSearch,
+    onChangePage, onChangeRowsPerPage
+  } = props
 
   return (
     <div className={classes.root}>
-      <div className={classes.wall}>
-        <div className={classes.header}>
-          <div className={classes.action}>
-            <TableSearch onSubmit={onSearch} />
+      <div>
+        <div className={classNames(classes.header, { [classes.select]: selectCount })}>
+          <div>
+            {searchEnable && <TableSearch className={classes.search} onSubmit={onSearch} />}
+            {selectCount ? <div className={classes.selectCount}>{selectCount} selected</div> : null}
+            <div className={classes.filter}>
+              {selectCount ? (<div>
+                <IconButton>
+                  <DoneAllIcon />
+                </IconButton>
+
+                <IconButton>
+                  <DeleteIcon />
+                </IconButton>
+              </div>) : null}
+              {filterEnable && (<IconButton>
+                <Badge className={classes.badge} badgeContent={10} color="accent">
+                  <FilterListIcon />
+                </Badge>
+              </IconButton>)}
+              <IconButton>
+                <MoreVertIcon />
+              </IconButton>
+            </div>
           </div>
           <div>
             {tableHeader}
           </div>
         </div>
-        <div className={classes.tableBody}>
+        <div className={classes.body}>
           {tableRows}
         </div>
         <div className={classes.footer}>
@@ -119,6 +193,9 @@ Table.propTypes = {
   page: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
+  searchEnable: PropTypes.bool.isRequired,
+  filterEnable: PropTypes.bool.isRequired,
+  selectCount: PropTypes.number.isRequired,
   onSearch: PropTypes.func.isRequired,
   onChangePage: PropTypes.func.isRequired,
   onChangeRowsPerPage: PropTypes.func.isRequired
@@ -128,10 +205,15 @@ const enhance = compose(
   defaultProps({
     getById: R.path(['id']),
     defaultRowsPerPage: 10,
-    checkboxEnable: true
+    checkboxEnable: true,
+    searchEnable: true,
+    filterEnable: true
   }),
   setPropTypes({
-    children: PropTypes.any.isRequired,
+    children: PropTypes.node.isRequired,
+    searchEnable: PropTypes.bool,
+    checkboxEnable: PropTypes.bool,
+    filterEnable: PropTypes.bool,
     list: PropTypes.object.isRequired,
     detail: PropTypes.shape({
       id: PropTypes.number,
@@ -146,38 +228,33 @@ const enhance = compose(
   withHandlers({
     onChangePage: ({ route }) => (event, page) => {
       const { push, location } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
-      const fullPath = `${pathname}${search}`
+      const fullPath = getFullPathFromLocation(location)
 
       return push(appendParamsToUrl({ page }, fullPath))
     },
     onChangeRowsPerPage: ({ route }) => (rowsPerPage) => {
       const { push, location } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
-      const fullPath = `${pathname}${search}`
+      const fullPath = getFullPathFromLocation(location)
 
       return push(appendParamsToUrl({ rowsPerPage: rowsPerPage.target.value }, fullPath))
     },
-    onCheckAll: ({ getById, route, list }) => (isChecked) => {
+    onCheckAll: ({ getById, route, list }) => () => {
       const { push, location } = route
       const listIds = getIdsFromList(getById, list)
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
-      const fullPath = `${pathname}${search}`
+      const fullPath = getFullPathFromLocation(location)
 
-      if (isChecked) {
-        return push(addItemToSelect(fullPath, 'ids', listIds))
-      }
+      return push(addItemToSelect(fullPath, 'ids', listIds))
+    },
+    onUnCheckAll: ({ getById, route, list }) => () => {
+      const { push, location } = route
+      const listIds = getIdsFromList(getById, list)
+      const fullPath = getFullPathFromLocation(location)
 
       return push(removeItemFromSelect(fullPath, 'ids', listIds))
     },
     onCheckItem: ({ route }) => (isChecked, id) => {
       const { push, location } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
-      const fullPath = `${pathname}${search}`
+      const fullPath = getFullPathFromLocation(location)
 
       if (isChecked) {
         return push(addItemToSelect(fullPath, 'ids', id))
@@ -187,15 +264,19 @@ const enhance = compose(
     },
     onSearch: ({ route }) => (value) => {
       const { push, location } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
-      const fullPath = `${pathname}${search}`
+      const fullPath = getFullPathFromLocation(location)
 
       return push(appendParamsToUrl({ search: value }, fullPath))
     },
   }),
   mapProps(({ children, route, detail, list, ...props }) => {
-    const { defaultRowsPerPage, getById, onCheckAll, onCheckItem, onChangePage, onChangeRowsPerPage, onSearch } = props
+    const {
+      defaultRowsPerPage, getById, onCheckAll, onUnCheckAll, onCheckItem, onChangePage, onChangeRowsPerPage, onSearch
+    } = props
+    const searchEnable = R.prop('searchEnable', props)
+    const filterEnable = R.prop('searchEnable', props)
+    const checkboxEnable = R.prop('checkboxEnable', props)
+
     const results = R.pathOr([], ['data', 'results'], list)
     const count = R.pathOr(0, ['data', 'count'], list)
     const page = parseInt(R.pathOr(0, ['location', 'query', 'page'], route))
@@ -204,11 +285,12 @@ const enhance = compose(
 
     const listIds = getIdsFromList(getById, list)
     const selectIds = getSelectIdsFromQuery(ids)
-    const checkboxEnable = R.prop('checkboxEnable', props)
+    const selectCount = R.length(selectIds)
     const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
+    const checkboxMinusChecked = !checkboxIsChecked ? selectIdsIncludeAnyListIds(selectIds, listIds) : false
 
     const tableHeader = cloneFromChildren(TableHeader, {
-      route, checkboxEnable, checkboxIsChecked, onCheckAll
+      route, checkboxEnable, checkboxIsChecked, checkboxMinusChecked, onCheckAll, onUnCheckAll
     })(children)
     const tableRows = cloneFromChildren(TableRow, {
       list: results, detail, checkboxEnable, selectIds, getById, onCheckItem
@@ -220,6 +302,9 @@ const enhance = compose(
       rowsPerPage,
       tableHeader,
       tableRows,
+      selectCount,
+      filterEnable,
+      searchEnable,
       onSearch,
       onChangePage,
       onChangeRowsPerPage

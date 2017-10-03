@@ -12,23 +12,21 @@ const styles = theme => ({
     color: theme.table.headerTextColor
   },
   checkbox: {
-    marginRight: '5px',
-    '& svg': {
-      color: theme.table.headerCheckboxColor
-    }
+    marginRight: '5px'
   },
 })
 
 const TableHeader = ({ classes, children, route, ...props }) => {
-  const { checkboxEnable, checkboxIsChecked, onCheckAll } = props
+  const { checkboxEnable, checkboxMinusChecked, checkboxIsChecked, onCheckAll, onUnCheckAll } = props
 
   return (
     <div className={classes.root}>
       {checkboxEnable && (
         <div className={classes.checkbox}>
           <Checkbox
-            onChange={(event, value) => onCheckAll(value)}
+            onChange={(event, value) => !checkboxMinusChecked && value ? onCheckAll() : onUnCheckAll()}
             checked={checkboxIsChecked}
+            indeterminate={checkboxMinusChecked}
           />
         </div>
       )}
@@ -46,8 +44,10 @@ TableHeader.propTypes = {
     push: PropTypes.func.isRequired
   }).isRequired,
   checkboxEnable: PropTypes.bool.isRequired,
+  checkboxMinusChecked: PropTypes.bool.isRequired,
   checkboxIsChecked: PropTypes.bool.isRequired,
   onCheckAll: PropTypes.func.isRequired,
+  onUnCheckAll: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(TableHeader)

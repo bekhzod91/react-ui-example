@@ -10,7 +10,8 @@ const styles = theme => ({
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    borderBottom: '2px solid #eee'
+    borderBottom: '2px solid #eee',
+    transition: '0.4s'
   },
   beforeActive: {
     borderBottom: 'none'
@@ -53,9 +54,9 @@ const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable,
   const detailId = R.prop('id', detail)
   const rows = mapWithIndex((item, index) => {
     const id = getById(item)
+    const active = R.equals(id, detailId)
     const beforeActive = R.equals(getById(R.path([index + 1], list)), detailId)
     const afterActive = R.equals(getById(R.path([index - 1], list)), detailId)
-    const active = R.equals(id, detailId)
     const column = renderColumn(item, index, children)
     const className = classNames(classes.root, {
       [classes.detail]: active,
@@ -73,7 +74,7 @@ const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable,
         <div className={classes.column}>
           {checkboxEnable && (
             <div className={classes.checkbox}>
-              <Checkbox onChange={(event, value) => onCheckItem(value, id)} checked={checked}/>
+              <Checkbox onChange={(event, value) => onCheckItem(value, id)} checked={checked} />
             </div>
           )}
           {column}

@@ -1,5 +1,5 @@
 import blue from 'material-ui-next/colors/blue'
-import purple from 'material-ui-next/colors/purple'
+import deepPurple from 'material-ui-next/colors/deepPurple'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import { createMuiTheme } from 'material-ui-next/styles'
 import * as STYLE from '../styles/style'
@@ -38,7 +38,7 @@ export const muiThemeNext = createMuiTheme({
       A400: '#00b0ff',
       A700: '#0091ea',
     },
-    secondary: purple,
+    secondary: deepPurple,
     input: {
       bottomLine: '#e3ecf7',
       helperText: 'rgba(0, 0, 0, 0.54)',
@@ -63,7 +63,7 @@ export const muiThemeNext = createMuiTheme({
   },
   table: {
     headerTextColor: '#fff',
-    headerCheckboxColor: '#fff',
+    headerIconColor: '#fff',
     backgroundColor: '#fff'
   }
 })

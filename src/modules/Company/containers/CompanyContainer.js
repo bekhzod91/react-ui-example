@@ -53,7 +53,6 @@ export default compose(
 
     // Get list
     props$
-      .first()
       .distinctUntilChanged(null, props => JSON.stringify(getListRequestFromProps(props)))
       .subscribe(props => props.getCompanyListAction(getListRequestFromProps(props)))
 

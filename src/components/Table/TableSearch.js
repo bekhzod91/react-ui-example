@@ -1,14 +1,16 @@
 import React from 'react'
+import classNames from 'classnames'
 import { compose, pure, withState, withHandlers } from 'recompose'
 import PropTypes from 'prop-types'
-import withWidth from 'material-ui-next/utils/withWidth'
 import { fade } from 'material-ui-next/styles/colorManipulator'
-import { withStyles } from 'material-ui-next/styles'
+import withStyles from 'material-ui-next/styles/withStyles'
 import IconButton from 'material-ui-next/IconButton'
 import SearchIcon from 'material-ui-icons/Search'
 
 const styles = theme => ({
-  wrapper: {
+  root: {
+    display: 'flex',
+    alignItems: 'center',
     fontFamily: theme.typography.fontFamily,
     position: 'relative',
     borderRadius: 2,
@@ -24,6 +26,7 @@ const styles = theme => ({
       },
     },
   },
+
   search: {
     width: theme.spacing.unit * 9,
     height: '100%',
@@ -33,6 +36,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   input: {
     font: 'inherit',
     padding: `${theme.spacing.unit}px ${theme.spacing.unit}px ${theme.spacing.unit}px ${theme
@@ -42,23 +46,22 @@ const styles = theme => ({
     verticalAlign: 'middle',
     whiteSpace: 'normal',
     background: 'none',
-    color: theme.table.headerTextColor,
     margin: 0, // Reset for Safari
     '&:focus': {
       outline: 0,
       width: '250px !important'
-    },
-  },
+    }
+  }
 })
 
-function AppSearch (props) {
-  const { classes, search, onChange, onKeyPress, onSubmit } = props
+function TableSearch (props) {
+  const { classes, search, onChange, onKeyPress, onSubmit, className } = props
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classNames(classes.root, {}, className)}>
       <div className={classes.search}>
         <IconButton onClick={() => onSubmit(search)}>
-          <SearchIcon style={{ color: '#fff' }} />
+          <SearchIcon />
         </IconButton>
       </div>
       <input value={search} onChange={onChange} onKeyPress={onKeyPress} className={classes.input} />
@@ -66,7 +69,8 @@ function AppSearch (props) {
   )
 }
 
-AppSearch.propTypes = {
+TableSearch.propTypes = {
+  className: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   search: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
@@ -86,9 +90,6 @@ export default compose(
       }
     }
   }),
-  withStyles(styles, {
-    name: 'AppSearch',
-  }),
-  withWidth(),
+  withStyles(styles),
   pure,
-)(AppSearch)
+)(TableSearch)

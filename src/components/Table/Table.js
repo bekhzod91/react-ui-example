@@ -1,6 +1,6 @@
 import R from 'ramda'
 import React from 'react'
-import { compose, mapProps, withHandlers, setPropTypes, defaultProps } from 'recompose'
+import { compose, pure, mapProps, withHandlers, setPropTypes, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from 'material-ui-next/styles/withStyles'
@@ -21,7 +21,8 @@ const styles = theme => ({
     width: '100%',
     '& > div:first-child': {
       marginLeft: '10px',
-      marginRight: '10px'
+      marginRight: '10px',
+      position: 'relative'
     }
   },
 
@@ -57,7 +58,7 @@ const styles = theme => ({
     color: theme.table.headerTextColor
   },
 
-  filter: {
+  filterAction: {
     minWidth: '280px',
     display: 'inline-flex',
     justifyContent: 'flex-end'
@@ -82,6 +83,13 @@ const styles = theme => ({
   }
 })
 
+const getFullPathFromLocation = (location) => {
+  const pathname = R.prop('pathname', location)
+  const search = R.prop('search', location)
+
+  return `${pathname}${search}`
+}
+
 const cloneFromChildren = R.curry((part, props, children) =>
   R.pipe(
     R.filter(R.whereEq({ type: part })),
@@ -90,7 +98,8 @@ const cloneFromChildren = R.curry((part, props, children) =>
   )(children)
 )
 
-const getSelectIdsFromQuery = R.pipe(
+const getSelectIdsFromRoute = R.pipe(
+  R.pathOr('', ['location', 'query', 'ids']),
   R.split(','),
   R.map(parseInt),
   R.filter(R.pipe(isNaN, R.not)),
@@ -104,13 +113,6 @@ const getIdsFromList = R.curry((getById, list) => R.pipe(
   ),
   R.sort(R.gte)
 )(list))
-
-const getFullPathFromLocation = (location) => {
-  const pathname = R.prop('pathname', location)
-  const search = R.prop('search', location)
-
-  return `${pathname}${search}`
-}
 
 const selectIdsIncludeListIds = R.curry((selectIds, listIds) =>
   R.equals(
@@ -126,46 +128,69 @@ const selectIdsIncludeAnyListIds = R.curry((selectIds, listIds) =>
   )(listIds)
 )
 
-const Table = ({ classes, tableHeader, tableRows, ...props }) => {
+const Table = ({ classes, filter, renderHeader, renderBody, ...props }) => {
   const {
     page, count, selectCount, rowsPerPage,
     filterEnable, searchEnable, onSearch,
-    onChangePage, onChangeRowsPerPage
+    onChangePage, onChangeRowsPerPage,
   } = props
+  const selectCountVisible = selectCount !== 0
+  const TableSelectAction = () => {
+    if (!selectCountVisible) { return null }
+
+    return (
+      <div>
+        <IconButton>
+          <DoneAllIcon />
+        </IconButton>
+
+        <IconButton>
+          <DeleteIcon />
+        </IconButton>
+      </div>
+    )
+  }
+  const TableFilter = () => {
+    if (!filterEnable) { return null }
+
+    return (
+      <IconButton>
+        <Badge badgeContent={10} color="accent">
+          <FilterListIcon />
+        </Badge>
+      </IconButton>
+    )
+  }
+  const TableSearchCase = () => {
+    if (!searchEnable) { return null }
+
+    return (
+      <TableSearch className={classes.search} onSubmit={onSearch} />
+    )
+  }
 
   return (
     <div className={classes.root}>
       <div>
+        {filter}
         <div className={classNames(classes.header, { [classes.select]: selectCount })}>
           <div>
-            {searchEnable && <TableSearch className={classes.search} onSubmit={onSearch} />}
-            {selectCount ? <div className={classes.selectCount}>{selectCount} selected</div> : null}
-            <div className={classes.filter}>
-              {selectCount ? (<div>
-                <IconButton>
-                  <DoneAllIcon />
-                </IconButton>
-
-                <IconButton>
-                  <DeleteIcon />
-                </IconButton>
-              </div>) : null}
-              {filterEnable && (<IconButton>
-                <Badge className={classes.badge} badgeContent={10} color="accent">
-                  <FilterListIcon />
-                </Badge>
-              </IconButton>)}
+            <TableSearchCase />
+            {selectCountVisible && <div className={classes.selectCount}>{selectCount} selected</div>}
+            <div className={classes.filterAction}>
+              <TableSelectAction />
+              <TableFilter />
               <IconButton>
                 <MoreVertIcon />
               </IconButton>
             </div>
           </div>
           <div>
-            {tableHeader}
+            {renderHeader()}
           </div>
         </div>
         <div className={classes.body}>
-          {tableRows}
+          {renderBody()}
         </div>
         <div className={classes.footer}>
           {count && <table>
@@ -188,8 +213,8 @@ const Table = ({ classes, tableHeader, tableRows, ...props }) => {
 
 Table.propTypes = {
   classes: PropTypes.object.isRequired,
-  tableHeader: PropTypes.node.isRequired,
-  tableRows: PropTypes.node.isRequired,
+  renderHeader: PropTypes.func.isRequired,
+  renderBody: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
@@ -211,6 +236,7 @@ const enhance = compose(
   }),
   setPropTypes({
     children: PropTypes.node.isRequired,
+    // children: PropTypes.node.isRequired,
     searchEnable: PropTypes.bool,
     checkboxEnable: PropTypes.bool,
     filterEnable: PropTypes.bool,
@@ -267,41 +293,52 @@ const enhance = compose(
       const fullPath = getFullPathFromLocation(location)
 
       return push(appendParamsToUrl({ search: value }, fullPath))
-    },
+    }
   }),
-  mapProps(({ children, route, detail, list, ...props }) => {
-    const {
-      defaultRowsPerPage, getById, onCheckAll, onUnCheckAll, onCheckItem, onChangePage, onChangeRowsPerPage, onSearch
-    } = props
+  withHandlers({
+    renderHeader: ({ children, route, list, ...props }) => () => {
+      const { onCheckAll, onUnCheckAll, getById } = props
+      const checkboxEnable = R.prop('checkboxEnable', props)
+      const listIds = getIdsFromList(getById, list)
+      const selectIds = getSelectIdsFromRoute(route)
+      const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
+      const checkboxMinusChecked = !checkboxIsChecked ? selectIdsIncludeAnyListIds(selectIds, listIds) : false
+
+      return cloneFromChildren(TableHeader, {
+        route, checkboxEnable, checkboxIsChecked, checkboxMinusChecked, onCheckAll, onUnCheckAll
+      })(children)
+    },
+
+    renderBody: ({ children, route, list, detail, ...props }) => () => {
+      const { onCheckItem, getById } = props
+      const checkboxEnable = R.prop('checkboxEnable', props)
+      const results = R.pathOr([], ['data', 'results'], list)
+      const selectIds = getSelectIdsFromRoute(route)
+
+      return cloneFromChildren(TableRow, {
+        list: results, detail, checkboxEnable, selectIds, getById, onCheckItem
+      })(children)
+    }
+  }),
+  mapProps(({ route, list, filter, ...props }) => {
+    const { defaultRowsPerPage, renderHeader, renderBody, onChangePage, onChangeRowsPerPage, onSearch } = props
     const searchEnable = R.prop('searchEnable', props)
     const filterEnable = R.prop('searchEnable', props)
-    const checkboxEnable = R.prop('checkboxEnable', props)
 
-    const results = R.pathOr([], ['data', 'results'], list)
     const count = R.pathOr(0, ['data', 'count'], list)
     const page = parseInt(R.pathOr(0, ['location', 'query', 'page'], route))
     const rowsPerPage = parseInt(R.pathOr(defaultRowsPerPage, ['location', 'query', 'rowsPerPage'], route))
-    const ids = R.pathOr('', ['location', 'query', 'ids'], route)
-
-    const listIds = getIdsFromList(getById, list)
-    const selectIds = getSelectIdsFromQuery(ids)
+    const selectIds = getSelectIdsFromRoute(route)
     const selectCount = R.length(selectIds)
-    const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
-    const checkboxMinusChecked = !checkboxIsChecked ? selectIdsIncludeAnyListIds(selectIds, listIds) : false
-
-    const tableHeader = cloneFromChildren(TableHeader, {
-      route, checkboxEnable, checkboxIsChecked, checkboxMinusChecked, onCheckAll, onUnCheckAll
-    })(children)
-    const tableRows = cloneFromChildren(TableRow, {
-      list: results, detail, checkboxEnable, selectIds, getById, onCheckItem
-    })(children)
 
     return {
+      route,
       page,
       count,
+      filter,
       rowsPerPage,
-      tableHeader,
-      tableRows,
+      renderHeader,
+      renderBody,
       selectCount,
       filterEnable,
       searchEnable,
@@ -310,7 +347,8 @@ const enhance = compose(
       onChangeRowsPerPage
     }
   }),
-  withStyles(styles)
+  withStyles(styles),
+  pure
 )
 
 export default enhance(Table)

@@ -12,6 +12,7 @@ import { fromNow } from '../../../helpers/dateFormat'
 import { appendParamsToUrl } from '../../../helpers/urls'
 
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
+import CompanyListFilter from './CompanyListFilter'
 
 const CompanyList = ({ list, detail, route }) => {
   const companyId = R.prop('companyId', route)
@@ -42,8 +43,12 @@ const CompanyList = ({ list, detail, route }) => {
     R.curry(fromNow)(R.__, DATE_FORMAT.DEFAULT_FORMAT)
   )
 
+  const companyListFilter = (
+    <CompanyListFilter onSubmit={(value) => console.log(value)} />
+  )
+
   return (
-    <Table route={route} detail={detail} list={list}>
+    <Table route={route} detail={detail} list={list} filter={companyListFilter}>
       <TableHeader>
         <TableCell sort="id">ID</TableCell>
         <TableCell columnSize={3} sort="name">Title</TableCell>

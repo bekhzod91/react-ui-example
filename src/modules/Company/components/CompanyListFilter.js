@@ -1,11 +1,12 @@
-import React, { PropTypes } from 'react'
+import 'rxjs/operator/merge'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
-import { compose } from 'recompose'
+import { compose, pure } from 'recompose'
 import withStyles from 'material-ui-next/styles/withStyles'
 import Button from 'material-ui-next/Button'
 import TableDialog from '../../../components/Table/TableDialog'
 import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
-import validate from '../../../helpers/validate'
 
 const styles = {
   buttonGroup: {
@@ -18,11 +19,11 @@ const styles = {
   }
 }
 
-const form = 'CompanyListFilterForm'
+export const form = 'CompanyListFilterForm'
 
-const CompanyListFilter = ({ classes, handleSubmit, onSubmit }) => (
-  <TableDialog title="Filter">
-    <form onSubmit={handleSubmit(() => onSubmit().catch(validate))}>
+const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
+  <TableDialog route={route} title="Filter">
+    <form onSubmit={onSubmit}>
       <Field
         component={TextFieldNext}
         name="email"
@@ -31,6 +32,7 @@ const CompanyListFilter = ({ classes, handleSubmit, onSubmit }) => (
         fullWidth={true}
         margin="normal"
       />
+
       <Field
         component={TextFieldNext}
         name="email1"
@@ -39,6 +41,7 @@ const CompanyListFilter = ({ classes, handleSubmit, onSubmit }) => (
         fullWidth={true}
         margin="normal"
       />
+
       <div className={classes.buttonGroup}>
         <Button color="primary" raised={true} type="submit">Apply</Button>
       </div>
@@ -49,10 +52,12 @@ const CompanyListFilter = ({ classes, handleSubmit, onSubmit }) => (
 CompanyListFilter.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  route: PropTypes.object.isRequired,
+  onSubmit: PropTypes.any.isRequired,
 }
 
 export default compose(
   reduxForm({ form }),
-  withStyles(styles)
+  withStyles(styles),
+  pure
 )(CompanyListFilter)

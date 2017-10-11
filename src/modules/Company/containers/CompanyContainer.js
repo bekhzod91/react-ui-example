@@ -1,5 +1,5 @@
 import R from 'ramda'
-import { compose, mapPropsStream } from 'recompose'
+import { compose, withHandlers, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
@@ -11,24 +11,22 @@ import {
   deleteCompanyAction
 } from '../actions/company'
 import Company from '../components/Company'
+import { form as filterFormName } from '../components/CompanyListFilter'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
+import {
+  getIdFromProps,
+  getFormValueFromState,
+  getDataFromState
+} from '../../../helpers/get'
 
 const mapStateToProps = (state, props) => {
-  const detailId = R.pipe(
-    R.path(['params', 'id']),
-    parseInt
-  )(props)
+  const id = getIdFromProps(props)
+  const filterFormValue = getFormValueFromState(filterFormName, state)
 
   return {
-    list: {
-      loading: R.path([STATE.COMPANY_LIST, 'loading'], state),
-      data: R.path([STATE.COMPANY_LIST, 'data'], state)
-    },
-    detail: {
-      id: detailId,
-      loading: R.path([STATE.COMPANY_DETAIL, 'loading'], state),
-      data: R.path([STATE.COMPANY_DETAIL, 'data'], state),
-    }
+    list: getDataFromState(STATE.COMPANY_LIST, state),
+    detail: { ...getDataFromState(STATE.COMPANY_DETAIL, state), id },
+    filterFormValue
   }
 }
 
@@ -45,7 +43,6 @@ export default compose(
   UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
   mapPropsStream((props$) => {
-    const getIdFromProps = R.pipe(R.path(['params', 'id']), parseInt)
     const getListRequestFromProps = R.pipe(
       R.path(['location', 'query']),
       R.omit(['ids'])
@@ -63,5 +60,14 @@ export default compose(
       .subscribe(props => props.getCompanyDetailAction(getIdFromProps(props)))
 
     return props$
+  }),
+  withHandlers({
+    filterOnSubmit: props => (event) => {
+      event.preventDefault()
+      console.log(props.filterFormValue)
+    },
+    filterOnOpen: props => () => {
+
+    }
   })
 )(Company)

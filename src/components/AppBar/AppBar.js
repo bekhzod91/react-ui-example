@@ -13,7 +13,7 @@ const styles = theme => ({
   bodyWrapper: {
     position: 'relative',
     display: 'flex',
-    marginTop: '64px'
+    paddingTop: '64px'
   },
   content: {
     padding: '15px 20px',

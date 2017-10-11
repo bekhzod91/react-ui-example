@@ -4,17 +4,12 @@ import { compose, pure, mapProps, withHandlers, setPropTypes, defaultProps } fro
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from 'material-ui-next/styles/withStyles'
-import IconButton from 'material-ui-next/IconButton'
-import { TableFooter, TablePagination } from 'material-ui-next/Table'
-import Badge from 'material-ui-next/Badge'
-import FilterListIcon from 'material-ui-icons/FilterList'
-import DeleteIcon from 'material-ui-icons/Delete'
-import DoneAllIcon from 'material-ui-icons/DoneAll'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
+import { TableFooter, TableRow as TableRowMUI, TablePagination } from 'material-ui-next/Table'
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
 import TableSearch from '../Table/TableSearch'
 import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
+import { getFullPathFromLocation } from '../../helpers/get'
 
 const styles = theme => ({
   root: {
@@ -58,8 +53,9 @@ const styles = theme => ({
     color: theme.table.headerTextColor
   },
 
-  filterAction: {
-    minWidth: '280px',
+  actions: {
+    minHeight: 48,
+    minWidth: 280,
     display: 'inline-flex',
     justifyContent: 'flex-end'
   },
@@ -82,13 +78,6 @@ const styles = theme => ({
     }
   }
 })
-
-const getFullPathFromLocation = (location) => {
-  const pathname = R.prop('pathname', location)
-  const search = R.prop('search', location)
-
-  return `${pathname}${search}`
-}
 
 const cloneFromChildren = R.curry((part, props, children) =>
   R.pipe(
@@ -128,39 +117,12 @@ const selectIdsIncludeAnyListIds = R.curry((selectIds, listIds) =>
   )(listIds)
 )
 
-const Table = ({ classes, filter, renderHeader, renderBody, ...props }) => {
+const Table = ({ classes, dialogs, actions, renderHeader, renderBody, ...props }) => {
   const {
-    page, count, selectCount, rowsPerPage,
-    filterEnable, searchEnable, onSearch,
-    onChangePage, onChangeRowsPerPage,
+    page, count, selectCount, rowsPerPage, searchEnable, onSearch, onChangePage, onChangeRowsPerPage,
   } = props
   const selectCountVisible = selectCount !== 0
-  const TableSelectAction = () => {
-    if (!selectCountVisible) { return null }
 
-    return (
-      <div>
-        <IconButton>
-          <DoneAllIcon />
-        </IconButton>
-
-        <IconButton>
-          <DeleteIcon />
-        </IconButton>
-      </div>
-    )
-  }
-  const TableFilter = () => {
-    if (!filterEnable) { return null }
-
-    return (
-      <IconButton>
-        <Badge badgeContent={10} color="accent">
-          <FilterListIcon />
-        </Badge>
-      </IconButton>
-    )
-  }
   const TableSearchCase = () => {
     if (!searchEnable) { return null }
 
@@ -172,17 +134,13 @@ const Table = ({ classes, filter, renderHeader, renderBody, ...props }) => {
   return (
     <div className={classes.root}>
       <div>
-        {filter}
+        {dialogs}
         <div className={classNames(classes.header, { [classes.select]: selectCount })}>
           <div>
             <TableSearchCase />
             {selectCountVisible && <div className={classes.selectCount}>{selectCount} selected</div>}
-            <div className={classes.filterAction}>
-              <TableSelectAction />
-              <TableFilter />
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
+            <div className={classes.actions}>
+              {actions}
             </div>
           </div>
           <div>
@@ -195,14 +153,16 @@ const Table = ({ classes, filter, renderHeader, renderBody, ...props }) => {
         <div className={classes.footer}>
           {count && <table>
             <TableFooter>
-              <TablePagination
-                count={count}
-                rowsPerPageOptions={[10, 25, 50, 100]}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={onChangePage}
-                onChangeRowsPerPage={onChangeRowsPerPage}
-              />
+              <TableRowMUI>
+                <TablePagination
+                  count={count}
+                  rowsPerPageOptions={[10, 25, 50, 100]}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={onChangePage}
+                  onChangeRowsPerPage={onChangeRowsPerPage}
+                />
+              </TableRowMUI>
             </TableFooter>
           </table>}
         </div>
@@ -213,13 +173,17 @@ const Table = ({ classes, filter, renderHeader, renderBody, ...props }) => {
 
 Table.propTypes = {
   classes: PropTypes.object.isRequired,
+  dialogs: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+  actions: PropTypes.node,
   renderHeader: PropTypes.func.isRequired,
   renderBody: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   searchEnable: PropTypes.bool.isRequired,
-  filterEnable: PropTypes.bool.isRequired,
   selectCount: PropTypes.number.isRequired,
   onSearch: PropTypes.func.isRequired,
   onChangePage: PropTypes.func.isRequired,
@@ -232,11 +196,9 @@ const enhance = compose(
     defaultRowsPerPage: 10,
     checkboxEnable: true,
     searchEnable: true,
-    filterEnable: true
   }),
   setPropTypes({
     children: PropTypes.node.isRequired,
-    // children: PropTypes.node.isRequired,
     searchEnable: PropTypes.bool,
     checkboxEnable: PropTypes.bool,
     filterEnable: PropTypes.bool,
@@ -320,10 +282,9 @@ const enhance = compose(
       })(children)
     }
   }),
-  mapProps(({ route, list, filter, ...props }) => {
+  mapProps(({ route, list, actions, dialogs, ...props }) => {
     const { defaultRowsPerPage, renderHeader, renderBody, onChangePage, onChangeRowsPerPage, onSearch } = props
     const searchEnable = R.prop('searchEnable', props)
-    const filterEnable = R.prop('searchEnable', props)
 
     const count = R.pathOr(0, ['data', 'count'], list)
     const page = parseInt(R.pathOr(0, ['location', 'query', 'page'], route))
@@ -335,12 +296,12 @@ const enhance = compose(
       route,
       page,
       count,
-      filter,
+      dialogs,
+      actions,
       rowsPerPage,
       renderHeader,
       renderBody,
       selectCount,
-      filterEnable,
       searchEnable,
       onSearch,
       onChangePage,

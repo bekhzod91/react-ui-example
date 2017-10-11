@@ -13,8 +13,9 @@ import { appendParamsToUrl } from '../../../helpers/urls'
 
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
 import CompanyListFilter from './CompanyListFilter'
+import CompanyListActions from './CompanyListActions'
 
-const CompanyList = ({ list, detail, route }) => {
+const CompanyList = ({ list, detail, route, filterOnSubmit }) => {
   const companyId = R.prop('companyId', route)
   const query = R.path(['location', 'query'], route)
   const getLink = (item) => {
@@ -43,12 +44,20 @@ const CompanyList = ({ list, detail, route }) => {
     R.curry(fromNow)(R.__, DATE_FORMAT.DEFAULT_FORMAT)
   )
 
-  const companyListFilter = (
-    <CompanyListFilter onSubmit={(value) => console.log(value)} />
+  const dialogs = (
+    <CompanyListFilter route={route} onSubmit={filterOnSubmit} />
+  )
+  const actions = (
+    <CompanyListActions />
   )
 
   return (
-    <Table route={route} detail={detail} list={list} filter={companyListFilter}>
+    <Table
+      route={route}
+      list={list}
+      detail={detail}
+      actions={actions}
+      dialogs={dialogs}>
       <TableHeader>
         <TableCell sort="id">ID</TableCell>
         <TableCell columnSize={3} sort="name">Title</TableCell>
@@ -81,7 +90,8 @@ CompanyList.propTypes = {
     id: PropTypes.number,
     detail: PropTypes.node
   }).isRequired,
-  route: PropTypes.object
+  route: PropTypes.object,
+  filterOnSubmit: PropTypes.func.isRequired
 }
 
 export default CompanyList

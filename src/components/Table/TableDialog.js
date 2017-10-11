@@ -1,3 +1,4 @@
+import R from 'ramda'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ownerDocument from 'dom-helpers/ownerDocument'
@@ -9,6 +10,10 @@ import withStyles from 'material-ui-next/styles/withStyles'
 import IconButton from 'material-ui-next/IconButton'
 import CloseIcon from 'material-ui-icons/Close'
 import addEventListener from '../../helpers/addEventListener'
+import { appendParamsToUrl } from '../../helpers/urls'
+import { getQueryValueFormRoute, getFullPathFromLocation } from '../../helpers/get'
+
+export const TABLE_QUERY_KEY = 'tableDialog'
 
 const styles = theme => ({
   root: {
@@ -80,8 +85,26 @@ class TableDialog extends React.Component {
     }
   }
 
+  onCloseFilter = () => {
+    const { route: { push, location } } = this.props
+    const fullPath = getFullPathFromLocation(location)
+
+    return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: null }, fullPath))
+  }
+
+  isOpen = () => {
+    const { name, route } = this.props
+    const tableQueryKey = getQueryValueFormRoute(TABLE_QUERY_KEY, route)
+
+    return !R.equals(name, tableQueryKey)
+  }
+
   render () {
-    const { classes, title, children } = this.props
+    const { classes, children, title } = this.props
+
+    if (this.isOpen()) {
+      return null
+    }
 
     return (
       <div className={classes.root} ref={ref => { this.modal = ref }}>
@@ -89,7 +112,7 @@ class TableDialog extends React.Component {
           <div>
             <div className={classes.title}>
               {title}
-              <IconButton>
+              <IconButton onClick={this.onCloseFilter}>
                 <CloseIcon />
               </IconButton>
             </div>
@@ -107,6 +130,12 @@ TableDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  route: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired
+}
+
+TableDialog.defaultProps = {
+  name: 'filter'
 }
 
 export default compose(

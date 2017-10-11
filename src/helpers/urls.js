@@ -1,6 +1,6 @@
 import R from 'ramda'
 
-const getParamsFromUrl = (url) => {
+const getQueryFromUrl = (url) => {
   const [, search] = R.split('?', url)
   const searchToObject = R.pipe(
     R.split('&'),
@@ -23,14 +23,14 @@ const getPathnameFromUrl = R.pipe(
 
 const appendParamsToUrl = (appendParams, url) => {
   const pathname = getPathnameFromUrl(url)
-  const params = getParamsFromUrl(url)
+  const params = getQueryFromUrl(url)
   const newParams = R.merge(params, appendParams)
 
   return pathname + '?' + paramsToSearch(newParams)
 }
 
 const sortingStatus = (url, key, value) => {
-  const params = getParamsFromUrl(url)
+  const params = getQueryFromUrl(url)
   const currentValue = R.pipe(
     R.pathOr('', [key]),
     R.split(','),
@@ -49,7 +49,7 @@ const sortingStatus = (url, key, value) => {
 }
 
 const sortingUrl = (url, key, value) => {
-  const params = getParamsFromUrl(url)
+  const params = getQueryFromUrl(url)
   const sortValues = R.prop(key, params) || ''
   const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
   const status = sortingStatus(url, key, value)
@@ -66,7 +66,7 @@ const sortingUrl = (url, key, value) => {
 }
 
 const removeItemFromSelect = (url, key, value) => {
-  const params = getParamsFromUrl(url)
+  const params = getQueryFromUrl(url)
   const values = R.is(Array, value) ? R.map(String, value) : [String(value)]
 
   const selector = R.pipe(
@@ -84,7 +84,7 @@ const removeItemFromSelect = (url, key, value) => {
 }
 
 const addItemToSelect = (url, key, value) => {
-  const params = getParamsFromUrl(url)
+  const params = getQueryFromUrl(url)
   const values = R.is(Array, value) ? R.map(String, value) : [String(value)]
   const selector = R.pipe(
     R.prop(key),
@@ -101,6 +101,7 @@ const addItemToSelect = (url, key, value) => {
 }
 
 export {
+  getQueryFromUrl,
   appendParamsToUrl,
   sortingUrl,
   sortingStatus,

@@ -1,4 +1,4 @@
-import R from 'ramda'
+import * as R from 'ramda'
 import React from 'react'
 import { compose, pure, mapProps, withHandlers, setPropTypes, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'

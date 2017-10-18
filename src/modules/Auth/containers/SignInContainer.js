@@ -1,7 +1,8 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
+import { redirect } from '../../../helpers/window'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
 import { watchSocailAuth, watchAuthToken } from '../helpers'
@@ -10,27 +11,23 @@ import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
   loading: (
-    _.get(state, [STATE.SING_IN, 'loading']) ||
-    _.get(state, [STATE.TWITTER_REDIRECT, 'loading'])
+    R.path([STATE.SING_IN, 'loading'], state) ||
+    R.path([STATE.TWITTER_REDIRECT, 'loading'], state)
   ),
-  twitter: _.get(state, [STATE.TWITTER_REDIRECT, 'data', 'redirect']) || null,
-  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
-  error: _.get(state, [STATE.SING_IN, 'error']),
-  formValues: _.get(state, ['form', 'SignInForm', 'values'])
+  twitter: R.path([STATE.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
+  token: R.path([STATE.SING_IN, 'data', 'token'], state),
+  error: R.path([STATE.SING_IN, 'error'], state),
+  formValues: R.path(['form', 'SignInForm', 'values'], state)
 })
 
 const mapPropsToComponent = props => {
   const buttons = {
     facebook: {
-      handle: () => {
-        window.location.href = fbLoginURL()
-      },
+      handle: () => redirect(fbLoginURL()),
       label: 'Sign In with FaceBook',
     },
     google: {
-      handle: () => {
-        window.location.href = googleLoginURL()
-      },
+      handle: () => redirect(googleLoginURL()),
       label: 'Sign In with Google',
     },
     twitter: {
@@ -50,7 +47,7 @@ const enhance = compose(
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {
-      window.location.href = twitter
+      redirect(twitter)
     }
   }),
   withPropsOnChange(['token'], watchAuthToken),

@@ -1,4 +1,4 @@
-import R from 'ramda'
+import * as R from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
 import { Link } from 'react-router'
@@ -15,7 +15,7 @@ import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../c
 import CompanyListFilter from './CompanyListFilter'
 import CompanyListActions from './CompanyListActions'
 
-const CompanyList = ({ list, detail, route, filterOnSubmit }) => {
+const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpenFilter }) => {
   const companyId = R.prop('companyId', route)
   const query = R.path(['location', 'query'], route)
   const getLink = (item) => {
@@ -45,10 +45,10 @@ const CompanyList = ({ list, detail, route, filterOnSubmit }) => {
   )
 
   const dialogs = (
-    <CompanyListFilter route={route} onSubmit={filterOnSubmit} />
+    <CompanyListFilter route={route} onSubmit={onSubmitFilter} />
   )
   const actions = (
-    <CompanyListActions />
+    <CompanyListActions onOpenFilter={onOpenFilter} />
   )
 
   return (
@@ -91,7 +91,9 @@ CompanyList.propTypes = {
     detail: PropTypes.node
   }).isRequired,
   route: PropTypes.object,
-  filterOnSubmit: PropTypes.func.isRequired
+  onSubmitFilter: PropTypes.func,
+  onCloseFilter: PropTypes.func,
+  onOpenFilter: PropTypes.func,
 }
 
 export default CompanyList

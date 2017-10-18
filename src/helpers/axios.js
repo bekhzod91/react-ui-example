@@ -1,4 +1,4 @@
-import R from 'ramda'
+import * as R from 'ramda'
 import axios from 'axios'
 import { browserHistory } from 'react-router'
 import { API_URL } from '../constants/api'

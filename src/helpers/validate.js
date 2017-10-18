@@ -1,8 +1,8 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { SubmissionError } from 'redux-form'
 
 const validate = (data) => {
-  const nonFieldErrors = _.get(data, 'nonFieldErrors') || _.get(data, 'detail')
+  const nonFieldErrors = R.prop('nonFieldErrors', data) || R.prop('detail', data)
 
   throw new SubmissionError({
     ...data,

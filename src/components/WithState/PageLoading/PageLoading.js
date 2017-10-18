@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, branch, renderNothing } from 'recompose'
@@ -20,11 +20,11 @@ const PageLoading = () => (
 
 const enhance = compose(
   connect(state => ({
-    loading: _.get(state, ['pageLoading', 'loading'])
+    loading: R.path(['pageLoading', 'loading'], state)
   })),
   (render => (
     branch(render, renderNothing)
-  ))(props => !_.get(props, 'loading'))
+  ))(R.pipe(R.prop('loading'), R.not))
 )
 
 export default enhance(PageLoading)

@@ -6,7 +6,8 @@ import { compose, pure } from 'recompose'
 import withStyles from 'material-ui-next/styles/withStyles'
 import Button from 'material-ui-next/Button'
 import TableDialog from '../../../components/Table/TableDialog'
-import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
+import TextField from '../../../components/Form/SimpleFields/TextField'
+import AutocompleteField from '../../../components/Form/SmartFields/AutocompleteField'
 
 const styles = {
   buttonGroup: {
@@ -25,7 +26,7 @@ const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
   <TableDialog route={route} title="Filter">
     <form onSubmit={onSubmit}>
       <Field
-        component={TextFieldNext}
+        component={TextField}
         name="email"
         label="Email"
         placeholder="Enter Email"
@@ -34,10 +35,10 @@ const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
       />
 
       <Field
-        component={TextFieldNext}
+        component={AutocompleteField}
         name="email1"
-        label="Email"
-        placeholder="Enter Email"
+        label="Owner"
+        placeholder="Type owner name or email"
         fullWidth={true}
         margin="normal"
       />

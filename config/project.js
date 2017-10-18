@@ -49,7 +49,6 @@ module.exports = {
     'redux-form',
     'redux-promise-middleware',
     'redux-thunk',
-    'reselect',
     'rxjs',
     'sprintf'
   ],

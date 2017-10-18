@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import withStyles from 'material-ui-next/styles/withStyles'
-import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
+import TextField from '../../../components/Form/SimpleFields/TextField'
 import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
 
@@ -35,7 +35,7 @@ const RecoverForm = ({ classes, error, handleSubmit, ...props }) => (
 
     <Field
       name="email"
-      component={TextFieldNext}
+      component={TextField}
       label="Email"
       placeholder="Enter Email"
       fullWidth={true}

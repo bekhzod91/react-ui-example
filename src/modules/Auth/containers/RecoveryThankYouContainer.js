@@ -1,28 +1,28 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
 import RecoveryThankYou from '../components/RecoveryThankYou'
 import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  recovery: _.get(state, [STATE.RECOVERY, 'data']),
+  recovery: R.path([STATE.RECOVERY, 'data'], state),
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions, }),
+  connect(mapStateToProps, { ...actions, push }),
   withPropsOnChange(['recovery'], (props) => {
-    const email = _.get(props, ['recovery', 'email'])
+    const email = R.path(['recovery', 'email'], props)
 
     if (!email) {
-      browserHistory.push(ROUTE.SIGN_IN_URL)
+      props.push(ROUTE.SIGN_IN_URL)
     }
   }),
   mapProps((props) => {
-    const email = _.get(props, ['recovery', 'email'])
-    const firstName = _.get(props, ['recovery', 'firstName'])
+    const email = R.path(['recovery', 'email'], props)
+    const firstName = R.path(['recovery', 'firstName'], props)
 
     return {
       email,

@@ -1,4 +1,5 @@
-import R from 'ramda'
+import * as R from 'ramda'
+import classNames from 'classnames'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ownerDocument from 'dom-helpers/ownerDocument'
@@ -20,23 +21,38 @@ const styles = theme => ({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    zIndex: '999',
+    opacity: 0,
+    visibility: 'hidden',
+    transition: '0.8s',
+    zIndex: '997',
     '& > div:first-child': {
-      position: 'absolute',
-      top: 100,
-      left: '50%',
       '&:focus': {
         backgroundColor: 'red'
       },
-      marginLeft: -200,
       '& > div:first-child': {
         position: 'fixed',
         background: '#fff',
         width: 400,
         boxShadow: theme.shadows[9]
-      }
+      },
+      position: 'absolute',
+      zIndex: '999',
+      top: 100,
+      left: '50%',
+      marginLeft: -200,
+    },
+    '& > div:last-child': {
+      position: 'absolute',
+      zIndex: '998',
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
     }
+  },
+
+  active: {
+    opacity: 1,
+    visibility: 'visible',
   },
 
   title: {
@@ -85,7 +101,8 @@ class TableDialog extends React.Component {
     }
   }
 
-  onCloseFilter = () => {
+  onCloseFilter = (event) => {
+    event.preventDefault()
     const { route: { push, location } } = this.props
     const fullPath = getFullPathFromLocation(location)
 
@@ -96,20 +113,16 @@ class TableDialog extends React.Component {
     const { name, route } = this.props
     const tableQueryKey = getQueryValueFormRoute(TABLE_QUERY_KEY, route)
 
-    return !R.equals(name, tableQueryKey)
+    return R.equals(name, tableQueryKey)
   }
 
   render () {
     const { classes, children, title } = this.props
 
-    if (this.isOpen()) {
-      return null
-    }
-
     return (
-      <div className={classes.root} ref={ref => { this.modal = ref }}>
-        <div tabIndex="-1">
-          <div>
+      <div className={classNames(classes.root, { [classes.active]: this.isOpen() })}>
+        <div ref={ref => { this.modal = ref }}>
+          <div tabIndex="-1">
             <div className={classes.title}>
               {title}
               <IconButton onClick={this.onCloseFilter}>
@@ -121,6 +134,7 @@ class TableDialog extends React.Component {
             </div>
           </div>
         </div>
+        <div onClick={this.onCloseFilter} />
       </div>
     )
   }

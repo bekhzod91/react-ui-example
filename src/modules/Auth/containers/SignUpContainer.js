@@ -1,9 +1,10 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
+import { redirect } from '../../../helpers/window'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
 import { watchSocailAuth, watchAuthToken } from '../helpers'
@@ -13,25 +14,21 @@ import { signUpAction } from '../actions/signUp'
 import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [STATE.SIGN_UP, 'loading']) || _.get(state, [STATE.TWITTER_REDIRECT, 'loading']),
-  twitter: _.get(state, [STATE.TWITTER_REDIRECT, 'data', 'redirect']) || null,
-  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
-  signUp: _.get(state, [STATE.SIGN_UP, 'data']),
-  formValues: _.get(state, ['form', FORM, 'values'])
+  loading: R.path([STATE.SIGN_UP, 'loading'], state) || R.path([STATE.TWITTER_REDIRECT, 'loading'], state),
+  twitter: R.path([STATE.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
+  token: R.path([STATE.SING_IN, 'data', 'token'], state),
+  signUp: R.path([STATE.SIGN_UP, 'data'], state),
+  formValues: R.path(['form', FORM, 'values'], state)
 })
 
 const mapPropsToComponent = props => {
   const buttons = {
     facebook: {
-      handle: () => {
-        window.location.href = fbLoginURL()
-      },
+      handle: () => redirect(fbLoginURL()),
       label: 'Sign Up with FaceBook',
     },
     google: {
-      handle: () => {
-        window.location.href = googleLoginURL()
-      },
+      handle: () => redirect(googleLoginURL()),
       label: 'Sign Up with Google',
     },
     twitter: {
@@ -47,11 +44,11 @@ const mapPropsToComponent = props => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions, signUpAction }),
+  connect(mapStateToProps, { ...actions, push, signUpAction }),
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {
-      window.location.href = twitter
+      redirect(twitter)
     }
   }),
   withPropsOnChange(['token'], watchAuthToken),
@@ -60,7 +57,7 @@ const enhance = compose(
     onSubmit: props => () => {
       return props
         .signUpAction(props.formValues)
-        .then(() => browserHistory.push(ROUTE.SIGN_UP_THANK_YOU_URL))
+        .then(() => props.push(ROUTE.SIGN_UP_THANK_YOU_URL))
     }
   })
 )

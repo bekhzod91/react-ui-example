@@ -1,7 +1,13 @@
+import * as R from 'ramda'
+import moment from 'moment'
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import getImgBg from '../helpers/getImgBg'
+
+const getImgBg = () => {
+  const imgName = R.toLower(moment().format('MMMM'))
+  return require(`./season/${imgName}.jpg`)
+}
 
 const styles = {
   wrapper: {

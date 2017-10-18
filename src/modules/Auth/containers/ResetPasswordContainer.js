@@ -1,32 +1,33 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withHandlers, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
-import ResetPassword from '../components/ResetPassword'
+import { getFormValueFromState } from '../../../helpers/get'
 import { openSnackbarAction, SUCCESS_TYPE } from '../../../components/WithState/Snackbar/actions'
-import { FORM } from '../components/ResetPasswordForm'
 import actions from '../actions/resetPassword'
+import ResetPassword from '../components/ResetPassword'
+import { FORM } from '../components/ResetPasswordForm'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [STATE.RESET_PASSWORD, 'loading']),
-  resetPassword: _.get(state, [STATE.RESET_PASSWORD, 'data']),
-  formValues: _.get(state, ['form', FORM, 'values']),
+  loading: R.path([STATE.RESET_PASSWORD, 'loading'], state),
+  resetPassword: R.path([STATE.RESET_PASSWORD, 'data'], state),
+  formValues: getFormValueFromState(FORM, state),
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions, openSnackbarAction }),
-  withPropsOnChange(['resetPassword'], (props) => {
-    const message = _.get(props, ['resetPassword', 'message'])
+  connect(mapStateToProps, { ...actions, push, openSnackbarAction }),
+  withPropsOnChange(['resetPassword'], ({ push, openSnackbarAction, ...props }) => {
+    const message = R.path(['resetPassword', 'message'], props)
     if (props.resetPassword) {
-      props.openSnackbarAction({ action: SUCCESS_TYPE, message })
-      browserHistory.push(ROUTE.SIGN_IN_URL)
+      openSnackbarAction({ action: SUCCESS_TYPE, message })
+      push(ROUTE.SIGN_IN_URL)
     }
   }),
   withHandlers({
     onSubmit: props => () => {
-      const code = _.get(props, ['params', 'code'])
+      const code = R.path(['params', 'code'], props)
       return props.resetPasswordAction(code, props.formValues)
     }
   })

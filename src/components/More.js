@@ -15,7 +15,7 @@ const More = ({ state, setState, children }) => (
 
 More.propTypes = {
   children: PropTypes.node.isRequired,
-  state: PropTypes.bool.isRequired,
+  state: PropTypes.object.isRequired,
   setState: PropTypes.func.isRequired
 }
 

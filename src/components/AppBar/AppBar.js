@@ -68,7 +68,7 @@ const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShow
 
 AppBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
   state: PropTypes.shape({
     menuOpen: PropTypes.bool.isRequired,
     showProfile: PropTypes.bool.isRequired

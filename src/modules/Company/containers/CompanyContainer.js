@@ -1,8 +1,12 @@
-import R from 'ramda'
-import { compose, withHandlers, mapPropsStream } from 'recompose'
+import * as R from 'ramda'
+import { Observable } from 'rxjs'
+import sprintf from 'sprintf'
+import { pure, compose, withHandlers, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
+import * as ROUTE from '../../../constants/routes'
+import { appendParamsToUrl } from '../../../helpers/urls'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
@@ -11,12 +15,14 @@ import {
   deleteCompanyAction
 } from '../actions/company'
 import Company from '../components/Company'
+import { TABLE_QUERY_KEY } from '../../../components/Table/TableDialog'
 import { form as filterFormName } from '../components/CompanyListFilter'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
   getFormValueFromState,
-  getDataFromState
+  getDataFromState,
+  getFullPathFromLocation
 } from '../../../helpers/get'
 
 const mapStateToProps = (state, props) => {
@@ -61,13 +67,28 @@ export default compose(
 
     return props$
   }),
-  withHandlers({
-    filterOnSubmit: props => (event) => {
-      event.preventDefault()
-      console.log(props.filterFormValue)
-    },
-    filterOnOpen: props => () => {
+  mapPropsStream(props$ => {
+    const { handler: onSubmitFilter, stream:  onSubmitFilter$ } = createEventHandler()
 
+    Observable
+      .zip(onSubmitFilter$, props$)
+      .subscribe(([ event, props ]) => {
+        event && event.preventDefault()
+        console.log(props)
+      })
+
+    return props$.combineLatest(props => ({ ...props, onSubmitFilter }))
+  }),
+  withHandlers({
+    onOpenFilter: ({ push, location: { search }, params: { companyId } }) => () => {
+      const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, parseInt(companyId))
+      const fullPath = `${pathname}${search}`
+      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
+    },
+    onCloseFilter: ({ push, location }) => () => {
+      const fullPath = getFullPathFromLocation(location)
+      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
     }
-  })
+  }),
+  pure
 )(Company)

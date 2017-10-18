@@ -1,13 +1,7 @@
-import R from 'ramda'
 import sprintf from 'sprintf'
 import axios from '../../../helpers/axios'
 import * as actionsTypes from '../constants/actionTypes'
-
-const getPayloadFromSuccess = R.prop('data')
-const getPayloadFromError = R.pipe(
-  Promise.reject,
-  R.path(['response', 'data'])
-)
+import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
 
 // ------------------------------------
 // Action fetch user list

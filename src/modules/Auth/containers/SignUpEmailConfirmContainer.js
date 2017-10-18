@@ -1,7 +1,7 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
 import SignUpConfirm from '../components/SignUpConfirm'
@@ -9,20 +9,20 @@ import { signUpEmailConfirmAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
   loading: !(
-    _.get(state, [STATE.SIGN_UP_EMAIL_CONFIRM, 'loading']) ||
-    _.get(state, [STATE.SIGN_UP_EMAIL_CONFIRM, 'success']) ||
-    _.get(state, [STATE.SIGN_UP_EMAIL_CONFIRM, 'failed'])
+    R.path([STATE.SIGN_UP_EMAIL_CONFIRM, 'loading'], state) ||
+    R.path([STATE.SIGN_UP_EMAIL_CONFIRM, 'success'], state) ||
+    R.path([STATE.SIGN_UP_EMAIL_CONFIRM, 'failed'], state)
   ),
-  data: _.get(state, [STATE.SIGN_UP_EMAIL_CONFIRM, 'data']) || {},
+  data: R.pathOr({}, [STATE.SIGN_UP_EMAIL_CONFIRM, 'data'], state),
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { signUpEmailConfirmAction }),
+  connect(mapStateToProps, { signUpEmailConfirmAction, push }),
   withPropsOnChange(['loading'], (props) => {
     if (!props.loading) {
-      const code = _.get(props, ['params', 'code'])
+      const code = R.path(['params', 'code'], props)
       props.signUpEmailConfirmAction(code)
-        .catch(() => browserHistory.push(ROUTE.SIGN_IN_URL))
+        .catch(() => props.push(ROUTE.SIGN_IN_URL))
     }
   })
 )

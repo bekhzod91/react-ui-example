@@ -1,22 +1,21 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
 import { fetchMyCompaniesAction } from '../actions/myCompanies'
 
 const mapStateToProps = (state, props) => {
-  const companyId = _.get(props, ['params', 'companyId'])
-  const company = _
-    .chain(state)
-    .get([STATE.USER_COMPANIES, 'data'])
-    .filter((item) => item.id === _.toInteger(companyId))
-    .first()
-    .value()
+  const companyId = R.path(['params', 'companyId'], props)
+  const company = R.pipe(
+      R.path([STATE.USER_COMPANIES, 'data']),
+      R.filter(R.whereEq({ id: parseInt(companyId) })),
+      R.head
+    )
 
   return {
-    loading: _.get(state, [STATE.USER_COMPANIES, 'loading']),
-    companyName: _.get(company, 'name') || '',
-    list: _.get(state, [STATE.USER_COMPANIES, 'data']) || []
+    loading: R.path(state, [STATE.USER_COMPANIES, 'loading']),
+    companyName: R.prop('name', company) || '',
+    list: R.pathOr([], [STATE.USER_COMPANIES, 'data'], state)
   }
 }
 
@@ -29,8 +28,8 @@ export default compose(
   mapPropsStream((props$) => {
     props$
       .filter(props => props.token)
-      .filter(props => _.get(props, ['params', 'companyId']))
-      .distinctUntilChanged(null, (props) => _.get(props, ['params', 'companyId']))
+      .filter(props => R.path(['params', 'companyId'], props))
+      .distinctUntilChanged(null, (props) => R.path(['params', 'companyId'], props))
       .subscribe(props => props.fetchMyCompaniesAction())
 
     return props$

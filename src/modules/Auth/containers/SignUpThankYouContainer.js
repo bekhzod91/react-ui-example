@@ -1,38 +1,38 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withPropsOnChange, withHandlers, mapProps } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
 import SignUpThankYou from '../components/SignUpThankYou'
 import { resendMessageAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
-  data: _.get(state, [STATE.SIGN_UP, 'data']),
-  loading: _.get(state, [STATE.RESEND_MESSAGE, 'loading']),
+  data: R.path([STATE.SIGN_UP, 'data'], state),
+  loading: R.path([STATE.RESEND_MESSAGE, 'loading'], state),
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { resendMessageAction }),
+  connect(mapStateToProps, { resendMessageAction, push }),
   withPropsOnChange(['data'], (props) => {
-    const email = _.get(props, ['data', 'email'])
+    const email = R.path(['data', 'email'], props)
 
     if (!email) {
-      browserHistory.push(ROUTE.SIGN_IN_URL)
+      props.push(ROUTE.SIGN_IN_URL)
     }
   }),
   withHandlers({
     resend: props => () => {
-      const email = _.get(props, ['data', 'email'])
+      const email = R.path(['data', 'email'], props)
 
       return props
         .resendMessageAction(email)
-        .then(() => browserHistory.push(ROUTE.SIGN_UP_RESEND_MESSAGE_URL))
+        .then(() => props.push(ROUTE.SIGN_UP_RESEND_MESSAGE_URL))
     }
   }),
   mapProps((props) => {
-    const email = _.get(props, ['data', 'email'])
-    const firstName = _.get(props, ['data', 'firstName'])
+    const email = R.path(['data', 'email'], props)
+    const firstName = R.path(['data', 'firstName'], props)
 
     return {
       email,

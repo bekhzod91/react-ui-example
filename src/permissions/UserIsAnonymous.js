@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import * as STATE from '../constants/state'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect'
 
 export default connectedRouterRedirect({
   redirectPath: '/sign-in',
-  authenticatedSelector: state => !_.get(state, [STATE.SING_IN, 'data', 'token']),
+  authenticatedSelector: R.pipe(R.path([STATE.SING_IN, 'data', 'token']), R.not),
   wrapperDisplayName: 'UserIsAnonymous'
 })

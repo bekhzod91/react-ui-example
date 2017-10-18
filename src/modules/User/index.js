@@ -1,4 +1,3 @@
-import { injectReducers } from '../../reducers'
 import * as ROUTE from '../../constants/routes'
 import {
   startLoadingAction,

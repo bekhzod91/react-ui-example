@@ -5,12 +5,14 @@ import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'
 import * as ROUTER from '../../../constants/routes'
-import TextFieldNext from '../../../components/Form/SimpleFields/TextFieldNext'
+import TextField from '../../../components/Form/SimpleFields/TextField'
 import PasswordViewField from '../../../components/Form/SmartFields/PasswordViewField'
 import Checkbox from '../../../components/Form/SimpleFields/Checkbox'
 import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
+
+export const FORM = 'SignInForm'
 
 const styles = {
   generalError: {
@@ -35,9 +37,7 @@ const styles = {
 }
 
 const enhance = compose(
-  reduxForm({
-    form: 'SignInForm'
-  }),
+  reduxForm({ form: FORM }),
   withStyles(styles)
 )
 
@@ -47,7 +47,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
 
     <Field
       name="email"
-      component={TextFieldNext}
+      component={TextField}
       label="Email"
       placeholder="Enter Email"
       fullWidth={true}

@@ -1,4 +1,4 @@
-import R from 'ramda'
+import * as R from 'ramda'
 import * as STATE from '../constants/state'
 import { routerActions } from 'react-router-redux'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect'

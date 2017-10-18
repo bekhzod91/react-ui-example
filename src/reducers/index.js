@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
@@ -27,7 +27,10 @@ export const injectReducer = (store, { key, reducer }) => {
 }
 
 export const injectReducers = (store, reducers) => {
-  _.forEach(reducers, (reducer, key) => {
-    injectReducer(store, { key, reducer })
-  })
+  R.pipe(
+    R.toPairs,
+    R.forEach(([key, reducer]) => {
+      injectReducer(store, { key, reducer })
+    })
+  )(reducers)
 }

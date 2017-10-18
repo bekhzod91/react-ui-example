@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,11 +44,11 @@ const styles = theme => ({
 })
 
 const Companies = ({ classes, loading, list }) => {
-  const companies = _.map(list, (item, index) => {
-    const id = _.get(item, 'id')
-    const name = _.get(item, 'name')
-    const logoUrl = _.get(item, ['logo', 'uri'])
-    const lastActivityDate = _.get(item, 'lastActivity')
+  const companies = R.map((item, index) => {
+    const id = R.prop('id', item)
+    const name = R.prop('name', item)
+    const logoUrl = R.path(['logo', 'uri'], item)
+    const lastActivityDate = R.prop('lastActivity', item)
     const activityInfo = lastActivityDate ? (
       `Last activity ${fromNow(lastActivityDate, 'D MMM YYYY')}`
     ) : 'Never been activity'
@@ -65,7 +65,7 @@ const Companies = ({ classes, loading, list }) => {
         className={classes.avatarWithOutLogo}
         size={40}
         style={styles.companyLogo}
-      >{_.get(name, 0)}</Avatar>
+      >{R.prop(0, name)}</Avatar>
     )
 
     return (
@@ -81,7 +81,7 @@ const Companies = ({ classes, loading, list }) => {
         <Divider light={true} />
       </div>
     )
-  })
+  }, list)
 
   const content = loading ? (
     <div className={classes.loader}>

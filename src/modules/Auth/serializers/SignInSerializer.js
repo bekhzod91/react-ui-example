@@ -1,15 +1,15 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 
 export const signInSerializer = (formValue) => {
   return {
-    email: _.get(formValue, 'email'),
-    password: _.get(formValue, 'password'),
+    email: R.prop('email', formValue),
+    password: R.prop('password', formValue),
   }
 }
 
 export const twitterSignInSerializer = (data) => {
   return {
-    'oauth_token': _.get(data, 'oauthToken'),
-    'oauth_verifier': _.get(data, 'oauthVerifier'),
+    'oauth_token': R.prop('oauthToken', data),
+    'oauth_verifier': R.prop('oauthVerifier', data),
   }
 }

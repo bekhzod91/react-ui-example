@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
-import { browserHistory } from 'react-router'
-import RaisedButton from 'material-ui/RaisedButton'
+import Button from 'material-ui-next/Button'
 import * as ROUTE from '../../../constants/routes'
-import BgImgWrapper from '../../../components/BgImgWrapper'
+import BgImgWrapper from '../../../components/BgImgWarpper/BgImgWrapper'
 
 const styles = {
   content: {
@@ -24,28 +23,32 @@ const styles = {
     color: 'rgba(255,255,255,.5)',
     margin: '10px 0'
   },
+
   h2: {
     color: '#fff',
     textAlign: 'center',
     fontSize: '2em',
     lineHeight: '1.5em'
   },
+
   buttonWrapper: {
     display: 'flex',
     justifyContent: 'center'
   }
 }
 
-const PageWrapper = ({ classes, title, children }) => (
+const PageWrapper = ({ classes, title, children, route }) => (
   <BgImgWrapper>
     <div className={classes.content}>
       <h1 className={classes.h1}>{title}</h1>
       <h2 className={classes.h2}>{children}</h2>
       <div className={classes.buttonWrapper}>
-        <RaisedButton
-          label="Let's go home"
-          primary={true}
-          onTouchTap={() => browserHistory.push(ROUTE.COMPANY_MY_LIST_URL)} />
+        <Button
+          raised={true}
+          color="primary"
+          onClick={() => route.push(ROUTE.COMPANY_MY_LIST_URL)}>
+          Let's go home
+        </Button>
       </div>
     </div>
   </BgImgWrapper>
@@ -54,7 +57,12 @@ const PageWrapper = ({ classes, title, children }) => (
 PageWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  route: PropTypes.shape({
+    location: PropTypes.object.isRequired,
+    push: PropTypes.func.isRequired,
+    companyId: PropTypes.number,
+  })
 }
 
 export default withStyles(styles)(PageWrapper)

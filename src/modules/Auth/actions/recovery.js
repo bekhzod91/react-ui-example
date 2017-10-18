@@ -1,6 +1,6 @@
-import _ from 'lodash'
 import axios from '../../../helpers/axios'
 import * as actionsTypes from '../constants/actionTypes'
+import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
 
 // ------------------------------------
 // Action account recovery
@@ -10,8 +10,8 @@ export const API_RECOVERY_URL = `/user/recovery/`
 export const recoveryAction = (data) => {
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).put(API_RECOVERY_URL, data)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.RECOVERY,

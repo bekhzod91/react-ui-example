@@ -1,21 +1,21 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
 import { getPermissionsAction } from '../actions/permissions'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [STATE.USER_PERMISSION, 'loading'])
+  loading: R.path([STATE.USER_PERMISSION, 'loading'], state)
 })
 
 export default compose(
   connect(mapStateToProps, { getPermissionsAction }),
   mapPropsStream((props$) => {
     props$
-      .filter((props) => _.get(props, ['params', 'companyId']))
-      .distinctUntilChanged(null, (props) => _.get(props, ['params', 'companyId']))
+      .filter((props) => R.path(['params', 'companyId'], props))
+      .distinctUntilChanged(null, (props) => R.path(['params', 'companyId'], props))
       .subscribe((props) => {
-        props.getPermissionsAction(_.get(props, ['params', 'companyId']))
+        props.getPermissionsAction(R.path(['params', 'companyId'], props))
       })
 
     return props$

@@ -4,12 +4,12 @@ import { withState } from 'recompose'
 import IconButton from 'material-ui-next/IconButton'
 import Visibility from 'material-ui-icons/Visibility'
 import VisibilityOff from 'material-ui-icons/VisibilityOff'
-import TextFieldNext from '../SimpleFields/TextFieldNext'
+import TextField from '../SimpleFields/TextField'
 
 const PasswordViewField = ({ visibility, setVisibility, ...props }) => {
   return (
     <div style={{ position: 'relative' }}>
-      <TextFieldNext
+      <TextField
         {...props}
         type={visibility ? 'text' : 'password'}
       />

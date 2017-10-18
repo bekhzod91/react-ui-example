@@ -1,5 +1,5 @@
-import Page404 from './components/Page404'
-import Page500 from './components/Page500'
+import Page404Container from './containers/Page404Container'
+import Page500Container from './containers/Page500Container'
 
 // Sync route definition
 export default (store) => ({
@@ -7,11 +7,11 @@ export default (store) => ({
   childRoutes: [
     {
       path: '500',
-      component: Page500
+      component: Page500Container
     },
     {
       path: '*',
-      component: Page404
+      component: Page404Container
     }
   ]
 })

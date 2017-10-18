@@ -1,27 +1,28 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
+import { getFormValueFromState } from '../../../helpers/get'
 import Recovery from '../components/Recovery'
 import { FORM } from '../components/RecoveryForm'
 import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  loading: _.get(state, [STATE.RECOVERY, 'loading']),
-  recovery: _.get(state, [STATE.RECOVERY, 'data']),
-  error: _.get(state, [STATE.RECOVERY, 'error']),
-  formValues: _.get(state, ['form', FORM, 'values']),
+  loading: R.path([STATE.RECOVERY, 'loading'], state),
+  recovery: R.path([STATE.RECOVERY, 'data'], state),
+  error: R.path([STATE.RECOVERY, 'error'], state),
+  formValues: getFormValueFromState(FORM, state),
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions }),
+  connect(mapStateToProps, { ...actions, push }),
   withHandlers({
     onSubmit: props => () => {
       return props
         .recoveryAction(props.formValues)
-        .then(() => browserHistory.push(ROUTE.RECOVERY_THANK_YOU_URL))
+        .then(() => props.push(ROUTE.RECOVERY_THANK_YOU_URL))
     }
   })
 )

@@ -1,4 +1,4 @@
-import R from 'ramda'
+import * as R from 'ramda'
 import { getQueryFromUrl } from './urls'
 
 export const getIdFromProps = R.pipe(R.path(['params', 'id']), parseInt)
@@ -20,3 +20,8 @@ export const getQueryValueFormLocation = R.curry((key, location) => R.pipe(
 )(location))
 export const getQueryValueFormRoute = R.curry((key, { location }) => getQueryValueFormLocation(key, location))
 export const getQueryValueFormProps = R.curry((key, { route }) => getQueryValueFormRoute(key, route))
+export const getPayloadFromSuccess = R.prop('data')
+export const getPayloadFromError = R.pipe(
+  R.path(['response', 'data']),
+  (data) => Promise.reject(data),
+)

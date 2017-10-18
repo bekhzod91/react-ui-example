@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
@@ -40,7 +40,7 @@ SignUpMessageResend.propTypes = {
 const enhance = compose(
   (render =>
       branch(render, renderNothing)
-  )(props => !_.get(props, 'email')),
+  )(R.pipe(R.prop('email'), R.not)),
   withStyles(styles),
 )
 

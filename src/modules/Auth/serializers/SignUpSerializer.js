@@ -1,11 +1,11 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 
 export const signUpSerializer = (formValue) => {
   return {
-    email: _.get(formValue, 'email'),
-    company: _.get(formValue, 'company'),
-    'first_name': _.get(formValue, 'firstName'),
-    'second_name': _.get(formValue, 'secondName'),
-    password: _.get(formValue, 'password'),
+    email: R.prop('email', formValue),
+    company: R.prop('company', formValue),
+    'first_name': R.prop('firstName', formValue),
+    'second_name': R.prop('secondName', formValue),
+    password: R.prop('password', formValue),
   }
 }

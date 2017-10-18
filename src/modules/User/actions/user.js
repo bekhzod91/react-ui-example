@@ -1,6 +1,6 @@
-import _ from 'lodash'
 import sprintf from 'sprintf'
 import axios from '../../../helpers/axios'
+import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
 import * as actionsTypes from '../constants/actionTypes'
 
 // ------------------------------------
@@ -13,8 +13,8 @@ export const getUserListAction = (companyId) => {
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).get(url)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.USER_LIST,
@@ -33,8 +33,8 @@ export const getUserDetailAction = (companyId, userId) => {
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).get(url)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.USER_DETAIL,
@@ -53,8 +53,8 @@ export const addUserAction = (data, companyId) => {
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).post(url, data)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.USER_ADD,
@@ -73,8 +73,8 @@ export const editUserAction = (data, companyId, userId) => {
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).put(url, data)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.USER_EDIT,
@@ -93,8 +93,8 @@ export const deleteUserAction = (data, companyId, userId) => {
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState }).put(url, data)
-      .then((response) => _.get(response, 'data'))
-      .catch((error) => Promise.reject(_.get(error, ['response', 'data'])))
+      .then(getPayloadFromSuccess)
+      .catch(getPayloadFromError)
 
     return dispatch({
       type: actionsTypes.USER_DELETE,

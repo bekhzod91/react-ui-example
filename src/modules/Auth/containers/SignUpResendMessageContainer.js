@@ -1,28 +1,28 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux'
 import * as ROUTE from '../../../constants/routes'
 import * as STATE from '../../../constants/state'
 import SignUpMessageResend from '../components/SignUpMessageResend'
 import { resendMessageAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
-  data: _.get(state, [STATE.SIGN_UP, 'data'])
+  data: R.path([STATE.SIGN_UP, 'data'], state)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, { resendMessageAction }),
+  connect(mapStateToProps, { resendMessageAction, push }),
   withPropsOnChange(['data'], (props) => {
-    const email = _.get(props, ['data', 'email'])
+    const email = R.path(['data', 'email'], props)
 
     if (!email) {
-      browserHistory.push(ROUTE.SIGN_IN_URL)
+      props.push(ROUTE.SIGN_IN_URL)
     }
   }),
   mapProps((props) => {
-    const email = _.get(props, ['data', 'email'])
-    const firstName = _.get(props, ['data', 'firstName'])
+    const email = R.path(['data', 'email'], props)
+    const firstName = R.path(['data', 'firstName'], props)
 
     return {
       email,

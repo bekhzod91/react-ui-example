@@ -3,7 +3,7 @@ import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import LinearProgress from 'material-ui/LinearProgress'
 import Logo from '../Logo'
-import BgImgWrapper from '../BgImgWrapper'
+import BgImgWrapper from '../BgImgWarpper/BgImgWrapper'
 
 export const styles = {
   content: {

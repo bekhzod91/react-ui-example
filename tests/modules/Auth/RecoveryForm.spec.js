@@ -1,16 +1,15 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import sinon from 'sinon'
 import MockAdapter from 'axios-mock-adapter'
 import { mount } from 'enzyme'
-// import { describe, beforeEach, it } from 'mocha'
 import { Provider } from 'react-redux'
 import RecoveryForm, { FORM } from '../../../src/modules/Auth/components/RecoveryForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import TextFieldNext from '../../../src/components/Form/SimpleFields/TextFieldNext'
+import TextField from '../../../src/components/Form/SimpleFields/TextField'
 import { recoveryAction, API_RECOVERY_URL } from '../../../src/modules/Auth/actions/recovery'
 import createStore from '../../../src/store'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -23,7 +22,7 @@ describe('(Component) RecoveryForm', () => {
     injectReducers(store, authReducers)
 
     submit = sinon.spy(() => {
-      const values = _.get(store.getState(), ['form', FORM, 'values'])
+      const values = R.path(['form', FORM, 'values'], store.getState())
       return store.dispatch(recoveryAction(values))
     })
 
@@ -41,7 +40,7 @@ describe('(Component) RecoveryForm', () => {
   it('submit', () => {
     component.find('form').simulate('submit')
 
-    const formValues = _.get(store.getState(), ['form', FORM, 'values'])
+    const formValues = R.path(['form', FORM, 'values'], store.getState())
 
     expect(submit).to.have.property('callCount', 1)
     expect(formValues.email).to.equal('user@example.com')
@@ -59,12 +58,12 @@ describe('(Component) RecoveryForm', () => {
 
     component.find('form').simulate('submit')
 
-    expect(_.get(store.getState(), [STATE.RECOVERY, 'loading'])).to.equal(true)
+    expect(R.path([STATE.RECOVERY, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(_.get(store.getState(), [STATE.RECOVERY, 'data', 'email'])).to.equal(response.email)
-      expect(_.get(store.getState(), [STATE.RECOVERY, 'data', 'firstName'])).to.equal(response.firstName)
-      expect(_.get(store.getState(), [STATE.RECOVERY, 'data', 'secondName'])).to.equal(response.secondName)
+      expect(R.path([STATE.RECOVERY, 'data', 'email'], store.getState())).to.equal(response.email)
+      expect(R.path([STATE.RECOVERY, 'data', 'firstName'], store.getState())).to.equal(response.firstName)
+      expect(R.path([STATE.RECOVERY, 'data', 'secondName'], store.getState())).to.equal(response.secondName)
 
       done()
     })
@@ -79,10 +78,10 @@ describe('(Component) RecoveryForm', () => {
 
     component.find('form').simulate('submit')
 
-    expect(_.get(store.getState(), [STATE.RECOVERY, 'loading'])).to.equal(true)
+    expect(R.path([STATE.RECOVERY, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextFieldNext).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
 
       done()
     })

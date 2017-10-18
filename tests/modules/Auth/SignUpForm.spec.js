@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import sinon from 'sinon'
 import MockAdapter from 'axios-mock-adapter'
@@ -9,7 +9,8 @@ import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import TextFieldNext from '../../../src/components/Form/SimpleFields/TextFieldNext'
+import { getFormValueFromState } from '../../../src/helpers/get'
+import TextField from '../../../src/components/Form/SimpleFields/TextField'
 import { signUpAction, API_SIGN_UP_URL } from '../../../src/modules/Auth/actions/signUp'
 import createStore from '../../../src/store'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -22,7 +23,7 @@ describe('(Component) SignUpForm', () => {
     injectReducers(store, authReducers)
 
     submit = sinon.spy(() => {
-      const values = _.get(store.getState(), ['form', FORM, 'values'])
+      const values = getFormValueFromState(FORM, store.getState())
       return store.dispatch(signUpAction(values))
     })
 
@@ -43,7 +44,7 @@ describe('(Component) SignUpForm', () => {
   it('submit', () => {
     component.find('form').simulate('submit')
 
-    const formValues = _.get(store.getState(), ['form', FORM, 'values'])
+    const formValues = getFormValueFromState(FORM, store.getState())
 
     expect(submit).to.have.property('callCount', 1)
     expect(formValues.email).to.equal('user@example.com')
@@ -59,10 +60,10 @@ describe('(Component) SignUpForm', () => {
 
     component.find('form').simulate('submit')
 
-    expect(_.get(store.getState(), [STATE.SIGN_UP, 'loading'])).to.equal(true)
+    expect(R.path([STATE.SIGN_UP, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(_.get(store.getState(), [STATE.SIGN_UP, 'data', 'token'])).to.equal(response.token)
+      expect(R.path([STATE.SIGN_UP, 'data', 'token'], store.getState())).to.equal(response.token)
 
       done()
     })
@@ -80,13 +81,13 @@ describe('(Component) SignUpForm', () => {
 
     component.find('form').simulate('submit')
 
-    expect(_.get(store.getState(), [STATE.SIGN_UP, 'loading'])).to.equal(true)
+    expect(R.path([STATE.SIGN_UP, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextFieldNext).at(0).props().meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextFieldNext).at(1).props().meta.error[0]).to.equal(response['firstName'][0])
-      expect(component.find(TextFieldNext).at(2).props().meta.error[0]).to.equal(response['secondName'][0])
-      expect(component.find(TextFieldNext).at(3).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['firstName'][0])
+      expect(component.find(TextField).at(2).props().meta.error[0]).to.equal(response['secondName'][0])
+      expect(component.find(TextField).at(3).props().meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

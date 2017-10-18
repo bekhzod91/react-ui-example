@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import { push } from 'react-router-redux'
 import { compose, lifecycle, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
@@ -11,9 +11,9 @@ import { signOutAction } from '../actions/signOut'
 import { fetchProfileAction } from '../actions/profile'
 
 const mapStateToProps = (state) => ({
-  token: _.get(state, [STATE.SING_IN, 'data', 'token']),
-  userEmail: _.get(state, [STATE.USER_PROFILE, 'data', 'email']),
-  userImage: _.get(state, [STATE.USER_PROFILE, 'data', 'image'])
+  token: R.path([STATE.SING_IN, 'data', 'token'], state),
+  userEmail: R.path([STATE.USER_PROFILE, 'data', 'email'], state),
+  userImage: R.path([STATE.USER_PROFILE, 'data', 'image'], state)
 })
 
 const mapDispatchToProps = (dispatch) => {

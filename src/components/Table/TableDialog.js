@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import classNames from 'classnames'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ownerDocument from 'dom-helpers/ownerDocument'
@@ -13,6 +12,8 @@ import CloseIcon from 'material-ui-icons/Close'
 import addEventListener from '../../helpers/addEventListener'
 import { appendParamsToUrl } from '../../helpers/urls'
 import { getQueryValueFormRoute, getFullPathFromLocation } from '../../helpers/get'
+import FadeAnimation from '../../components/Animation/FadeAnimation'
+import SlideAnimation from '../../components/Animation/SlideAnimation'
 
 export const TABLE_QUERY_KEY = 'tableDialog'
 
@@ -21,57 +22,50 @@ const styles = theme => ({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    opacity: 0,
-    visibility: 'hidden',
-    transition: '0.8s',
     zIndex: '997',
+  },
+
+  wrapper: {
+    '&:focus': {
+      backgroundColor: 'red'
+    },
+    position: 'absolute',
+    zIndex: '999',
+    top: 100,
+    left: '50%',
+    marginLeft: -200,
+  },
+
+  background: {
+    position: 'absolute',
+    zIndex: '998',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+
+  dialog: {
+    position: 'fixed',
+    background: '#fff',
+    width: 400,
+    boxShadow: theme.shadows[9],
     '& > div:first-child': {
-      '&:focus': {
-        backgroundColor: 'red'
-      },
-      '& > div:first-child': {
-        position: 'fixed',
-        background: '#fff',
-        width: 400,
-        boxShadow: theme.shadows[9]
-      },
-      position: 'absolute',
-      zIndex: '999',
-      top: 100,
-      left: '50%',
-      marginLeft: -200,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: theme.palette.primary['400'],
+      lineHeight: '55px',
+      color: theme.table.headerTextColor,
+      boxShadow: theme.shadows[1],
+      fontSize: '18px',
+      paddingLeft: '10px',
+      '& svg': {
+        color: `${theme.table.headerIconColor} !important`
+      }
     },
     '& > div:last-child': {
-      position: 'absolute',
-      zIndex: '998',
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      padding: '0 10px 10px 10px'
     }
-  },
-
-  active: {
-    opacity: 1,
-    visibility: 'visible',
-  },
-
-  title: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: theme.palette.primary['400'],
-    lineHeight: '55px',
-    color: theme.table.headerTextColor,
-    boxShadow: theme.shadows[1],
-    fontSize: '18px',
-    paddingLeft: '10px',
-    '& svg': {
-      color: `${theme.table.headerIconColor} !important`
-    }
-  },
-
-  content: {
-    padding: '0 10px 10px 10px'
   }
 })
 
@@ -118,23 +112,30 @@ class TableDialog extends React.Component {
 
   render () {
     const { classes, children, title } = this.props
+    const isOpen = this.isOpen()
 
     return (
-      <div className={classNames(classes.root, { [classes.active]: this.isOpen() })}>
-        <div ref={ref => { this.modal = ref }}>
+      <div>
+        <div className={classes.wrapper} ref={ref => { this.modal = ref }}>
           <div tabIndex="-1">
-            <div className={classes.title}>
-              {title}
-              <IconButton onClick={this.onCloseFilter}>
-                <CloseIcon />
-              </IconButton>
-            </div>
-            <div className={classes.content}>
-              {children}
-            </div>
+            <SlideAnimation open={isOpen}>
+              <div className={classes.dialog}>
+                <div>
+                  {title}
+                  <IconButton onClick={this.onCloseFilter}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+                <div>
+                  {children}
+                </div>
+              </div>
+            </SlideAnimation>
           </div>
         </div>
-        <div onClick={this.onCloseFilter} />
+        <FadeAnimation open={isOpen}>
+          <div className={classes.background} onClick={this.onCloseFilter}>{''}</div>
+        </FadeAnimation>
       </div>
     )
   }

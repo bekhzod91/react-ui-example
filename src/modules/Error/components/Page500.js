@@ -1,17 +1,10 @@
-import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import PageWrapper from './PageWrapper'
 
-const Page500 = ({ push, location, ...props }) => {
-  const route = {
-    companyId: R.path(['params', 'companyId'], props),
-    location,
-    push
-  }
-
+const Page500 = ({ onGoHome }) => {
   return (
-    <PageWrapper title="500" route={route}>
+    <PageWrapper title="500" onGoHome={onGoHome}>
       <span style={{ fontSize: '2em' }}>Whoops!</span>
       <br />
       Something went wrong on our end,
@@ -22,9 +15,7 @@ const Page500 = ({ push, location, ...props }) => {
 }
 
 Page500.propTypes = {
-  push: PropTypes.func,
-  location: PropTypes.object,
-  route: PropTypes.object
+  onGoHome: PropTypes.func
 }
 
 export default Page500

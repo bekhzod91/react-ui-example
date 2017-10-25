@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { Observable } from 'rxjs'
 import sprintf from 'sprintf'
 import { pure, compose, withHandlers, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
@@ -48,6 +47,21 @@ const mapDispatchToProps = {
 export default compose(
   UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
+  withHandlers({
+    onOpenFilter: ({ push, location: { search }, params: { companyId } }) => () => {
+      const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, parseInt(companyId))
+      const fullPath = `${pathname}${search}`
+      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
+    },
+    // onSubmitFilter: props => (event) => {
+    //   event && event.preventDefault()
+    //   console.log(props)
+    // },
+    onCloseFilter: ({ push, location }) => () => {
+      const fullPath = getFullPathFromLocation(location)
+      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
+    }
+  }),
   mapPropsStream((props$) => {
     const getListRequestFromProps = R.pipe(
       R.path(['location', 'query']),
@@ -70,25 +84,14 @@ export default compose(
   mapPropsStream(props$ => {
     const { handler: onSubmitFilter, stream:  onSubmitFilter$ } = createEventHandler()
 
-    Observable
-      .zip(onSubmitFilter$, props$)
-      .subscribe(([ event, props ]) => {
+    onSubmitFilter$
+      .withLatestFrom(props$)
+      .subscribe(([event, props]) => {
         event && event.preventDefault()
         console.log(props)
       })
 
     return props$.combineLatest(props => ({ ...props, onSubmitFilter }))
-  }),
-  withHandlers({
-    onOpenFilter: ({ push, location: { search }, params: { companyId } }) => () => {
-      const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, parseInt(companyId))
-      const fullPath = `${pathname}${search}`
-      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
-    },
-    onCloseFilter: ({ push, location }) => () => {
-      const fullPath = getFullPathFromLocation(location)
-      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
-    }
   }),
   pure
 )(Company)

@@ -1,17 +1,10 @@
-import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import PageWrapper from './PageWrapper'
 
-const Page404 = ({ push, location, ...props }) => {
-  const route = {
-    companyId: R.path(['params', 'companyId'], props),
-    location,
-    push
-  }
-
+const Page404 = ({ onGoHome }) => {
   return (
-    <PageWrapper title="404" route={route}>
+    <PageWrapper title="404" onGoHome={onGoHome}>
       <span style={{ fontSize: '2em' }}>Whoops!</span>
       <br />
       We couldn't find this page.
@@ -20,9 +13,7 @@ const Page404 = ({ push, location, ...props }) => {
 }
 
 Page404.propTypes = {
-  push: PropTypes.func,
-  location: PropTypes.object,
-  route: PropTypes.object
+  onGoHome: PropTypes.func
 }
 
 export default Page404

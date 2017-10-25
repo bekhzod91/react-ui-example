@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 import Button from 'material-ui-next/Button'
-import * as ROUTE from '../../../constants/routes'
 import BgImgWrapper from '../../../components/BgImgWarpper/BgImgWrapper'
 
 const styles = {
@@ -37,7 +36,7 @@ const styles = {
   }
 }
 
-const PageWrapper = ({ classes, title, children, route }) => (
+const PageWrapper = ({ classes, title, children, onGoHome }) => (
   <BgImgWrapper>
     <div className={classes.content}>
       <h1 className={classes.h1}>{title}</h1>
@@ -46,7 +45,7 @@ const PageWrapper = ({ classes, title, children, route }) => (
         <Button
           raised={true}
           color="primary"
-          onClick={() => route.push(ROUTE.COMPANY_MY_LIST_URL)}>
+          onClick={onGoHome}>
           Let's go home
         </Button>
       </div>
@@ -58,11 +57,7 @@ PageWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
-  route: PropTypes.shape({
-    location: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired,
-    companyId: PropTypes.number,
-  })
+  onGoHome: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(PageWrapper)

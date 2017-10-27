@@ -9,6 +9,7 @@ import { sortingUrl, sortingStatus } from '../../helpers/urls'
 
 const styles = theme => ({
   button: {
+    cursor: 'pointer',
     display: 'inline-block',
     background: 'transparent',
     padding: '10px 10px 10px 10px',
@@ -67,10 +68,17 @@ const COLUMN_SIZE = FULL_WIDTH / MAX_COLUMN
 const TableCell = ({ classes, children, ...props }) => {
   const { sort, columnSize, getSortingUrl, renderIcon, style } = props
   const icon = sort && renderIcon(sort)
+  const onKeyPress = (event) => {
+    event.preventDefault()
+    if (event.keyCode === 0) {
+      getSortingUrl(event, sort)
+    }
+  }
+
   return (
     <div style={{ ...style, width: `${columnSize * COLUMN_SIZE}%`, }}>
       {sort ? (<div>
-        <a href="#" className={classes.button} onClick={(event) => getSortingUrl(event, sort)}>
+        <a className={classes.button} onClick={(event) => getSortingUrl(event, sort)} onKeyPress={onKeyPress}>
           <span>{children}</span>
           {icon && (<div className={classes.iconWrapper}>{icon}</div>)}
         </a>

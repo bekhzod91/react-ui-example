@@ -10,7 +10,8 @@ const styles = {
     marginTop: 8
   },
   menuContent: {
-    display: 'flex'
+    display: 'flex',
+    fontSize: '1em'
   },
   menuText: {
     marginLeft: 10

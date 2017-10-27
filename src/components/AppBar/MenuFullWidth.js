@@ -26,7 +26,13 @@ export const renderListItems = (item, index) => {
   const children = _.get(item, 'children')
 
   if (!_.isEmpty(children)) {
-    const style = index === 1 ? { borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`, background: STYLE.HOVER_COLOR } : {}
+    const style = index === 1 ? {
+      borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`,
+      background: STYLE.HOVER_COLOR,
+      fontSize: '1em'
+    } : {
+      fontSize: '1em'
+    }
 
     return (
       <ListItem
@@ -45,6 +51,9 @@ export const renderListItems = (item, index) => {
 
   return (
     <ListItem
+      style={{
+        fontSize: '1em'
+      }}
       key={index}
       hoverColor={STYLE.HOVER_COLOR}
       primaryText={title}

@@ -12,8 +12,8 @@ import CloseIcon from 'material-ui-icons/Close'
 import addEventListener from '../../helpers/addEventListener'
 import { appendParamsToUrl } from '../../helpers/urls'
 import { getQueryValueFormRoute, getFullPathFromLocation } from '../../helpers/get'
-import FadeAnimation from '../../components/Animation/FadeAnimation'
-import SlideAnimation from '../../components/Animation/SlideAnimation'
+import FadeInOutAnimation from '../../components/Animation/FadeInOutAnimation'
+import FadeDownUpAnimation from '../../components/Animation/FadeDownUpAnimation'
 
 export const TABLE_QUERY_KEY = 'tableDialog'
 
@@ -73,16 +73,17 @@ class TableDialog extends React.Component {
   modal = null;
   onFocusListener = null;
 
-  componentDidMount () {
-    if (!this.onFocusListener) {
+  componentWillReceiveProps (nextProps) {
+    const isOpen = this.isOpen(nextProps)
+
+    if (isOpen && !this.onFocusListener) {
       const doc = ownerDocument(ReactDOM.findDOMNode(this))
       this.onFocusListener = addEventListener(doc, 'focus', this.handleFocusListener, true)
     }
-  }
 
-  componentWillUnmount () {
-    if (this.onFocusListener) {
+    if (!isOpen && this.onFocusListener) {
       this.onFocusListener.remove()
+      this.onFocusListener = null
     }
   }
 
@@ -103,8 +104,8 @@ class TableDialog extends React.Component {
     return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: null }, fullPath))
   }
 
-  isOpen = () => {
-    const { name, route } = this.props
+  isOpen = (props) => {
+    const { name, route } = props
     const tableQueryKey = getQueryValueFormRoute(TABLE_QUERY_KEY, route)
 
     return R.equals(name, tableQueryKey)
@@ -112,13 +113,13 @@ class TableDialog extends React.Component {
 
   render () {
     const { classes, children, title } = this.props
-    const isOpen = this.isOpen()
+    const isOpen = this.isOpen(this.props)
 
     return (
       <div>
         <div className={classes.wrapper} ref={ref => { this.modal = ref }}>
           <div tabIndex="-1">
-            <SlideAnimation open={isOpen}>
+            <FadeDownUpAnimation open={isOpen}>
               <div className={classes.dialog}>
                 <div>
                   {title}
@@ -130,12 +131,12 @@ class TableDialog extends React.Component {
                   {children}
                 </div>
               </div>
-            </SlideAnimation>
+            </FadeDownUpAnimation>
           </div>
         </div>
-        <FadeAnimation open={isOpen}>
+        <FadeInOutAnimation open={isOpen}>
           <div className={classes.background} onClick={this.onCloseFilter}>{''}</div>
-        </FadeAnimation>
+        </FadeInOutAnimation>
       </div>
     )
   }

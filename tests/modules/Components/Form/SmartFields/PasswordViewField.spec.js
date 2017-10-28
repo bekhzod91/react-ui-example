@@ -9,6 +9,7 @@ import PasswordViewField from '../../../../../src/components/Form/SmartFields/Pa
 import MuiThemeProvider from '../../../../MuiThemeProvider'
 import createStore from '../../../../../src/store'
 import { getFormValueFromState } from '../../../../../src/helpers/get'
+import validate from '../../../../../src/helpers/validate'
 
 const FORM = 'TestForm'
 
@@ -18,8 +19,8 @@ describe('(Component) PasswordViewField', () => {
   beforeEach(() => {
     store = createStore({})
 
-    const PasswordForm = reduxForm({ form: FORM })(({ onSubmit }) => (
-      <form>
+    const PasswordForm = reduxForm({ form: FORM })(({ handleSubmit }) => (
+      <form onSubmit={handleSubmit(() => validate({ password: ['This field is required.'] }))}>
         <Field
           name="password"
           component={PasswordViewField}
@@ -45,6 +46,12 @@ describe('(Component) PasswordViewField', () => {
 
     const formValues = getFormValueFromState(FORM, store.getState())
     expect(formValues.password).to.equal('password')
+  })
+
+  it('error', () => {
+    component.find('form').simulate('submit')
+
+    expect(component.find(PasswordViewField).first().props().meta.error[0]).to.equal('This field is required.')
   })
 
   it('password hide by default', () => {

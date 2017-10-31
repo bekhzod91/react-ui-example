@@ -138,7 +138,7 @@ const MenuFullWidth = ({ classes, state, logout, ...props }) => (
             <div className={classes.collapse}>
               <IconButton
                 className={classes.dropDownButton}
-                onTouchTap={props.handleShowSettings}>
+                onClick={props.handleShowSettings}>
                 {state ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               </IconButton>
             </div>
@@ -163,7 +163,7 @@ const MenuFullWidth = ({ classes, state, logout, ...props }) => (
         />
         <ListItem
           primaryText={'SignOut'}
-          onTouchTap={() => logout()}
+          onClick={() => logout()}
           leftIcon={<ExitToAppIcon />}
         />
       </List>

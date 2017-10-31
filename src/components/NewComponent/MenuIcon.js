@@ -105,7 +105,7 @@ const renderListItems = (item, index, showTitle, setState) => {
     <ListItem
       key={index}
       button={true}
-      onTouchTap={(event) => console.log('Work')}>
+      onClick={(event) => console.log('Work')}>
       {icon}
     </ListItem>
   )

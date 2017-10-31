@@ -2,13 +2,8 @@ import Rx from 'rxjs'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { setObservableConfig } from 'recompose'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import createStore from './store'
 import './styles/main.scss'
-
-// Touch events
-// ------------------------------------
-injectTapEventPlugin()
 
 // Store Initialization
 // ------------------------------------

@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import LinearProgress from 'material-ui/LinearProgress'
+import LinearProgress from 'material-ui-next/Progress/LinearProgress'
 import Logo from '../Logo'
 import BgImgWrapper from '../BgImgWarpper/BgImgWrapper'
 
@@ -76,7 +76,7 @@ const AuthLayout = ({ classes, title, loading, children }) => (
     <div className={classes.content}>
       <div className={classes.loaderContent} />
       <div className={classes.loader}>
-        {loading && <LinearProgress mode="indeterminate" style={{ borderRadius: 0 }} />}
+        {loading && <LinearProgress />}
       </div>
 
       <Logo />

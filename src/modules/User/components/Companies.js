@@ -73,7 +73,7 @@ const Companies = ({ classes, loading, list }) => {
         <ListItem
           button={true}
           className={classes.companyItem}
-          onTouchTap={() => browserHistory.push(companyPage)}>
+          onClick={() => browserHistory.push(companyPage)}>
           <ListItemAvatar>{logo}</ListItemAvatar>
           <ListItemText primary={name} secondary={activityInfo} />
           <KeyboardArrowRight />
@@ -94,7 +94,7 @@ const Companies = ({ classes, loading, list }) => {
       <ListItem
         button={true}
         className={classes.goBack}
-        onTouchTap={() => browserHistory.push(ROUTE.SIGN_IN_URL)}>
+        onClick={() => browserHistory.push(ROUTE.SIGN_IN_URL)}>
         <KeyboardArrowLeft />
         <ListItemText primary="Go back" />
       </ListItem>

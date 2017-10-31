@@ -1,8 +1,8 @@
 import React from 'react'
 import { ToolbarGroup } from 'material-ui/Toolbar'
-import IconButton from 'material-ui/IconButton'
-import AvPlaylistAddIcon from 'material-ui/svg-icons/av/playlist-add'
-import LockOutlineIcon from 'material-ui/svg-icons/action/lock-outline'
+import IconButton from 'material-ui-next/IconButton'
+import PlaylistAddIcon from 'material-ui-icons/PlaylistAdd'
+import LockOutlineIcon from 'material-ui-icons/LockOutline'
 import * as STYLE from '../../styles/style'
 
 const styles = {
@@ -19,7 +19,7 @@ const RightAppBar = () => {
       </IconButton>
 
       <IconButton iconStyle={styles.icon} >
-        <AvPlaylistAddIcon />
+        <PlaylistAddIcon />
       </IconButton>
     </ToolbarGroup>
   )

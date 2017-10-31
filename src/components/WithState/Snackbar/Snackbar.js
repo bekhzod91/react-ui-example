@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import MUISnackbar from 'material-ui/Snackbar'
+import MUISnackbar from 'material-ui-next/Snackbar'
 import {
   SUCCESS_TYPE,
   INFO_TYPE,
@@ -30,6 +30,7 @@ const styles = {
 
 const Snackbar = ({ open, message, action, duration, close, ...props }) => (
   <MUISnackbar
+    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     open={open}
     message={message}
     bodyStyle={styles[action]}
@@ -51,10 +52,10 @@ Snackbar.propTypes = {
 
 const enhance = compose(
   connect((state) => ({
-    open: _.get(state, ['snackbar', 'open']),
-    message: _.get(state, ['snackbar', 'message']),
-    duration: _.get(state, ['snackbar', 'duration']),
-    action: _.get(state, ['snackbar', 'action'])
+    open: R.path(['snackbar', 'open'], state),
+    message: R.path(['snackbar', 'message'], state),
+    duration: R.path(['snackbar', 'duration'], state),
+    action: R.path(state, ['snackbar', 'action'], state)
   }), {
     close: closeSnackbarAction
   })

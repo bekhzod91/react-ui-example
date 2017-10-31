@@ -1,53 +1,53 @@
 import React from 'react'
-import ActionDashboard from 'material-ui/svg-icons/action/dashboard'
-import ActionCardGiftcard from 'material-ui/svg-icons/action/card-giftcard'
-import ActionCardTravel from 'material-ui/svg-icons/action/card-travel'
-import MapsMap from 'material-ui/svg-icons/maps/map'
-import MapsDirectionsBus from 'material-ui/svg-icons/maps/directions-bus'
-import MapsDirectionsCar from 'material-ui/svg-icons/maps/directions-car'
+import DashboardIcon from 'material-ui-icons/Dashboard'
+import CardGiftcardIcon from 'material-ui-icons/CardGiftcard'
+import CardTravelIcon from 'material-ui-icons/CardTravel'
+import MapIcon from 'material-ui-icons/Map'
+import DirectionsBusIcon from 'material-ui-icons/DirectionsBus'
+import DirectionsCarIcon from 'material-ui-icons/DirectionsCar'
 
 export default [
   {
     name: 'dashboard',
     url: '/dashboard',
     title: 'Dashboard',
-    icon: (<ActionDashboard />)
+    icon: (<DashboardIcon />)
   },
   {
     name: 'cards',
     title: 'Cards',
-    icon: (<ActionCardGiftcard />),
+    icon: (<CardGiftcardIcon />),
     children: [
       {
         name: 'cards-template',
         url: '/card-template',
         title: 'Card Template',
-        icon: (<ActionCardTravel />)
+        icon: (<CardTravelIcon />)
       },
       {
         name: 'cards-travel',
         url: '/card-travel',
         title: 'Card Travel',
-        icon: (<ActionCardTravel />)
+        icon: (<MapIcon />)
       }
     ]
   },
   {
     name: 'app-views',
     title: 'App views',
-    icon: (<MapsMap />),
+    icon: (<MapIcon />),
     children: [
       {
         name: 'bus',
         url: '/app-views/bus',
         title: 'Directions Bus',
-        icon: (<MapsDirectionsBus />)
+        icon: (<DirectionsBusIcon />)
       },
       {
         name: 'bus',
         url: '/app-views/car',
         title: 'Directions Card',
-        icon: (<MapsDirectionsCar />)
+        icon: (<DirectionsCarIcon />)
       }
     ]
   }

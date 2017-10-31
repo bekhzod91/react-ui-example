@@ -28,7 +28,7 @@ const SignUpThankYou = ({ classes, loading, resend, email, firstName }) => (
       <p className={classes.center}>Please click the link in that message to active your account</p>
 
       <p className={classes.center}>
-        <Link className={classes.action} onTouchTap={resend}>Resend the message</Link>
+        <Link className={classes.action} onClick={resend}>Resend the message</Link>
         {' or '}
         <Link to={ROUTE.SIGN_UP_URL}>Change your email</Link>
       </p>

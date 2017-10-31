@@ -30,7 +30,7 @@ const renderItemContent = (item, index, classes, handleMenuItemTouch) => {
       key={index}
       classes={{ selected: classes.selected }}
       selected={index === 0}
-      onTouchTap={event => handleMenuItemTouch(event, index)}>
+      onClick={event => handleMenuItemTouch(event, index)}>
       <div key={index} className={classes.menuContent}>
         {icon}
         <span className={classes.menuText}>{title}</span>

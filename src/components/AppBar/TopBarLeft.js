@@ -5,7 +5,7 @@ import injectSheet from 'react-jss'
 import { ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import * as STYLE from '../../styles/style'
 import logo from '../assets/logo-icon.png'
-import IconButton from 'material-ui/IconButton'
+import IconButton from 'material-ui-next/IconButton'
 import SidebarIcon from '../Icon/SidebarIcon'
 import AccountIcon from '../Icon/AccountIcon'
 
@@ -47,13 +47,13 @@ const TopBarLeft = ({ classes, title, menuOpen, setMenuOpen, setShowProfile }) =
         <IconButton
           iconStyle={styles.icon}
           className={classes.sidebar}
-          onTouchTap={setMenuOpen}>
+          onClick={setMenuOpen}>
           <SidebarIcon />
         </IconButton>
 
         <IconButton
           iconStyle={styles.icon}
-          onTouchTap={setShowProfile}>
+          onClick={setShowProfile}>
           <AccountIcon />
         </IconButton>
       </div>

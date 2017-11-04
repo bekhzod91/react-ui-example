@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState } from 'recompose'
-import { Motion, spring } from 'react-motion'
 import withStyles from 'material-ui-next/styles/withStyles'
 import List, { ListItem } from 'material-ui-next/List'
 import Avatar from 'material-ui-next/Avatar'
@@ -45,32 +44,26 @@ const styles = {
 
 const MenuIcon = ({ classes, state, setState, ...props }) => (
   <div>
-    <Motion style={{ height: spring(props.showProfile ? 0 : STYLES_BG_IMG_SIZE) }}>
-      {(options) => (
-        <div style={styles.profileAnimation(options)}>
-          {options.height !== STYLES_BG_IMG_SIZE && (
-            <div
-              className={classes.profileBackground}>
-              <div className={classes.avatar}>
-                <Avatar src={avatar} />
-              </div>
-            </div>
-          )}
-
-          <List>
-            {_.map(props.menuList, (item, index) => renderListItems(item, index, false, setState))}
-          </List>
-
-          <Menu
-            open={state.open}
-            anchorEl={state.anchorEl}
-            options={state.children}
-            handleMenuItemTouch={() => setState({ open: false, anchorEl: null })}
-            handleRequestClose={(event) => setState({ open: false, anchorEl: null })}
-          />
+    <div style={styles.profileAnimation(STYLES_BG_IMG_SIZE)}>
+      <div
+        className={classes.profileBackground}>
+        <div className={classes.avatar}>
+          <Avatar src={avatar} />
         </div>
-      )}
-    </Motion>
+      </div>
+
+      <List>
+        {_.map(props.menuList, (item, index) => renderListItems(item, index, false, setState))}
+      </List>
+
+      <Menu
+        open={state.open}
+        anchorEl={state.anchorEl}
+        options={state.children}
+        handleMenuItemTouch={() => setState({ open: false, anchorEl: null })}
+        handleRequestClose={(event) => setState({ open: false, anchorEl: null })}
+      />
+    </div>
   </div>
 )
 

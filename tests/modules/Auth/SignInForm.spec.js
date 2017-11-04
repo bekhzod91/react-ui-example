@@ -77,8 +77,8 @@ describe('(Component) SignInForm', () => {
     expect(R.path([STATE.SING_IN, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextField).at(1).instance().props.meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

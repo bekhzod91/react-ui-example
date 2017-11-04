@@ -46,7 +46,6 @@ module.exports = {
     "react-autosuggest",
     "react-dom",
     "react-jss",
-    "react-motion",
     "react-redux",
     "react-router",
     "react-router-redux",

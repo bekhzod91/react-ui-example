@@ -1,6 +1,7 @@
 import React from 'react'
-import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
+import { compose, pure } from 'recompose'
+import withStyles from 'material-ui-next/styles/withStyles'
 import Snackbar from '../../components/WithState/Snackbar'
 import PageLoading from '../../components/WithState/PageLoading'
 import { getProps } from '../AppBar'
@@ -31,7 +32,7 @@ class BaseLayout extends React.Component {
     const { children, ...props } = this.props
 
     return (
-      <div style={styles.page} key={'Base'}>
+      <div style={styles.page}>
         <PageLoading />
         {children && React.cloneElement(children, { appBar: getProps(props) })}
         <Snackbar />
@@ -40,4 +41,7 @@ class BaseLayout extends React.Component {
   }
 }
 
-export default injectSheet(styles)(BaseLayout)
+export default compose(
+  withStyles(styles),
+  pure
+)(BaseLayout)

@@ -1,52 +1,58 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Motion, spring } from 'react-motion'
 import withStyles from 'material-ui-next/styles/withStyles'
-import MenuFullWidth from './MenuFullWidth'
+import MenuBig from '../Menu'
 import MenuIcon from './MenuIcon'
 import menuList from './MenuList'
 
-const styles = theme => {
-  return {
-    menu: {
-      boxShadow: theme.shadows[5],
-      position: 'fixed',
-      minWidth: 'inherit',
-      maxWidth: 'inherit',
-      height: '100%',
-      backgroundColor: theme.menu.backgroundColor
-    }
+const styles = theme => ({
+  root: {
+    transition: '0.5s'
+  },
+  menu: {
+    boxShadow: theme.shadows[5],
+    position: 'fixed',
+    minWidth: 'inherit',
+    maxWidth: 'inherit',
+    height: '100%',
+    overflow: 'hidden',
+    backgroundColor: theme.menu.backgroundColor
   }
-}
+})
 
-const Menu = ({ classes, open, profile, showProfile, logout }) => (
-  <Motion defaultStyle={{ width: 56 }} style={{ width: open ? spring(256) : spring(56) }}>
-    {value => <div style={{ minWidth: value.width, maxWidth: value.width }}>
+const Menu = ({ classes, route, ...props }) => {
+  const { open, profile, profileIsVisible, logout } = props
+  const width = open ? 256 : 56
+
+  return (
+    <div className={classes.root} style={{ minWidth: width, maxWidth: width }}>
       <div className={classes.menu}>
         {open ? (
-          <MenuFullWidth
+          <MenuBig
+            route={route}
             profile={profile}
-            showProfile={showProfile}
+            profileIsVisible={profileIsVisible}
             menuList={menuList}
             logout={logout}
           />
         ) : (
           <MenuIcon
-            showProfile={showProfile}
+            profileIsVisible={profileIsVisible}
             menuList={menuList}
           />
         )}
       </div>
-    </div>}
-  </Motion>
-)
+    </div>
+  )
+}
 
 Menu.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  profile: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
-  showProfile: PropTypes.bool.isRequired
+  profile: PropTypes.object.isRequired,
+  profileIsVisible: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(Menu)

@@ -79,7 +79,7 @@ describe('(Component) ResetPasswordForm', () => {
     expect(R.path([STATE.RESET_PASSWORD, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

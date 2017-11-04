@@ -31,6 +31,9 @@ export const muiTheme = getMuiTheme({
 export const muiThemeNext = createMuiTheme({
   palette: {
     type: 'light',
+    common: {
+      faintBlack: 'rgb(234, 243, 248)',
+    },
     primary: {
       ...blue,
       A100: '#80d8ff',

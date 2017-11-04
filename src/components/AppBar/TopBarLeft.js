@@ -27,33 +27,27 @@ const styles = {
     position: 'absolute',
     display: 'flex',
     transform: props => _.get(props, 'menuOpen') ? 'translate(250px)' : 'translate(50px)'
-  },
-
-  icon: {
-    color: STYLE.ICON_COLOR
   }
 }
 
-const TopBarLeft = ({ classes, title, menuOpen, setMenuOpen, setShowProfile }) => {
+const TopBarLeft = ({ classes, company, menuOpen, setMenuOpen, setVisibleProfile }) => {
   return (
     <ToolbarGroup firstChild={true}>
       <div className={classes.logo}>
         <img src={logo} alt="logo" />
       </div>
 
-      {menuOpen && <ToolbarTitle text={title} className={classes.title} />}
+      {menuOpen && <ToolbarTitle text={company} className={classes.title} />}
 
       <div className={classes.menuAction}>
         <IconButton
-          iconStyle={styles.icon}
           className={classes.sidebar}
           onClick={setMenuOpen}>
           <SidebarIcon />
         </IconButton>
 
         <IconButton
-          iconStyle={styles.icon}
-          onClick={setShowProfile}>
+          onClick={setVisibleProfile}>
           <AccountIcon />
         </IconButton>
       </div>
@@ -63,10 +57,10 @@ const TopBarLeft = ({ classes, title, menuOpen, setMenuOpen, setShowProfile }) =
 
 TopBarLeft.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
+  company: PropTypes.string.isRequired,
   menuOpen: PropTypes.bool.isRequired,
   setMenuOpen: PropTypes.func.isRequired,
-  setShowProfile: PropTypes.func.isRequired,
+  setVisibleProfile: PropTypes.func.isRequired,
 }
 
 export default injectSheet(styles)(TopBarLeft)

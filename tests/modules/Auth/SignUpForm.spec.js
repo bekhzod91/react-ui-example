@@ -84,10 +84,10 @@ describe('(Component) SignUpForm', () => {
     expect(R.path([STATE.SIGN_UP, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextField).at(1).props().meta.error[0]).to.equal(response['firstName'][0])
-      expect(component.find(TextField).at(2).props().meta.error[0]).to.equal(response['secondName'][0])
-      expect(component.find(TextField).at(3).props().meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextField).at(1).instance().props.meta.error[0]).to.equal(response['firstName'][0])
+      expect(component.find(TextField).at(2).instance().props.meta.error[0]).to.equal(response['secondName'][0])
+      expect(component.find(TextField).at(3).instance().props.meta.error[0]).to.equal(response['password'][0])
 
       done()
     })

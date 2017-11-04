@@ -32,27 +32,27 @@ describe('(Component) SignInSocialButtons', () => {
     )
   })
 
-  it('facebook button touchtap event', () => {
-    const element = component.find('#facebook')
-    const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.click(node)
-    expect(element.text()).to.equal('SignIn with Facebook')
+  it('facebook button click event', () => {
+    const facebookButton = component.find('#facebook').first()
+    facebookButton.simulate('click')
+
+    expect(facebookButton.text()).to.equal('SignIn with Facebook')
     expect(buttons.facebook.handle).to.have.property('callCount', 1)
   })
 
-  it('google plus button touchtap event', () => {
-    const element = component.find('#googleplus')
-    const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.click(node)
-    expect(element.text()).to.equal('SignIn with Google')
+  it('google plus button click event', () => {
+    const googleButton = component.find('#googleplus').first()
+    googleButton.simulate('click')
+
+    expect(googleButton.text()).to.equal('SignIn with Google')
     expect(buttons.google.handle).to.have.property('callCount', 1)
   })
 
   it('twitter button touchtap event', () => {
-    const element = component.find('#twitter')
-    const node = ReactDOM.findDOMNode(element.node)
-    ReactTestUtils.Simulate.click(node)
-    expect(element.text()).to.equal('SignIn with Twitter')
+    const twitterButton = component.find('#twitter').first()
+    twitterButton.simulate('click')
+
+    expect(twitterButton.text()).to.equal('SignIn with Twitter')
     expect(buttons.twitter.handle).to.have.property('callCount', 1)
   })
 })

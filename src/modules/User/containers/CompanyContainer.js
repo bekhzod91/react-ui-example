@@ -6,16 +6,21 @@ import { fetchMyCompaniesAction } from '../actions/myCompanies'
 
 const mapStateToProps = (state, props) => {
   const companyId = R.path(['params', 'companyId'], props)
-  const company = R.pipe(
-      R.path([STATE.USER_COMPANIES, 'data']),
+  const getCompanyLoading = R.path([STATE.USER_COMPANIES, 'loading'])
+  const getCompanyList = R.pathOr([], [STATE.USER_COMPANIES, 'data'])
+  const getCompanyNameOr = R.curry((defaultName, state) =>
+    R.compose(
+      R.propOr(defaultName, 'name'),
+      R.head,
       R.filter(R.whereEq({ id: parseInt(companyId) })),
-      R.head
-    )
+      getCompanyList,
+    )(state)
+  )
 
   return {
-    loading: R.path(state, [STATE.USER_COMPANIES, 'loading']),
-    companyName: R.prop('name', company) || '',
-    list: R.pathOr([], [STATE.USER_COMPANIES, 'data'], state)
+    loading: getCompanyLoading(state),
+    companyName: getCompanyNameOr('Unknown', state),
+    list: getCompanyList(state)
   }
 }
 
@@ -25,11 +30,11 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  mapPropsStream((props$) => {
+  mapPropsStream(props$ => {
     props$
-      .filter(props => props.token)
-      .filter(props => R.path(['params', 'companyId'], props))
-      .distinctUntilChanged(null, (props) => R.path(['params', 'companyId'], props))
+      .filter(R.prop('token'))
+      .filter(R.path(['params', 'companyId']))
+      .distinctUntilChanged(null, R.path(['params', 'companyId']))
       .subscribe(props => props.fetchMyCompaniesAction())
 
     return props$

@@ -4,12 +4,17 @@ import dirtyChai from 'dirty-chai'
 import chaiAsPromised from 'chai-as-promised'
 import sinonChai from 'sinon-chai'
 import chaiEnzyme from 'chai-enzyme'
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
 import '../src/normalize.js'
 
 // Mocha / Chai
 // ------------------------------------
 mocha.setup({ ui: 'bdd' })
 chai.should()
+
+// Enzyme setup
+Enzyme.configure({ adapter: new Adapter() })
 
 global.chai = chai
 global.expect = chai.expect

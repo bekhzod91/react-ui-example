@@ -2,7 +2,7 @@ import React from 'react'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import AppBar from '../../../src/components/AppBar'
-import MenuFullWidth from '../../../src/components/AppBar/MenuFullWidth'
+import MenuBig from '../../../src/components/Menu'
 import MenuIcon from '../../../src/components/AppBar/MenuIcon'
 import { setStorage } from '../../../src/helpers/localStorage'
 import MuiThemeProvider from '../../MuiThemeProvider'
@@ -13,7 +13,12 @@ describe('(Component) AppBar', () => {
 
   beforeEach(() => {
     props = {
-      title: 'Title',
+      company: 'Company',
+      route: {
+        location: {},
+        companyId: 0,
+        push: sinon.spy()
+      },
       profile: {
         email: 'user@example.com',
         image: null,
@@ -59,7 +64,7 @@ describe('(Component) AppBar', () => {
       </MuiThemeProvider>
     )
 
-    expect(component.find(MenuFullWidth)).to.have.lengthOf(1)
+    expect(component.find(MenuBig)).to.have.lengthOf(1)
   })
 
   it('render user email in FullMenu', () => {

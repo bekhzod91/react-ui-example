@@ -9,7 +9,7 @@ const CompanyDetail = ({ detail, route }) => {
 
   return (
     <TableDetail loading={loading}>
-      <lable>{name}</lable>
+      <label>{name}</label>
     </TableDetail>
   )
 }

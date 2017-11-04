@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
@@ -13,52 +13,41 @@ const styles = theme => ({
   bodyWrapper: {
     position: 'relative',
     display: 'flex',
-    paddingTop: '64px'
+    paddingTop: '56px'
   },
   content: {
+    transition: '0.5s',
     padding: '15px 20px',
-    width: '100%'
+    flex: '1'
+  },
+  '@media (min-width: 600px)': {
+    bodyWrapper: {
+      paddingTop: '64px'
+    }
   }
 })
 
-const enhance = compose(
-  withState('state', 'setState', () => ({
-    menuOpen: getStorage('menuOpen', false),
-    showProfile: getStorage('showProfile', false)
-  })),
-  withHandlers({
-    setMenuOpen: ({ state, setState }) => () => {
-      setStorage('menuOpen', !state.menuOpen)
-      setState({ ...state, menuOpen: !state.menuOpen })
-    },
-    setShowProfile: ({ state, setState, ...props }) => () => {
-      setStorage('showProfile', !state.showProfile)
-      setState({ ...state, showProfile: !state.showProfile })
-    }
-  }),
-  withStyles(styles)
-)
-
-const AppBar = ({ classes, children, title, profile, state, setMenuOpen, setShowProfile, logout }) => (
+const AppBar = ({ classes, children, state, route, ...props }) => (
   <div>
     <MUIAppBar position="fixed">
       <Toolbar>
         <TopBarLeft
-          title={title}
-          profile={profile}
+          company={props.company}
           menuOpen={state.menuOpen}
-          setMenuOpen={setMenuOpen}
-          setShowProfile={setShowProfile}
+          setMenuOpen={props.setMenuOpen}
+          setVisibleProfile={props.setProfileVisible}
         />
       </Toolbar>
     </MUIAppBar>
 
     <div className={classes.bodyWrapper}>
       <Menu
-        profile={profile}
-        logout={logout}
+        route={route}
         open={state.menuOpen}
-        showProfile={state.showProfile} />
+        logout={props.logout}
+        profile={props.profile}
+        profileIsVisible={state.profileIsVisible}
+      />
       <div className={classes.content}>
         {children}
       </div>
@@ -71,23 +60,49 @@ AppBar.propTypes = {
   children: PropTypes.node.isRequired,
   state: PropTypes.shape({
     menuOpen: PropTypes.bool.isRequired,
-    showProfile: PropTypes.bool.isRequired
+    profileIsVisible: PropTypes.bool.isRequired
   }).isRequired,
   setMenuOpen: PropTypes.func.isRequired,
-  setShowProfile: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  setProfileVisible: PropTypes.func.isRequired,
+  company: PropTypes.string.isRequired,
   profile: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  route: PropTypes.object.isRequired,
 }
 
+const enhance = compose(
+  withState('state', 'setState', () => ({
+    menuOpen: getStorage('menuOpen', false),
+    profileIsVisible: getStorage('profileIsVisible', false)
+  })),
+  withHandlers({
+    setMenuOpen: ({ state, setState }) => () => {
+      setStorage('menuOpen', !state.menuOpen)
+      setState({ ...state, menuOpen: !state.menuOpen })
+    },
+    setProfileVisible: ({ state, setState, }) => () => {
+      setStorage('profileIsVisible', !state.profileIsVisible)
+      setState({ ...state, profileIsVisible: !state.profileIsVisible })
+    }
+  }),
+  withStyles(styles)
+)
+
 export const getProps = (props) => {
+  const route = {
+    location: R.prop('location', props),
+    push: R.prop('push', props),
+    companyId: R.path(['params', 'companyId'], props)
+  }
+
   return {
     logout: props.logoutAction,
     profile: {
-      email: _.get(props, 'userEmail'),
-      image: _.get(props, 'userImage'),
+      email: R.prop('userEmail', props),
+      image: R.prop('userImage', props),
     },
-    title: _.get(props, 'companyName')
+    company: R.prop('companyName', props),
+    route,
   }
 }
 

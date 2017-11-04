@@ -81,7 +81,7 @@ describe('(Component) RecoveryForm', () => {
     expect(R.path([STATE.RECOVERY, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).props().meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(TextField).first().instance().props.meta.error[0]).to.equal(response['email'][0])
 
       done()
     })

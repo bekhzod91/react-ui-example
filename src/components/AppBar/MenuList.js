@@ -22,7 +22,21 @@ export default [
         name: 'cards-template',
         url: '/card-template',
         title: 'Card Template',
-        icon: (<CardTravelIcon />)
+        icon: (<CardTravelIcon />),
+        children: [
+          {
+            name: 'cards-template',
+            url: '/card-template',
+            title: 'Card Template',
+            icon: (<CardTravelIcon />)
+          },
+          {
+            name: 'cards-travel',
+            url: '/card-travel',
+            title: 'Card Travel',
+            icon: (<MapIcon />)
+          }
+        ]
       },
       {
         name: 'cards-travel',

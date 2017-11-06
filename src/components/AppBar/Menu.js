@@ -20,7 +20,7 @@ const styles = theme => ({
   }
 })
 
-const Menu = ({ classes, route, ...props }) => {
+const Menu = ({ classes, route, activeMenuName, ...props }) => {
   const { open, profile, profileIsVisible, logout } = props
   const width = open ? 256 : 56
 
@@ -30,10 +30,11 @@ const Menu = ({ classes, route, ...props }) => {
         {open ? (
           <MenuBig
             route={route}
+            logout={logout}
             profile={profile}
             profileIsVisible={profileIsVisible}
             menuList={menuList}
-            logout={logout}
+            activeMenuName={activeMenuName}
           />
         ) : (
           <MenuIcon
@@ -52,7 +53,8 @@ Menu.propTypes = {
   route: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
-  profileIsVisible: PropTypes.bool.isRequired
+  profileIsVisible: PropTypes.bool.isRequired,
+  activeMenuName: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(Menu)

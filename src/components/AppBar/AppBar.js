@@ -27,7 +27,7 @@ const styles = theme => ({
   }
 })
 
-const AppBar = ({ classes, children, state, route, ...props }) => (
+const AppBar = ({ classes, children, state, route, activeMenuName, ...props }) => (
   <div>
     <MUIAppBar position="fixed">
       <Toolbar>
@@ -47,6 +47,7 @@ const AppBar = ({ classes, children, state, route, ...props }) => (
         logout={props.logout}
         profile={props.profile}
         profileIsVisible={state.profileIsVisible}
+        activeMenuName={activeMenuName}
       />
       <div className={classes.content}>
         {children}
@@ -68,6 +69,7 @@ AppBar.propTypes = {
   profile: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   route: PropTypes.object.isRequired,
+  activeMenuName: PropTypes.string.isRequired,
 }
 
 const enhance = compose(

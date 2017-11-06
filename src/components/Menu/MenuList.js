@@ -9,14 +9,15 @@ import MenuListItem from '../Menu/MenuListItem'
 const styles = theme => ({
 })
 
-const MenuList = ({ route, classes, menuList }) => (
+const MenuList = ({ route, classes, menuList, activeMenuName }) => (
   <List subheader={<ListSubheader>Navigation</ListSubheader>}>
     {R.addIndex(R.map)((item, index) => (
       <MenuListItem
         key={index}
-        route={route}
         item={item}
-        root={true}
+        route={route}
+        isRoot={true}
+        activeMenuName={activeMenuName}
       />
     ), menuList)}
   </List>
@@ -26,6 +27,7 @@ MenuList.propTypes = {
   classes: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   menuList: PropTypes.array.isRequired,
+  activeMenuName: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(MenuList)

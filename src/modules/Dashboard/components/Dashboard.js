@@ -4,7 +4,7 @@ import AppBar from '../../../components/AppBar'
 
 const Dashboard = ({ appBar }) => {
   return (
-    <AppBar {...appBar}>
+    <AppBar activeMenuName="cards-template" {...appBar}>
       Hello
     </AppBar>
   )

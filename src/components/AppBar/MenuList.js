@@ -22,21 +22,7 @@ export default [
         name: 'cards-template',
         url: '/card-template',
         title: 'Card Template',
-        icon: (<CardTravelIcon />),
-        children: [
-          {
-            name: 'cards-template',
-            url: '/card-template',
-            title: 'Card Template',
-            icon: (<CardTravelIcon />)
-          },
-          {
-            name: 'cards-travel',
-            url: '/card-travel',
-            title: 'Card Travel',
-            icon: (<MapIcon />)
-          }
-        ]
+        icon: (<CardTravelIcon />)
       },
       {
         name: 'cards-travel',
@@ -58,7 +44,7 @@ export default [
         icon: (<DirectionsBusIcon />)
       },
       {
-        name: 'bus',
+        name: 'bus1',
         url: '/app-views/car',
         title: 'Directions Card',
         icon: (<DirectionsCarIcon />)

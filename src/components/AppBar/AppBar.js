@@ -6,6 +6,8 @@ import withStyles from 'material-ui-next/styles/withStyles'
 import Toolbar from 'material-ui-next/Toolbar'
 import MUIAppBar from 'material-ui-next/AppBar'
 import { getStorage, setStorage } from '../../helpers/localStorage'
+import menus from '../../constants/menus'
+import { getMenuWithCompanyId, getMenusByPermissions } from '../../helpers/menu'
 import Menu from './Menu'
 import TopBarLeft from './TopBarLeft'
 
@@ -27,7 +29,7 @@ const styles = theme => ({
   }
 })
 
-const AppBar = ({ classes, children, state, route, activeMenuName, ...props }) => (
+const AppBar = ({ classes, children, state, route, menuList, activeMenuName, ...props }) => (
   <div>
     <MUIAppBar position="fixed">
       <Toolbar>
@@ -47,6 +49,7 @@ const AppBar = ({ classes, children, state, route, activeMenuName, ...props }) =
         logout={props.logout}
         profile={props.profile}
         profileIsVisible={state.profileIsVisible}
+        menuList={menuList}
         activeMenuName={activeMenuName}
       />
       <div className={classes.content}>
@@ -69,6 +72,13 @@ AppBar.propTypes = {
   profile: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   route: PropTypes.object.isRequired,
+  menuList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    permission: PropTypes.string,
+    children: PropTypes.array
+  })).isRequired,
   activeMenuName: PropTypes.string.isRequired,
 }
 
@@ -91,6 +101,7 @@ const enhance = compose(
 )
 
 export const getProps = (props) => {
+  const permissions = R.pathOr([], ['permission', 'data'], props)
   const route = {
     location: R.prop('location', props),
     push: R.prop('push', props),
@@ -104,6 +115,10 @@ export const getProps = (props) => {
       image: R.prop('userImage', props),
     },
     company: R.prop('companyName', props),
+    menuList: R.compose(
+      getMenuWithCompanyId(R.__, parseInt(route.companyId)),
+      getMenusByPermissions(R.__, permissions)
+    )(menus),
     route,
   }
 }

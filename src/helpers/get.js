@@ -2,6 +2,12 @@ import * as R from 'ramda'
 import { getQueryFromUrl } from './urls'
 
 export const getIdFromProps = R.pipe(R.path(['params', 'id']), parseInt)
+export const getCompanyIdFromProps = R.pipe(R.path(['params', 'companyId']), parseInt)
+export const getRouteFromProps = (props) => ({
+  location: R.prop('location', props),
+  push: R.prop('push', props),
+  companyId: getCompanyIdFromProps(props)
+})
 
 export const getFormValueFromState = R.curry((name, state) => R.pathOr({}, ['form', name, 'values'], state))
 

@@ -41,6 +41,14 @@ export const COMPANY_MY_LIST_URL = `/${COMPANY_MY}`
 export const COMPANY_MY_URL = `${COMPANY_MY_LIST_URL}/:companyId`
 export const COMPANY_MY_PATH = `${COMPANY_MY_LIST_URL}/%d`
 
+// DASHBOARD
+export const DASHBOARD = 'dashboard'
+export const DASHBOARD_PATH = `${COMPANY_MY_PATH}/${DASHBOARD}`
+
+// SETTINGS
+export const SETTINGS = 'settings'
+export const SETTINGS_PATH = `${COMPANY_MY_PATH}/${SETTINGS}`
+
 // USER ROUTE
 export const USER = 'users'
 export const USER_LIST_URL = `${COMPANY_MY_URL}/${USER}`

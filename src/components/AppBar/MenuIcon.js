@@ -51,11 +51,11 @@ const styles = {
   }
 }
 
-const MenuIcon = ({ classes, ...props }) => (
+const MenuIcon = ({ classes, profileIsVisible, ...props }) => (
   <div>
     <div>
       <div
-        style={styles.cardAnimation(props.showProfile)}
+        style={styles.cardAnimation(props.profileIsVisible)}
         className={classes.profileBackground}>
         <Avatar
           src={avatar}
@@ -76,7 +76,7 @@ const MenuIcon = ({ classes, ...props }) => (
 )
 
 MenuIcon.propTypes = {
-  showProfile: PropTypes.bool.isRequired,
+  profileIsVisible: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   menuList: PropTypes.array.isRequired,
 }

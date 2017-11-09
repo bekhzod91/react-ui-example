@@ -5,6 +5,8 @@ import AppBar from '../../../src/components/AppBar'
 import MenuBig from '../../../src/components/Menu'
 import MenuIcon from '../../../src/components/AppBar/MenuIcon'
 import { setStorage } from '../../../src/helpers/localStorage'
+import menus from '../../../src/constants/menus'
+import * as ROUTE from '../../../src/constants/routes'
 import MuiThemeProvider from '../../MuiThemeProvider'
 
 describe('(Component) AppBar', () => {
@@ -23,14 +25,15 @@ describe('(Component) AppBar', () => {
         email: 'user@example.com',
         image: null,
       },
-      logout: sinon.spy()
+      logout: sinon.spy(),
+      menuList: menus
     }
   })
 
   it('renders its children inside of the viewport', () => {
     component = mount(
       <MuiThemeProvider>
-        <AppBar {...props}>
+        <AppBar activeMenuName={ROUTE.DASHBOARD} {...props}>
           <Content />
         </AppBar>
       </MuiThemeProvider>
@@ -44,7 +47,7 @@ describe('(Component) AppBar', () => {
 
     component = mount(
       <MuiThemeProvider>
-        <AppBar {...props}>
+        <AppBar activeMenuName={ROUTE.DASHBOARD} {...props}>
           <Content />
         </AppBar>
       </MuiThemeProvider>
@@ -58,7 +61,7 @@ describe('(Component) AppBar', () => {
 
     component = mount(
       <MuiThemeProvider>
-        <AppBar {...props}>
+        <AppBar activeMenuName={ROUTE.DASHBOARD} {...props}>
           <Content />
         </AppBar>
       </MuiThemeProvider>
@@ -72,7 +75,7 @@ describe('(Component) AppBar', () => {
 
     component = mount(
       <MuiThemeProvider>
-        <AppBar {...props}>
+        <AppBar activeMenuName={ROUTE.DASHBOARD} {...props}>
           <Content />
         </AppBar>
       </MuiThemeProvider>

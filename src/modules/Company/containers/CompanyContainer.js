@@ -53,19 +53,15 @@ export default compose(
       const fullPath = `${pathname}${search}`
       return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
     },
-    // onSubmitFilter: props => (event) => {
-    //   event && event.preventDefault()
-    //   console.log(props)
-    // },
     onCloseFilter: ({ push, location }) => () => {
       const fullPath = getFullPathFromLocation(location)
       return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
     }
   }),
   mapPropsStream((props$) => {
-    const getListRequestFromProps = R.pipe(
-      R.path(['location', 'query']),
-      R.omit(['ids'])
+    const getListRequestFromProps = R.compose(
+      R.omit(['ids']),
+      R.path(['location', 'query'])
     )
 
     // Get list

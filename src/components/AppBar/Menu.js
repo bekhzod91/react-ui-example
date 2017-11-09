@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import withStyles from 'material-ui-next/styles/withStyles'
 import MenuBig from '../Menu'
 import MenuIcon from './MenuIcon'
-import menuList from './MenuList'
 
 const styles = theme => ({
   root: {
@@ -20,7 +19,7 @@ const styles = theme => ({
   }
 })
 
-const Menu = ({ classes, route, activeMenuName, ...props }) => {
+const Menu = ({ classes, route, menuList, activeMenuName, ...props }) => {
   const { open, profile, profileIsVisible, logout } = props
   const width = open ? 256 : 56
 
@@ -54,6 +53,7 @@ Menu.propTypes = {
   logout: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   profileIsVisible: PropTypes.bool.isRequired,
+  menuList: PropTypes.array.isRequired,
   activeMenuName: PropTypes.string.isRequired
 }
 

@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
+import * as ROUTE from '../../../constants/routes'
 import AppBar from '../../../components/AppBar'
 import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
@@ -19,7 +20,7 @@ const Company = ({ appBar, list, ...props }) => {
   }
 
   return (
-    <AppBar {...appBar}>
+    <AppBar activeMenuName={ROUTE.COMPANY} {...appBar}>
       <CompanyList
         route={route}
         list={list}

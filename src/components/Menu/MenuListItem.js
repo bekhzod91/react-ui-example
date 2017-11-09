@@ -16,8 +16,8 @@ const menuIsActive = R.curry((activeMenuName, menu) =>
   )(menu)
 )
 
-const menuIsOpen = R.curry((activeMenuName, menu) => R.ifElse(
-    R.has('children'),
+const menuIsOpen = R.curry((activeMenuName, menu) =>
+  R.ifElse(R.has('children'),
     R.compose(
       R.head,
       R.filter(Boolean),
@@ -41,7 +41,7 @@ const styles = theme => ({
 class MenuListItem extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { open: Boolean(menuIsOpen(props.activeMenuName, props.item)) }
+    this.state = { open: menuIsOpen(props.activeMenuName, props.item) }
   }
 
   onClick = () => {
@@ -51,7 +51,7 @@ class MenuListItem extends React.Component {
     const children = R.prop('children', item)
 
     if (children) {
-      this.setState({ open: !this.state.open })
+      this.setState({ open: R.not(this.state.open) })
     } else {
       push(url)
     }

@@ -3,9 +3,10 @@ import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
 import { getPermissionsAction } from '../actions/permissions'
+import { getDataFromState } from '../../../helpers/get'
 
 const mapStateToProps = (state) => ({
-  loading: R.path([STATE.USER_PERMISSION, 'loading'], state)
+  permission: getDataFromState(STATE.USER_PERMISSION, state)
 })
 
 export default compose(

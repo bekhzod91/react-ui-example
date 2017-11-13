@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import * as ROUTE from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 

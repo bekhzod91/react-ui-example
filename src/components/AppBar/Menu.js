@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import MenuBig from '../Menu'
 import MenuIcon from './MenuIcon'
 

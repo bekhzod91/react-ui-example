@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import React from 'react'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import PropTypes from 'prop-types'
-import MUIMenu, { MenuItem } from 'material-ui-next/Menu'
+import MUIMenu, { MenuItem } from 'material-ui/Menu'
 
 const styles = {
   wrapper: {

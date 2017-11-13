@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
-import Button from 'material-ui-next/Button'
+import withStyles from 'material-ui/styles/withStyles'
+import Button from 'material-ui/Button'
 import BgImgWrapper from '../../../components/BgImgWarpper/BgImgWrapper'
 
 const styles = {

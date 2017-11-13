@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { compose, defaultProps, withHandlers } from 'recompose'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import ArrowUpwardIcon from 'material-ui-icons/ArrowUpward'
 import { sortingUrl, sortingStatus } from '../../helpers/urls'
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import * as STYLE from '../../styles/style'
 import logo from '../assets/logo-icon.png'
-import IconButton from 'material-ui-next/IconButton'
+import IconButton from 'material-ui/IconButton'
 import SidebarIcon from '../Icon/SidebarIcon'
 import AccountIcon from '../Icon/AccountIcon'
 

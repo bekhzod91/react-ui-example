@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'material-ui-next/Button'
+import Button from 'material-ui/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import Page500 from '../../../src/modules/Error/components/Page500'

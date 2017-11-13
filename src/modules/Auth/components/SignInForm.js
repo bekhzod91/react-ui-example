@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router'

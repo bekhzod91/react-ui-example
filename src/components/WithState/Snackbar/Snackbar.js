@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import MUISnackbar from 'material-ui-next/Snackbar'
+import MUISnackbar from 'material-ui/Snackbar'
 import {
   SUCCESS_TYPE,
   INFO_TYPE,

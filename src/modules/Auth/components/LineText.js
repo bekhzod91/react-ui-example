@@ -1,5 +1,5 @@
 import React from 'react'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import PropTypes from 'prop-types'
 
 const styles = {

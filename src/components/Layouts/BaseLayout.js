@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 import Snackbar from '../../components/WithState/Snackbar'
 import PageLoading from '../../components/WithState/PageLoading'
 import { getProps } from '../AppBar'

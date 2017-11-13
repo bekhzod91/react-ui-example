@@ -2,12 +2,12 @@ import React from 'react'
 import { compose, withReducer, mapPropsStream, withHandlers } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
-import TextField from 'material-ui-next/TextField'
-import Paper from 'material-ui-next/Paper'
-import { MenuItem } from 'material-ui-next/Menu'
+import TextField from 'material-ui/TextField'
+import Paper from 'material-ui/Paper'
+import { MenuItem } from 'material-ui/Menu'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
-import withStyles from 'material-ui-next/styles/withStyles'
+import withStyles from 'material-ui/styles/withStyles'
 
 const suggestions = [
   { label: 'Afghanistan' },

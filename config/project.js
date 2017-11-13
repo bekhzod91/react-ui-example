@@ -35,7 +35,6 @@ module.exports = {
     "lodash",
     "material-ui",
     "material-ui-icons",
-    "material-ui-next",
     "moment",
     "object-assign",
     "promise",

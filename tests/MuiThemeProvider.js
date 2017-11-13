@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MUIMuiThemeProviderNext from 'material-ui-next/styles/MuiThemeProvider'
-import { muiThemeNext } from '../src/styles/themes'
+import MUIMuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { muiTheme } from '../src/styles/themes'
 
 const MuiThemeProvider = ({ children }) => (
-  <MUIMuiThemeProviderNext theme={muiThemeNext}>
+  <MUIMuiThemeProvider theme={muiTheme}>
     {children}
-  </MUIMuiThemeProviderNext>
+  </MUIMuiThemeProvider>
 )
 
 MuiThemeProvider.propTypes = {

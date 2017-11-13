@@ -2,9 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { compose, pure, withState, withHandlers } from 'recompose'
 import PropTypes from 'prop-types'
-import { fade } from 'material-ui-next/styles/colorManipulator'
-import withStyles from 'material-ui-next/styles/withStyles'
-import IconButton from 'material-ui-next/IconButton'
+import { fade } from 'material-ui/styles/colorManipulator'
+import withStyles from 'material-ui/styles/withStyles'
+import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui-icons/Search'
 
 const styles = theme => ({

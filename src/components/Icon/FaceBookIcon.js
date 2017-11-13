@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from 'material-ui-next/SvgIcon'
+import SvgIcon from 'material-ui/SvgIcon'
 
 const FaceBookIcon = (props) => (
   <SvgIcon {...props}>

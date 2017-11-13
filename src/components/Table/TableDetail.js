@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
-import LinearProgress from 'material-ui-next/Progress/LinearProgress'
-import Divider from 'material-ui-next/Divider'
+import withStyles from 'material-ui/styles/withStyles'
+import LinearProgress from 'material-ui/Progress/LinearProgress'
+import Divider from 'material-ui/Divider'
 
 const styles = theme => ({
   root: {

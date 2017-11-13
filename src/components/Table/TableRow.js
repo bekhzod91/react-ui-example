@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import Checkbox from 'material-ui-next/Checkbox'
-import withStyles from 'material-ui-next/styles/withStyles'
+import Checkbox from 'material-ui/Checkbox'
+import withStyles from 'material-ui/styles/withStyles'
 
 const styles = theme => ({
   root: {

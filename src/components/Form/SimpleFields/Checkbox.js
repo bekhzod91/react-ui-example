@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MUICheckbox from 'material-ui-next/Checkbox'
-import { FormControlLabel } from 'material-ui-next/Form'
-import withStyles from 'material-ui-next/styles/withStyles'
+import MUICheckbox from 'material-ui/Checkbox'
+import { FormControlLabel } from 'material-ui/Form'
+import withStyles from 'material-ui/styles/withStyles'
 
 const styles = {
   wrapper: {

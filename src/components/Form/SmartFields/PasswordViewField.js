@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withState } from 'recompose'
-import IconButton from 'material-ui-next/IconButton'
+import IconButton from 'material-ui/IconButton'
 import Visibility from 'material-ui-icons/Visibility'
 import VisibilityOff from 'material-ui-icons/VisibilityOff'
 import TextField from '../SimpleFields/TextField'

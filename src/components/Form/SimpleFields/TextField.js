@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import MUITextField from 'material-ui-next/TextField'
-import withStyles from 'material-ui-next/styles/withStyles'
+import MUITextField from 'material-ui/TextField'
+import withStyles from 'material-ui/styles/withStyles'
 
 const styles = theme => ({
   input: {

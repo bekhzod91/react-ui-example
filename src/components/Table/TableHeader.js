@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
-import Checkbox from 'material-ui-next/Checkbox'
+import withStyles from 'material-ui/styles/withStyles'
+import Checkbox from 'material-ui/Checkbox'
 
 const styles = theme => ({
   root: {

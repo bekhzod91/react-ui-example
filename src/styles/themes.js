@@ -1,8 +1,8 @@
-import blue from 'material-ui-next/colors/blue'
-import deepPurple from 'material-ui-next/colors/deepPurple'
-import { createMuiTheme } from 'material-ui-next/styles'
+import blue from 'material-ui/colors/blue'
+import deepPurple from 'material-ui/colors/deepPurple'
+import { createMuiTheme } from 'material-ui/styles'
 
-export const muiThemeNext = createMuiTheme({
+export const muiTheme = createMuiTheme({
   palette: {
     type: 'light',
     common: {

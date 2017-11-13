@@ -1,9 +1,9 @@
 import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import List from 'material-ui-next/List'
-import ListSubheader from 'material-ui-next/List/ListSubheader'
-import withStyles from 'material-ui-next/styles/withStyles'
+import List from 'material-ui/List'
+import ListSubheader from 'material-ui/List/ListSubheader'
+import withStyles from 'material-ui/styles/withStyles'
 import MenuListItem from '../Menu/MenuListItem'
 
 const styles = theme => ({

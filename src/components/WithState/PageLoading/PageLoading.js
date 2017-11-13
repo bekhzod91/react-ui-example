@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, branch, renderNothing } from 'recompose'
-import LinearProgress from 'material-ui-next/Progress/LinearProgress'
-import withStyles from 'material-ui-next/styles/withStyles'
+import LinearProgress from 'material-ui/Progress/LinearProgress'
+import withStyles from 'material-ui/styles/withStyles'
 
 const styles = {
   root: {

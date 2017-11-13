@@ -37,8 +37,10 @@ const Menu = ({ classes, route, menuList, activeMenuName, ...props }) => {
           />
         ) : (
           <MenuIcon
+            route={route}
             profileIsVisible={profileIsVisible}
             menuList={menuList}
+            activeMenuName={activeMenuName}
           />
         )}
       </div>

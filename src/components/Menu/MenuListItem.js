@@ -5,68 +5,69 @@ import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import withStyles from 'material-ui-next/styles/withStyles'
 import Collapse from 'material-ui-next/transitions/Collapse'
-import { ListItem, ListItemText, ListItemIcon } from 'material-ui-next/List'
+import IconButton from 'material-ui-next/IconButton'
+import { ListItem, ListItemText, ListItemSecondaryAction, ListItemIcon } from 'material-ui-next/List'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
-
-const menuIsActive = R.curry((activeMenuName, menu) =>
-  R.compose(
-    R.equals(activeMenuName),
-    R.prop('name'),
-  )(menu)
-)
-
-const menuIsOpen = R.curry((activeMenuName, menu) =>
-  R.ifElse(R.has('children'),
-    R.compose(
-      R.head,
-      R.filter(Boolean),
-      R.map(menuIsOpen(activeMenuName)),
-      R.prop('children')
-    ),
-    menuIsActive(activeMenuName)
-  )(menu)
-)
+import { checkMenuNameInsideMenu } from '../../helpers/menu'
 
 const styles = theme => ({
+  root: {},
   nested: {
     paddingLeft: theme.spacing.unit * 4,
   },
   active: {
     background: 'rgb(234, 243, 248)',
-    borderLeft: `3px solid ${theme.palette.primary['500']}`
+    borderLeft: `3px solid ${theme.palette.secondary['500']}`
   }
 })
 
 class MenuListItem extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { open: menuIsOpen(props.activeMenuName, props.item) }
+    this.state = { open: this.getMenuStatus() }
   }
 
-  onClick = () => {
-    const { route, item } = this.props
-    const { push } = route
-    const url = R.prop('url', item)
-    const children = R.prop('children', item)
-
-    if (children) {
-      this.setState({ open: R.not(this.state.open) })
-    } else {
-      push(url)
-    }
+  componentWillReceiveProps () {
+    this.setState({ open: this.getMenuStatus() })
   }
 
-  renderButton = (children) => {
+  getMenuStatus = () => {
+    const { activeMenuName, item } = this.props
+
+    return checkMenuNameInsideMenu(activeMenuName, item)
+  }
+
+  onClickCollapseButton = () => {
+    this.setState({ open: R.not(this.state.open) })
+  }
+
+  onClickList = () => {
+    const url = R.path(['item', 'url'], this.props)
+    const push = R.path(['route', 'push'], this.props)
+
+    push(url)
+  }
+
+  renderButton = () => {
+    const children = R.path(['item', 'children'], this.props)
+
     if (!children) {
       return null
     }
 
-    return this.state.open ? <ExpandLess /> : <ExpandMore />
+    return (
+      <ListItemSecondaryAction>
+        <IconButton onClick={this.onClickCollapseButton}>
+          {this.state.open ? <ExpandLess /> : <ExpandMore />}
+        </IconButton>
+      </ListItemSecondaryAction>
+    )
   }
 
-  renderCollapse = (children) => {
+  renderCollapse = () => {
     const { route, activeMenuName } = this.props
+    const children = R.path(['item', 'children'], this.props)
 
     if (!children) {
       return null
@@ -87,27 +88,25 @@ class MenuListItem extends React.Component {
 
   render () {
     const { classes, item, isRoot, activeMenuName } = this.props
-    const title = R.prop('title', item)
-    const icon = R.prop('icon', item)
-    const children = R.prop('children', item)
-    const className = classNames('', {
+    const { name, title, icon } = item
+    const className = classNames(classes.root, {
       [classes.nested]: R.not(isRoot),
-      [classes.active]: menuIsActive(activeMenuName, item)
+      [classes.active]: R.equals(activeMenuName, name)
     })
 
     return (
       <div>
         <ListItem
           button={true}
-          onClick={this.onClick}
-          className={className}>
+          className={className}
+          onClick={this.onClickList}>
           <ListItemIcon>
             {icon}
           </ListItemIcon>
           <ListItemText inset={true} primary={title} />
-          {this.renderButton(children)}
+          {this.renderButton()}
         </ListItem>
-        {this.renderCollapse(children)}
+        {this.renderCollapse()}
       </div>
     )
   }

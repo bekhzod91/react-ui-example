@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
-import { ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
 import * as STYLE from '../../styles/style'
 import logo from '../assets/logo-icon.png'
 import IconButton from 'material-ui-next/IconButton'
@@ -10,6 +9,14 @@ import SidebarIcon from '../Icon/SidebarIcon'
 import AccountIcon from '../Icon/AccountIcon'
 
 const styles = {
+  root: {
+    position: 'relative',
+    marginLeft: -24,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+
+  },
   logo: {
     paddingLeft: '10px'
   },
@@ -32,12 +39,12 @@ const styles = {
 
 const TopBarLeft = ({ classes, company, menuOpen, setMenuOpen, setVisibleProfile }) => {
   return (
-    <ToolbarGroup firstChild={true}>
+    <div className={classes.root}>
       <div className={classes.logo}>
         <img src={logo} alt="logo" />
       </div>
 
-      {menuOpen && <ToolbarTitle text={company} className={classes.title} />}
+      {menuOpen && <h2 className={classes.title}>{company}</h2>}
 
       <div className={classes.menuAction}>
         <IconButton
@@ -51,7 +58,7 @@ const TopBarLeft = ({ classes, company, menuOpen, setMenuOpen, setVisibleProfile
           <AccountIcon />
         </IconButton>
       </div>
-    </ToolbarGroup>
+    </div>
   )
 }
 

@@ -1,8 +1,31 @@
 import * as R from 'ramda'
-import { getMenuWithCompanyId, getMenusByPermissions } from '../../src/helpers/menu'
+import {
+  getMenuWithCompanyId,
+  getMenusByPermissions,
+  checkMenuNameInsideMenu
+} from '../../src/helpers/menu'
 
 describe('menu helper', () => {
-  it('append company id in URL', () => {
+  it('check checkMenuNameInsideMenu', () => {
+    const menu = {
+      name: 'settings',
+      url: '/c/0/settings',
+      title: 'Settings',
+      children: [
+        {
+          name: 'company',
+          url: '/c/0/company',
+          title: 'Company'
+        },
+      ]
+    }
+
+    expect(checkMenuNameInsideMenu('settings', menu)).to.equal(true)
+    expect(checkMenuNameInsideMenu('company', menu)).to.equal(true)
+    expect(checkMenuNameInsideMenu('unknown', menu)).to.equal(false)
+  })
+
+  it('check getMenuWithCompanyId', () => {
     const companyId = 0
     const beforeMenus = [
       {
@@ -48,7 +71,7 @@ describe('menu helper', () => {
       .to.equal(true)
   })
 
-  it('menu by permission', () => {
+  it('check getMenusByPermissions', () => {
     const permissions = [
       'company'
     ]

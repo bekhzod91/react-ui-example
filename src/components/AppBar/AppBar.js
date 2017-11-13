@@ -8,6 +8,7 @@ import MUIAppBar from 'material-ui-next/AppBar'
 import { getStorage, setStorage } from '../../helpers/localStorage'
 import menus from '../../constants/menus'
 import { getMenuWithCompanyId, getMenusByPermissions } from '../../helpers/menu'
+import { getRouteFromProps } from '../../helpers/get'
 import Menu from './Menu'
 import TopBarLeft from './TopBarLeft'
 
@@ -102,11 +103,7 @@ const enhance = compose(
 
 export const getProps = (props) => {
   const permissions = R.pathOr([], ['permission', 'data'], props)
-  const route = {
-    location: R.prop('location', props),
-    push: R.prop('push', props),
-    companyId: R.path(['params', 'companyId'], props)
-  }
+  const route = getRouteFromProps(props)
 
   return {
     logout: props.logoutAction,

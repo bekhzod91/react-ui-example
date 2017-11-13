@@ -1,21 +1,24 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import injectSheet from 'react-jss'
-import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
+import withStyles from 'material-ui-next/styles/withStyles'
+import List, { ListItem, ListItemIcon } from 'material-ui-next/List'
 import Avatar from 'material-ui-next/Avatar'
+import Collapse from 'material-ui-next/transitions/Collapse'
 import * as STYLE from '../../styles/style'
+import { checkMenuNameInsideMenu } from '../../helpers/menu'
 import avatar from '../assets/photo.jpg'
 import backgroundImage from '../assets/header-sm-01.jpg'
 
 const STYLES_BG_IMG_SIZE = 65
-const styles = {
+const map = R.addIndex(R.map)
+
+const styles = theme => ({
   activeMenu: {
-    borderLeft: `3px solid ${STYLE.PRIMARY_COLOR}`,
+    borderLeft: `3px solid ${theme.palette.secondary[500]}`,
     backgroundColor: STYLE.HOVER_COLOR
   },
-  profileBackground: {
+  background: {
     padding: '0',
     height: STYLES_BG_IMG_SIZE,
     width: '100%',
@@ -25,89 +28,49 @@ const styles = {
     backgroundPosition: 'center'
   },
   avatar: {
-    margin: '10px 8px 10px'
-  },
-  cardAnimation: (animation) => {
-    return animation ? {
-      maxHeight: '65px',
-      transition: 'max-height 0.5s ease-in',
-      overflow: 'hidden'
-    } : {
-      maxHeight: '0',
-      transition: 'max-height 0.25s ease-out',
-      overflow: 'hidden'
-    }
-  },
-  menu: {
-    width: 'inherit !important',
-  },
-  menuList: {
-    display: 'block !important'
-  },
-  menuItemStyle: {
-    maxWidth: 'inherit !important',
-    borderRadius: '0px !important',
-    padding: '0 0 8px 0',
+    padding: '10px 8px 10px'
   }
+})
+
+const MenuIcon = ({ classes, route, ...props }) => {
+  const { push } = route
+  const { profileIsVisible, activeMenuName, menuList } = props
+  const checkMenuIsActive = checkMenuNameInsideMenu(activeMenuName)
+
+  return (
+    <div>
+      <div>
+        <Collapse in={profileIsVisible}>
+          <div className={classes.background}>
+            <div className={classes.avatar}>
+              <Avatar src={avatar} />
+            </div>
+          </div>
+        </Collapse>
+        <List>
+          {map((item, index) => (
+            <ListItem
+              key={index}
+              button={true}
+              onClick={() => push(R.prop('url', item))}
+              className={checkMenuIsActive(item) ? classes.activeMenu : ''}>
+              <ListItemIcon>
+                {R.prop('icon', item)}
+              </ListItemIcon>
+            </ListItem>
+          ), menuList)}
+        </List>
+      </div>
+    </div>
+  )
 }
 
-const MenuIcon = ({ classes, profileIsVisible, ...props }) => (
-  <div>
-    <div>
-      <div
-        style={styles.cardAnimation(props.profileIsVisible)}
-        className={classes.profileBackground}>
-        <Avatar
-          src={avatar}
-          className={classes.avatar}
-        />
-      </div>
-      <Menu
-        value="cards"
-        autoWidth={false}
-        style={styles.menu}
-        listStyle={styles.menuList}
-        menuItemStyle={styles.menuItemStyle}
-        selectedMenuItemStyle={styles.activeMenu}>
-        {_.map(props.menuList, (item, index) => renderMenuItems(item, index, false))}
-      </Menu>
-    </div>
-  </div>
-)
-
 MenuIcon.propTypes = {
+  route: PropTypes.object.isRequired,
   profileIsVisible: PropTypes.bool.isRequired,
+  activeMenuName: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   menuList: PropTypes.array.isRequired,
 }
 
-export const renderMenuItems = (item, index, showTitle) => {
-  const title = _.get(item, 'title')
-  const icon = _.get(item, 'icon')
-  const name = _.get(item, 'name')
-  const children = _.get(item, 'children')
-
-  if (!_.isEmpty(children)) {
-    return (
-      <MenuItem
-        key={index}
-        leftIcon={icon}
-        value={name}
-        anchorOrigin={{ horizontal:'right', vertical:'top' }}
-        targetOrigin={{ horizontal:'left', vertical:'top' }}
-        menuItems={_.map(children, (item, index) => renderMenuItems(item, index, true))}
-      />
-    )
-  }
-
-  return (
-    <MenuItem
-      key={index}
-      primaryText={showTitle ? title : null}
-      value={name}
-      leftIcon={icon}
-    />
-  )
-}
-
-export default injectSheet(styles)(MenuIcon)
+export default withStyles(styles)(MenuIcon)

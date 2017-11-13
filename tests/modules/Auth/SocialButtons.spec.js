@@ -48,7 +48,7 @@ describe('(Component) SignInSocialButtons', () => {
     expect(buttons.google.handle).to.have.property('callCount', 1)
   })
 
-  it('twitter button touchtap event', () => {
+  it('twitter button click event', () => {
     const twitterButton = component.find('#twitter').first()
     twitterButton.simulate('click')
 

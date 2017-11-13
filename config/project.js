@@ -32,7 +32,6 @@ module.exports = {
     "classnames",
     "compression",
     "dom-helpers",
-    "lodash",
     "material-ui",
     "material-ui-icons",
     "moment",

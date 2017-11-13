@@ -16,7 +16,7 @@ const responseToCamelCase = (data, response) => {
     return toCamelCase(JSON.parse(data))
   }
 
-  if (R.is(Object, data)) {
+  if (R.is(Object, data) || R.is(Array, data)) {
     return toCamelCase(data)
   }
 

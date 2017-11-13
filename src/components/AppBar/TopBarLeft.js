@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
@@ -27,13 +27,13 @@ const styles = {
   },
 
   sidebar: {
-    transform: props => _.get(props, 'menuOpen') ? 'scaleX(1)' : 'scaleX(-1)'
+    transform: props => R.prop('menuOpen', props) ? 'scaleX(1)' : 'scaleX(-1)'
   },
 
   menuAction: {
     position: 'absolute',
     display: 'flex',
-    transform: props => _.get(props, 'menuOpen') ? 'translate(250px)' : 'translate(50px)'
+    transform: props => R.prop('menuOpen', props) ? 'translate(250px)' : 'translate(50px)'
   }
 }
 

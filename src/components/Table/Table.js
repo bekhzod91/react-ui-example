@@ -4,6 +4,7 @@ import { compose, pure, mapProps, withHandlers, setPropTypes, defaultProps } fro
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from 'material-ui/styles/withStyles'
+import CircularProgress from 'material-ui/Progress/CircularProgress'
 import { TableFooter, TableRow as TableRowMUI, TablePagination } from 'material-ui/Table'
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
@@ -19,6 +20,17 @@ const styles = theme => ({
       marginRight: '10px',
       position: 'relative'
     }
+  },
+
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    minHeight: 400,
+    alignItems: 'center',
+    background: theme.table.backgroundColor,
+    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2),' +
+      '0px 4px 5px 0px rgba(0, 0, 0, 0.14)' +
+      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
   },
 
   header: {
@@ -119,7 +131,14 @@ const selectIdsIncludeAnyListIds = R.curry((selectIds, listIds) =>
 
 const Table = ({ classes, dialogs, actions, renderHeader, renderBody, ...props }) => {
   const {
-    page, count, selectCount, rowsPerPage, searchEnable, onSearch, onChangePage, onChangeRowsPerPage,
+    page,
+    count,
+    selectCount,
+    rowsPerPage,
+    searchEnable,
+    onSearch,
+    onChangePage,
+    onChangeRowsPerPage,
   } = props
   const selectCountVisible = selectCount !== 0
 
@@ -213,6 +232,7 @@ const enhance = compose(
       push: PropTypes.func.isRequired
     }).isRequired
   }),
+  withStyles(styles),
   withHandlers({
     onChangePage: ({ route }) => (event, page) => {
       const { push, location } = route
@@ -271,11 +291,20 @@ const enhance = compose(
       })(children)
     },
 
-    renderBody: ({ children, route, list, detail, ...props }) => () => {
-      const { onCheckItem, getById } = props
-      const checkboxEnable = R.prop('checkboxEnable', props)
+    renderBody: ({ children, route, list, detail, ...defaultProps }) => () => {
+      const { classes, onCheckItem, getById } = defaultProps
+      const checkboxEnable = R.prop('checkboxEnable', defaultProps)
       const results = R.pathOr([], ['data', 'results'], list)
+      const loading = R.prop('loading', list)
       const selectIds = getSelectIdsFromRoute(route)
+
+      if (loading) {
+        return (
+          <div className={classes.loader}>
+            <CircularProgress size={75} color="accent" />
+          </div>
+        )
+      }
 
       return cloneFromChildren(TableRow, {
         list: results, detail, checkboxEnable, selectIds, getById, onCheckItem
@@ -283,7 +312,7 @@ const enhance = compose(
     }
   }),
   mapProps(({ route, list, actions, dialogs, ...props }) => {
-    const { defaultRowsPerPage, renderHeader, renderBody, onChangePage, onChangeRowsPerPage, onSearch } = props
+    const { classes, defaultRowsPerPage, renderHeader, renderBody, onChangePage, onChangeRowsPerPage, onSearch } = props
     const searchEnable = R.prop('searchEnable', props)
 
     const count = R.pathOr(0, ['data', 'count'], list)
@@ -293,6 +322,7 @@ const enhance = compose(
     const selectCount = R.length(selectIds)
 
     return {
+      classes,
       route,
       page,
       count,
@@ -308,7 +338,6 @@ const enhance = compose(
       onChangeRowsPerPage
     }
   }),
-  withStyles(styles),
   pure
 )
 

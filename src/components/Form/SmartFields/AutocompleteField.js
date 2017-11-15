@@ -1,5 +1,6 @@
+import Rx from 'rxjs'
 import React from 'react'
-import { compose, withReducer, mapPropsStream, withHandlers } from 'recompose'
+import { compose, mapPropsStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import TextField from 'material-ui/TextField'
@@ -8,46 +9,10 @@ import { MenuItem } from 'material-ui/Menu'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 import withStyles from 'material-ui/styles/withStyles'
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
-]
+import axios from '../../../helpers/axios'
 
 function renderInput (inputProps) {
-  const { classes, autoFocus, value, label, margin, fullWidth, ref, ...other } = inputProps
+  const { classes, autoFocus, value, label, margin, fullWidth, ref, loading, ...other } = inputProps
 
   return (
     <TextField
@@ -68,8 +33,8 @@ function renderInput (inputProps) {
 }
 
 function renderSuggestion (suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query)
-  const parts = parse(suggestion.label, matches)
+  const matches = match(suggestion.name, query)
+  const parts = parse(suggestion.name, matches)
 
   return (
     <MenuItem selected={isHighlighted} component="div">
@@ -101,26 +66,7 @@ function renderSuggestionsContainer (options) {
 }
 
 function getSuggestionValue (suggestion) {
-  return suggestion.label
-}
-
-function getSuggestions (value) {
-  const inputValue = value.trim().toLowerCase()
-  const inputLength = inputValue.length
-  let count = 0
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-      const keep =
-        count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue
-
-      if (keep) {
-        count += 1
-      }
-
-      return keep
-    })
+  return suggestion.name
 }
 
 const styles = theme => ({
@@ -156,20 +102,21 @@ const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, ...
     }}
     renderInputComponent={renderInput}
     suggestions={props.state.suggestions}
-    onSuggestionsFetchRequested={props.handleSuggestionsFetchRequested}
-    onSuggestionsClearRequested={props.handleSuggestionsClearRequested}
+    onSuggestionsFetchRequested={props.onFetchRequested}
+    onSuggestionsClearRequested={props.onClearRequested}
     renderSuggestionsContainer={renderSuggestionsContainer}
     getSuggestionValue={getSuggestionValue}
     renderSuggestion={renderSuggestion}
+    shouldRenderSuggestions={() => true}
     inputProps={{
-      autoFocus: true,
       classes,
       label,
       margin,
       placeholder,
       fullWidth,
       value: props.state.value,
-      onChange: props.handleChange,
+      loading: props.state.loading,
+      onChange: (event, { newValue }) => props.onChange(newValue),
     }}
   />
 )
@@ -177,39 +124,53 @@ const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, ...
 AutocompleteField.propTypes = {
   classes: PropTypes.object.isRequired,
   state: PropTypes.object.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleSuggestionsFetchRequested: PropTypes.func.isRequired,
-  handleSuggestionsClearRequested: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onFetchRequested: PropTypes.func.isRequired,
+  onClearRequested: PropTypes.func.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   margin: PropTypes.string,
   fullWidth: PropTypes.bool
 }
 
-const initialState = { value: '', suggestions: [] }
+const initialState = { value: '', loading: false, suggestions: [] }
+const method = ({ value }) => {
+  return axios({
+    getState: () => ({
+      signIn: { data: { token: '044143500d0e034c9038a112dac1694ee2a9d06b' } }
+    })
+  }).get('http://localhost:8000/api/v1/companies/', { params: { search: value } })
+}
 
 export default compose(
-  withStyles(styles),
-  withReducer('state', 'setState', (value = initialState, newValue) => {
-    return {
-      ...value,
-      ...newValue,
-    }
-  }),
   mapPropsStream(props$ => {
+    const { handler: onChange, stream:  onChange$ } = createEventHandler()
+    const { handler: onFetchRequested, stream:  onFetchRequested$ } = createEventHandler()
+    const { handler: onClearRequested, stream:  onClearRequested$ } = createEventHandler()
+
+    const dispatch$ = new Rx.BehaviorSubject(initialState)
+
+    onFetchRequested$
+      .do(() => dispatch$.next({ ...dispatch$.getValue(), loading: true }))
+      .flatMap(method)
+      .subscribe((response) => {
+        dispatch$.next({ ...dispatch$.getValue(), loading: false, suggestions: response.data.results })
+      })
+
+    onClearRequested$
+      .subscribe(() => {
+        dispatch$.next({ ...dispatch$.getValue(), suggestions: [] })
+      })
+
+    onChange$
+      .subscribe((value) => {
+        dispatch$.next({ ...dispatch$.getValue(), value })
+      })
+
     return props$
+      .combineLatest(dispatch$.asObservable(), (props, state) => {
+        return { ...props, state, onChange, onFetchRequested, onClearRequested }
+      })
   }),
-  withHandlers({
-    handleSuggestionsFetchRequested: ({ setState }) => ({ value }) => {
-      setState({ suggestions: getSuggestions(value) })
-    },
-
-    handleSuggestionsClearRequested: ({ setState }) => () => {
-      setState({ suggestions: [] })
-    },
-
-    handleChange: ({ setState }) => (event, { newValue }) => {
-      setState({ value: newValue })
-    }
-  })
+  withStyles(styles)
 )(AutocompleteField)

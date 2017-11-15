@@ -32,7 +32,7 @@ const enhance = compose(
   })),
   (render => (
     branch(render, renderNothing)
-  ))(R.pipe(R.prop('loading'), R.not)),
+  ))(R.compose(R.not, R.prop('loading'))),
   withStyles(styles)
 )
 

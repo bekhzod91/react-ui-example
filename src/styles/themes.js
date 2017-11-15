@@ -36,6 +36,7 @@ export const muiTheme = createMuiTheme({
     buttonColor: '#fff'
   },
   menu: {
+    textColor: '#fff',
     backgroundColor: '#fff'
   },
   table: {

@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 })
 
-const TextField = ({ classes, input, meta: { error }, placeholder, ...defaultProps, helperText }) => (
+const TextField = ({ classes, input, meta: { error }, placeholder, helperText, ...defaultProps }) => (
   <MUITextField
     InputClassName={classNames({
       [classes.input]: !error,

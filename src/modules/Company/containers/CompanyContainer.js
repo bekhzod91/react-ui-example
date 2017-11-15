@@ -60,7 +60,7 @@ export default compose(
   }),
   mapPropsStream((props$) => {
     const getListRequestFromProps = R.compose(
-      R.omit(['ids']),
+      R.omit(['ids', 'tableDialog']),
       R.path(['location', 'query'])
     )
 

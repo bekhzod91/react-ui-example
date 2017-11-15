@@ -44,16 +44,17 @@ const styles = theme => ({
     justifyContent: 'space-between',
     maxHeight: 42,
     padding: '0 !important',
+    color: theme.menu.textColor
   },
   buttonWrapper: {
     position: 'absolute',
     right: '10px',
     top: '0',
-    color: '#ccc',
   },
   button: {
     height: '42px !important',
-    padding: '10px !important'
+    padding: '10px !important',
+    color: theme.menu.textColor
   }
 })
 

@@ -12,8 +12,8 @@ export default (store) => ({
       // injectReducers(store, require('./reducers').default)
       cb(null, [
         {
-          path: ROUTE.COMPANY_MY_URL,
-          component: UserIsAuthenticated(require('./containers/DashboardContainer').default)
+          path: '/dashboard',
+          component: require('./containers/DashboardContainer').default
         },
       ])
     }, 'dashboard').then(() => {

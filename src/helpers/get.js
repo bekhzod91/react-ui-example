@@ -1,33 +1,44 @@
-import * as R from 'ramda'
+import { curry, compose, map, is, join, prop, path, pathOr } from 'ramda'
 import { getQueryFromUrl } from './urls'
 
-export const getIdFromProps = R.pipe(R.path(['params', 'id']), parseInt)
-export const getCompanyIdFromProps = R.pipe(R.path(['params', 'companyId']), parseInt)
+export const getIdFromProps = compose(parseInt, path(['params', 'id']))
+export const getCompanyIdFromProps = compose(parseInt, path(['params', 'companyId']))
 export const getRouteFromProps = (props) => ({
-  location: R.prop('location', props),
-  push: R.prop('push', props),
+  location: prop('location', props),
+  push: prop('push', props),
   companyId: getCompanyIdFromProps(props)
 })
 
-export const getFormValueFromState = R.curry((name, state) => R.pathOr({}, ['form', name, 'values'], state))
+export const getFormValueFromState = curry((name, state) => pathOr({}, ['form', name, 'values'], state))
+export const getFormValuesToUrl = map((item) => {
+  if (is(Array, item)) {
+    return join(',', getFormValuesToUrl(item))
+  }
 
-export const getDataFromState = R.curry((name, state) => ({
-  loading: R.path([name, 'loading'], state),
-  data: R.path([name, 'data'], state),
+  if (is(Object, item)) {
+    return prop('id', item)
+  }
+
+  return item
+})
+
+export const getDataFromState = curry((name, state) => ({
+  loading: path([name, 'loading'], state),
+  data: path([name, 'data'], state),
 }))
 
-export const getFullPathFromLocation = (location) => `${R.prop('pathname', location)}${R.prop('search', location)}`
+export const getFullPathFromLocation = (location) => `${prop('pathname', location)}${prop('search', location)}`
 export const getFullPathFromRoute = ({ location }) => getFullPathFromLocation(location)
 export const getFullPathFromProps = ({ route }) => getFullPathFromRoute(route)
-export const getQueryValueFormLocation = R.curry((key, location) => R.pipe(
-  getFullPathFromLocation,
+export const getQueryValueFormLocation = curry((key, location) => compose(
+  prop(key),
   getQueryFromUrl,
-  R.prop(key)
+  getFullPathFromLocation,
 )(location))
-export const getQueryValueFormRoute = R.curry((key, { location }) => getQueryValueFormLocation(key, location))
-export const getQueryValueFormProps = R.curry((key, { route }) => getQueryValueFormRoute(key, route))
-export const getPayloadFromSuccess = R.prop('data')
-export const getPayloadFromError = R.pipe(
-  R.path(['response', 'data']),
+export const getQueryValueFormRoute = curry((key, { location }) => getQueryValueFormLocation(key, location))
+export const getQueryValueFormProps = curry((key, { route }) => getQueryValueFormRoute(key, route))
+export const getPayloadFromSuccess = prop('data')
+export const getPayloadFromError = compose(
   (data) => Promise.reject(data),
+  path(['response', 'data'])
 )

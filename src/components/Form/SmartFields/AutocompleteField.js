@@ -1,61 +1,61 @@
-import Rx from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
+import { compose, prop, is, equals } from 'ramda'
 import React from 'react'
-import { compose, mapPropsStream, createEventHandler } from 'recompose'
+import { compose as composeR, mapPropsStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
-import TextField from 'material-ui/TextField'
-import Paper from 'material-ui/Paper'
-import { MenuItem } from 'material-ui/Menu'
-import match from 'autosuggest-highlight/match'
-import parse from 'autosuggest-highlight/parse'
 import withStyles from 'material-ui/styles/withStyles'
-import axios from '../../../helpers/axios'
+import Paper from 'material-ui/Paper'
+import IconButton from 'material-ui/IconButton'
+import CircularProgress from 'material-ui/Progress/CircularProgress'
+import Fade from 'material-ui/transitions/Fade'
+import ClearIcon from 'material-ui-icons/Clear'
+import { axiosCancelRequest } from '../../../helpers/cancel'
+import TextField from '../SimpleFields/TextField'
 
-function renderInput (inputProps) {
-  const { classes, autoFocus, value, label, margin, fullWidth, ref, loading, ...other } = inputProps
+const renderInputComponent = (inputProps) => {
+  const {
+    classes,
+    autoFocus,
+    value,
+    label,
+    margin,
+    fullWidth,
+    ref,
+    loading,
+    ...other
+  } = inputProps
+
+  const onClick = () => {
+    inputProps.input.onChange(null)
+    other.onChange({ target: { value: '' } })
+  }
 
   return (
-    <TextField
-      label={label}
-      autoFocus={autoFocus}
-      value={value}
-      inputRef={ref}
-      margin={margin}
-      fullWidth={fullWidth}
-      InputProps={{
-        classes: {
-          input: classes.input,
-        },
-        ...other,
-      }}
-    />
+    <div>
+      <TextField
+        classes={{ input: classes.input }}
+        label={label}
+        autoFocus={autoFocus}
+        value={value}
+        inputRef={ref}
+        margin={margin}
+        fullWidth={fullWidth}
+        {...other}
+      />
+      <Fade in={loading}>
+        <CircularProgress size={28} className={classes.action} />
+      </Fade>
+      <Fade in={!loading && value}>
+        <IconButton className={classes.action} onClick={onClick}>
+          <ClearIcon />
+        </IconButton>
+      </Fade>
+    </div>
   )
 }
 
-function renderSuggestion (suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.name, query)
-  const parts = parse(suggestion.name, matches)
-
-  return (
-    <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) => {
-          return part.highlight ? (
-            <span key={index} style={{ fontWeight: 300 }}>
-              {part.text}
-            </span>
-          ) : (
-            <strong key={index} style={{ fontWeight: 500 }}>
-              {part.text}
-            </strong>
-          )
-        })}
-      </div>
-    </MenuItem>
-  )
-}
-
-function renderSuggestionsContainer (options) {
+const renderSuggestionsContainer = (options) => {
   const { containerProps, children } = options
 
   return (
@@ -63,10 +63,6 @@ function renderSuggestionsContainer (options) {
       {children}
     </Paper>
   )
-}
-
-function getSuggestionValue (suggestion) {
-  return suggestion.name
 }
 
 const styles = theme => ({
@@ -82,6 +78,13 @@ const styles = theme => ({
     left: 0,
     right: 0,
   },
+  action: {
+    top: 28,
+    right: 0,
+    width: 28,
+    height: 28,
+    position: 'absolute',
+  },
   suggestion: {
     display: 'block',
   },
@@ -92,84 +95,100 @@ const styles = theme => ({
   },
 })
 
-const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, ...props }) => (
-  <Autosuggest
-    theme={{
-      container: classes.container,
-      suggestionsContainerOpen: classes.suggestionsContainerOpen,
-      suggestionsList: classes.suggestionsList,
-      suggestion: classes.suggestion,
-    }}
-    renderInputComponent={renderInput}
-    suggestions={props.state.suggestions}
-    onSuggestionsFetchRequested={props.onFetchRequested}
-    onSuggestionsClearRequested={props.onClearRequested}
-    renderSuggestionsContainer={renderSuggestionsContainer}
-    getSuggestionValue={getSuggestionValue}
-    renderSuggestion={renderSuggestion}
-    shouldRenderSuggestions={() => true}
-    inputProps={{
-      classes,
-      label,
-      margin,
-      placeholder,
-      fullWidth,
-      value: props.state.value,
-      loading: props.state.loading,
-      onChange: (event, { newValue }) => props.onChange(newValue),
-    }}
-  />
-)
+const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, input, meta, ...props }) => {
+  return (
+    <Autosuggest
+      theme={{
+        container: classes.container,
+        suggestionsContainerOpen: classes.suggestionsContainerOpen,
+        suggestionsList: classes.suggestionsList,
+        suggestion: classes.suggestion,
+      }}
+      renderInputComponent={props.renderInputComponent}
+      suggestions={props.state.suggestions}
+      onSuggestionsFetchRequested={props.onFetchRequested}
+      onSuggestionsClearRequested={props.onClearRequested}
+      renderSuggestionsContainer={renderSuggestionsContainer}
+      getSuggestionValue={props.getSuggestionValue(input.onChange)}
+      renderSuggestion={props.renderSuggestion}
+      shouldRenderSuggestions={props.shouldRenderSuggestions}
+      inputProps={{
+        classes,
+        label,
+        margin,
+        placeholder,
+        fullWidth,
+        value: props.state.value,
+        loading: props.state.loading,
+        input,
+        meta,
+        onChange: (event, value) => props.onTyping(value)
+      }}
+    />
+  )
+}
+
+AutocompleteField.defaultProps = {
+  renderInputComponent,
+  shouldRenderSuggestions: () => true
+}
 
 AutocompleteField.propTypes = {
   classes: PropTypes.object.isRequired,
-  state: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onFetchRequested: PropTypes.func.isRequired,
-  onClearRequested: PropTypes.func.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   margin: PropTypes.string,
-  fullWidth: PropTypes.bool
+  fullWidth: PropTypes.bool,
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired,
+  onTyping: PropTypes.func.isRequired,
+  onFetchRequested: PropTypes.func.isRequired,
+  onClearRequested: PropTypes.func.isRequired,
+  renderInputComponent: PropTypes.func.isRequired,
+  renderSuggestion: PropTypes.func.isRequired,
+  getSuggestionValue: PropTypes.func.isRequired,
+  shouldRenderSuggestions: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired
 }
 
-const initialState = { value: '', loading: false, suggestions: [] }
-const method = ({ value }) => {
-  return axios({
-    getState: () => ({
-      signIn: { data: { token: '044143500d0e034c9038a112dac1694ee2a9d06b' } }
-    })
-  }).get('http://localhost:8000/api/v1/companies/', { params: { search: value } })
-}
-
-export default compose(
+export default composeR(
   mapPropsStream(props$ => {
-    const { handler: onChange, stream:  onChange$ } = createEventHandler()
+    const { handler: onTyping, stream:  onTyping$ } = createEventHandler()
     const { handler: onFetchRequested, stream:  onFetchRequested$ } = createEventHandler()
     const { handler: onClearRequested, stream:  onClearRequested$ } = createEventHandler()
 
-    const dispatch$ = new Rx.BehaviorSubject(initialState)
+    const initialState = { value: '', loading: false, suggestions: [] }
+    const dispatch$ = new BehaviorSubject(initialState)
 
     onFetchRequested$
+      .let(axiosCancelRequest())
       .do(() => dispatch$.next({ ...dispatch$.getValue(), loading: true }))
-      .flatMap(method)
-      .subscribe((response) => {
-        dispatch$.next({ ...dispatch$.getValue(), loading: false, suggestions: response.data.results })
-      })
+      .withLatestFrom(props$)
+      .flatMap(([value, props]) => props.search(value))
+      .filter(is(Array))
+      .subscribe((suggestions) =>
+        dispatch$.next({ ...dispatch$.getValue(), loading: false, suggestions })
+      )
 
     onClearRequested$
       .subscribe(() => {
         dispatch$.next({ ...dispatch$.getValue(), suggestions: [] })
       })
 
-    onChange$
-      .subscribe((value) => {
-        dispatch$.next({ ...dispatch$.getValue(), value })
+    onTyping$
+      .subscribe(({ newValue }) => {
+        dispatch$.next({ ...dispatch$.getValue(), value: newValue })
       })
+
+    onTyping$
+      .filter(compose(equals('type'), prop('method')))
+      .withLatestFrom(props$)
+      .subscribe(([value, props]) => props.input.onChange(null))
 
     return props$
       .combineLatest(dispatch$.asObservable(), (props, state) => {
-        return { ...props, state, onChange, onFetchRequested, onClearRequested }
+        return { ...props, state, onTyping, onFetchRequested, onClearRequested }
       })
   }),
   withStyles(styles)

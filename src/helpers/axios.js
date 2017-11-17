@@ -1,5 +1,6 @@
-import * as R from 'ramda'
+import { path, is, equals } from 'ramda'
 import axios from 'axios'
+import { Observable } from 'rxjs'
 import { browserHistory } from 'react-router'
 import { API_URL } from '../constants/api'
 import * as ROUTE from '../constants/routes'
@@ -10,13 +11,13 @@ const INTERNAL_ERROR = 500
 const CONTENT_TYPE_JSON = 'application/json'
 
 const responseToCamelCase = (data, response) => {
-  const responseContentType = R.path(['content-type'], response)
+  const responseContentType = path(['content-type'], response)
 
-  if (R.equals(CONTENT_TYPE_JSON, responseContentType)) {
+  if (equals(CONTENT_TYPE_JSON, responseContentType)) {
     return toCamelCase(JSON.parse(data))
   }
 
-  if (R.is(Object, data) || R.is(Array, data)) {
+  if (is(Object, data) || is(Array, data)) {
     return toCamelCase(data)
   }
 
@@ -24,9 +25,9 @@ const responseToCamelCase = (data, response) => {
 }
 
 const apiErrorHandler = (error) => {
-  const status = R.path(['response', 'status'], error)
+  const status = path(['response', 'status'], error)
 
-  if (R.equals(INTERNAL_ERROR, status)) {
+  if (equals(INTERNAL_ERROR, status)) {
     browserHistory.push(ROUTE.INTERNAL_SERVER_ERROR)
   }
 
@@ -35,7 +36,7 @@ const apiErrorHandler = (error) => {
 
 export default ({ getState }) => {
   const state = getState()
-  const token = R.path([STATE.SING_IN, 'data', 'token'], state)
+  const token = path([STATE.SING_IN, 'data', 'token'], state)
 
   axios.defaults.baseURL = API_URL
   axios.defaults.transformResponse = [responseToCamelCase]

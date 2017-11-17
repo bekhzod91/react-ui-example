@@ -7,7 +7,7 @@ import withStyles from 'material-ui/styles/withStyles'
 import Button from 'material-ui/Button'
 import TableDialog from '../../../components/Table/TableDialog'
 import TextField from '../../../components/Form/SimpleFields/TextField'
-import AutocompleteField from '../../../components/Form/SmartFields/AutocompleteField'
+import CompanySearchField from '../components/Form/CompanySearchField'
 
 const styles = {
   buttonGroup: {
@@ -35,8 +35,8 @@ const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
       />
 
       <Field
-        component={AutocompleteField}
-        name="email1"
+        component={CompanySearchField}
+        name="owner"
         label="Owner"
         placeholder="Type owner name or email"
         fullWidth={true}

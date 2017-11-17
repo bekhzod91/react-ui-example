@@ -87,8 +87,16 @@ class TableDialog extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    if (this.onFocusListener) {
+      this.onFocusListener.remove()
+      this.onFocusListener = null
+    }
+  }
+
   handleFocusListener = () => {
-    const currentFocus = activeElement(ownerDocument(ReactDOM.findDOMNode(this)))
+    const doc = ownerDocument(ReactDOM.findDOMNode(this))
+    const currentFocus = activeElement(doc)
     const modalContent = this.modal && this.modal.lastChild
 
     if (modalContent && modalContent !== currentFocus && !contains(modalContent, currentFocus)) {

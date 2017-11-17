@@ -21,8 +21,6 @@ describe('toCamelCase helper', () => {
       ]
     }
 
-    console.log(toCamelCase(before))
-
     expect(R.equals(toCamelCase(before), after)).to.equal(true)
   })
 })

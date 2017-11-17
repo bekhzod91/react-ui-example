@@ -1,10 +1,8 @@
 import * as R from 'ramda'
-import sprintf from 'sprintf'
 import { pure, compose, withHandlers, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
-import * as ROUTE from '../../../constants/routes'
 import { appendParamsToUrl } from '../../../helpers/urls'
 import {
   getCompanyListAction,
@@ -20,6 +18,7 @@ import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
   getFormValueFromState,
+  getFormValuesToUrl,
   getDataFromState,
   getFullPathFromLocation
 } from '../../../helpers/get'
@@ -48,9 +47,8 @@ export default compose(
   UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({
-    onOpenFilter: ({ push, location: { search }, params: { companyId } }) => () => {
-      const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, parseInt(companyId))
-      const fullPath = `${pathname}${search}`
+    onOpenFilter: ({ push, location }) => () => {
+      const fullPath = getFullPathFromLocation(location)
       return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
     },
     onCloseFilter: ({ push, location }) => () => {
@@ -82,9 +80,13 @@ export default compose(
 
     onSubmitFilter$
       .withLatestFrom(props$)
-      .subscribe(([event, props]) => {
+      .subscribe(([event, { push, location, filterFormValue }]) => {
         event && event.preventDefault()
-        console.log(props)
+
+        const fullPath = getFullPathFromLocation(location)
+        const params = getFormValuesToUrl(filterFormValue)
+
+        return push(appendParamsToUrl(params, fullPath))
       })
 
     return props$.combineLatest(props => ({ ...props, onSubmitFilter }))

@@ -17,6 +17,7 @@
   "dependencies": {
     "autosuggest-highlight": "^3.1.0",
     "axios": "^0.16.2",
+    "chart.js": "^2.7.1",
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "dom-helpers": "^3.2.1",
@@ -32,6 +33,7 @@
     "react": "^16.0.0",
     "react-animations": "^0.1.0",
     "react-autosuggest": "^9.3.2",
+    "react-chartjs-2": "^2.6.4",
     "react-dom": "^16.0.0",
     "react-jss": "^6.1.1",
     "react-motion": "^0.5.0",

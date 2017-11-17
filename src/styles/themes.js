@@ -65,5 +65,11 @@ export const muiThemeNext = createMuiTheme({
     headerTextColor: '#fff',
     headerIconColor: '#fff',
     backgroundColor: '#fff'
+  },
+  widget: {
+    whiteText: '#fff'
+  },
+  contacts: {
+    textColor: '#fff'
   }
 })

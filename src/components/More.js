@@ -4,8 +4,8 @@ import { withState } from 'recompose'
 import IconButton from 'material-ui-next/IconButton'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
 
-const More = ({ state, setState, children }) => (
-  <div>
+const More = ({ state, setState, children, ...props }) => (
+  <div {...props}>
     <IconButton onClick={(event) => setState({ open: true, anchorEl: event.currentTarget })}>
       <MoreVertIcon />
     </IconButton>

@@ -2,23 +2,21 @@ import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
-import Card, { CardHeader, CardActions } from 'material-ui-next/Card'
-import withStyles from 'material-ui-next/styles/withStyles'
-import IconButton from 'material-ui-next/IconButton'
+import classNames from 'classnames'
+import Card, { CardHeader, CardActions } from 'material-ui/Card'
+import withStyles from 'material-ui/styles/withStyles'
+import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui-icons/Search'
 import SortByAlpha from 'material-ui-icons/SortByAlpha'
 import PersonAdd from 'material-ui-icons/PersonAdd'
 import Close from 'material-ui-icons/Close'
-import { CircularProgress } from 'material-ui-next/Progress'
-import Avatar from 'material-ui-next/Avatar'
-import Button from 'material-ui-next/Button'
-import avatar from '../../../components/assets/photo.jpg'
-import List, {
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from 'material-ui-next/List'
-import AddContactDialog from './ContactDialog/ContactDialog'
+import { CircularProgress } from 'material-ui/Progress'
+import Fade from 'material-ui/transitions/Fade'
+import Avatar from 'material-ui/Avatar'
+import Button from 'material-ui/Button'
+import avatar from '../../../../components/assets/photo.jpg'
+import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List'
+import ContactForm from './ContactForm'
 
 const styles = theme => ({
   card: {
@@ -74,8 +72,7 @@ const styles = theme => ({
     color: theme.palette.secondary[400]
   },
   search: {
-    minHeight: 56,
-    position: 'relative',
+    height: 56,
     '& input': {
       border: 'none',
       textIndent: 45,
@@ -104,6 +101,10 @@ const styles = theme => ({
       marginTop: -24,
       right: 5
     }
+  },
+  hide: {
+    height: 0,
+    visibility: 'hidden'
   }
 })
 
@@ -114,29 +115,38 @@ const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
   return (
     <div className={classes.card}>
       <Card>
-        {state.search ? (
-          <div className={classes.search}>
-            <input placeholder="Search and press enter..." onChange={onChange} />
-            <IconButton onClick={closeSearch}>
-              <Close />
-            </IconButton>
-          </div>
-        ) : (
-          <div className={classes.cardHeader}>
-            <CardHeader
-              title="Contacts"
-              classes={{ title: classes.title }}
-            />
-            <CardActions>
-              <IconButton onClick={openSearch} className={classes.icon}>
-                <SearchIcon className={classes.searchIcon} />
+        <div style={{ position: 'relative' }}>
+          <Fade
+            in={state.search}
+            timeout={500}
+            className={classNames(classes.search, { [classes.hide]: !state.search })}>
+            <div>
+              <input placeholder="Search and press enter..." onChange={onChange} />
+              <IconButton onClick={closeSearch}>
+                <Close />
               </IconButton>
-              <IconButton className={classes.icon}>
-                <SortByAlpha className={classes.sortByAlpha} />
-              </IconButton>
-            </CardActions>
-          </div>
-        )}
+            </div>
+          </Fade>
+          <Fade
+            in={!state.search}
+            timeout={500}
+            className={classNames(classes.cardHeader, { [classes.hide]: state.search })}>
+            <div>
+              <CardHeader
+                title="Contacts"
+                classes={{ title: classes.title }}
+              />
+              <CardActions>
+                <IconButton onClick={openSearch} className={classes.icon}>
+                  <SearchIcon className={classes.searchIcon} />
+                </IconButton>
+                <IconButton className={classes.icon}>
+                  <SortByAlpha className={classes.sortByAlpha} />
+                </IconButton>
+              </CardActions>
+            </div>
+          </Fade>
+        </div>
         <div>
           {loading ? (
             <div className={classes.loadingCover}>
@@ -169,7 +179,7 @@ const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
           </Button>
         </CardActions>
       </Card>
-      <AddContactDialog open={state.dialog} close={closeDialog} />
+      <ContactForm open={state.dialog} close={closeDialog} />
     </div>
   )
 }

@@ -1,12 +1,12 @@
 import * as R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui-next/styles/withStyles'
-import { CircularProgress } from 'material-ui-next/Progress'
-import Card, { CardHeader, CardContent } from 'material-ui-next/Card'
+import withStyles from 'material-ui/styles/withStyles'
+import { CircularProgress } from 'material-ui/Progress'
+import Card, { CardHeader, CardContent } from 'material-ui/Card'
 import ArrowUpward from 'material-ui-icons/ArrowUpward'
-import AppBar from 'material-ui-next/AppBar'
-import Tabs, { Tab } from 'material-ui-next/Tabs'
+import AppBar from 'material-ui/AppBar'
+import Tabs, { Tab } from 'material-ui/Tabs'
 
 const styles = theme => ({
   card: {

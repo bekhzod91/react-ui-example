@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import AppBar from '../../../components/AppBar'
 import * as ROUTE from '../../../constants/routes'
 import Widget from './Widget'
-import Contacts from './Contacts'
+import ContactsWidget from './ContactsWidget'
 import SimpleChart from './ChartJs'
 import More from '../../../components/More'
 import Menu, { MenuItem } from 'material-ui/Menu'
@@ -34,7 +34,7 @@ const Dashboard = ({ appBar }) => {
         tabs={['day', 'week', 'month', 'year']}>
         <SimpleChart />
       </Widget>
-      <Contacts
+      <ContactsWidget
         alt={'User name'}
         list={[
           { name: 'Bekhzod', email: 'blabla@gmail.com' },

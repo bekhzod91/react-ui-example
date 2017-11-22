@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { pure, compose, withHandlers, mapPropsStream, createEventHandler } from 'recompose'
+import { pure, compose, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
@@ -18,7 +18,8 @@ import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
   getFormValueFromState,
-  getFormValuesToUrl,
+  getFormValuesLikeParams,
+  getInitialFormValuesFromProps,
   getDataFromState,
   getFullPathFromLocation
 } from '../../../helpers/get'
@@ -26,10 +27,12 @@ import {
 const mapStateToProps = (state, props) => {
   const id = getIdFromProps(props)
   const filterFormValue = getFormValueFromState(filterFormName, state)
+  const initialFilterFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
 
   return {
     list: getDataFromState(STATE.COMPANY_LIST, state),
     detail: { ...getDataFromState(STATE.COMPANY_DETAIL, state), id },
+    initialFilterFormValue,
     filterFormValue
   }
 }
@@ -46,16 +49,7 @@ const mapDispatchToProps = {
 export default compose(
   UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
-  withHandlers({
-    onOpenFilter: ({ push, location }) => () => {
-      const fullPath = getFullPathFromLocation(location)
-      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
-    },
-    onCloseFilter: ({ push, location }) => () => {
-      const fullPath = getFullPathFromLocation(location)
-      return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
-    }
-  }),
+  // List fetch
   mapPropsStream((props$) => {
     const getListRequestFromProps = R.compose(
       R.omit(['ids', 'tableDialog']),
@@ -75,8 +69,25 @@ export default compose(
 
     return props$
   }),
+  // Filter events
   mapPropsStream(props$ => {
-    const { handler: onSubmitFilter, stream:  onSubmitFilter$ } = createEventHandler()
+    const { handler: onOpenFilter, stream: onOpenFilter$ } = createEventHandler()
+    const { handler: onCloseFilter, stream: onCloseFilter$ } = createEventHandler()
+    const { handler: onSubmitFilter, stream: onSubmitFilter$ } = createEventHandler()
+
+    onOpenFilter$
+      .withLatestFrom(props$)
+      .subscribe(([event, { push, location }]) => {
+        const fullPath = getFullPathFromLocation(location)
+        push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
+      })
+
+    onCloseFilter$
+      .withLatestFrom(props$)
+      .subscribe(([event, { push, location }]) => {
+        const fullPath = getFullPathFromLocation(location)
+        push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
+      })
 
     onSubmitFilter$
       .withLatestFrom(props$)
@@ -84,12 +95,12 @@ export default compose(
         event && event.preventDefault()
 
         const fullPath = getFullPathFromLocation(location)
-        const params = getFormValuesToUrl(filterFormValue)
+        const params = getFormValuesLikeParams(filterFormValue)
 
-        return push(appendParamsToUrl(params, fullPath))
+        push(appendParamsToUrl({ ...params, [TABLE_QUERY_KEY]: '' }, fullPath))
       })
 
-    return props$.combineLatest(props => ({ ...props, onSubmitFilter }))
+    return props$.combineLatest(props => ({ ...props, onSubmitFilter, onOpenFilter, onCloseFilter }))
   }),
   pure
 )(Company)

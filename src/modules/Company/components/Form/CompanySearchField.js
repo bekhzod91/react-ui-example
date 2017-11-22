@@ -1,7 +1,7 @@
-import { curry, prop, path, equals, __ } from 'ramda'
+import { prop, path } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { compose, mapPropsStream } from 'recompose'
+import { compose, withHandlers, getContext } from 'recompose'
 import { MenuItem } from 'material-ui/Menu'
 import axios from '../../../../helpers/axios'
 import * as API from '../../../../constants/api'
@@ -14,41 +14,48 @@ const CompanySearchField = ({ ...props }) => {
 }
 
 CompanySearchField.propTypes = {
-  search: PropTypes.func.isRequired,
-  getSuggestionValue: PropTypes.func.isRequired
+  getSuggestionByKeyword: PropTypes.func.isRequired,
+  getSuggestionValue: PropTypes.func.isRequired,
+  renderSuggestion: PropTypes.func.isRequired,
+  getById: PropTypes.func.isRequired,
+  getValue: PropTypes.func.isRequired
 }
 
 export default compose(
-  mapPropsStream(props$ => {
-    const search = ([{ value }, token]) => {
-      return axios({
-        getState: () => ({
-          signIn: { data: { token: '044143500d0e034c9038a112dac1694ee2a9d06b' } }
-        })
-      })
-        .get(`${API.API_URL}/companies/`, { cancelToken: token, params: { search: value } })
+  getContext({ store: PropTypes.object.isRequired }),
+  withHandlers({
+    getSuggestionByKeyword: ({ store }) => ([{ value }, cancelToken]) => {
+      return axios(store)
+        .get(`${API.API_URL}/companies/`, { cancelToken, params: { search: value } })
         .then(path(['data', 'results']))
         .catch(() => new Error('Request canceled'))
-    }
+    },
 
-    const renderSuggestion = curry((suggestion, query, value) => {
-      const selected = equals(prop('id', suggestion), prop('id', value))
+    getSuggestionValue: props => (onChange, suggestion) => {
+      const id = prop('id', suggestion)
+      const name = prop('name', suggestion)
+      onChange({ id, name })
 
+      return prop('name', suggestion)
+    },
+
+    renderSuggestion: props => (suggestion) => {
       return (
-        <MenuItem selected={selected} component="div">
+        <MenuItem component="div">
           <div>{prop('name', suggestion)}</div>
         </MenuItem>
       )
-    })
+    },
 
-    const getSuggestionValue = curry((onChange, suggestion) => {
-      onChange(suggestion)
+    getById: ({ store }) => (id) => {
+      return axios(store)
+        .get(`${API.API_URL}/companies/${id}/`)
+        .then(path(['data']))
+        .catch(() => new Error('Request failed'))
+    },
 
-      return prop('name', suggestion)
-    })
-
-    return props$.combineLatest(props => ({
-      ...props, search, getSuggestionValue, renderSuggestion: renderSuggestion(__, __, props.input.value)
-    }))
+    getValue: props => (value) => {
+      return prop('name', value)
+    }
   })
 )(CompanySearchField)

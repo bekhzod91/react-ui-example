@@ -15,7 +15,7 @@ import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../c
 import CompanyListFilter from './CompanyListFilter'
 import CompanyListActions from './CompanyListActions'
 
-const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpenFilter }) => {
+const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpenFilter, initialFilterFormValue }) => {
   const companyId = R.prop('companyId', route)
   const query = R.path(['location', 'query'], route)
   const getLink = (item) => {
@@ -45,7 +45,12 @@ const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpe
   )
 
   const dialogs = (
-    <CompanyListFilter route={route} onSubmit={onSubmitFilter} />
+    <CompanyListFilter
+      route={route}
+      onCloseFilter={onCloseFilter}
+      onSubmit={onSubmitFilter}
+      initialValues={initialFilterFormValue}
+    />
   )
   const actions = (
     <CompanyListActions onOpenFilter={onOpenFilter} />
@@ -94,6 +99,7 @@ CompanyList.propTypes = {
   onSubmitFilter: PropTypes.func,
   onCloseFilter: PropTypes.func,
   onOpenFilter: PropTypes.func,
+  initialFilterFormValue: PropTypes.object.isRequired,
 }
 
 export default CompanyList

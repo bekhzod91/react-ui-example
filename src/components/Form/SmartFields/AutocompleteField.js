@@ -1,7 +1,8 @@
 import { BehaviorSubject } from 'rxjs'
-import { compose, prop, is, equals } from 'ramda'
+import { compose, prop, is, equals, curry, path } from 'ramda'
 import React from 'react'
-import { compose as composeR, mapPropsStream, createEventHandler } from 'recompose'
+import classNames from 'classnames'
+import { compose as composeR, mapPropsStream, defaultProps, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import withStyles from 'material-ui/styles/withStyles'
@@ -10,6 +11,7 @@ import IconButton from 'material-ui/IconButton'
 import CircularProgress from 'material-ui/Progress/CircularProgress'
 import Fade from 'material-ui/transitions/Fade'
 import ClearIcon from 'material-ui-icons/Clear'
+import SearchIcon from 'material-ui-icons/Search'
 import { axiosCancelRequest } from '../../../helpers/cancel'
 import TextField from '../SimpleFields/TextField'
 
@@ -43,13 +45,27 @@ const renderInputComponent = (inputProps) => {
         fullWidth={fullWidth}
         {...other}
       />
-      <Fade in={loading}>
-        <CircularProgress size={28} className={classes.action} />
+
+      <Fade
+        in={loading}
+        className={classNames(classes.icon, { [classes.hide]: !loading })}>
+        <CircularProgress size={28} />
       </Fade>
-      <Fade in={!loading && value}>
-        <IconButton className={classes.action} onClick={onClick}>
+
+      <Fade
+        in={!loading && value}
+        className={classNames(classes.icon, { [classes.hide]: !(!loading && value) })}>
+        <IconButton onClick={onClick}>
           <ClearIcon />
         </IconButton>
+      </Fade>
+
+      <Fade
+        in={!loading && !value}
+        className={classNames(classes.icon, { [classes.hide]: !(!loading && !value) })}>
+        <div>
+          <SearchIcon />
+        </div>
       </Fade>
     </div>
   )
@@ -78,12 +94,16 @@ const styles = theme => ({
     left: 0,
     right: 0,
   },
-  action: {
+  icon: {
     top: 28,
     right: 0,
     width: 28,
     height: 28,
+    zIndex: 10,
     position: 'absolute',
+  },
+  hide: {
+    visibility: 'hidden'
   },
   suggestion: {
     display: 'block',
@@ -109,7 +129,9 @@ const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, inp
       onSuggestionsFetchRequested={props.onFetchRequested}
       onSuggestionsClearRequested={props.onClearRequested}
       renderSuggestionsContainer={renderSuggestionsContainer}
-      getSuggestionValue={props.getSuggestionValue(input.onChange)}
+      getSuggestionValue={curry((onChange, suggestion) =>
+        props.getSuggestionValue(onChange, suggestion))(input.onChange)
+      }
       renderSuggestion={props.renderSuggestion}
       shouldRenderSuggestions={props.shouldRenderSuggestions}
       inputProps={{
@@ -128,11 +150,6 @@ const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, inp
   )
 }
 
-AutocompleteField.defaultProps = {
-  renderInputComponent,
-  shouldRenderSuggestions: () => true
-}
-
 AutocompleteField.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string,
@@ -145,14 +162,22 @@ AutocompleteField.propTypes = {
   onTyping: PropTypes.func.isRequired,
   onFetchRequested: PropTypes.func.isRequired,
   onClearRequested: PropTypes.func.isRequired,
-  renderInputComponent: PropTypes.func.isRequired,
-  renderSuggestion: PropTypes.func.isRequired,
-  getSuggestionValue: PropTypes.func.isRequired,
   shouldRenderSuggestions: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired
+  renderInputComponent: PropTypes.func.isRequired,
+  getSuggestionByKeyword: PropTypes.func.isRequired,
+  getSuggestionValue: PropTypes.func.isRequired,
+  renderSuggestion: PropTypes.func.isRequired,
+  getById: PropTypes.func.isRequired,
+  getValue: PropTypes.func.isRequired,
+  getId: PropTypes.func.isRequired
 }
 
 export default composeR(
+  defaultProps({
+    renderInputComponent,
+    shouldRenderSuggestions: () => true,
+    getId: path(['input', 'value', 'id']),
+  }),
   mapPropsStream(props$ => {
     const { handler: onTyping, stream:  onTyping$ } = createEventHandler()
     const { handler: onFetchRequested, stream:  onFetchRequested$ } = createEventHandler()
@@ -161,11 +186,20 @@ export default composeR(
     const initialState = { value: '', loading: false, suggestions: [] }
     const dispatch$ = new BehaviorSubject(initialState)
 
+    props$
+      .distinctUntilChanged(null, props => props.getId(props))
+      .filter(props => props.getId(props))
+      .flatMap(props => props.getById(props.getId(props)))
+      .withLatestFrom(props$)
+      .subscribe(([data, props]) => {
+        dispatch$.next({ ...dispatch$.getValue(), value: props.getValue(data) })
+      })
+
     onFetchRequested$
       .let(axiosCancelRequest())
       .do(() => dispatch$.next({ ...dispatch$.getValue(), loading: true }))
       .withLatestFrom(props$)
-      .flatMap(([value, props]) => props.search(value))
+      .flatMap(([value, props]) => props.getSuggestionByKeyword(value))
       .filter(is(Array))
       .subscribe((suggestions) =>
         dispatch$.next({ ...dispatch$.getValue(), loading: false, suggestions })

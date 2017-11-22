@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import React from 'react'
-import { compose, pure, mapProps, withHandlers, setPropTypes, defaultProps } from 'recompose'
+import { compose, pure, mapProps, withHandlers, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from 'material-ui/styles/withStyles'
@@ -9,6 +9,7 @@ import { TableFooter, TableRow as TableRowMUI, TablePagination } from 'material-
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
 import TableSearch from '../Table/TableSearch'
+import Fade from '../../../../material-ui/material-ui/src/transitions/Fade'
 import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 import { getFullPathFromLocation } from '../../helpers/get'
 
@@ -27,10 +28,7 @@ const styles = theme => ({
     justifyContent: 'center',
     minHeight: 400,
     alignItems: 'center',
-    background: theme.table.backgroundColor,
-    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2),' +
-      '0px 4px 5px 0px rgba(0, 0, 0, 0.14)' +
-      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
+    background: theme.table.backgroundColor
   },
 
   header: {
@@ -88,6 +86,11 @@ const styles = theme => ({
     '& td': {
       border: 'none !important'
     }
+  },
+
+  hide: {
+    height: 0,
+    visibility: 'hidden'
   }
 })
 
@@ -109,9 +112,7 @@ const getSelectIdsFromRoute = R.pipe(
 
 const getIdsFromList = R.curry((getById, list) => R.pipe(
   R.pathOr([], ['data', 'results']),
-  R.map(
-    R.pipe(getById, parseInt)
-  ),
+  R.map(R.pipe(getById, parseInt)),
   R.sort(R.gte)
 )(list))
 
@@ -129,7 +130,7 @@ const selectIdsIncludeAnyListIds = R.curry((selectIds, listIds) =>
   )(listIds)
 )
 
-const Table = ({ classes, dialogs, actions, renderHeader, renderBody, ...props }) => {
+const Table = ({ classes, loading, dialogs, actions, renderHeader, renderBody, ...props }) => {
   const {
     page,
     count,
@@ -157,7 +158,9 @@ const Table = ({ classes, dialogs, actions, renderHeader, renderBody, ...props }
         <div className={classNames(classes.header, { [classes.select]: selectCount })}>
           <div>
             <TableSearchCase />
-            {selectCountVisible && <div className={classes.selectCount}>{selectCount} selected</div>}
+            <Fade in={selectCountVisible}>
+              <div className={classes.selectCount}>{selectCount} selected</div>
+            </Fade>
             <div className={classes.actions}>
               {actions}
             </div>
@@ -167,23 +170,38 @@ const Table = ({ classes, dialogs, actions, renderHeader, renderBody, ...props }
           </div>
         </div>
         <div className={classes.body}>
-          {renderBody()}
+          <Fade
+            in={loading}
+            className={classNames(classes.loader, { [classes.hide]: !loading })}>
+            <div>
+              <CircularProgress size={75} color="accent" />
+            </div>
+          </Fade>
+          <Fade
+            in={!loading}
+            className={classNames(classes.list, { [classes.hide]: loading })}>
+            <div>
+              {renderBody()}
+            </div>
+          </Fade>
         </div>
         <div className={classes.footer}>
-          {count && <table>
-            <TableFooter>
-              <TableRowMUI>
-                <TablePagination
-                  count={count}
-                  rowsPerPageOptions={[10, 25, 50, 100]}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onChangePage={onChangePage}
-                  onChangeRowsPerPage={onChangeRowsPerPage}
-                />
-              </TableRowMUI>
-            </TableFooter>
-          </table>}
+          <Fade in={count}>
+            <table>
+              <TableFooter>
+                <TableRowMUI>
+                  <TablePagination
+                    count={count}
+                    rowsPerPageOptions={[10, 25, 50, 100]}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={onChangePage}
+                    onChangeRowsPerPage={onChangeRowsPerPage}
+                  />
+                </TableRowMUI>
+              </TableFooter>
+            </table>
+          </Fade>
         </div>
       </div>
     </div>
@@ -201,6 +219,7 @@ Table.propTypes = {
   renderBody: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
+  loading: PropTypes.bool.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   searchEnable: PropTypes.bool.isRequired,
   selectCount: PropTypes.number.isRequired,
@@ -215,22 +234,6 @@ const enhance = compose(
     defaultRowsPerPage: 10,
     checkboxEnable: true,
     searchEnable: true,
-  }),
-  setPropTypes({
-    children: PropTypes.node.isRequired,
-    searchEnable: PropTypes.bool,
-    checkboxEnable: PropTypes.bool,
-    filterEnable: PropTypes.bool,
-    list: PropTypes.object.isRequired,
-    detail: PropTypes.shape({
-      id: PropTypes.number,
-      node: PropTypes.node,
-    }),
-    route: PropTypes.shape({
-      companyId: PropTypes.number.isRequired,
-      location: PropTypes.object.isRequired,
-      push: PropTypes.func.isRequired
-    }).isRequired
   }),
   withStyles(styles),
   withHandlers({
@@ -299,11 +302,7 @@ const enhance = compose(
       const selectIds = getSelectIdsFromRoute(route)
 
       if (loading) {
-        return (
-          <div className={classes.loader}>
-            <CircularProgress size={75} color="accent" />
-          </div>
-        )
+        return null
       }
 
       return cloneFromChildren(TableRow, {
@@ -315,6 +314,7 @@ const enhance = compose(
     const { classes, defaultRowsPerPage, renderHeader, renderBody, onChangePage, onChangeRowsPerPage, onSearch } = props
     const searchEnable = R.prop('searchEnable', props)
 
+    const loading = R.prop('loading', list)
     const count = R.pathOr(0, ['data', 'count'], list)
     const page = parseInt(R.pathOr(0, ['location', 'query', 'page'], route))
     const rowsPerPage = parseInt(R.pathOr(defaultRowsPerPage, ['location', 'query', 'rowsPerPage'], route))
@@ -326,6 +326,7 @@ const enhance = compose(
       route,
       page,
       count,
+      loading,
       dialogs,
       actions,
       rowsPerPage,

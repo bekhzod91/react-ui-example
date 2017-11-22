@@ -6,7 +6,7 @@ import AppBar from '../../../components/AppBar'
 import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
 
-const Company = ({ appBar, list, ...props }) => {
+const Company = ({ appBar, list, initialFilterFormValue, ...props }) => {
   const companyId = R.pipe(R.path(['params', 'companyId']), parseInt)(props)
   const push = R.prop('push', props)
   const location = R.prop('location', props)
@@ -25,6 +25,7 @@ const Company = ({ appBar, list, ...props }) => {
         route={route}
         list={list}
         detail={detail}
+        initialFilterFormValue={initialFilterFormValue}
         onSubmitFilter={props.onSubmitFilter}
         onCloseFilter={props.onCloseFilter}
         onOpenFilter={props.onOpenFilter}
@@ -35,11 +36,12 @@ const Company = ({ appBar, list, ...props }) => {
 
 Company.propTypes = {
   appBar: PropTypes.object.isRequired,
-  list: PropTypes.object,
-  detail: PropTypes.object,
-  onSubmitFilter: PropTypes.func,
-  onCloseFilter: PropTypes.func,
-  onOpenFilter: PropTypes.func,
+  list: PropTypes.object.isRequired,
+  detail: PropTypes.object.isRequired,
+  onSubmitFilter: PropTypes.func.isRequired,
+  onCloseFilter: PropTypes.func.isRequired,
+  onOpenFilter: PropTypes.func.isRequired,
+  initialFilterFormValue: PropTypes.object.isRequired,
 }
 
 export default Company

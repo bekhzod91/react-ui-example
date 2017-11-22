@@ -58,7 +58,7 @@ CompanyListFilter.propTypes = {
 }
 
 export default compose(
-  reduxForm({ form }),
+  reduxForm({ form, enableReinitialize: true }),
   withStyles(styles),
   pure
 )(CompanyListFilter)

@@ -1,10 +1,11 @@
 import { equals } from 'ramda'
-import { getFormValuesToUrl } from '../../src/helpers/get'
+import { getFormValuesLikeParams, getParamsLikeFormValues } from '../../src/helpers/get'
 
 describe('get helper', () => {
-  it('check getFormValuesToUrl', () => {
+  it('check getFormValuesLikeParams', () => {
     const before = {
       email: 'admin@example.com',
+      amount: 500,
       company: {
         id: 1
       },
@@ -20,12 +21,44 @@ describe('get helper', () => {
     }
 
     const after = {
-      email: 'admin@example.com',
-      company: 1,
-      owners: '1,2',
-      name: 'admin,user'
+      email: 'str:admin@example.com',
+      amount: 'num:500',
+      company: 'obj:1',
+      owners: 'list:obj:1,obj:2',
+      name: 'list:str:admin,str:user'
     }
 
-    expect(equals(getFormValuesToUrl(before), after)).to.equal(true)
+    expect(equals(getFormValuesLikeParams(before), after)).to.equal(true)
+  })
+
+  it('check getParamsLikeFormValues', () => {
+    const fields = ['email', 'amount', 'company', 'owners', 'name']
+    const before = {
+      email: 'str:admin@example.com',
+      amount: 'num:500',
+      company: 'obj:1',
+      owners: 'list:obj:1,obj:2',
+      name: 'list:str:admin,str:user',
+      data: 'str:admin'
+    }
+
+    const after = {
+      email: 'admin@example.com',
+      amount: 500,
+      company: {
+        id: 1
+      },
+      owners: [
+        {
+          id: 1
+        },
+        {
+          id: 2
+        }
+      ],
+      name: ['admin', 'user']
+    }
+
+    expect(equals(getParamsLikeFormValues(fields, before), after)).to.equal(true)
   })
 })

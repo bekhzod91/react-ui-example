@@ -195,7 +195,7 @@ export default compose(
   withState('state', 'setState', {
     search: false,
     value: '',
-    dialog: true
+    dialog: false
   }),
   withHandlers({
     onChange: ({ state, setState }) => (event) => {

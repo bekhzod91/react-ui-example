@@ -61,3 +61,8 @@ export const COMPANY_LIST_URL = `${COMPANY_MY_URL}/${COMPANY}`
 export const COMPANY_DETAIL_URL = `:id`
 export const COMPANY_LIST_PATH = `${COMPANY_MY_PATH}/${COMPANY}`
 export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/%d`
+
+// COMMON ROUTE
+export const COMMON = 'common'
+export const COMMON_SETTINGS = `${COMMON}/settings`
+export const COMMON_SETTINGS_URL = `${COMPANY_MY_URL}/${COMMON_SETTINGS}`

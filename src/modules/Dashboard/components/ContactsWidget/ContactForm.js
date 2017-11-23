@@ -64,6 +64,8 @@ const styles = theme => ({
     marginTop: 40
   },
   delete: {
+    background: theme.pink[500],
+    color: theme.contacts.textColor,
     float: 'left'
   },
   submit: {
@@ -73,7 +75,7 @@ const styles = theme => ({
 
 export const form = 'ContactAddForm'
 
-const AddContactDialog = ({ classes, open, close }) => {
+const ContactForm = ({ classes, open, close }) => {
   return (
     <Dialog open={open} onRequestClose={close} >
       <div className={classes.dialog} >
@@ -121,15 +123,14 @@ const AddContactDialog = ({ classes, open, close }) => {
             <div className={classes.actions}>
               <Button
                 raised={true}
-                color="accent"
                 className={classes.delete}>
                 Delete
               </Button>
-              <Button>Cancel</Button>
+              <Button raised={true} onClick={close}>Cancel</Button>
               <Button
                 type="submit"
                 raised={true}
-                color="primary"
+                color="accent"
                 className={classes.submit}>
                 Save
               </Button>
@@ -141,7 +142,7 @@ const AddContactDialog = ({ classes, open, close }) => {
   )
 }
 
-AddContactDialog.propTypes = {
+ContactForm.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   close: PropTypes.bool.isRequired
@@ -150,4 +151,4 @@ AddContactDialog.propTypes = {
 export default compose(
   reduxForm({ form }),
   withStyles(styles)
-)(AddContactDialog)
+)(ContactForm)

@@ -9,6 +9,7 @@ import Auth from './Auth'
 import User from './User'
 import Error from './Error'
 import Company from './Company'
+import Common from './Common'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -26,6 +27,7 @@ export const createRoutes = (store) => ({
     Auth(store),
     User(store),
     Company(store),
+    Common(store),
     Error(store),
   ],
 })

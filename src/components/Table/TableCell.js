@@ -47,6 +47,7 @@ const styles = theme => ({
   icon: {
     width: '22px !important',
     height: '22px !important',
+    transition: '0.5s',
     color: `${theme.table.headerTextColor} !important`
   },
   iconAsc: {
@@ -78,7 +79,11 @@ const TableCell = ({ classes, children, ...props }) => {
   return (
     <div style={{ ...style, width: `${columnSize * COLUMN_SIZE}%`, }}>
       {sort ? (<div>
-        <a className={classes.button} onClick={(event) => getSortingUrl(event, sort)} onKeyPress={onKeyPress}>
+        <a
+          tabIndex="0"
+          className={classes.button}
+          onClick={(event) => getSortingUrl(event, sort)}
+          onKeyPress={onKeyPress}>
           <span>{children}</span>
           {icon && (<div className={classes.iconWrapper}>{icon}</div>)}
         </a>

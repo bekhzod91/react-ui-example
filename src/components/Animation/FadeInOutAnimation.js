@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose, defaultProps } from 'recompose'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import withStyles from 'material-ui/styles/withStyles'
 import { fadeIn, fadeOut } from 'react-animations'
@@ -47,4 +48,7 @@ FadeAnimation.propTypes = {
   children: PropTypes.node
 }
 
-export default withStyles(styles)(FadeAnimation)
+export default compose(
+  defaultProps(),
+  withStyles(styles)
+)(FadeAnimation)

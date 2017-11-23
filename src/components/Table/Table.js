@@ -295,7 +295,7 @@ const enhance = compose(
     },
 
     renderBody: ({ children, route, list, detail, ...defaultProps }) => () => {
-      const { classes, onCheckItem, getById } = defaultProps
+      const { onCheckItem, getById } = defaultProps
       const checkboxEnable = R.prop('checkboxEnable', defaultProps)
       const results = R.pathOr([], ['data', 'results'], list)
       const loading = R.prop('loading', list)

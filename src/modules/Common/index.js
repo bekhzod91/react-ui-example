@@ -12,11 +12,11 @@ export default (store) => ({
       // injectReducers(store, require('./reducers').default)
       cb(null, [
         {
-          path: ROUTE.COMPANY_MY_URL,
-          component: UserIsAuthenticated(require('./containers/DashboardContainer').default)
+          path: ROUTE.COMMON_SETTINGS_URL,
+          component: UserIsAuthenticated(require('./containers/CommonContainer').default)
         },
       ])
-    }, 'dashboard').then(() => {
+    }, 'common').then(() => {
       // Finish loading
       store.dispatch(finishLoadingAction())
     })

@@ -49,5 +49,16 @@ export const muiTheme = createMuiTheme({
   },
   contacts: {
     textColor: '#fff'
+  },
+  pink: {
+    500: '#E91E63'
+  },
+  common: {
+    bgColor: {
+      white: '#fff'
+    },
+    text: {
+      white: '#fff'
+    }
   }
 })

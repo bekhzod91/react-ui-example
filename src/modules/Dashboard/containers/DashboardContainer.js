@@ -1,3 +1,5 @@
+import { compose } from 'recompose'
 import Dashboard from '../components/Dashboard'
+import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 
-export default Dashboard
+export default compose(UserIsAuthenticated)(Dashboard)

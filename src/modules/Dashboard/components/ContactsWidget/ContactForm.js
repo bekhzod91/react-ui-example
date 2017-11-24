@@ -10,11 +10,9 @@ import Avatar from 'material-ui/Avatar'
 import PhotoCamera from 'material-ui-icons/PhotoCamera'
 import { Field, reduxForm } from 'redux-form'
 import TextField from '../../../../components/Form/SimpleFields/TextField'
+import Slide from 'material-ui/transitions/Slide'
 
 const styles = theme => ({
-  dialog: {
-    width: 600
-  },
   dialogHeader: {
     backgroundColor: theme.palette.primary[400],
     '& h2, & svg': {
@@ -64,20 +62,27 @@ const styles = theme => ({
     marginTop: 40
   },
   delete: {
-    background: theme.pink[500],
-    color: theme.contacts.textColor,
-    float: 'left'
+    backgroundColor: theme.red.bgColor,
+    color: theme.common.text.white,
+    float: 'left',
+    '&:hover': {
+      backgroundColor: theme.red.hoverBg
+    }
   },
   submit: {
     marginLeft: 8
   }
 })
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />
+}
+
 export const form = 'ContactAddForm'
 
 const ContactForm = ({ classes, open, close }) => {
   return (
-    <Dialog open={open} onRequestClose={close} >
+    <Dialog open={open} onRequestClose={close} transition={Transition} >
       <div className={classes.dialog} >
         <div className={classes.dialogHeader}>
           <DialogTitle>Add new contact</DialogTitle>
@@ -123,14 +128,15 @@ const ContactForm = ({ classes, open, close }) => {
             <div className={classes.actions}>
               <Button
                 raised={true}
-                className={classes.delete}>
+                className={classes.delete}
+              >
                 Delete
               </Button>
               <Button raised={true} onClick={close}>Cancel</Button>
               <Button
                 type="submit"
                 raised={true}
-                color="accent"
+                color="primary"
                 className={classes.submit}>
                 Save
               </Button>

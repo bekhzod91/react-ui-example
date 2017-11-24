@@ -50,8 +50,9 @@ export const muiTheme = createMuiTheme({
   contacts: {
     textColor: '#fff'
   },
-  pink: {
-    500: '#E91E63'
+  red: {
+    bgColor: '#f00',
+    hoverBg: '#f00000'
   },
   common: {
     bgColor: {

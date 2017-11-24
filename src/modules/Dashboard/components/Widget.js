@@ -10,8 +10,6 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 
 const styles = theme => ({
   card: {
-    maxWidth: 345,
-    display: 'inline-block'
   },
   cardTop: {
     backgroundColor: theme.palette.primary[500],

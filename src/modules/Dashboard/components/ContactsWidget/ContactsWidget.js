@@ -20,10 +20,6 @@ import ContactForm from './ContactForm'
 
 const styles = theme => ({
   card: {
-    minWidth: 345,
-    display: 'inline-block',
-    marginLeft: 30,
-    verticalAlign: 'top'
   },
   cardHeader: {
     background: theme.palette.primary[400],

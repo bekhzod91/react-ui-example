@@ -13,10 +13,10 @@ export default (store) => ({
       cb(null, [
         {
           path: ROUTE.COMMON_SETTINGS_URL,
-          component: UserIsAuthenticated(require('./containers/CommonContainer').default)
+          component: UserIsAuthenticated(require('./containers/SettingsContainer').default)
         },
       ])
-    }, 'common').then(() => {
+    }, 'settings').then(() => {
       // Finish loading
       store.dispatch(finishLoadingAction())
     })

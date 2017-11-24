@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import AppBar from '../../../components/AppBar'
 import * as ROUTE from '../../../constants/routes'
 import withStyles from 'material-ui/styles/withStyles'
-import Settings from 'material-ui-icons/Settings'
-import Business from 'material-ui-icons/Business'
-import SettingsItem from './SettingsItem'
+import SettingsIcon from 'material-ui-icons/Settings'
+import BusinessIcon from 'material-ui-icons/Business'
+import SettingsIconItem from './SettingsItem'
 import Grid from 'material-ui/Grid'
 
 const styles = theme => ({
-  common: {
+  root: {
     backgroundColor: theme.common.bgColor.white,
     boxShadow: theme.shadows[2],
     paddingBottom: 30
@@ -41,148 +41,56 @@ const styles = theme => ({
   }
 })
 
-const SPACE_BETWEEN_SETTINGS_ITEM = '24'
+const SPACE_BETWEEN_SETTINGS_ITEM = 24
 
-const CommonSettings = ({ appBar, classes }) => {
+const Settings = ({ appBar, classes }) => {
   const description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
   return (
-    <AppBar activeMenuName={ROUTE.COMMON} {...appBar}>
-      <div className={classes.common}>
+    <AppBar activeMenuName={ROUTE.COMMON_SETTINGS} {...appBar}>
+      <div className={classes.root}>
         <div className={classes.mainTitle}>
-          <h2>Settings <Settings className={classes.icon} /></h2>
+          <h2>Settings <SettingsIcon className={classes.icon} /></h2>
         </div>
         <div className={classes.mainBody}>
-          <h3>Settings <Settings className={classes.icon} /></h3>
+          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
           <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <Grid key={value} item={true} sm={3}>
+                <SettingsIconItem
+                  title="Company"
+                  description={description}
+                  icon={(<BusinessIcon className={classes.itemIcon} />)}
+                />
+              </Grid>
+            ))}
           </Grid>
         </div>
         <div className={classes.mainBody}>
-          <h3>Settings <Settings className={classes.icon} /></h3>
+          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
           <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <Grid key={value} item={true} sm={3}>
+                <SettingsIconItem
+                  title="Company"
+                  description={description}
+                  icon={(<BusinessIcon className={classes.itemIcon} />)}
+                />
+              </Grid>
+            ))}
           </Grid>
         </div>
         <div className={classes.mainBody}>
-          <h3>Settings <Settings className={classes.icon} /></h3>
+          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
           <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
-            <Grid item={true} sm={3}>
-              <SettingsItem
-                title="Company"
-                description={description}
-                icon={(<Business className={classes.itemIcon} />)}
-              />
-            </Grid>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <Grid key={value} item={true} sm={3}>
+                <SettingsIconItem
+                  title="Company"
+                  description={description}
+                  icon={(<BusinessIcon className={classes.itemIcon} />)}
+                />
+              </Grid>
+            ))}
           </Grid>
         </div>
       </div>
@@ -190,9 +98,9 @@ const CommonSettings = ({ appBar, classes }) => {
   )
 }
 
-CommonSettings.propTypes = {
+Settings.propTypes = {
   classes: PropTypes.object.isRequired,
   appBar: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CommonSettings)
+export default withStyles(styles)(Settings)

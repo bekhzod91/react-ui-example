@@ -20,6 +20,7 @@ const styles = {
   }
 }
 
+export const fields = ['email', 'owner']
 export const form = 'CompanyListFilterForm'
 
 const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (

@@ -15,7 +15,7 @@ export default [
   },
   {
     name: ROUTE.COMMON_SETTINGS,
-    url: ROUTE.COMMON_SETTINGS_URL,
+    url: ROUTE.COMMON_SETTINGS_PATH,
     title: 'Settings',
     icon: (<SettingsIcon />),
     children: [

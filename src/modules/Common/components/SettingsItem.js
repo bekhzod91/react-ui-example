@@ -6,7 +6,6 @@ import ButtonBase from 'material-ui/ButtonBase'
 const styles = theme => ({
   root: {
     boxShadow: theme.shadows[1],
-    maxWidth: 300,
     '& button': {
       textAlign: 'left'
     }

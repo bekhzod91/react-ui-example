@@ -53,7 +53,7 @@ const renderInputComponent = (inputProps) => {
       </Fade>
 
       <Fade
-        in={!loading && value}
+        in={Boolean(!loading && value)}
         className={classNames(classes.icon, { [classes.hide]: !(!loading && value) })}>
         <IconButton onClick={onClick}>
           <ClearIcon />
@@ -61,7 +61,7 @@ const renderInputComponent = (inputProps) => {
       </Fade>
 
       <Fade
-        in={!loading && !value}
+        in={Boolean(!loading && !value)}
         className={classNames(classes.icon, { [classes.hide]: !(!loading && !value) })}>
         <div>
           <SearchIcon />
@@ -87,12 +87,12 @@ const styles = theme => ({
     position: 'relative',
   },
   suggestionsContainerOpen: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 3,
     left: 0,
     right: 0,
+    zIndex: 1,
+    position: 'absolute',
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 3,
   },
   icon: {
     top: 28,

@@ -28,7 +28,10 @@ const styles = theme => ({
     justifyContent: 'center',
     minHeight: 400,
     alignItems: 'center',
-    background: theme.table.backgroundColor
+    background: theme.table.backgroundColor,
+    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
+      '0px 4px 5px 0px rgba(0, 0, 0, 0.14),' +
+      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
   },
 
   header: {
@@ -186,7 +189,7 @@ const Table = ({ classes, loading, dialogs, actions, renderHeader, renderBody, .
           </Fade>
         </div>
         <div className={classes.footer}>
-          <Fade in={count}>
+          <Fade in={Boolean(count)}>
             <table>
               <TableFooter>
                 <TableRowMUI>

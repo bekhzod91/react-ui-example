@@ -1,21 +1,19 @@
-import * as R from 'ramda'
+import { path, prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as ROUTE from '../../../constants/routes'
+import { getRouteFromProps } from '../../../helpers/get'
 import AppBar from '../../../components/AppBar'
 import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
 
-const Company = ({ appBar, list, initialFilterFormValue, ...props }) => {
-  const companyId = R.pipe(R.path(['params', 'companyId']), parseInt)(props)
-  const push = R.prop('push', props)
-  const location = R.prop('location', props)
-  const route = { location, push, companyId }
+const Company = ({ appBar, list, filter, ...props }) => {
+  const route = getRouteFromProps(props)
 
   const detail = {
-    id: R.path(['detail', 'id'], props),
+    id: path(['detail', 'id'], props),
     detail: (
-      <CompanyDetail route={route} detail={R.prop('detail', props)} />
+      <CompanyDetail route={route} detail={prop('detail', props)} />
     )
   }
 
@@ -23,12 +21,9 @@ const Company = ({ appBar, list, initialFilterFormValue, ...props }) => {
     <AppBar activeMenuName={ROUTE.COMPANY} {...appBar}>
       <CompanyList
         route={route}
+        filter={filter}
         list={list}
         detail={detail}
-        initialFilterFormValue={initialFilterFormValue}
-        onSubmitFilter={props.onSubmitFilter}
-        onCloseFilter={props.onCloseFilter}
-        onOpenFilter={props.onOpenFilter}
       />
     </AppBar>
   )
@@ -38,10 +33,7 @@ Company.propTypes = {
   appBar: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
   detail: PropTypes.object.isRequired,
-  onSubmitFilter: PropTypes.func.isRequired,
-  onCloseFilter: PropTypes.func.isRequired,
-  onOpenFilter: PropTypes.func.isRequired,
-  initialFilterFormValue: PropTypes.object.isRequired,
+  filter: PropTypes.object.isRequired,
 }
 
 export default Company

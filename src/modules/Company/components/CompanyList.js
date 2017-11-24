@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { compose, curry, prop, path, __ } from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
 import { Link } from 'react-router'
@@ -10,16 +10,15 @@ import * as ROUTE from '../../../constants/routes'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
 import { fromNow } from '../../../helpers/dateFormat'
 import { appendParamsToUrl } from '../../../helpers/urls'
-
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
-import CompanyListFilter from './CompanyListFilter'
+import CompanyListFilterForm from './CompanyListFilterForm'
 import CompanyListActions from './CompanyListActions'
 
-const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpenFilter, initialFilterFormValue }) => {
-  const companyId = R.prop('companyId', route)
-  const query = R.path(['location', 'query'], route)
+const CompanyList = ({ route, filter, list, detail }) => {
+  const companyId = prop('companyId', route)
+  const query = path(['location', 'query'], route)
   const getLink = (item) => {
-    const id = R.prop('id', item)
+    const id = prop('id', item)
     const url = sprintf(ROUTE.COMPANY_DETAIL_PATH, parseInt(companyId), parseInt(id))
     const urlWithParams = appendParamsToUrl(query, url)
 
@@ -29,31 +28,30 @@ const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpe
   }
 
   const getFullNameOrEmail = (item) => {
-    const firstName = R.path(['owner', 'firstName'], item)
-    const secondName = R.path(['owner', 'secondName'], item)
+    const firstName = path(['owner', 'firstName'], item)
+    const secondName = path(['owner', 'secondName'], item)
 
     if (firstName && secondName) {
       return `${firstName} ${secondName}`
     }
 
-    return R.path(['owner', 'email'], item)
+    return path(['owner', 'email'], item)
   }
 
-  const getCreateDate = R.pipe(
-    R.prop('createdDate'),
-    R.curry(fromNow)(R.__, DATE_FORMAT.DEFAULT_FORMAT)
+  const getCreateDate = compose(
+    curry(fromNow)(__, DATE_FORMAT.DEFAULT_FORMAT),
+    prop('createdDate')
   )
 
   const dialogs = (
-    <CompanyListFilter
-      route={route}
-      onCloseFilter={onCloseFilter}
-      onSubmit={onSubmitFilter}
-      initialValues={initialFilterFormValue}
-    />
+    <CompanyListFilterForm
+      filter={filter}
+      initialValues={filter.initialValues} />
   )
   const actions = (
-    <CompanyListActions onOpenFilter={onOpenFilter} />
+    <CompanyListActions
+      filterCount={filter.count}
+      onOpenFilter={filter.onOpenFilter} />
   )
 
   return (
@@ -73,9 +71,9 @@ const CompanyList = ({ list, detail, route, onSubmitFilter, onCloseFilter, onOpe
       </TableHeader>
       <TableRow>
         <TableColumn content={getLink} />
-        <TableColumn content={R.prop('name')} columnSize={3} />
+        <TableColumn content={prop('name')} columnSize={3} />
         <TableColumn content={getFullNameOrEmail} columnSize={3} />
-        <TableColumn content={R.prop('status')} columnSize={2} />
+        <TableColumn content={prop('status')} columnSize={2} />
         <TableColumn content={getCreateDate} columnSize={2} />
         <TableColumn content={(item) => <div>
           <IconButton><EditIcon /></IconButton>
@@ -95,11 +93,8 @@ CompanyList.propTypes = {
     id: PropTypes.number,
     detail: PropTypes.node
   }).isRequired,
-  route: PropTypes.object,
-  onSubmitFilter: PropTypes.func,
-  onCloseFilter: PropTypes.func,
-  onOpenFilter: PropTypes.func,
-  initialFilterFormValue: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+  filter: PropTypes.object.isRequired,
 }
 
 export default CompanyList

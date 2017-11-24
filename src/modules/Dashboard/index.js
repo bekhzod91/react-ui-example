@@ -1,6 +1,5 @@
 import * as ROUTE from '../../constants/routes'
 import { startLoadingAction, finishLoadingAction } from '../../components/WithState/PageLoading/actions'
-import UserIsAuthenticated from '../../permissions/UserIsAuthenticated'
 
 export default (store) => ({
   path: '',
@@ -12,8 +11,8 @@ export default (store) => ({
       // injectReducers(store, require('./reducers').default)
       cb(null, [
         {
-          path: ROUTE.COMPANY_MY_URL,
-          component: UserIsAuthenticated(require('./containers/DashboardContainer').default)
+          path: ROUTE.DASHBOARD_URL,
+          component: require('./containers/DashboardContainer').default
         },
       ])
     }, 'dashboard').then(() => {

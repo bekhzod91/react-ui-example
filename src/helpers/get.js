@@ -5,16 +5,25 @@ import {
   is,
   join,
   prop,
+  propOr,
   path,
   pathOr,
   pick,
   startsWith,
   split,
   slice,
-  keys
+  keys,
+  toLower,
+  ifElse,
+  equals,
+  always
 } from 'ramda'
 import { getQueryFromUrl } from './urls'
 
+export const getBooleanFromString = (boolean) => compose(
+  ifElse(equals('false'), always(false), always(true)),
+  toLower
+)(boolean)
 export const getIdFromProps = compose(parseInt, path(['params', 'id']))
 export const getCompanyIdFromProps = compose(parseInt, path(['params', 'companyId']))
 export const getRouteFromProps = (props) => ({
@@ -72,7 +81,7 @@ export const getParamsLikeFormValues = curry((fields, params) =>
 
 export const getInitialFormValuesFromProps = curry((name, state, props) => {
   const fields = keys(pathOr({}, ['form', name, 'registeredFields'], state))
-  const params = getQueryFromUrl(pathOr({}, ['location', 'search'], props))
+  const params = getQueryFromUrl(pathOr('', ['location', 'search'], props)) || {}
 
   return getParamsLikeFormValues(fields, params)
 })
@@ -82,6 +91,12 @@ export const getDataFromState = curry((name, state) => ({
   data: path([name, 'data'], state),
 }))
 
+export const getParamsLikeBooleanFromLocation = curry((name, location) => compose(
+  getBooleanFromString,
+  propOr('false', name),
+  getQueryFromUrl,
+  prop('search'),
+)(location))
 export const getFullPathFromLocation = (location) => `${prop('pathname', location)}${prop('search', location)}`
 export const getFullPathFromRoute = ({ location }) => getFullPathFromLocation(location)
 export const getFullPathFromProps = ({ route }) => getFullPathFromRoute(route)

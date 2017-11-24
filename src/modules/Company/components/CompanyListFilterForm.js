@@ -22,9 +22,9 @@ const styles = {
 
 export const form = 'CompanyListFilterForm'
 
-const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
-  <TableDialog route={route} title="Filter">
-    <form onSubmit={onSubmit}>
+const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (
+  <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseFilter}>
+    <form onSubmit={filter.onSubmitFilter}>
       <Field
         component={TextField}
         name="email"
@@ -50,15 +50,20 @@ const CompanyListFilter = ({ classes, handleSubmit, route, onSubmit }) => (
   </TableDialog>
 )
 
-CompanyListFilter.propTypes = {
+CompanyListFilterForm.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  route: PropTypes.object.isRequired,
-  onSubmit: PropTypes.any.isRequired,
+  filter: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+    initialValues: PropTypes.object.isRequired,
+    onSubmitFilter: PropTypes.func.isRequired,
+    onCloseFilter: PropTypes.func.isRequired,
+    onOpenFilter: PropTypes.func.isRequired,
+  }).isRequired
 }
 
 export default compose(
   reduxForm({ form, enableReinitialize: true }),
   withStyles(styles),
   pure
-)(CompanyListFilter)
+)(CompanyListFilterForm)

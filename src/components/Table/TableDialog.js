@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ownerDocument from 'dom-helpers/ownerDocument'
@@ -9,23 +8,12 @@ import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import IconButton from 'material-ui/IconButton'
 import CloseIcon from 'material-ui-icons/Close'
+import Fade from '../Transitions/Fade'
+import Slide from '../Transitions/Slide'
 import addEventListener from '../../helpers/addEventListener'
-import { appendParamsToUrl } from '../../helpers/urls'
-import { getQueryValueFormRoute, getFullPathFromLocation } from '../../helpers/get'
-import FadeInOutAnimation from '../../components/Animation/FadeInOutAnimation'
-import FadeDownUpAnimation from '../../components/Animation/FadeDownUpAnimation'
-
-export const TABLE_QUERY_KEY = 'tableDialog'
 
 const styles = theme => ({
   root: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    zIndex: '997',
-  },
-
-  wrapper: {
     '&:focus': {
       backgroundColor: 'red'
     },
@@ -44,7 +32,7 @@ const styles = theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
 
-  dialog: {
+  modal: {
     position: 'fixed',
     background: '#fff',
     width: 400,
@@ -73,15 +61,13 @@ class TableDialog extends React.Component {
   modal = null;
   onFocusListener = null;
 
-  componentWillReceiveProps (nextProps) {
-    const isOpen = this.isOpen(nextProps)
-
-    if (isOpen && !this.onFocusListener) {
+  componentWillReceiveProps ({ open }) {
+    if (open && !this.onFocusListener) {
       const doc = ownerDocument(ReactDOM.findDOMNode(this))
       this.onFocusListener = addEventListener(doc, 'focus', this.handleFocusListener, true)
     }
 
-    if (!isOpen && this.onFocusListener) {
+    if (!open && this.onFocusListener) {
       this.onFocusListener.remove()
       this.onFocusListener = null
     }
@@ -104,34 +90,18 @@ class TableDialog extends React.Component {
     }
   }
 
-  onCloseFilter = (event) => {
-    event.preventDefault()
-    const { route: { push, location } } = this.props
-    const fullPath = getFullPathFromLocation(location)
-
-    return push(appendParamsToUrl({ [TABLE_QUERY_KEY]: null }, fullPath))
-  }
-
-  isOpen = (props) => {
-    const { name, route } = props
-    const tableQueryKey = getQueryValueFormRoute(TABLE_QUERY_KEY, route)
-
-    return R.equals(name, tableQueryKey)
-  }
-
   render () {
-    const { classes, children, title } = this.props
-    const isOpen = this.isOpen(this.props)
+    const { classes, children, title, open, onClose } = this.props
 
     return (
       <div>
-        <div className={classes.wrapper} ref={ref => { this.modal = ref }}>
+        <div className={classes.root} ref={ref => { this.modal = ref }}>
           <div tabIndex="-1">
-            <FadeDownUpAnimation open={isOpen}>
-              <div className={classes.dialog}>
+            <Slide open={open}>
+              <div className={classes.modal}>
                 <div>
                   {title}
-                  <IconButton onClick={this.onCloseFilter}>
+                  <IconButton onClick={onClose}>
                     <CloseIcon />
                   </IconButton>
                 </div>
@@ -139,12 +109,12 @@ class TableDialog extends React.Component {
                   {children}
                 </div>
               </div>
-            </FadeDownUpAnimation>
+            </Slide>
           </div>
         </div>
-        <FadeInOutAnimation open={isOpen}>
-          <div className={classes.background} onClick={this.onCloseFilter}>{''}</div>
-        </FadeInOutAnimation>
+        <Fade open={open}>
+          <div className={classes.background} onClick={onClose}>{''}</div>
+        </Fade>
       </div>
     )
   }
@@ -154,12 +124,8 @@ TableDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  route: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired
-}
-
-TableDialog.defaultProps = {
-  name: 'filter'
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 export default compose(

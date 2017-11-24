@@ -10,28 +10,28 @@ const styles = {
   fadeOut: {
     opacity: 0.01,
     animationName: 'fadeOut',
-    animationDuration: '1s',
+    animationDuration: '0.5s',
   },
   '@keyframes fadeIn': fadeIn,
   fadeIn: {
     animationName: 'fadeIn',
-    animationDuration: '1s',
+    animationDuration: '0.5s',
   },
 
   enterActive: {
     opacity: 1,
-    transition: 'opacity 1000ms ease-out'
+    transition: 'opacity 0.5s ease-out'
   },
 
   exitActive: {
     opacity: 0.01,
-    transition: 'opacity 1000ms ease-in'
+    transition: 'opacity 0.5s ease-in'
   }
 }
 
-const FadeAnimation = ({ classes, open, children, ...props }) => (
+const Fade = ({ classes, open, children, ...props }) => (
   <TransitionGroup>
-    {open && <CSSTransition timeout={1000} {...props} classNames={{
+    {open && <CSSTransition timeout={500} {...props} classNames={{
       enter: classes.fadeIn,
       enterActive: classes.enterActive,
       exit: classes.fadeOut,
@@ -42,7 +42,7 @@ const FadeAnimation = ({ classes, open, children, ...props }) => (
   </TransitionGroup>
 )
 
-FadeAnimation.propTypes = {
+Fade.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   children: PropTypes.node
@@ -51,4 +51,4 @@ FadeAnimation.propTypes = {
 export default compose(
   defaultProps(),
   withStyles(styles)
-)(FadeAnimation)
+)(Fade)

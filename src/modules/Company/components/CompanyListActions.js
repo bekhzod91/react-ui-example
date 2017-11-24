@@ -21,10 +21,10 @@ const styles = theme => ({
   }
 })
 
-const CompanyListActions = ({ classes, onOpenFilter, ...props }) => (
+const CompanyListActions = ({ classes, onOpenFilter, filterCount, ...props }) => (
   <div className={classes.root}>
     <IconButton onClick={onOpenFilter}>
-      <Badge badgeContent={4} color="accent">
+      <Badge badgeContent={filterCount} color="accent">
         <FilterListIcon />
       </Badge>
     </IconButton>
@@ -43,6 +43,7 @@ const CompanyListActions = ({ classes, onOpenFilter, ...props }) => (
 
 CompanyListActions.propTypes = {
   classes: PropTypes.object.isRequired,
+  filterCount: PropTypes.number.isRequired,
   onOpenFilter: PropTypes.func.isRequired
 }
 

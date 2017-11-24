@@ -52,7 +52,7 @@ const Companies = ({ classes, loading, list }) => {
     const activityInfo = lastActivityDate ? (
       `Last activity ${fromNow(lastActivityDate, 'D MMM YYYY')}`
     ) : 'Never been activity'
-    const companyPage = sprintf(ROUTE.COMPANY_MY_PATH, id)
+    const companyPage = sprintf(ROUTE.DASHBOARD_PATH, id)
 
     const logo = logoUrl ? (
       <Avatar

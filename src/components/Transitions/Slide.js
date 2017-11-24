@@ -8,18 +8,18 @@ const styles = {
   '@keyframes fadeInDown': fadeInDown,
   fadeInDown: {
     animationName: 'fadeInDown',
-    animationDuration: '1s',
+    animationDuration: '0.5s',
   },
   '@keyframes fadeOutUp': fadeOutUp,
   fadeOutUp: {
     animationName: 'fadeOutUp',
-    animationDuration: '1s',
+    animationDuration: '0.5s',
   }
 }
 
-const SlideAnimation = ({ classes, open, children, ...props }) => (
+const Slide = ({ classes, open, children, ...props }) => (
   <TransitionGroup>
-    {open && <CSSTransition timeout={1000} {...props} classNames={{
+    {open && <CSSTransition timeout={500} {...props} classNames={{
       enter: classes.fadeInDown,
       exit: classes.fadeOutUp
     }}>
@@ -28,10 +28,10 @@ const SlideAnimation = ({ classes, open, children, ...props }) => (
   </TransitionGroup>
 )
 
-SlideAnimation.propTypes = {
+Slide.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   children: PropTypes.node
 }
 
-export default withStyles(styles)(SlideAnimation)
+export default withStyles(styles)(Slide)

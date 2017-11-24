@@ -1,8 +1,10 @@
-import * as R from 'ramda'
-import { pure, compose, mapPropsStream, createEventHandler } from 'recompose'
+import { compose, prop, omit, path } from 'ramda'
+import sprintf from 'sprintf'
+import { compose as composeR, pure, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
+import * as ROUTE from '../../../constants/routes'
 import { appendParamsToUrl } from '../../../helpers/urls'
 import {
   getCompanyListAction,
@@ -12,8 +14,7 @@ import {
   deleteCompanyAction
 } from '../actions/company'
 import Company from '../components/Company'
-import { TABLE_QUERY_KEY } from '../../../components/Table/TableDialog'
-import { form as filterFormName } from '../components/CompanyListFilter'
+import { form as filterFormName } from '../components/CompanyListFilterForm'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
@@ -21,18 +22,19 @@ import {
   getFormValuesLikeParams,
   getInitialFormValuesFromProps,
   getDataFromState,
-  getFullPathFromLocation
+  getFullPathFromLocation,
+  getParamsLikeBooleanFromLocation
 } from '../../../helpers/get'
 
 const mapStateToProps = (state, props) => {
   const id = getIdFromProps(props)
   const filterFormValue = getFormValueFromState(filterFormName, state)
-  const initialFilterFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
+  const filterInitialFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
 
   return {
     list: getDataFromState(STATE.COMPANY_LIST, state),
     detail: { ...getDataFromState(STATE.COMPANY_DETAIL, state), id },
-    initialFilterFormValue,
+    filterInitialFormValue,
     filterFormValue
   }
 }
@@ -46,14 +48,14 @@ const mapDispatchToProps = {
   push
 }
 
-export default compose(
+export default composeR(
   UserIsAuthenticated,
   connect(mapStateToProps, mapDispatchToProps),
   // List fetch
   mapPropsStream((props$) => {
-    const getListRequestFromProps = R.compose(
-      R.omit(['ids', 'tableDialog']),
-      R.path(['location', 'query'])
+    const getListRequestFromProps = compose(
+      omit(['ids', 'filter']),
+      path(['location', 'query'])
     )
 
     // Get list
@@ -77,16 +79,21 @@ export default compose(
 
     onOpenFilter$
       .withLatestFrom(props$)
-      .subscribe(([event, { push, location }]) => {
-        const fullPath = getFullPathFromLocation(location)
-        push(appendParamsToUrl({ [TABLE_QUERY_KEY]: 'filter' }, fullPath))
+      .subscribe(([event, { push, location, params }]) => {
+        const companyId = parseInt(prop('companyId', params))
+        const search = prop('search', location)
+        const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, companyId)
+        const fullPath = `${pathname}${search}`
+
+        push(appendParamsToUrl({ filter: true }, fullPath))
       })
 
     onCloseFilter$
       .withLatestFrom(props$)
       .subscribe(([event, { push, location }]) => {
         const fullPath = getFullPathFromLocation(location)
-        push(appendParamsToUrl({ [TABLE_QUERY_KEY]: '' }, fullPath))
+
+        push(appendParamsToUrl({ filter: false }, fullPath))
       })
 
     onSubmitFilter$
@@ -97,10 +104,28 @@ export default compose(
         const fullPath = getFullPathFromLocation(location)
         const params = getFormValuesLikeParams(filterFormValue)
 
-        push(appendParamsToUrl({ ...params, [TABLE_QUERY_KEY]: '' }, fullPath))
+        console.log(filterFormValue, params)
+
+        push(appendParamsToUrl({ ...params, filter: false }, fullPath))
       })
 
-    return props$.combineLatest(props => ({ ...props, onSubmitFilter, onOpenFilter, onCloseFilter }))
+    return props$
+      .combineLatest(({ filterInitialFormValue, filterFormValue, ...props }) => {
+        const location = prop('location', props)
+
+        return {
+          ...props,
+          filter: {
+            count: 0,
+            open: getParamsLikeBooleanFromLocation('filter', location),
+            value: filterFormValue,
+            initialValues: filterInitialFormValue,
+            onSubmitFilter,
+            onOpenFilter,
+            onCloseFilter
+          }
+        }
+      })
   }),
   pure
 )(Company)

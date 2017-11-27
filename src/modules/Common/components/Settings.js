@@ -10,34 +10,45 @@ import Grid from 'material-ui/Grid'
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.common.bgColor.white,
     boxShadow: theme.shadows[2],
-    paddingBottom: 30
+    paddingBottom: 30,
+    backgroundColor: theme.common.bgColor.white
   },
-  mainTitle: {
-    backgroundColor: theme.palette.primary[500],
-    padding: '1px 15px',
+  header: {
+    background: theme.palette.primary[500],
+    color: '#fff',
+    padding: 15,
     '& h2': {
+      color: theme.common.text.white,
+      margin: 0,
+    }
+  },
+  wrapper: {
+  },
+  title: {
+    backgroundColor: theme.palette.primary[400],
+    padding: '1px 15px',
+    '& h4': {
       color: theme.common.text.white,
       margin: '10px 0'
     }
   },
-  mainBody: {
+  titleIcon: {
+    verticalAlign: 'middle',
+    width: 20,
+    height: 20
+  },
+  body: {
     padding: 15,
     '& h3': {
       marginTop: 0
     }
   },
   icon: {
-    verticalAlign: 'middle',
-    width: 20,
-    height: 20
-  },
-  itemIcon: {
     width: 54,
     height: 54,
     verticalAlign: 'middle',
-    margin: '0 15px'
+    margin: '0 10px 0 5px'
   }
 })
 
@@ -48,51 +59,29 @@ const Settings = ({ appBar, classes }) => {
   return (
     <AppBar activeMenuName={ROUTE.COMMON_SETTINGS} {...appBar}>
       <div className={classes.root}>
-        <div className={classes.mainTitle}>
-          <h2>Settings <SettingsIcon className={classes.icon} /></h2>
+        <div className={classes.header}>
+          <h2>Settings <SettingsIcon className={classes.titleIcon} /></h2>
         </div>
-        <div className={classes.mainBody}>
-          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
-          <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <Grid key={value} item={true} sm={3}>
-                <SettingsIconItem
-                  title="Company"
-                  description={description}
-                  icon={(<BusinessIcon className={classes.itemIcon} />)}
-                />
+        {[1, 2, 3, 4, 5].map((value) => (
+          <div className={classes.wrapper}>
+            <div className={classes.title}>
+              <h4>Settings <SettingsIcon className={classes.titleIcon} /></h4>
+            </div>
+            <div className={classes.body}>
+              <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <Grid key={value} item={true} sm={3}>
+                    <SettingsIconItem
+                      title="Company"
+                      description={description}
+                      icon={(<BusinessIcon className={classes.icon} />)}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </div>
-        <div className={classes.mainBody}>
-          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
-          <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <Grid key={value} item={true} sm={3}>
-                <SettingsIconItem
-                  title="Company"
-                  description={description}
-                  icon={(<BusinessIcon className={classes.itemIcon} />)}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
-        <div className={classes.mainBody}>
-          <h3>Settings <SettingsIcon className={classes.icon} /></h3>
-          <Grid container={true} spacing={SPACE_BETWEEN_SETTINGS_ITEM}>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <Grid key={value} item={true} sm={3}>
-                <SettingsIconItem
-                  title="Company"
-                  description={description}
-                  icon={(<BusinessIcon className={classes.itemIcon} />)}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
+            </div>
+          </div>
+        ))}
       </div>
     </AppBar>
   )

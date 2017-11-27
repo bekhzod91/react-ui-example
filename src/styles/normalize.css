@@ -88,7 +88,7 @@ hr {
  */
 
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: "Roboto", sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -142,7 +142,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace; /* 1 */
+  font-family: "Roboto", sans-serif; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -242,7 +242,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: sans-serif; /* 1 */
+  font-family: "Roboto", sans-serif; /* 1 */
   font-size: 100%; /* 1 */
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */

@@ -5,9 +5,6 @@ import { createMuiTheme } from 'material-ui/styles'
 export const muiTheme = createMuiTheme({
   palette: {
     type: 'light',
-    common: {
-      faintBlack: 'rgb(234, 243, 248)',
-    },
     primary: {
       ...blue,
       A100: '#80d8ff',
@@ -23,6 +20,9 @@ export const muiTheme = createMuiTheme({
       inputText: 'rgba(0, 0, 0, 0.87)',
       disabled: 'rgba(0, 0, 0, 0.42)',
     },
+    text: {
+      divider: 'rgb(234, 243, 248)'
+    }
   },
   app: {
     facebookColor: '#3b5998',

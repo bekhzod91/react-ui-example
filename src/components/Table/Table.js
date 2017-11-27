@@ -9,7 +9,7 @@ import { TableFooter, TableRow as TableRowMUI, TablePagination } from 'material-
 import TableRow from './TableRow'
 import TableHeader from './TableHeader'
 import TableSearch from '../Table/TableSearch'
-import Fade from '../../../../material-ui/material-ui/src/transitions/Fade'
+import Fade from 'material-ui/transitions/Fade'
 import { appendParamsToUrl, addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 import { getFullPathFromLocation } from '../../helpers/get'
 
@@ -92,7 +92,8 @@ const styles = theme => ({
   },
 
   hide: {
-    height: 0,
+    minHeight: 0,
+    maxHeight: 0,
     visibility: 'hidden'
   }
 })

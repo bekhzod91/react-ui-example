@@ -10,13 +10,18 @@ import {
   pathOr,
   pick,
   startsWith,
+  filter,
   split,
   slice,
   keys,
   toLower,
   ifElse,
   equals,
-  always
+  always,
+  length,
+  clone,
+  isNil,
+  isEmpty,
 } from 'ramda'
 import { getQueryFromUrl } from './urls'
 
@@ -34,6 +39,10 @@ export const getRouteFromProps = (props) => ({
 
 export const getFormValueFromState = curry((name, state) => pathOr({}, ['form', name, 'values'], state))
 export const getFormValuesLikeParams = map((item) => {
+  if (isNil(item) || isEmpty(item)) {
+    return ''
+  }
+
   if (is(Array, item)) {
     return `list:${join(',', getFormValuesLikeParams(item))}`
   }
@@ -72,12 +81,20 @@ const parseParam = (param) => {
 
   return null
 }
-export const getParamsLikeFormValues = curry((fields, params) =>
-  compose(
-    map(parseParam),
-    pick(fields),
-  )(params)
-)
+export const getParamsLikeFormValues = curry((fields, params) => compose(
+  map(parseParam),
+  pick(fields),
+)(params))
+
+export const getParamsCountFromLocation = curry((fields, location) => compose(
+  length,
+  keys,
+  filter(Boolean),
+  pick(fields),
+  ifElse(isEmpty, always({}), clone),
+  getQueryFromUrl,
+  prop('search'),
+)(location))
 
 export const getInitialFormValuesFromProps = curry((name, state, props) => {
   const fields = keys(pathOr({}, ['form', name, 'registeredFields'], state))

@@ -1,4 +1,5 @@
-import * as R from 'ramda'
+import { map, addIndex } from 'ramda'
+import { compose } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
 import List from 'material-ui/List'
@@ -7,16 +8,25 @@ import withStyles from 'material-ui/styles/withStyles'
 import MenuListItem from '../Menu/MenuListItem'
 
 const styles = theme => ({
+  button: {
+    '&:hover': {
+      backgroundColor: theme.menu.buttonHover
+    },
+    '&:focus': {
+      backgroundColor: theme.menu.buttonHover
+    }
+  }
 })
 
-const MenuList = ({ route, classes, menuList, activeMenuName }) => (
+const MenuList = ({ classes, route, menuList, activeMenuName }) => (
   <List subheader={<ListSubheader>Navigation</ListSubheader>}>
-    {R.addIndex(R.map)((item, index) => (
+    {addIndex(map)((item, index) => (
       <MenuListItem
         key={index}
         item={item}
         route={route}
         isRoot={true}
+        className={classes.button}
         activeMenuName={activeMenuName}
       />
     ), menuList)}
@@ -30,4 +40,6 @@ MenuList.propTypes = {
   activeMenuName: PropTypes.string.isRequired
 }
 
-export default withStyles(styles)(MenuList)
+export default compose(
+  withStyles(styles)
+)(MenuList)

@@ -14,12 +14,13 @@ import {
   deleteCompanyAction
 } from '../actions/company'
 import Company from '../components/Company'
-import { form as filterFormName } from '../components/CompanyListFilterForm'
+import { form as filterFormName, fields as filterFormFields } from '../components/CompanyListFilterForm'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
   getFormValueFromState,
   getFormValuesLikeParams,
+  getParamsCountFromLocation,
   getInitialFormValuesFromProps,
   getDataFromState,
   getFullPathFromLocation,
@@ -104,8 +105,6 @@ export default composeR(
         const fullPath = getFullPathFromLocation(location)
         const params = getFormValuesLikeParams(filterFormValue)
 
-        console.log(filterFormValue, params)
-
         push(appendParamsToUrl({ ...params, filter: false }, fullPath))
       })
 
@@ -116,7 +115,7 @@ export default composeR(
         return {
           ...props,
           filter: {
-            count: 0,
+            count: getParamsCountFromLocation(filterFormFields, location),
             open: getParamsLikeBooleanFromLocation('filter', location),
             value: filterFormValue,
             initialValues: filterInitialFormValue,

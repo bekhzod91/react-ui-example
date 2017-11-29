@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { not, path, addIndex, map, equals } from 'ramda'
 import classNames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +12,6 @@ import ExpandMore from 'material-ui-icons/ExpandMore'
 import { checkMenuNameInsideMenu } from '../../helpers/menu'
 
 const styles = theme => ({
-  root: {},
   nested: {
     paddingLeft: theme.spacing.unit * 4,
   },
@@ -39,18 +38,18 @@ class MenuListItem extends React.Component {
   }
 
   onClickCollapseButton = () => {
-    this.setState({ open: R.not(this.state.open) })
+    this.setState({ open: not(this.state.open) })
   }
 
   onClickList = () => {
-    const url = R.path(['item', 'url'], this.props)
-    const push = R.path(['route', 'push'], this.props)
+    const url = path(['item', 'url'], this.props)
+    const push = path(['route', 'push'], this.props)
 
     push(url)
   }
 
   renderButton = () => {
-    const children = R.path(['item', 'children'], this.props)
+    const children = path(['item', 'children'], this.props)
 
     if (!children) {
       return null
@@ -66,8 +65,8 @@ class MenuListItem extends React.Component {
   }
 
   renderCollapse = () => {
-    const { route, activeMenuName } = this.props
-    const children = R.path(['item', 'children'], this.props)
+    const { route, activeMenuName, className } = this.props
+    const children = path(['item', 'children'], this.props)
 
     if (!children) {
       return null
@@ -75,11 +74,12 @@ class MenuListItem extends React.Component {
 
     return (
       <Collapse in={this.state.open} transitionDuration="auto">
-        {R.addIndex(R.map)((item, index) => (
+        {addIndex(map)((item, index) => (
           <MenuListItemEnhance
             key={index}
             route={route}
             item={item}
+            className={className}
             activeMenuName={activeMenuName} />
         ), children)}
       </Collapse>
@@ -87,18 +87,17 @@ class MenuListItem extends React.Component {
   }
 
   render () {
-    const { classes, item, isRoot, activeMenuName } = this.props
+    const { classes, item, isRoot, className, activeMenuName } = this.props
     const { name, title, icon } = item
-    const className = classNames(classes.root, {
-      [classes.nested]: R.not(isRoot),
-      [classes.active]: R.equals(activeMenuName, name)
-    })
 
     return (
       <div>
         <ListItem
           button={true}
-          className={className}
+          className={classNames(className, {
+            [classes.nested]: not(isRoot),
+            [classes.active]: equals(activeMenuName, name)
+          })}
           onClick={this.onClickList}>
           <ListItemIcon>
             {icon}
@@ -121,6 +120,7 @@ MenuListItem.propTypes = {
   item: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   isRoot: PropTypes.bool.isRequired,
+  className: PropTypes.string,
   activeMenuName: PropTypes.string.isRequired
 }
 

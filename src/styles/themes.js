@@ -19,9 +19,6 @@ export const muiTheme = createMuiTheme({
       labelText: 'rgba(0, 0, 0, 0.54)',
       inputText: 'rgba(0, 0, 0, 0.87)',
       disabled: 'rgba(0, 0, 0, 0.42)',
-    },
-    text: {
-      divider: 'rgb(234, 243, 248)'
     }
   },
   app: {
@@ -36,6 +33,7 @@ export const muiTheme = createMuiTheme({
     buttonColor: '#fff'
   },
   menu: {
+    buttonHover: 'rgb(234, 243, 248)',
     textColor: '#fff',
     backgroundColor: '#fff'
   },

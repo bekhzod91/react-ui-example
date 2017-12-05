@@ -1,11 +1,13 @@
+import Rx from 'rxjs'
 import chai from 'chai'
 import sinon from 'sinon'
 import dirtyChai from 'dirty-chai'
 import chaiAsPromised from 'chai-as-promised'
 import sinonChai from 'sinon-chai'
 import chaiEnzyme from 'chai-enzyme'
-import Enzyme from 'enzyme';
+import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { setObservableConfig } from 'recompose'
 import '../src/normalize.js'
 
 // Mocha / Chai
@@ -43,3 +45,10 @@ const changedTests = allTests.filter(path => {
 })
 
 ;(changedTests.length ? changedTests : allTests).forEach(testsContext)
+
+// RxJs setup
+// ------------------------------------
+setObservableConfig({
+  // Converts a plain ES observable to an RxJS 5 observable
+  fromESObservable: Rx.Observable.from
+})

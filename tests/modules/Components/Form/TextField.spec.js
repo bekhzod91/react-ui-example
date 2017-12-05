@@ -2,11 +2,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { mount } from 'enzyme'
-import TextField from '../../../../../src/components/Form/SimpleFields/TextField'
-import validate from '../../../../../src/helpers/validate'
-import MuiThemeProvider from '../../../../MuiThemeProvider'
-import createStore from '../../../../../src/store'
-import { getFormValueFromState } from '../../../../../src/helpers/get'
+import TextField from '../../../../src/components/Form/TextField'
+import validate from '../../../../src/helpers/validate'
+import MuiThemeProvider from '../../../MuiThemeProvider'
+import createStore from '../../../../src/store'
+import { getFormValueFromState } from '../../../../src/helpers/get'
 
 const FORM = 'TestForm'
 
@@ -48,6 +48,6 @@ describe('(Component) TextField', () => {
   it('error', () => {
     component.find('form').simulate('submit')
 
-    expect(component.find(TextField).first().props().meta.error[0]).to.equal('This field is required.')
+    expect(component.find(TextField).first().instance().props.meta.error[0]).to.equal('This field is required.')
   })
 })

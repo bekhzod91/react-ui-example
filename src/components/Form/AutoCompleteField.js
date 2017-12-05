@@ -1,19 +1,16 @@
 import { BehaviorSubject } from 'rxjs'
-import { compose, prop, is, equals, curry, path } from 'ramda'
+import { compose, prop, is, equals, curry } from 'ramda'
 import React from 'react'
-import classNames from 'classnames'
-import { compose as composeR, mapPropsStream, defaultProps, createEventHandler } from 'recompose'
+import { compose as flow, pure, withState, mapPropsStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import withStyles from 'material-ui/styles/withStyles'
 import Paper from 'material-ui/Paper'
-import IconButton from 'material-ui/IconButton'
 import CircularProgress from 'material-ui/Progress/CircularProgress'
 import Fade from 'material-ui/transitions/Fade'
-import ClearIcon from 'material-ui-icons/Clear'
 import SearchIcon from 'material-ui-icons/Search'
-import { axiosCancelRequest } from '../../../helpers/cancel'
-import TextField from '../SimpleFields/TextField'
+import { axiosCancelRequest } from '../../helpers/cancel'
+import TextField from './TextField'
 
 const renderInputComponent = (inputProps) => {
   const {
@@ -28,11 +25,6 @@ const renderInputComponent = (inputProps) => {
     ...other
   } = inputProps
 
-  const onClick = () => {
-    inputProps.input.onChange(null)
-    other.onChange({ target: { value: '' } })
-  }
-
   return (
     <div>
       <TextField
@@ -46,24 +38,12 @@ const renderInputComponent = (inputProps) => {
         {...other}
       />
 
-      <Fade
-        in={loading}
-        className={classNames(classes.icon, { [classes.hide]: !loading })}>
-        <CircularProgress size={28} />
+      <Fade in={loading}>
+        <CircularProgress className={classes.icon} size={28} />
       </Fade>
 
-      <Fade
-        in={Boolean(!loading && value)}
-        className={classNames(classes.icon, { [classes.hide]: !(!loading && value) })}>
-        <IconButton onClick={onClick}>
-          <ClearIcon />
-        </IconButton>
-      </Fade>
-
-      <Fade
-        in={Boolean(!loading && !value)}
-        className={classNames(classes.icon, { [classes.hide]: !(!loading && !value) })}>
-        <div>
+      <Fade in={!loading}>
+        <div className={classes.icon}>
           <SearchIcon />
         </div>
       </Fade>
@@ -115,7 +95,7 @@ const styles = theme => ({
   },
 })
 
-const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, input, meta, ...props }) => {
+const AutoCompleteField = ({ classes, label, placeholder, margin, fullWidth, input, meta, ...props }) => {
   return (
     <Autosuggest
       theme={{
@@ -150,7 +130,7 @@ const AutocompleteField = ({ classes, label, placeholder, margin, fullWidth, inp
   )
 }
 
-AutocompleteField.propTypes = {
+AutoCompleteField.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
@@ -172,12 +152,13 @@ AutocompleteField.propTypes = {
   getId: PropTypes.func.isRequired
 }
 
-export default composeR(
-  defaultProps({
-    renderInputComponent,
-    shouldRenderSuggestions: () => true,
-    getId: path(['input', 'value', 'id']),
-  }),
+AutoCompleteField.defaultProps = {
+  renderInputComponent,
+  shouldRenderSuggestions: () => true,
+}
+
+export default flow(
+  withState('my', 'setMy', false),
   mapPropsStream(props$ => {
     const { handler: onTyping, stream:  onTyping$ } = createEventHandler()
     const { handler: onFetchRequested, stream:  onFetchRequested$ } = createEventHandler()
@@ -226,4 +207,4 @@ export default composeR(
       })
   }),
   withStyles(styles)
-)(AutocompleteField)
+)(AutoCompleteField)

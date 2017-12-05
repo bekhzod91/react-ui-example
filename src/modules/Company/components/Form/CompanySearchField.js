@@ -5,11 +5,11 @@ import { compose, withHandlers, getContext } from 'recompose'
 import { MenuItem } from 'material-ui/Menu'
 import axios from '../../../../helpers/axios'
 import * as API from '../../../../constants/api'
-import AutocompleteField from '../../../../components/Form/SmartFields/AutocompleteField'
+import AutoCompleteWithClearField from '../../../../components/Form/AutoCompleteWithClearField'
 
 const CompanySearchField = ({ ...props }) => {
   return (
-    <AutocompleteField {...props} />
+    <AutoCompleteWithClearField {...props} />
   )
 }
 
@@ -54,8 +54,8 @@ export default compose(
         .catch(() => new Error('Request failed'))
     },
 
-    getValue: props => (value) => {
-      return prop('name', value)
-    }
+    getId: props => path(['input', 'value', 'id']),
+
+    getValue: props => prop('name')
   })
 )(CompanySearchField)

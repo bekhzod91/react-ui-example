@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import withStyles from 'material-ui/styles/withStyles'
-import TextField from '../../../components/Form/SimpleFields/TextField'
+import TextField from '../../../components/Form/TextField'
 import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
 

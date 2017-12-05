@@ -8,7 +8,7 @@ import SignInForm, { FORM } from '../../../src/modules/Auth/components/SignInFor
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
 import { getFormValueFromState } from '../../../src/helpers/get'
-import TextField from '../../../src/components/Form/SimpleFields/TextField'
+import TextField from '../../../src/components/Form/TextField'
 import { signInAction, API_SIGN_IN_URL } from '../../../src/modules/Auth/actions/signIn'
 import createStore from '../../../src/store'
 import MuiThemeProvider from '../../MuiThemeProvider'

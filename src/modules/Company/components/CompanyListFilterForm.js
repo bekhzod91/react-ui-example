@@ -6,8 +6,8 @@ import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import Button from 'material-ui/Button'
 import TableDialog from '../../../components/Table/TableDialog'
-import TextField from '../../../components/Form/SimpleFields/TextField'
 import CompanySearchField from '../components/Form/CompanySearchField'
+import TextWithClearField from '../../../components/Form/TextWithClearField'
 
 const styles = {
   buttonGroup: {
@@ -27,7 +27,7 @@ const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (
   <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseFilter}>
     <form onSubmit={filter.onSubmitFilter}>
       <Field
-        component={TextField}
+        component={TextWithClearField}
         name="email"
         label="Email"
         placeholder="Enter Email"

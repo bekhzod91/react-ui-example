@@ -39,9 +39,6 @@ RUN mkdir -p /var/www/$PROJECT_NAME
 # Cd to working directory
 WORKDIR /var/www/$PROJECT_NAME
 
-# Create virtualenv
-RUN nvm
-
 # Copy project files
 ADD . /var/www/$PROJECT_NAME
 

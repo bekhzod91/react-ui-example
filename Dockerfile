@@ -40,9 +40,7 @@ RUN mkdir -p /var/www/$PROJECT_NAME
 WORKDIR /var/www/$PROJECT_NAME
 
 # Copy project files
-ADD . /var/www/$PROJECT_NAME
-ADD .eslintrc /var/www/$PROJECT_NAME
-ADD .editorconfig /var/www/$PROJECT_NAME
+COPY . /var/www/$PROJECT_NAME
 
 # Permission project directory
 RUN chmod -R 775 /var/www/$PROJECT_NAME

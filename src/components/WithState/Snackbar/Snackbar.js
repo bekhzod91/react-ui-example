@@ -40,6 +40,7 @@ Snackbar.propTypes = {
   open: PropTypes.bool.isRequired,
   message: PropTypes.any.isRequired,
   duration: PropTypes.number.isRequired,
+  action: PropTypes.string.isRequired,
   // action: PropTypes.oneOf([
   //   SUCCESS_TYPE, INFO_TYPE, WARNING_TYPE, DANGER_TYPE
   // ]).isRequired,

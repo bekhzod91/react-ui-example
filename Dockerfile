@@ -72,4 +72,7 @@ RUN source ~/.bashrc && yarn lint
 # Copy entrypoint script to root directory
 COPY ./docker-entrypoint.sh /
 
+# Change user
+USER root
+
 ENTRYPOINT ["/docker-entrypoint.sh"]

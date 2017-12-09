@@ -5,11 +5,11 @@ ENV PROJECT_NAME unkata-ui
 #####################################
 # Install Chrome
 #####################################
-RUN cat <<<'[google-chrome]\\n\
-name=google-chrome\\n\
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\\n\
-enabled=1\\n\
-gpgcheck=1\\n\
+RUN cat <<<'[google-chrome]\
+name=google-chrome\
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\
+enabled=1\
+gpgcheck=1\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub\
 ' > /etc/yum.repos.d/google-chrome.repo
 RUN yum install -y google-chrome-stable

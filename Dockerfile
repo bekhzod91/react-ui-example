@@ -39,9 +39,6 @@ RUN mkdir -p /var/www/$PROJECT_NAME
 # Cd to working directory
 WORKDIR /var/www/$PROJECT_NAME
 
-# Copy project files
-COPY . /var/www/$PROJECT_NAME
-
 # Permission project directory
 RUN chmod -R 775 /var/www/$PROJECT_NAME
 RUN chown -R app:app /var/www/$PROJECT_NAME
@@ -60,6 +57,11 @@ RUN source ~/.bashrc && nvm use 8.9.3
 # Install YARN
 ###############################
 RUN source ~/.bashrc && curl -o- -L https://yarnpkg.com/install.sh | bash > /dev/null
+
+# Copy project files
+COPY . /var/www/$PROJECT_NAME
+COPY ./.eslintrc /var/www/$PROJECT_NAME
+COPY ./.editorconfig /var/www/$PROJECT_NAME
 
 ###############################
 # Install node dependency

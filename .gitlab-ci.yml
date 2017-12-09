@@ -30,7 +30,7 @@ test:
   stage: test
   script:
     - "cd $BUILD_DIR"
-    - "docker-compose run webtest"
+    - "docker-compose -f docker-compose.test.yml run web"
   tags:
     - staging
 

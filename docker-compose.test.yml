@@ -4,11 +4,8 @@ services:
   # App
   web:
     restart: always
-    env_file:
-      - .env
+    environment:
+      - NODE_ENV=testing
     build: .
-    volumes:
-      - ./dist:/var/www/unkata-ui/dist
-
 volumes:
   web:

@@ -23,7 +23,7 @@ build:
     - "cp -r `pwd`/.git ${BUILD_DIR}/"
     - "cd $BUILD_DIR"
     # Start build
-    - "docker-compose build"
+    - "docker-compose -f docker-compose.test.yml build"
   tags:
     - staging
 
@@ -40,10 +40,10 @@ deploy:
   script:
     - "cd ${PROJECT_DIR}"
     - "cp -R ${BUILD_DIR}/docker-compose.yml ./"
-    ## Stop application
+    # Stop application
     - "docker-compose down"
-    ## Start application
-    - "docker-compose up -d web"
+    # Start application
+    - "docker-compose up -d"
   only:
     - master
   tags:

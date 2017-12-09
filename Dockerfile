@@ -60,8 +60,6 @@ RUN source ~/.bashrc && curl -o- -L https://yarnpkg.com/install.sh | bash > /dev
 
 # Copy project files
 COPY . /var/www/$PROJECT_NAME
-COPY ./.eslintrc /var/www/$PROJECT_NAME
-COPY ./.editorconfig /var/www/$PROJECT_NAME
 
 ###############################
 # Install node dependency

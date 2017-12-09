@@ -2,6 +2,7 @@
 set -e
 
 export PROJECT_DIR=/var/www/unkata-ui/
+source ~/.bashrc
 
 # Go to directory
 cd $PROJECT_DIR

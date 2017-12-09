@@ -19,7 +19,7 @@ build:
     - "rm -rf ${BUILD_DIR}"
     # Copy project
     - "mkdir ${BUILD_DIR}"
-    - "cp -r `pwd`/* ${BUILD_DIR}/"
+    - "cp -r `pwd`/. ${BUILD_DIR}/"
     - "cd $BUILD_DIR"
     # Start build
     - "docker-compose -f docker-compose.test.yml build"

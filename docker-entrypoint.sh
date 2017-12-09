@@ -10,12 +10,12 @@ if [[ $NODE_ENV == 'testing' ]]; then
     echo "Run testing mode"
 
     # Run test
-    exec gosu app xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
+    xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
     exit
 else
     echo "Run production mode"
 
     # Run project
-    exec gosu app yarn start
+    yarn start
     exit
 fi

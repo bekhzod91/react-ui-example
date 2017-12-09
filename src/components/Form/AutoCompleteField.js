@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs'
 import { compose, prop, is, equals, curry } from 'ramda'
 import React from 'react'
-import { compose as flow, pure, withState, mapPropsStream, createEventHandler } from 'recompose'
+import { compose as flow, withState, mapPropsStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import withStyles from 'material-ui/styles/withStyles'

@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  # App test
+  webtest:
+    restart: always
+    environment:
+      - NODE_ENV=testing
+    build: .
+
+  # App
+  web:
+    restart: always
+    env_file:
+      - .env
+    build: .
+    volumes:
+      - ./dist:/var/www/unkata-ui/dist
+
+volumes:
+  web:

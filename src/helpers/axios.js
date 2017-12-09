@@ -1,6 +1,5 @@
 import { path, is, equals } from 'ramda'
 import axios from 'axios'
-import { Observable } from 'rxjs'
 import { browserHistory } from 'react-router'
 import { API_URL } from '../constants/api'
 import * as ROUTE from '../constants/routes'

@@ -1,6 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import ReactTestUtils from 'react-dom/test-utils'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import SocialButtons from '../../../src/modules/Auth/components/SocialButtons'

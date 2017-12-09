@@ -10,7 +10,12 @@ cd $PROJECT_DIR
 chmod 775 -R $PROJECT_DIR/dist
 chown app:app -R $PROJECT_DIR/dist
 
+# Fix go su problem
+export HOME=/home/app
+
 gosu app bash
+
+source ~/.bashrc
 
 if [[ $NODE_ENV == 'testing' ]]; then
     echo "Run testing mode"

@@ -42,7 +42,7 @@ deploy:
     # Stop application
     - "docker-compose down"
     # Start application
-    - "docker-compose up -d"
+    - "docker-compose run web"
   only:
     - master
   tags:

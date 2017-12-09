@@ -16,7 +16,7 @@ if [[ $NODE_ENV == 'testing' ]]; then
 else
     echo "Run production mode"
 
-    # Run project
-    yarn startpro
+    # Build source
+    yarn build
     exit
 fi

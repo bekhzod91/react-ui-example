@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-export PROJECT_DIR=/var/www/unkata-ui/
+export PROJECT_DIR=/var/www/unkata-ui
 
 # Go to directory
 cd $PROJECT_DIR

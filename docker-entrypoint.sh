@@ -17,6 +17,6 @@ else
     echo "Run production mode"
 
     # Run project
-    yarn start
+    yarn startpro
     exit
 fi

@@ -1,13 +1,11 @@
 #!/bin/sh
 set -e
 
+export HOME=/home/app
 export PROJECT_DIR=/var/www/unkata-ui
 
 # Go to directory
 cd $PROJECT_DIR
-
-# Fix go su problem
-export HOME=/home/app
 
 if [[ $NODE_ENV == 'testing' ]]; then
     echo "Run testing mode"

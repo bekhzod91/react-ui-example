@@ -4,7 +4,7 @@
   "description": "Unkata is high quality erp system",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf dist/.",
+    "clean": "rimraf dist/*",
     "build": "npm run clean && cross-env NODE_ENV=production node scripts/build",
     "start": "cross-env NODE_ENV=development node scripts/start",
     "test": "cross-env NODE_ENV=test karma start config/karma",

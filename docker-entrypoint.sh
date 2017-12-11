@@ -29,6 +29,7 @@ else
     source ~/.bashrc
 
     # Build source
+    yarn run clean
     yarn build
     exit
 fi

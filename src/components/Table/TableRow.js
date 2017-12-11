@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { curry, addIndex, map, filter, isEmpty, prop, equals, path, pipe, not } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -44,29 +44,29 @@ const styles = theme => ({
   }
 })
 
-const mapWithIndex = R.addIndex(R.map)
-const renderColumn = R.curry((item, index, children) => mapWithIndex((chItem, chIndex) =>
+const mapWithIndex = addIndex(map)
+const renderColumn = curry((item, index, children) => mapWithIndex((chItem, chIndex) =>
   React.cloneElement(chItem, { item, index, key: chIndex }), children
 ))
 
 const TableRow = ({ classes, children, list, getById, selectIds, checkboxEnable, detail, onCheckItem }) => {
-  const detailNode = R.prop('detail', detail)
-  const detailId = R.prop('id', detail)
+  const detailNode = prop('detail', detail)
+  const detailId = prop('id', detail)
   const rows = mapWithIndex((item, index) => {
     const id = getById(item)
-    const active = R.equals(id, detailId)
-    const beforeActive = R.equals(getById(R.path([index + 1], list)), detailId)
-    const afterActive = R.equals(getById(R.path([index - 1], list)), detailId)
+    const active = equals(id, detailId)
+    const beforeActive = equals(getById(path([index + 1], list)), detailId)
+    const afterActive = equals(getById(path([index - 1], list)), detailId)
     const column = renderColumn(item, index, children)
     const className = classNames(classes.root, {
       [classes.detail]: active,
       [classes.beforeActive]: beforeActive,
       [classes.afterActive]: afterActive,
     })
-    const checked = R.pipe(
-      R.filter((item) => item === id),
-      R.isEmpty,
-      R.not
+    const checked = pipe(
+      filter((item) => item === id),
+      isEmpty,
+      not
     )(selectIds)
 
     return (

@@ -108,6 +108,7 @@ const ContactForm = ({ classes, open, close }) => {
               fullWidth={true}
               margin="normal"
             />
+
             <Field
               component={TextField}
               name="secondName"
@@ -116,6 +117,7 @@ const ContactForm = ({ classes, open, close }) => {
               fullWidth={true}
               margin="normal"
             />
+
             <Field
               component={TextField}
               name="email"
@@ -128,11 +130,14 @@ const ContactForm = ({ classes, open, close }) => {
             <div className={classes.actions}>
               <Button
                 raised={true}
-                className={classes.delete}
-              >
+                className={classes.delete}>
                 Delete
               </Button>
-              <Button raised={true} onClick={close}>Cancel</Button>
+
+              <Button raised={true} onClick={close}>
+                Cancel
+              </Button>
+
               <Button
                 type="submit"
                 raised={true}
@@ -151,7 +156,7 @@ const ContactForm = ({ classes, open, close }) => {
 ContactForm.propTypes = {
   classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  close: PropTypes.bool.isRequired
+  close: PropTypes.func.isRequired
 }
 
 export default compose(

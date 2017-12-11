@@ -11,7 +11,7 @@ import Grid from 'material-ui/Grid'
 
 const SPACE_BETWEEN_WIDGETS = 16
 
-const Dashboard = ({ appBar, classes }) => {
+const Dashboard = ({ appBar }) => {
   const widgetActions = (
     <More>
       <Menu>
@@ -56,8 +56,7 @@ const Dashboard = ({ appBar, classes }) => {
 }
 
 Dashboard.propTypes = {
-  appBar: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  appBar: PropTypes.object.isRequired
 }
 
 export default Dashboard

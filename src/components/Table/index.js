@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { pathOr, prop } from 'ramda'
 import Table from './Table'
 import TableHeader from './TableHeader'
 import TableCell from './TableCell'
@@ -7,14 +7,14 @@ import TableColumn from './TableColumn'
 import TableDetail from './TableDetail'
 
 const listToTableProps = (results) => {
-  const pageCount = R.prop('count', results)
-  const list = R.pathOr([], 'results', results)
+  const pageCount = prop('count', results)
+  const list = pathOr([], 'results', results)
 
   return {
     pageCount,
     list,
     selected: true,
-    selector: R.prop('id')
+    selector: prop('id')
   }
 }
 

@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { addIndex, map, prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui/styles/withStyles'
@@ -11,7 +11,7 @@ import avatar from '../assets/photo.jpg'
 import backgroundImage from '../assets/header-sm-01.jpg'
 
 const STYLES_BG_IMG_SIZE = 65
-const map = R.addIndex(R.map)
+const mapWithIndex = addIndex(map)
 
 const styles = theme => ({
   activeMenu: {
@@ -48,14 +48,14 @@ const MenuIcon = ({ classes, route, ...props }) => {
           </div>
         </Collapse>
         <List>
-          {map((item, index) => (
+          {mapWithIndex((item, index) => (
             <ListItem
               key={index}
               button={true}
-              onClick={() => push(R.prop('url', item))}
+              onClick={() => push(prop('url', item))}
               className={checkMenuIsActive(item) ? classes.activeMenu : ''}>
               <ListItemIcon>
-                {R.prop('icon', item)}
+                {prop('icon', item)}
               </ListItemIcon>
             </ListItem>
           ), menuList)}

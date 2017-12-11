@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
@@ -16,12 +16,12 @@ const styles = {
 
 export const SingUpConfirm = ({ classes, loading, data, failed }) => (
   <AuthLayout
-    title={loading ? ' ' : `Welcome ${R.prop('firstName', data)}`}
+    title={loading ? ' ' : `Welcome ${prop('firstName', data)}`}
     loading={loading}>
     {!loading && <div>
       <p className={classes.center}>Thanks for sign up</p>
 
-      <p className={classes.center}>You can sign in with email address {R.prop('email', data)}</p>
+      <p className={classes.center}>You can sign in with email address {prop('email', data)}</p>
 
       <div className={classes.footer}>
         <p>Do you want return main page? <Link to={ROUTE.SIGN_IN_URL}>Sign In</Link></p>

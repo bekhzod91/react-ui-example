@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { path } from 'ramda'
 import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
@@ -10,9 +10,9 @@ import { FORM } from '../components/RecoveryForm'
 import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  loading: R.path([STATE.RECOVERY, 'loading'], state),
-  recovery: R.path([STATE.RECOVERY, 'data'], state),
-  error: R.path([STATE.RECOVERY, 'error'], state),
+  loading: path([STATE.RECOVERY, 'loading'], state),
+  recovery: path([STATE.RECOVERY, 'data'], state),
+  error: path([STATE.RECOVERY, 'error'], state),
   formValues: getFormValueFromState(FORM, state),
 })
 

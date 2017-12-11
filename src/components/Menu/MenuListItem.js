@@ -73,7 +73,7 @@ class MenuListItem extends React.Component {
     }
 
     return (
-      <Collapse in={this.state.open} transitionDuration="auto">
+      <Collapse in={this.state.open}>
         {addIndex(map)((item, index) => (
           <MenuListItemEnhance
             key={index}

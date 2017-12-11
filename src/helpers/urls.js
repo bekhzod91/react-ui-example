@@ -1,65 +1,69 @@
-import * as R from 'ramda'
+import {
+  pipe, split, map, fromPairs, toPairs, head, join, pathOr, findLast, endsWith, isNil,
+  merge, prop, equals, defaultTo, filter, without, sort, uniq, gte, concat, not, isEmpty,
+  append, reverse, is
+} from 'ramda'
 
 const getQueryFromUrl = (url) => {
-  const [, search] = R.split('?', url)
-  const searchToObject = R.pipe(
-    R.split('&'),
-    R.map(R.split('=')),
-    R.fromPairs
+  const [, search] = split('?', url)
+  const searchToObject = pipe(
+    split('&'),
+    map(split('=')),
+    fromPairs
   )
   return search ? searchToObject(search) : ''
 }
 
-const paramsToSearch = R.pipe(
-  R.toPairs,
-  R.map(R.join('=')),
-  R.join('&')
+const paramsToSearch = pipe(
+  toPairs,
+  map(join('=')),
+  join('&')
 )
 
-const getPathnameFromUrl = R.pipe(
-  R.split('?'),
-  R.head
+const getPathnameFromUrl = pipe(
+  split('?'),
+  head
 )
 
 const appendParamsToUrl = (appendParams, url) => {
   const pathname = getPathnameFromUrl(url)
   const params = getQueryFromUrl(url)
-  const newParams = R.merge(params, appendParams)
+  const newParams = merge(params, appendParams)
 
   return pathname + '?' + paramsToSearch(newParams)
 }
 
 const sortingStatus = (url, key, value) => {
   const params = getQueryFromUrl(url)
-  const currentValue = R.pipe(
-    R.pathOr('', [key]),
-    R.split(','),
-    R.findLast(R.endsWith(value))
+  const currentValue = pipe(
+    pathOr('', [key]),
+    split(','),
+    findLast(endsWith(value))
   )(params)
 
-  if (R.isNil(currentValue)) {
+  if (isNil(currentValue)) {
     return 'not'
   }
 
-  return R.pipe(
-    R.prop(0),
-    R.equals('-'),
+  return pipe(
+    prop(0),
+    equals('-'),
     descSort => descSort ? 'desc' : 'asc',
   )(currentValue)
 }
 
 const sortingUrl = (url, key, value) => {
   const params = getQueryFromUrl(url)
-  const sortValues = R.prop(key, params) || ''
+  const sortValues = prop(key, params) || ''
   const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
   const status = sortingStatus(url, key, value)
-  const newValue = R.pipe(
-    R.split(','),
-    R.filter(R.pipe(R.endsWith(value), R.not)),
-    R.append(R.prop(status, possibleValue)),
-    R.filter(R.pipe(R.isEmpty, R.not)),
-    R.reverse,
-    R.join(',')
+  const newValue = pipe(
+    split(','),
+    filter(pipe(endsWith(value), not)),
+    append(prop(status, possibleValue)),
+    filter(pipe(isEmpty, not)),
+    reverse,
+    join(',')
   )(sortValues)
 
   return appendParamsToUrl({ [key]: newValue }, url)
@@ -67,17 +71,17 @@ const sortingUrl = (url, key, value) => {
 
 const removeItemFromSelect = (url, key, value) => {
   const params = getQueryFromUrl(url)
-  const values = R.is(Array, value) ? R.map(String, value) : [String(value)]
+  const values = is(Array, value) ? map(String, value) : [String(value)]
 
-  const selector = R.pipe(
-    R.prop(key),
-    R.defaultTo(''),
-    R.split(','),
-    R.filter(item => item),
-    R.without(values),
-    R.uniq,
-    R.sort(R.gte),
-    R.join(',')
+  const selector = pipe(
+    prop(key),
+    defaultTo(''),
+    split(','),
+    filter(item => item),
+    without(values),
+    uniq,
+    sort(gte),
+    join(',')
   )(params)
 
   return appendParamsToUrl({ [key]: selector }, url)
@@ -85,16 +89,16 @@ const removeItemFromSelect = (url, key, value) => {
 
 const addItemToSelect = (url, key, value) => {
   const params = getQueryFromUrl(url)
-  const values = R.is(Array, value) ? R.map(String, value) : [String(value)]
-  const selector = R.pipe(
-    R.prop(key),
-    R.defaultTo(''),
-    R.split(','),
-    R.filter(item => item),
-    R.concat(values),
-    R.uniq,
-    R.sort(R.gte),
-    R.join(','),
+  const values = is(Array, value) ? map(String, value) : [String(value)]
+  const selector = pipe(
+    prop(key),
+    defaultTo(''),
+    split(','),
+    filter(item => item),
+    concat(values),
+    uniq,
+    sort(gte),
+    join(','),
   )(params)
 
   return appendParamsToUrl({ [key]: selector }, url)

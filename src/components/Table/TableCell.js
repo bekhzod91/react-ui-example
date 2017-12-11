@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
@@ -122,8 +122,8 @@ const enhance = compose(
   withHandlers({
     getSortingUrl: ({ route, sort }) => (event, value) => {
       const { location, push } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
+      const pathname = prop('pathname', location)
+      const search = prop('search', location)
       const fullPath = `${pathname}${search}`
 
       event.preventDefault()
@@ -132,8 +132,8 @@ const enhance = compose(
     },
     renderIcon: ({ classes, route, sort }) => (value) => {
       const { location } = route
-      const pathname = R.prop('pathname', location)
-      const search = R.prop('search', location)
+      const pathname = prop('pathname', location)
+      const search = prop('search', location)
       const fullPath = `${pathname}${search}`
       const icon = sortingStatus(fullPath, 'sort', value)
 

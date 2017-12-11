@@ -1,11 +1,11 @@
-import * as R from 'ramda'
+import { pathOr } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TableDetail } from '../../../components/Table'
 
 const CompanyDetail = ({ detail, route }) => {
   const { loading, data } = detail
-  const name = R.pathOr('', ['name'], data)
+  const name = pathOr('', ['name'], data)
 
   return (
     <TableDetail loading={loading}>

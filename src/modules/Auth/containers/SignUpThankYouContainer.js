@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { path } from 'ramda'
 import { compose, withPropsOnChange, withHandlers, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
@@ -8,14 +8,14 @@ import SignUpThankYou from '../components/SignUpThankYou'
 import { resendMessageAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
-  data: R.path([STATE.SIGN_UP, 'data'], state),
-  loading: R.path([STATE.RESEND_MESSAGE, 'loading'], state),
+  data: path([STATE.SIGN_UP, 'data'], state),
+  loading: path([STATE.RESEND_MESSAGE, 'loading'], state),
 })
 
 const enhance = compose(
   connect(mapStateToProps, { resendMessageAction, push }),
   withPropsOnChange(['data'], (props) => {
-    const email = R.path(['data', 'email'], props)
+    const email = path(['data', 'email'], props)
 
     if (!email) {
       props.push(ROUTE.SIGN_IN_URL)
@@ -23,7 +23,7 @@ const enhance = compose(
   }),
   withHandlers({
     resend: props => () => {
-      const email = R.path(['data', 'email'], props)
+      const email = path(['data', 'email'], props)
 
       return props
         .resendMessageAction(email)
@@ -31,8 +31,8 @@ const enhance = compose(
     }
   }),
   mapProps((props) => {
-    const email = R.path(['data', 'email'], props)
-    const firstName = R.path(['data', 'firstName'], props)
+    const email = path(['data', 'email'], props)
+    const firstName = path(['data', 'firstName'], props)
 
     return {
       email,

@@ -23,8 +23,8 @@ const createStore = (initialState = {}) => {
     }
 
     // Enable redux change log
-    // const logger = require('redux-logger').default
-    // middleware.push(logger)
+    const logger = require('redux-logger').default
+    middleware.push(logger)
   }
 
   // ======================================================

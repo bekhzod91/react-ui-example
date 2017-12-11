@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { map, addIndex } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui/styles/withStyles'
@@ -111,7 +111,7 @@ class Widget extends React.Component {
         <div className={classes.tabs}>
           <AppBar position="static">
             <Tabs value={value} onChange={this.handleChange}>
-              {R.map((item) => <Tab label={item} />, tabs)}
+              {addIndex(map)((item, index) => <Tab key={index} label={item} />, tabs)}
             </Tabs>
           </AppBar>
           <div className={classes.tabItem}>

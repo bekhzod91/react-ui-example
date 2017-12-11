@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { concat, prop, slice } from 'ramda'
 import * as actions from './actions'
 import createReducer from '../../../helpers/createReducer'
 
@@ -10,7 +10,7 @@ export const defaultState = {
 const reducer = () => {
   return createReducer(defaultState, {
     [`${actions.PAGE_LOADING_START}`] (state) {
-      const loadPage = R.concat(R.prop('loadPage', state), [true])
+      const loadPage = concat(prop('loadPage', state), [true])
 
       return {
         loadPage,
@@ -19,7 +19,7 @@ const reducer = () => {
     },
 
     [`${actions.PAGE_LOADING_FINISH}`] (state) {
-      const loadPage = R.slice(1, Infinity, R.prop('loadPage', state))
+      const loadPage = slice(1, Infinity, prop('loadPage', state))
 
       return {
         loadPage,

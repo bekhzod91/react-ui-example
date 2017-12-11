@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { path } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
@@ -79,7 +79,7 @@ const MenuHeader = ({ classes, logout, ...props }) => (
       </CardMedia>
       <CardActions className={classes.action}>
         <div id="userEmail">
-          {R.path(['profile', 'email'], props)}
+          {path(['profile', 'email'], props)}
         </div>
         <div className={classes.buttonWrapper}>
           <IconButton

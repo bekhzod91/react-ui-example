@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { map, prop, path } from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -44,11 +44,11 @@ const styles = theme => ({
 })
 
 const Companies = ({ classes, loading, list }) => {
-  const companies = R.map((item, index) => {
-    const id = R.prop('id', item)
-    const name = R.prop('name', item)
-    const logoUrl = R.path(['logo', 'uri'], item)
-    const lastActivityDate = R.prop('lastActivity', item)
+  const companies = map((item, index) => {
+    const id = prop('id', item)
+    const name = prop('name', item)
+    const logoUrl = path(['logo', 'uri'], item)
+    const lastActivityDate = prop('lastActivity', item)
     const activityInfo = lastActivityDate ? (
       `Last activity ${fromNow(lastActivityDate, 'D MMM YYYY')}`
     ) : 'Never been activity'
@@ -65,7 +65,7 @@ const Companies = ({ classes, loading, list }) => {
         className={classes.avatarWithOutLogo}
         size={40}
         style={styles.companyLogo}
-      >{R.prop(0, name)}</Avatar>
+      >{prop(0, name)}</Avatar>
     )
 
     return (

@@ -1,18 +1,18 @@
-import * as R from 'ramda'
-import { compose, mapPropsStream } from 'recompose'
+import { compose, curry, filter, prop, propOr, path, pathOr, head, whereEq } from 'ramda'
+import { compose as flow, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
 import { fetchMyCompaniesAction } from '../actions/myCompanies'
 
 const mapStateToProps = (state, props) => {
-  const companyId = R.path(['params', 'companyId'], props)
-  const getCompanyLoading = R.path([STATE.USER_COMPANIES, 'loading'])
-  const getCompanyList = R.pathOr([], [STATE.USER_COMPANIES, 'data'])
-  const getCompanyNameOr = R.curry((defaultName, state) =>
-    R.compose(
-      R.propOr(defaultName, 'name'),
-      R.head,
-      R.filter(R.whereEq({ id: parseInt(companyId) })),
+  const companyId = path(['params', 'companyId'], props)
+  const getCompanyLoading = path([STATE.USER_COMPANIES, 'loading'])
+  const getCompanyList = pathOr([], [STATE.USER_COMPANIES, 'data'])
+  const getCompanyNameOr = curry((defaultName, state) =>
+    compose(
+      propOr(defaultName, 'name'),
+      head,
+      filter(whereEq({ id: parseInt(companyId) })),
       getCompanyList,
     )(state)
   )
@@ -28,13 +28,13 @@ const mapDispatchToProps = {
   fetchMyCompaniesAction
 }
 
-export default compose(
+export default flow(
   connect(mapStateToProps, mapDispatchToProps),
   mapPropsStream(props$ => {
     props$
-      .filter(R.prop('token'))
-      .filter(R.path(['params', 'companyId']))
-      .distinctUntilChanged(null, R.path(['params', 'companyId']))
+      .filter(prop('token'))
+      .filter(path(['params', 'companyId']))
+      .distinctUntilChanged(null, path(['params', 'companyId']))
       .subscribe(props => props.fetchMyCompaniesAction())
 
     return props$

@@ -1,15 +1,15 @@
-import * as R from 'ramda'
+import { prop } from 'ramda'
 
 export const signInSerializer = (formValue) => {
   return {
-    email: R.prop('email', formValue),
-    password: R.prop('password', formValue),
+    email: prop('email', formValue),
+    password: prop('password', formValue),
   }
 }
 
 export const twitterSignInSerializer = (data) => {
   return {
-    'oauth_token': R.prop('oauthToken', data),
-    'oauth_verifier': R.prop('oauthVerifier', data),
+    'oauth_token': prop('oauthToken', data),
+    'oauth_verifier': prop('oauthVerifier', data),
   }
 }

@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { pathOr, prop, __ } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
@@ -102,19 +102,19 @@ const enhance = compose(
 )
 
 export const getProps = (props) => {
-  const permissions = R.pathOr([], ['permission', 'data'], props)
+  const permissions = pathOr([], ['permission', 'data'], props)
   const route = getRouteFromProps(props)
 
   return {
     logout: props.logoutAction,
     profile: {
-      email: R.prop('userEmail', props),
-      image: R.prop('userImage', props),
+      email: prop('userEmail', props),
+      image: prop('userImage', props),
     },
-    company: R.prop('companyName', props),
-    menuList: R.compose(
-      getMenuWithCompanyId(R.__, parseInt(route.companyId)),
-      getMenusByPermissions(R.__, permissions)
+    company: prop('companyName', props),
+    menuList: compose(
+      getMenuWithCompanyId(__, parseInt(route.companyId)),
+      getMenusByPermissions(__, permissions)
     )(menus),
     route,
   }

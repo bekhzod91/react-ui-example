@@ -1,66 +1,68 @@
-import * as R from 'ramda'
+import {
+  compose, curry, prop, find, equals, either, both, ifElse, not, has, append, always, __, reduce, map, head
+} from 'ramda'
 import sprintf from 'sprintf'
 
-const skipPermission = R.compose(R.not, R.has('permission'))
-const hasPermission = R.curry((permissions, menu) =>
-  R.compose(
-    (permission) => R.find(R.equals(permission), permissions),
-    R.prop('permission')
+const skipPermission = compose(not, has('permission'))
+const hasPermission = curry((permissions, menu) =>
+  compose(
+    (permission) => find(equals(permission), permissions),
+    prop('permission')
   )(menu)
 )
 
-export const getMenusByPermissions = R.curry((menus, permissions) => {
-  const getMenuByPermissions = R.curry((menu, value) =>
-    R.ifElse(
-      R.either(skipPermission, hasPermission(permissions)),
-      R.append(R.__, value),
-      R.always(value)
+export const getMenusByPermissions = curry((menus, permissions) => {
+  const getMenuByPermissions = curry((menu, value) =>
+    ifElse(
+      either(skipPermission, hasPermission(permissions)),
+      append(__, value),
+      always(value)
     )(menu)
   )
-  const getChildMenuByPermissions = R.curry((menu, value) =>
-    R.ifElse(
-      R.either(skipPermission, hasPermission(permissions)),
-      (menu) => R.append({
-        ...menu, children: getMenusByPermissions(R.prop('children', menu), permissions)
+  const getChildMenuByPermissions = curry((menu, value) =>
+    ifElse(
+      either(skipPermission, hasPermission(permissions)),
+      (menu) => append({
+        ...menu, children: getMenusByPermissions(prop('children', menu), permissions)
       }, value),
-      R.always(value)
+      always(value)
     )(menu)
   )
 
-  return R.reduce((value, next) => R.ifElse(
-    R.has('children'),
-    getChildMenuByPermissions(R.__, value),
-    getMenuByPermissions(R.__, value)
+  return reduce((value, next) => ifElse(
+    has('children'),
+    getChildMenuByPermissions(__, value),
+    getMenuByPermissions(__, value)
   )(next), [], menus)
 })
 
-export const getMenuWithCompanyId = R.curry((menus, companyId) => {
+export const getMenuWithCompanyId = curry((menus, companyId) => {
   const appendCompanyIdToUrl = (url) => sprintf(url, companyId)
-  const appendCompanyIdToMenu = (menu) => ({ ...menu, url: appendCompanyIdToUrl(R.prop('url', menu)) })
+  const appendCompanyIdToMenu = (menu) => ({ ...menu, url: appendCompanyIdToUrl(prop('url', menu)) })
   const getChildMenuWithCompanyId = (menu) => ({
-    ...appendCompanyIdToMenu(menu), children: getMenuWithCompanyId(R.prop('children', menu), companyId)
+    ...appendCompanyIdToMenu(menu), children: getMenuWithCompanyId(prop('children', menu), companyId)
   })
 
-  return R.map(R.ifElse(
-    R.has('children'),
+  return map(ifElse(
+    has('children'),
     getChildMenuWithCompanyId,
     appendCompanyIdToMenu
   ), menus)
 })
 
-export const checkMenuNameInsideMenu = R.curry((activeMenuName, menu) => {
-  const checkForActive = R.compose(
-    R.equals(activeMenuName),
-    R.prop('name'),
+export const checkMenuNameInsideMenu = curry((activeMenuName, menu) => {
+  const checkForActive = compose(
+    equals(activeMenuName),
+    prop('name'),
   )
-  const checkChildren = R.compose(
-    R.head,
-    R.map(checkMenuNameInsideMenu(activeMenuName)),
-    R.prop('children')
+  const checkChildren = compose(
+    head,
+    map(checkMenuNameInsideMenu(activeMenuName)),
+    prop('children')
   )
 
-  return R.ifElse(
-    R.both(R.has('children'), R.compose(R.not, checkForActive)),
+  return ifElse(
+    both(has('children'), compose(not, checkForActive)),
     checkChildren,
     checkForActive
   )(menu)

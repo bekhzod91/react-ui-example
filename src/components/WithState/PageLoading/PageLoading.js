@@ -1,8 +1,8 @@
-import * as R from 'ramda'
+import { compose, path, prop, not } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { compose, branch, renderNothing } from 'recompose'
+import { compose as flow, branch, renderNothing } from 'recompose'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
 import withStyles from 'material-ui/styles/withStyles'
 
@@ -26,13 +26,13 @@ PageLoading.propTypes = {
   classes: PropTypes.object
 }
 
-const enhance = compose(
+const enhance = flow(
   connect(state => ({
-    loading: R.path(['pageLoading', 'loading'], state)
+    loading: path(['pageLoading', 'loading'], state)
   })),
   (render => (
     branch(render, renderNothing)
-  ))(R.compose(R.not, R.prop('loading'))),
+  ))(compose(not, prop('loading'))),
   withStyles(styles)
 )
 

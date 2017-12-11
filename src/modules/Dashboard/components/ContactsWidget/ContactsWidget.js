@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { prop, addIndex, map } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
@@ -105,7 +105,7 @@ const styles = theme => ({
 })
 
 const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
-  const map = R.addIndex(R.map)
+  const mapWithIndex = addIndex(map)
   const { state, onChange, openSearch, closeSearch, openDialog, closeDialog } = defaultProps
 
   return (
@@ -150,7 +150,7 @@ const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
             </div>
           ) : (
             <List>
-              {map((item, index) => (
+              {mapWithIndex((item, index) => (
                 <ListItem key={index} button={true}>
                   <ListItemAvatar>
                     <Avatar
@@ -160,8 +160,8 @@ const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={R.prop('name', item)}
-                    secondary={R.prop('email', item)}
+                    primary={prop('name', item)}
+                    secondary={prop('email', item)}
                   />
                 </ListItem>
               ), list)}

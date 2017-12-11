@@ -1,8 +1,8 @@
-import * as R from 'ramda'
+import { compose, prop, not } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
-import { compose, branch, renderNothing } from 'recompose'
+import { compose as flow, branch, renderNothing } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import * as ROUTE from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
@@ -37,10 +37,10 @@ SignUpMessageResend.propTypes = {
   firstName: PropTypes.string.isRequired
 }
 
-const enhance = compose(
+const enhance = flow(
   (render =>
       branch(render, renderNothing)
-  )(R.pipe(R.prop('email'), R.not)),
+  )(compose(not, prop('email'))),
   withStyles(styles),
 )
 

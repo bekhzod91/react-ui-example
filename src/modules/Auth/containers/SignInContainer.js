@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import { path } from 'ramda'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
@@ -11,13 +11,13 @@ import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
   loading: (
-    R.path([STATE.SING_IN, 'loading'], state) ||
-    R.path([STATE.TWITTER_REDIRECT, 'loading'], state)
+    path([STATE.SING_IN, 'loading'], state) ||
+    path([STATE.TWITTER_REDIRECT, 'loading'], state)
   ),
-  twitter: R.path([STATE.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
-  token: R.path([STATE.SING_IN, 'data', 'token'], state),
-  error: R.path([STATE.SING_IN, 'error'], state),
-  formValues: R.path(['form', 'SignInForm', 'values'], state)
+  twitter: path([STATE.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
+  token: path([STATE.SING_IN, 'data', 'token'], state),
+  error: path([STATE.SING_IN, 'error'], state),
+  formValues: path(['form', 'SignInForm', 'values'], state)
 })
 
 const mapPropsToComponent = props => {

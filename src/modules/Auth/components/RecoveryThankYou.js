@@ -1,4 +1,4 @@
-import { compose, prop, not  } from 'ramda'
+import { compose, prop, not } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose as flow, branch, renderNothing } from 'recompose'

@@ -1,6 +1,6 @@
 import {
   pipe, curry, path, pathOr, prop, filter, map, head, sort, whereEq, not, gte, any, split, without,
-  isNil, equals
+  isNil, equals, findLast
 } from 'ramda'
 import React from 'react'
 import { compose, pure, mapProps, withHandlers, defaultProps } from 'recompose'

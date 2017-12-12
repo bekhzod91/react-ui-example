@@ -1,11 +1,10 @@
 import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
 import promiseMiddleware from 'redux-promise-middleware'
 import { routerMiddleware } from 'react-router-redux'
 import { makeRootReducer } from './reducers'
 
-const createStore = (initialState = {}) => {
+const createStore = (history, initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
@@ -30,7 +29,7 @@ const createStore = (initialState = {}) => {
   // ======================================================
   // Redux router middleware
   // ======================================================
-  const reduxRouterMiddleware = routerMiddleware(browserHistory)
+  const reduxRouterMiddleware = routerMiddleware(history)
   middleware.push(reduxRouterMiddleware)
 
   // ======================================================

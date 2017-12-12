@@ -1,15 +1,16 @@
 import React from 'react'
-import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
+import ConnectedRouter from 'react-router-redux/ConnectedRouter'
+import { renderRoutes } from 'react-router-config'
 import PropTypes from 'prop-types'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { syncHistoryWithStore } from 'react-router-redux'
 import { muiTheme } from '../styles/themes'
 
 class App extends React.Component {
   static propTypes = {
     store: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   shouldComponentUpdate () {
@@ -17,14 +18,14 @@ class App extends React.Component {
   }
 
   render () {
-    const history = syncHistoryWithStore(browserHistory, this.props.store)
-
     return (
       <Provider store={this.props.store}>
         <MuiThemeProvider theme={muiTheme}>
-          <div style={{ height: '100%' }}>
-            <Router history={history} children={this.props.routes} />
-          </div>
+          <ConnectedRouter history={this.props.history}>
+            <div style={{ height: '100%' }}>
+              {renderRoutes([this.props.routes])}
+            </div>
+          </ConnectedRouter>
         </MuiThemeProvider>
       </Provider>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
 import * as ROUTER from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'

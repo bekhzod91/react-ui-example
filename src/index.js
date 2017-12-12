@@ -2,12 +2,14 @@ import Rx from 'rxjs'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { setObservableConfig } from 'recompose'
+import createHistory from 'history/createBrowserHistory'
 import createStore from './store'
 import './styles/main.scss'
 
 // Store Initialization
 // ------------------------------------
-const store = createStore(window.__INITIAL_STATE__)
+const history = createHistory()
+const store = createStore(history, window.__INITIAL_STATE__)
 
 // RxJs setup
 // ------------------------------------
@@ -25,7 +27,11 @@ let render = () => {
   const routes = require('./modules').default(store)
 
   ReactDOM.render(
-    <App store={store} routes={routes} />,
+    <App
+      store={store}
+      history={history}
+      routes={routes}
+    />,
     MOUNT_NODE
   )
 }

@@ -1,7 +1,7 @@
 import { compose, curry, prop, path, __ } from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import IconButton from 'material-ui/IconButton'
 import EditIcon from 'material-ui-icons/Edit'

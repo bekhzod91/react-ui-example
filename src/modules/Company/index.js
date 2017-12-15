@@ -1,35 +1,26 @@
+import React from 'react'
+import { Switch } from 'react-router'
 import { injectReducers } from '../../reducers'
+import { AsyncComponent, RouteWithLayout } from '../../helpers/router'
+import AppLayout from '../../layout/AppLayout'
 import * as ROUTE from '../../constants/routes'
-import {
-  startLoadingAction,
-  finishLoadingAction
-} from '../../components/WithState/PageLoading/actions'
 
-const CompanyRoute = store => ({
-  getChildRoutes: (location, cb) => {
-    // Start loading
-    store.dispatch(startLoadingAction())
+const getCompanyContainer = (store) =>
+  import(/* webpackChunkName: "user" */ './reducers')
+    .then((module) => injectReducers(store, module.default))
+    .then(() => import(/* webpackChunkName: "user" */ './containers/CompanyContainer'))
+    .then(module => module.default)
 
-    require.ensure([], (require) => {
-      const reducers = require('./reducers').default
-      const companyContainer = require('./containers/CompanyContainer').default
-      injectReducers(store, reducers)
-
-      cb(null, [
-        {
-          path: ROUTE.COMPANY_LIST_URL,
-          component: companyContainer,
-          childRoutes: [{
-            path: ROUTE.COMPANY_DETAIL_URL,
-            component: companyContainer,
-          }]
-        }
-      ])
-    }, 'user').then(() => {
-      // Finish loading
-      store.dispatch(finishLoadingAction())
-    })
+export default (store) => ([
+  {
+    layout: AppLayout,
+    path: ROUTE.COMPANY_LIST_URL,
+    exact: true,
+    component: AsyncComponent(() => getCompanyContainer(store)),
+  },
+  {
+    layout: AppLayout,
+    path: ROUTE.COMPANY_DETAIL_URL,
+    component: AsyncComponent(() => getCompanyContainer(store))
   }
-})
-
-export default CompanyRoute
+])

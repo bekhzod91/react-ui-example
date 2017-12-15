@@ -2,7 +2,6 @@ import { map, prop, path } from 'ramda'
 import sprintf from 'sprintf'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { browserHistory } from 'react-router'
 import Avatar from 'material-ui/Avatar'
 import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
@@ -43,7 +42,7 @@ const styles = theme => ({
   }
 })
 
-const Companies = ({ classes, loading, list }) => {
+const Companies = ({ classes, push, loading, list }) => {
   const companies = map((item, index) => {
     const id = prop('id', item)
     const name = prop('name', item)
@@ -73,7 +72,7 @@ const Companies = ({ classes, loading, list }) => {
         <ListItem
           button={true}
           className={classes.companyItem}
-          onClick={() => browserHistory.push(companyPage)}>
+          onClick={() => push(companyPage)}>
           <ListItemAvatar>{logo}</ListItemAvatar>
           <ListItemText primary={name} secondary={activityInfo} />
           <KeyboardArrowRight />
@@ -94,7 +93,7 @@ const Companies = ({ classes, loading, list }) => {
       <ListItem
         button={true}
         className={classes.goBack}
-        onClick={() => browserHistory.push(ROUTE.SIGN_IN_URL)}>
+        onClick={() => push(ROUTE.SIGN_IN_URL)}>
         <KeyboardArrowLeft />
         <ListItemText primary="Go back" />
       </ListItem>

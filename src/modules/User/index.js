@@ -1,28 +1,15 @@
+import { AsyncComponent } from '../../helpers/router'
+import AppLayout from '../../layout/AppLayout'
 import * as ROUTE from '../../constants/routes'
-import {
-  startLoadingAction,
-  finishLoadingAction
-} from '../../components/WithState/PageLoading/actions'
+const getCompaniesContainer = () =>
+  import(/* webpackChunkName: "user" */ './containers/CompaniesContainer')
+    .then(module => module.default)
 
-const User = store => ({
-  path : '',
-  getChildRoutes: (location, cb) => {
-    // Start loading
-    store.dispatch(startLoadingAction())
-
-    require.ensure([], (require) => {
-      // injectReducers(store, require('./reducers').default)
-      cb(null, [
-        {
-          path: ROUTE.COMPANY_MY_LIST_URL,
-          component: require('./containers/CompaniesContainer').default,
-        },
-      ])
-    }, 'user').then(() => {
-      // Finish loading
-      store.dispatch(finishLoadingAction())
-    })
+export default (store) => ([
+  {
+    layout: AppLayout,
+    exact: true,
+    path: ROUTE.COMPANY_MY_LIST_URL,
+    component: AsyncComponent(getCompaniesContainer)
   }
-})
-
-export default User
+])

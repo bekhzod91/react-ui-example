@@ -6,7 +6,7 @@ import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get
 // ------------------------------------
 // Action fetch permissions list
 // ------------------------------------
-export const API_PERMISSION_URL = `/user/permissions/%s/`
+export const API_PERMISSION_URL = `/user/permissions/%d/`
 
 export const getPermissionsAction = (companyId) => {
   return (dispatch, getState) => {

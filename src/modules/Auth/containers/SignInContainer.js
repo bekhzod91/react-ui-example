@@ -1,6 +1,7 @@
 import { path } from 'ramda'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
 import { redirect } from '../../../helpers/window'
 import { fbLoginURL } from '../../../helpers/facebook'
@@ -43,7 +44,7 @@ const mapPropsToComponent = props => {
 }
 
 const enhance = compose(
-  connect(mapStateToProps, { ...actions }),
+  connect(mapStateToProps, { ...actions, push }),
   mapProps(mapPropsToComponent),
   withPropsOnChange(['twitter'], ({ twitter }) => {
     if (twitter) {

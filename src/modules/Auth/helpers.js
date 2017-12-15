@@ -1,6 +1,5 @@
 import { path, prop } from 'ramda'
 import { setToken } from '../../helpers/token'
-import { browserHistory } from 'react-router'
 import * as ROUTER from '../../constants/routes'
 
 export const watchSocailAuth = ({ location, ...props }) => {
@@ -26,9 +25,9 @@ export const watchSocailAuth = ({ location, ...props }) => {
   }
 }
 
-export const watchAuthToken = ({ token, formValues, location }) => {
+export const watchAuthToken = ({ token, formValues, location, push }) => {
   if (token) {
     setToken(token, prop('rememberMe', formValues))
-    browserHistory.push(path(['query', 'redirect'], location) || ROUTER.COMPANY_MY_LIST_URL)
+    push(path(['query', 'redirect'], location) || ROUTER.COMPANY_MY_LIST_URL)
   }
 }

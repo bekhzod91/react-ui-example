@@ -1,6 +1,6 @@
-import { path, is, equals } from 'ramda'
+import { path, is, equals, curry } from 'ramda'
+import { push } from 'react-router-redux'
 import axios from 'axios'
-import { browserHistory } from 'react-router'
 import { API_URL } from '../constants/api'
 import * as ROUTE from '../constants/routes'
 import * as STATE from '../constants/state'
@@ -23,17 +23,17 @@ const responseToCamelCase = (data, response) => {
   return data
 }
 
-const apiErrorHandler = (error) => {
+const apiErrorHandler = curry((push, error) => {
   const status = path(['response', 'status'], error)
 
   if (equals(INTERNAL_ERROR, status)) {
-    browserHistory.push(ROUTE.INTERNAL_SERVER_ERROR)
+    push(ROUTE.INTERNAL_SERVER_ERROR)
   }
 
   return Promise.reject(error)
-}
+})
 
-export default ({ getState }) => {
+export default ({ getState, dispatch }) => {
   const state = getState()
   const token = path([STATE.SING_IN, 'data', 'token'], state)
 
@@ -42,7 +42,7 @@ export default ({ getState }) => {
 
   axios.defaults.headers.common['Authorization'] = token && `Token ${token}`
 
-  axios.interceptors.response.use(response => response, apiErrorHandler)
+  axios.interceptors.response.use(response => response, apiErrorHandler(dispatch(push)))
 
   return axios
 }

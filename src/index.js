@@ -24,13 +24,13 @@ const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
   const App = require('./components/App').default
-  const routes = require('./modules').default(store)
+  const renderRoute = require('./modules').default
 
   ReactDOM.render(
     <App
       store={store}
       history={history}
-      routes={routes}
+      renderRoute={renderRoute}
     />,
     MOUNT_NODE
   )

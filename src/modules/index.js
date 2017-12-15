@@ -1,9 +1,7 @@
 // We only need to import the modules necessary for initial render
-import { compose } from 'recompose'
-import BaseLayout from '../components/Layouts/BaseLayout'
-import AuthWrapperContainer from './Auth/containers/AuthWrapperContainer'
-import CompanyContainer from './User/containers/CompanyContainer'
-import PermissionContainer from './User/containers/PermissionContainer'
+import React from 'react'
+import { Switch } from 'react-router'
+import { RouteWithLayout } from '../helpers/router'
 import Dashboard from './Dashboard'
 import Auth from './Auth'
 import User from './User'
@@ -11,43 +9,31 @@ import Error from './Error'
 import Company from './Company'
 import Common from './Common'
 
-/*  Note: Instead of using JSX, we recommend using react-router
-    PlainRoute objects to build route definitions.   */
+// const RouteWithSubRoutes = ({ layout, ...route }) => (
+//   <Route path={route.path} render={props => (
+//     // pass the sub-routes down to keep nesting
+//     React.createElement(layout, props, React.createElement(route.component, { ...props, routes: route.routes }))
+//   )} />
+// )
 
-export const createRoutes = (store) => ({
-  path        : '/',
-  component   : compose(
-    AuthWrapperContainer,
-    CompanyContainer,
-    PermissionContainer
-  )(BaseLayout),
-  indexRoute  : Dashboard(store),
-  childRoutes : [
-    Dashboard(store),
-    Auth(store),
-    User(store),
-    Company(store),
-    Common(store),
-    Error(store),
-  ],
-})
+export default (store) => {
+  const routes = [
+    ...Auth(store),
+    ...User(store),
+    ...Dashboard(store),
+    ...Common(store),
+    ...Company(store),
+    ...Error(store),
+  ]
 
-/*  Note: childRoutes can be chunked or otherwise loaded programmatically
-    using getChildRoutes with the following signature:
-
-    getChildRoutes (location, cb) {
-      require.ensure([], (require) => {
-        cb(null, [
-          // Remove imports!
-          require('./Counter').default(store)
-        ])
-      })
-    }
-
-    However, this is not necessary for code-splitting! It simply provides
-    an API for async route definitions. Your code splitting should occur
-    inside the route `getComponent` function, since it is only invoked
-    when the route exists and matches.
-*/
-
-export default createRoutes
+  console.log(routes)
+  return (
+    <div style={{ height: '100%' }}>
+      <Switch>
+        {routes.map((route, i) => (
+          <RouteWithLayout key={i} {...route} />
+        ))}
+      </Switch>
+    </div>
+  )
+}

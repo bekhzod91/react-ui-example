@@ -20,7 +20,7 @@ const enhance = compose(
   connect(mapStateToProps, { signUpEmailConfirmAction, push }),
   withPropsOnChange(['loading'], (props) => {
     if (!props.loading) {
-      const code = path(['params', 'code'], props)
+      const code = path(['match', 'params', 'code'], props)
       props.signUpEmailConfirmAction(code)
         .catch(() => props.push(ROUTE.SIGN_IN_URL))
     }

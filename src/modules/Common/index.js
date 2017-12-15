@@ -1,24 +1,15 @@
+import { AsyncComponent } from '../../helpers/router'
+import AppLayout from '../../layout/AppLayout'
 import * as ROUTE from '../../constants/routes'
-import { startLoadingAction, finishLoadingAction } from '../../components/WithState/PageLoading/actions'
-import UserIsAuthenticated from '../../permissions/UserIsAuthenticated'
 
-export default (store) => ({
-  path: '',
-  getChildRoutes: (location, cb) => {
-    // Start loading
-    store.dispatch(startLoadingAction())
+const getSettingsContainer = () =>
+  import(/* webpackChunkName: "settings" */ './containers/SettingsContainer')
+    .then(module => module.default)
 
-    require.ensure([], (require) => {
-      // injectReducers(store, require('./reducers').default)
-      cb(null, [
-        {
-          path: ROUTE.COMMON_SETTINGS_URL,
-          component: UserIsAuthenticated(require('./containers/SettingsContainer').default)
-        },
-      ])
-    }, 'settings').then(() => {
-      // Finish loading
-      store.dispatch(finishLoadingAction())
-    })
+export default (store) => ([
+  {
+    layout: AppLayout,
+    path: ROUTE.COMMON_SETTINGS_URL,
+    component: AsyncComponent(getSettingsContainer)
   }
-})
+])

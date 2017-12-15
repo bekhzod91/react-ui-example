@@ -1,11 +1,12 @@
-import { compose, curry, filter, prop, propOr, path, pathOr, head, whereEq } from 'ramda'
+import { compose, isNil, not, curry, filter, prop, propOr, path, pathOr, head, whereEq } from 'ramda'
 import { compose as flow, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'
 import { fetchMyCompaniesAction } from '../actions/myCompanies'
+import { getCompanyIdFromProps } from '../../../helpers/get'
 
 const mapStateToProps = (state, props) => {
-  const companyId = path(['params', 'companyId'], props)
+  const companyId = getCompanyIdFromProps(props)
   const getCompanyLoading = path([STATE.USER_COMPANIES, 'loading'])
   const getCompanyList = pathOr([], [STATE.USER_COMPANIES, 'data'])
   const getCompanyNameOr = curry((defaultName, state) =>
@@ -33,8 +34,8 @@ export default flow(
   mapPropsStream(props$ => {
     props$
       .filter(prop('token'))
-      .filter(path(['params', 'companyId']))
-      .distinctUntilChanged(null, path(['params', 'companyId']))
+      .filter(path(['match', 'params', 'companyId']))
+      .distinctUntilChanged(null, path(['match', 'params', 'companyId']))
       .subscribe(props => props.fetchMyCompaniesAction())
 
     return props$

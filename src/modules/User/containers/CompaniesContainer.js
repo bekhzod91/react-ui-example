@@ -1,6 +1,7 @@
 import { path, pathOr } from 'ramda'
 import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 import Companies from '../components/Companies'
 import * as STATE from '../../../constants/state'
 import { fetchMyCompaniesAction } from '../actions/myCompanies'
@@ -11,7 +12,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  fetchMyCompaniesAction
+  fetchMyCompaniesAction,
+  push
 }
 
 export default compose(

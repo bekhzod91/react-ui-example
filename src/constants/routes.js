@@ -55,7 +55,7 @@ export const USER_DETAIL_PATH = `${USER_LIST_URL}/%d`
 // COMPANY ROUTES
 export const COMPANY = 'company'
 export const COMPANY_LIST_URL = `${COMPANY_MY_URL}/${COMPANY}`
-export const COMPANY_DETAIL_URL = `:id`
+export const COMPANY_DETAIL_URL = `${COMPANY_LIST_URL}/:id`
 export const COMPANY_LIST_PATH = `${COMPANY_MY_PATH}/${COMPANY}`
 export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/%d`
 

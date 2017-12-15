@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router'
 import Settings from '../components/Settings'
 
-export default Settings
+export default withRouter(Settings)

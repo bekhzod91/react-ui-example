@@ -2,6 +2,7 @@ import { compose, prop, omit, path } from 'ramda'
 import sprintf from 'sprintf'
 import { compose as composeR, pure, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import * as STATE from '../../../constants/state'
 import * as ROUTE from '../../../constants/routes'
@@ -51,6 +52,7 @@ const mapDispatchToProps = {
 
 export default composeR(
   UserIsAuthenticated,
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   // List fetch
   mapPropsStream((props$) => {
@@ -80,8 +82,8 @@ export default composeR(
 
     onOpenFilter$
       .withLatestFrom(props$)
-      .subscribe(([event, { push, location, params }]) => {
-        const companyId = parseInt(prop('companyId', params))
+      .subscribe(([event, { push, location, match }]) => {
+        const companyId = parseInt(path(['params', 'companyId'], match))
         const search = prop('search', location)
         const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, companyId)
         const fullPath = `${pathname}${search}`

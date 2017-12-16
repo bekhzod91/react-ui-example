@@ -1,4 +1,4 @@
-import { compose, isNil, not, curry, filter, prop, propOr, path, pathOr, head, whereEq } from 'ramda'
+import { compose, curry, filter, prop, propOr, path, pathOr, head, whereEq } from 'ramda'
 import { compose as flow, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import * as STATE from '../../../constants/state'

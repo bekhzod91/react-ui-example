@@ -1,7 +1,5 @@
-import React from 'react'
-import { Switch } from 'react-router'
 import { injectReducers } from '../../reducers'
-import { AsyncComponent, RouteWithLayout } from '../../helpers/router'
+import { AsyncComponent } from '../../helpers/router'
 import AppLayout from '../../layout/AppLayout'
 import * as ROUTE from '../../constants/routes'
 

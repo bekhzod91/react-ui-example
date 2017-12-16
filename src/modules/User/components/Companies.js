@@ -115,6 +115,7 @@ Companies.propTypes = {
   classes: PropTypes.object.isRequired,
   list: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
+  push: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(Companies)

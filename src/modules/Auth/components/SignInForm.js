@@ -71,7 +71,6 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
         label="Remember me"
       />
 
-      <Link to={ROUTER.RECOVERY_URL}>Forgot Password?</Link>
     </div>
 
     <Button

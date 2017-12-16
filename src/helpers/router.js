@@ -22,7 +22,6 @@ export function AsyncComponent (getComponent) {
       const { Component } = this.state
 
       if (Component) {
-        console.log(Component)
         return <Component {...this.props} />
       }
 

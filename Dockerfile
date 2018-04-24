@@ -11,7 +11,7 @@ baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch\n\
 enabled=1\n\
 gpgcheck=1\n\
 gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub' > /etc/yum.repos.d/google-chrome.repo
-RUN yum -y install epel-release
+RUN yum install -y epel-release
 RUN yum install -y google-chrome-stable
 RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y liberation-mono-fonts liberation-narrow-fonts \

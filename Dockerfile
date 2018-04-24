@@ -1,6 +1,6 @@
 FROM centos
 
-ENV PROJECT_NAME gc1_ui
+ENV PROJECT_NAME gs1_ui
 
 #####################################
 # Install Chrome

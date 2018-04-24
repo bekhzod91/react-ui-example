@@ -16,6 +16,7 @@ RUN yum install -y google-chrome-stable
 RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y liberation-mono-fonts liberation-narrow-fonts \
                    liberation-sans-fonts liberation-serif-fonts
+RUN rm -rf /var/cache/yum
 
 
 ##############################
@@ -60,7 +61,7 @@ RUN source ~/.bashrc && nvm use 8.9.3
 RUN source ~/.bashrc && curl -o- -L https://yarnpkg.com/install.sh | bash > /dev/null
 
 # Copy project files
-COPY . /var/www/$PROJECT_NAME
+COPY --chown=app . /var/www/$PROJECT_NAME
 
 ###############################
 # Install node dependency

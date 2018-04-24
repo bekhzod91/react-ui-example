@@ -18,6 +18,7 @@ export function AsyncComponent (getComponent) {
         })
       }
     }
+
     render () {
       const { Component } = this.state
 

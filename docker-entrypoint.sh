@@ -2,7 +2,7 @@
 set -e
 
 export HOME=/home/app
-export PROJECT_DIR=/var/www/unkata-ui
+export PROJECT_DIR=/var/www/gc1_ui
 
 # Go to directory
 cd $PROJECT_DIR

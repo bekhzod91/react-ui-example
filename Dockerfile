@@ -1,6 +1,6 @@
 FROM centos
 
-ENV PROJECT_NAME unkata-ui
+ENV PROJECT_NAME gc1_ui
 
 #####################################
 # Install Chrome

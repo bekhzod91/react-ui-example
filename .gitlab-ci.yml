@@ -1,7 +1,7 @@
 before_script:
   - "export PATH=$PATH:/usr/local/bin"
-  - "export PROJECT_DIR=/var/www/unkata-ui"
-  - "export BUILD_DIR=~/unkata-ui"
+  - "export PROJECT_DIR=/var/www/gc1_ui"
+  - "export BUILD_DIR=~/gc1_ui"
 
   # Information
   - "whoami"

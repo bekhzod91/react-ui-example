@@ -10,7 +10,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./dist:/var/www/unkata-ui/dist
+      - ./dist:/var/www/gc1_ui/dist
 
 volumes:
   web:

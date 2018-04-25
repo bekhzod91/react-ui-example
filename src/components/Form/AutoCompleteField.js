@@ -1,7 +1,7 @@
-import { BehaviorSubject } from 'rxjs'
 import { compose, prop, is, equals, curry } from 'ramda'
+import { BehaviorSubject } from 'rxjs'
 import React from 'react'
-import { compose as flow, withState, mapPropsStream, createEventHandler } from 'recompose'
+import { mapPropsStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import Autosuggest from 'react-autosuggest'
 import withStyles from 'material-ui/styles/withStyles'
@@ -157,8 +157,7 @@ AutoCompleteField.defaultProps = {
   shouldRenderSuggestions: () => true,
 }
 
-export default flow(
-  withState('my', 'setMy', false),
+export default compose(
   mapPropsStream(props$ => {
     const { handler: onTyping, stream:  onTyping$ } = createEventHandler()
     const { handler: onFetchRequested, stream:  onFetchRequested$ } = createEventHandler()

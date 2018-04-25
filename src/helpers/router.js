@@ -33,7 +33,7 @@ export function AsyncComponent (getComponent) {
 
 export const RouteWithLayout = ({ layout, component, ...rest }) => {
   return (
-    <Route {...rest} render={(props) =>
+    <Route exect={true} {...rest} render={(props) =>
       React.createElement(layout, props, React.createElement(component, props))
     } />
   )

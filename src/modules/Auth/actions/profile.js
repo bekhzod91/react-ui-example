@@ -5,7 +5,7 @@ import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get
 // ------------------------------------
 // Action fetchProfileAction
 // ------------------------------------
-export const API_PROFILE_URL = `/user/auth-confirm/`
+export const API_PROFILE_URL = `/me/`
 
 export const fetchProfileAction = (data) => {
   return (dispatch, getState) => {

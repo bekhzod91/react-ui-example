@@ -9,7 +9,6 @@ import Error from './Error'
 import Company from './Company'
 import Common from './Common'
 
-
 export default (store) => {
   const routes = [
     ...Auth(store),

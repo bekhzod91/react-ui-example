@@ -6,7 +6,7 @@ import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get
 // ------------------------------------
 // Action Sign In
 // ------------------------------------
-export const API_SIGN_IN_URL = `/user/auth/`
+export const API_SIGN_IN_URL = `/auth/`
 
 export const signInAction = (formValues) => {
   return (dispatch, getState) => {

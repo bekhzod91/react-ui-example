@@ -44,10 +44,10 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     {error && <div className={classes.generalError}>{error}</div>}
 
     <Field
-      name="email"
+      name="username"
       component={TextField}
-      label="Email"
-      placeholder="Enter Email"
+      label="Username"
+      placeholder="Enter Username"
       fullWidth={true}
       margin="normal"
     /><br />

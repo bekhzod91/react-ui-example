@@ -2,7 +2,7 @@ import { prop } from 'ramda'
 
 export const signInSerializer = (formValue) => {
   return {
-    email: prop('email', formValue),
+    username: prop('username', formValue),
     password: prop('password', formValue),
   }
 }

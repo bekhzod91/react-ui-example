@@ -125,6 +125,77 @@ const styles = theme => ({
   }
 })
 
+const enhance = compose(
+  withStyles(styles),
+  defaultProps({
+    getById: path(['id']),
+    defaultRowsPerPage: 10,
+    checkboxEnable: true,
+    searchEnable: true,
+  }),
+  withHandlers({
+    onCheckAll: ({ getById, route, list }) => () => {
+      const { push, location } = route
+      const listIds = getIdsFromList(getById, list)
+      const fullPath = getFullPathFromLocation(location)
+
+      return push(addItemToSelect(fullPath, 'select', listIds))
+    },
+    onUnCheckAll: ({ getById, route, list }) => () => {
+      const { push, location } = route
+      const listIds = getIdsFromList(getById, list)
+      const fullPath = getFullPathFromLocation(location)
+
+      return push(removeItemFromSelect(fullPath, 'select', listIds))
+    },
+    onCheckItem: ({ route }) => (isChecked, id) => {
+      const { push, location } = route
+      const fullPath = getFullPathFromLocation(location)
+
+      if (isChecked) {
+        return push(addItemToSelect(fullPath, 'select', id))
+      }
+
+      return push(removeItemFromSelect(fullPath, 'select', id))
+    }
+  }),
+  mapProps((props) => {
+    const {
+      classes,
+      route,
+      list,
+      actions,
+      dialogs,
+      defaultRowsPerPage,
+      searchEnable
+    } = props
+
+    const loading = prop('loading', list)
+    const count = pathOr(0, ['data', 'count'], list)
+    const selectIds = getSelectIdsFromRoute(route)
+    const selectCount = length(selectIds)
+    const listIsEmpty = !loading && length(path(['data', 'results'], list)) === 0
+    const renderHeader = () => renderTableHeaderFromProps(props)
+    const renderBody = () => renderTableBodyFromProps(props)
+
+    return {
+      classes,
+      route,
+      count,
+      loading,
+      dialogs,
+      actions,
+      defaultRowsPerPage,
+      renderHeader,
+      renderBody,
+      listIsEmpty,
+      selectCount,
+      searchEnable
+    }
+  }),
+  pure
+)
+
 const Table = ({ classes, loading, dialogs, actions, renderHeader, renderBody, route, ...props }) => {
   const { count, listIsEmpty, selectCount, searchEnable, defaultRowsPerPage } = props
   const selectCountVisible = selectCount !== 0
@@ -202,76 +273,5 @@ Table.propTypes = {
   selectCount: PropTypes.number.isRequired,
   listIsEmpty: PropTypes.bool.isRequired,
 }
-
-const enhance = compose(
-  defaultProps({
-    getById: path(['id']),
-    defaultRowsPerPage: 10,
-    checkboxEnable: true,
-    searchEnable: true,
-  }),
-  withStyles(styles),
-  withHandlers({
-    onCheckAll: ({ getById, route, list }) => () => {
-      const { push, location } = route
-      const listIds = getIdsFromList(getById, list)
-      const fullPath = getFullPathFromLocation(location)
-
-      return push(addItemToSelect(fullPath, 'select', listIds))
-    },
-    onUnCheckAll: ({ getById, route, list }) => () => {
-      const { push, location } = route
-      const listIds = getIdsFromList(getById, list)
-      const fullPath = getFullPathFromLocation(location)
-
-      return push(removeItemFromSelect(fullPath, 'select', listIds))
-    },
-    onCheckItem: ({ route }) => (isChecked, id) => {
-      const { push, location } = route
-      const fullPath = getFullPathFromLocation(location)
-
-      if (isChecked) {
-        return push(addItemToSelect(fullPath, 'select', id))
-      }
-
-      return push(removeItemFromSelect(fullPath, 'select', id))
-    }
-  }),
-  mapProps((props) => {
-    const {
-      classes,
-      route,
-      list,
-      actions,
-      dialogs,
-      defaultRowsPerPage,
-      searchEnable
-    } = props
-
-    const loading = prop('loading', list)
-    const count = pathOr(0, ['data', 'count'], list)
-    const selectIds = getSelectIdsFromRoute(route)
-    const selectCount = length(selectIds)
-    const listIsEmpty = !loading && length(path(['data', 'results'], list)) === 0
-    const renderHeader = () => renderTableHeaderFromProps(props)
-    const renderBody = () => renderTableBodyFromProps(props)
-
-    return {
-      classes,
-      route,
-      count,
-      loading,
-      dialogs,
-      actions,
-      defaultRowsPerPage,
-      renderHeader,
-      renderBody,
-      listIsEmpty,
-      selectCount,
-      searchEnable
-    }
-  }),
-  pure
-)
 
 export default enhance(Table)

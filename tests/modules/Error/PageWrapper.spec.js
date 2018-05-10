@@ -2,8 +2,8 @@ import React from 'react'
 import Button from 'material-ui/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
-import PageWrapper from '../../../src/modules/Error/components/PageWrapper'
 import WrapperProvider from '../../WrapperProvider'
+import PageWrapper from '../../../src/modules/Error/components/PageWrapper'
 
 describe('(Component) PageWrapper', () => {
   let onGoHome, component, Children

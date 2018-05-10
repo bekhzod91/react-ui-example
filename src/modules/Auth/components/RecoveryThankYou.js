@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { compose as flow, branch, renderNothing } from 'recompose'
 import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
-import * as ROUTE from '../../../constants/routes'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
+import * as ROUTE from '../../../constants/routes'
 
 const styles = {
   footer: wrapStyle.footer

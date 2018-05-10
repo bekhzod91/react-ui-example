@@ -1,6 +1,6 @@
 import { concat, prop, slice } from 'ramda'
-import * as actions from './actions'
 import createReducer from '../../helpers/createReducer'
+import * as actions from './actions'
 
 export const defaultState = {
   loadPage: [],

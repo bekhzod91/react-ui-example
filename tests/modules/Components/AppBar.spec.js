@@ -1,6 +1,6 @@
-import React from 'react'
-import sinon from 'sinon'
 import { mount } from 'enzyme'
+import sinon from 'sinon'
+import React from 'react'
 import AppBar from '../../../src/components/AppBar'
 import MenuHeader from '../../../src/components/Menu/MenuHeader'
 import MenuIcon from '../../../src/components/Menu/MenuIcon'

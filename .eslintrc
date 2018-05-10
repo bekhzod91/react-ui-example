@@ -10,7 +10,8 @@
   "plugins": [
     "babel",
     "react",
-    "promise"
+    "promise",
+    "import"
   ],
   "env": {
     "browser": true
@@ -48,6 +49,7 @@
       2,
       2
     ],
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "import/order": ["error", {"groups": ["builtin", "external", "parent", "sibling", "index"]}]
   }
 }

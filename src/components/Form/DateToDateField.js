@@ -3,12 +3,12 @@ import { BehaviorSubject } from 'rxjs'
 import { DateRangePicker } from 'react-dates'
 import { compose, mapPropsStream, createEventHandler } from 'recompose'
 import '../../styles/datepicker.css'
-import * as DATE from '../../constants/dateFormat'
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui/styles/withStyles'
 import DateRangeIcon from 'material-ui-icons/DateRange'
 import ArrowForwardIcon from 'material-ui-icons/ArrowForward'
+import * as DATE from '../../constants/dateFormat'
 
 const styles = theme => ({
   root: {

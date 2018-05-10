@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import * as ROUTE from '../../../constants/routes'
 import { getRouteFromProps } from '../../../helpers/get'
 import AppBar from '../../../components/AppBar'
-import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
+import CompanyList from './CompanyList'
 
 const Company = ({ list, filter, ...props }) => {
   const route = getRouteFromProps(props)

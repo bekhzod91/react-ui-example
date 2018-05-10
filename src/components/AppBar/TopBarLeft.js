@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui/styles/withStyles'
+import IconButton from 'material-ui/IconButton'
+import AccountIcon from '../Icon/AccountIcon'
+import SidebarIcon from '../Icon/SidebarIcon'
 import * as STYLE from '../../styles/style'
 import logo from './logo-icon.png'
-import IconButton from 'material-ui/IconButton'
-import SidebarIcon from '../Icon/SidebarIcon'
-import AccountIcon from '../Icon/AccountIcon'
 
 const styles = {
   root: {

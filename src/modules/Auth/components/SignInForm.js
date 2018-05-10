@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose } from 'recompose'
-import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
+import { Link } from 'react-router-dom'
+import { Field, reduxForm } from 'redux-form'
+import { compose } from 'recompose'
+import PropTypes from 'prop-types'
+import React from 'react'
 import TextField from '../../../components/Form/TextField'
 import PasswordViewField from '../../../components/Form/PasswordViewField'
 import Checkbox from '../../../components/Form/Checkbox'
@@ -77,6 +77,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
     <Button
       type="submit"
       color="primary"
+      variant="raised"
       className={classes.submit}>
       Sign In
     </Button>

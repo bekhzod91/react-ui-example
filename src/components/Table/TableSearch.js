@@ -6,8 +6,8 @@ import { fade } from 'material-ui/styles/colorManipulator'
 import withStyles from 'material-ui/styles/withStyles'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui-icons/Search'
-import { appendParamsToUrl } from '../../helpers/urls'
 import { getFullPathFromLocation } from '../../helpers/get'
+import { appendParamsToUrl } from '../../helpers/urls'
 import { getSearchFromRoute } from './helper'
 
 const styles = theme => ({

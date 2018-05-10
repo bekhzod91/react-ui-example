@@ -9,8 +9,8 @@ import withStyles from 'material-ui/styles/withStyles'
 import Avatar from 'material-ui/Avatar'
 import PhotoCamera from 'material-ui-icons/PhotoCamera'
 import { Field, reduxForm } from 'redux-form'
-import TextField from '../../../../components/Form/TextField'
 import Slide from 'material-ui/transitions/Slide'
+import TextField from '../../../../components/Form/TextField'
 
 const styles = theme => ({
   dialogHeader: {

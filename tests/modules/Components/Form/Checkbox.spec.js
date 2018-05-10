@@ -1,6 +1,6 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
 import { mount } from 'enzyme'
+import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import Checkbox from '../../../../src/components/Form/Checkbox'
 import validate from '../../../../src/helpers/validate'
 import WrapperProvider from '../../../WrapperProvider'

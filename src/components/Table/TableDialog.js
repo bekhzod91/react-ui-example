@@ -8,9 +8,9 @@ import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import IconButton from 'material-ui/IconButton'
 import CloseIcon from 'material-ui-icons/Close'
-import Fade from '../Transitions/Fade'
-import Slide from '../Transitions/Slide'
 import addEventListener from '../../helpers/addEventListener'
+import Slide from '../Transitions/Slide'
+import Fade from '../Transitions/Fade'
 
 const styles = theme => ({
   root: {

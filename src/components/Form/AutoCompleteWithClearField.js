@@ -6,8 +6,8 @@ import IconButton from 'material-ui/IconButton'
 import withStyles from 'material-ui/styles/withStyles'
 import ClearIcon from 'material-ui-icons/Clear'
 import SearchIcon from 'material-ui-icons/Search'
-import TextField from './TextField'
 import AutoCompleteField from './AutoCompleteField'
+import TextField from './TextField'
 
 const styles = {
   hide: {

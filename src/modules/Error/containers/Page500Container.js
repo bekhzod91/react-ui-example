@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { compose, withHandlers } from 'recompose'
-import * as ROUTE from '../../../constants/routes'
 import Page500 from '../components/Page500'
+import * as ROUTE from '../../../constants/routes'
 
 export default compose(
   connect(null, { push }),

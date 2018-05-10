@@ -3,9 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withHandlers, getContext } from 'recompose'
 import { MenuItem } from 'material-ui/Menu'
-import axios from '../../../../helpers/axios'
-import * as API from '../../../../constants/api'
 import AutoCompleteWithClearField from '../../../../components/Form/AutoCompleteWithClearField'
+import * as API from '../../../../constants/api'
+import axios from '../../../../helpers/axios'
 
 const CompanySearchField = ({ ...props }) => {
   return (

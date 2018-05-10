@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from 'material-ui/styles/withStyles'
-import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 import SignInForm from '../components/SignInForm'
+import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 
 const styles = {
   footer: wrapStyle.footer

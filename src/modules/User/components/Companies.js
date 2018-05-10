@@ -9,9 +9,9 @@ import CircularProgress from 'material-ui/Progress/CircularProgress'
 import withStyles from 'material-ui/styles/withStyles'
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
-import * as ROUTE from '../../../constants/routes'
-import { fromNow } from '../../../helpers/dateFormat'
 import AuthLayout from '../../../components/Layouts/AuthLayout'
+import { fromNow } from '../../../helpers/dateFormat'
+import * as ROUTE from '../../../constants/routes'
 
 const styles = theme => ({
   avatarWithOutLogo: {

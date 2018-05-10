@@ -16,9 +16,9 @@ import {
   isEmpty,
   findIndex, omit, map, not, either, isNil,
 } from 'ramda'
+import sprintf from 'sprintf'
 import { getQueryFromUrl } from './urls'
 import { parseUrlParams, serializer } from './form'
-import sprintf from 'sprintf'
 
 export const getBooleanFromString = (boolean) => compose(
   ifElse(equals('false'), always(false), always(true)),

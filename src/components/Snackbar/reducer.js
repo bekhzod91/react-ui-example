@@ -1,5 +1,5 @@
-import * as actions from './actions'
 import createReducer from '../../helpers/createReducer'
+import * as actions from './actions'
 
 export const defaultState = {
   open: false,

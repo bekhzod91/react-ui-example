@@ -73,6 +73,7 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
 
     <Button
       type="submit"
+      variant="raised"
       color="primary"
       className={classes.button}
       fullWidth={true}>

@@ -4,10 +4,10 @@ import { compose, withState, withHandlers } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import Toolbar from 'material-ui/Toolbar'
 import MUIAppBar from 'material-ui/AppBar'
-import menus from '../../constants/menus'
-import { getMenusByPermissions } from '../../helpers/menu'
-import { getStorage, setStorage } from '../../helpers/localStorage'
 import Menu from '../Menu/Menu'
+import { getStorage, setStorage } from '../../helpers/localStorage'
+import { getMenusByPermissions } from '../../helpers/menu'
+import menus from '../../constants/menus'
 import TopBarLeft from './TopBarLeft'
 
 const styles = {

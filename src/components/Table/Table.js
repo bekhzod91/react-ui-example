@@ -6,18 +6,18 @@ import classNames from 'classnames'
 import withStyles from 'material-ui/styles/withStyles'
 import CircularProgress from 'material-ui/Progress/CircularProgress'
 import Fade from 'material-ui/transitions/Fade'
-import TableSearch from '../Table/TableSearch'
-import TableFooter from '../../components/Table/TableFooter'
-import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
-import { getFullPathFromLocation } from '../../helpers/get'
 import Render from '../../components/Transitions/Render'
+import { getFullPathFromLocation } from '../../helpers/get'
+import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
+import TableFooter from '../../components/Table/TableFooter'
+import TableSearch from '../Table/TableSearch'
+import NotFoundImage from './searchIcon.svg'
 import {
   getIdsFromList,
   getSelectIdsFromRoute,
   renderTableBodyFromProps,
   renderTableHeaderFromProps
 } from './helper'
-import NotFoundImage from './searchIcon.svg'
 
 const styles = theme => ({
   root: {

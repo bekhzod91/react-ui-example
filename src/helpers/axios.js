@@ -1,6 +1,6 @@
-import { path, is, equals, curry } from 'ramda'
-import { push } from 'react-router-redux'
 import axios from 'axios'
+import { push } from 'react-router-redux'
+import { path, is, equals, curry } from 'ramda'
 import { API_URL } from '../constants/api'
 import * as ROUTE from '../constants/routes'
 import * as STATE from '../constants/state'

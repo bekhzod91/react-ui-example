@@ -7,7 +7,8 @@ import withStyles from 'material-ui/styles/withStyles'
 const styles = theme => ({
   input: {
     '&:before': {
-      height: '2px'
+      height: '2px',
+      backgroundColor: `${theme.palette.input.bottomLine} !important`
     },
     '&:hover:before': {
       height: '2px !important',
@@ -30,30 +31,34 @@ const styles = theme => ({
   }
 })
 
-const TextField = ({ classes, input, meta: { error }, placeholder, helperText, ...defaultProps }) => (
-  <MUITextField
-    InputProps={{
-      placeholder: placeholder,
-      className: classNames({
-        [classes.input]: !error,
-        [classes.inputError]: error
-      })
-    }}
-    helperText={error || helperText}
-    helperTextClassName={classNames({
-      [classes.helperTextError]: error
-    })}
-    {...input}
-    {...defaultProps}
-  />
-)
+const TextField = ({ classes, input, meta: { error }, placeholder, helperText, inputProps, ...defaultProps }) => {
+  return (
+    <MUITextField
+      InputProps={{
+        placeholder: placeholder,
+        className: classNames({
+          [classes.input]: !error,
+          [classes.inputError]: error
+        }),
+        ...inputProps
+      }}
+      helperText={error || helperText}
+      helperTextClassName={classNames({
+        [classes.helperTextError]: error
+      })}
+      {...input}
+      {...defaultProps}
+    />
+  )
+}
 
 TextField.propTypes = {
   classes: PropTypes.object.isRequired,
   placeholder: PropTypes.string,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
-  helperText: PropTypes.string
+  helperText: PropTypes.string,
+  inputProps: PropTypes.object,
 }
 
 export default withStyles(styles)(TextField)

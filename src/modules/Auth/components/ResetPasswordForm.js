@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import withStyles from 'material-ui/styles/withStyles'
-import PasswordViewField from '../../../components/Form/PasswordViewField'
-import Button from '../../../components/Button'
-import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
+import validate from '../../../helpers/validate'
+import Button from '../../../components/Button'
+import PasswordViewField from '../../../components/Form/PasswordViewField'
 
 export const FORM = 'ResetPasswordForm'
 
@@ -45,6 +45,7 @@ const ResetPasswordForm = ({ classes, error, handleSubmit, ...props }) => (
 
     <Button
       type="submit"
+      variant="raised"
       color="primary"
       className={classes.button}
       fullWidth={true}>

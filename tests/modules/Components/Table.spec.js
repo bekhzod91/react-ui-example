@@ -5,9 +5,9 @@ import { mount } from 'enzyme'
 import CircularProgress from 'material-ui/Progress/CircularProgress'
 import { TablePagination } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
-import { Table, TableCell, TableRow, TableHeader, TableColumn, TableSearch } from '../../../src/components/Table'
-import WrapperProvider from '../../WrapperProvider'
 import createStore from '../../../src/store/createStore'
+import WrapperProvider from '../../WrapperProvider'
+import { Table, TableCell, TableRow, TableHeader, TableColumn, TableSearch } from '../../../src/components/Table'
 
 describe('(Component) Table', () => {
   const Action = () => <div>Action</div>

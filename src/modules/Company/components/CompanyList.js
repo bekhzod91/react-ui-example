@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 import IconButton from 'material-ui/IconButton'
 import EditIcon from 'material-ui-icons/Edit'
 import DeleteIcon from 'material-ui-icons/Delete'
-import * as ROUTE from '../../../constants/routes'
-import * as DATE_FORMAT from '../../../constants/dateFromat'
-import { fromNow } from '../../../helpers/dateFormat'
-import { appendParamsToUrl } from '../../../helpers/urls'
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
-import CompanyListFilterForm from './CompanyListFilterForm'
+import { appendParamsToUrl } from '../../../helpers/urls'
+import { fromNow } from '../../../helpers/dateFormat'
+import * as DATE_FORMAT from '../../../constants/dateFromat'
+import * as ROUTE from '../../../constants/routes'
 import CompanyListActions from './CompanyListActions'
+import CompanyListFilterForm from './CompanyListFilterForm'
 
 const CompanyList = ({ route, filter, list, detail }) => {
   const companyId = prop('companyId', route)

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
 import withStyles from 'material-ui/styles/withStyles'
-import TextField from '../../../components/Form/TextField'
-import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
+import Button from '../../../components/Button'
+import TextField from '../../../components/Form/TextField'
 
 export const FORM = 'RecoverForm'
 
@@ -45,6 +45,7 @@ const RecoverForm = ({ classes, error, handleSubmit, ...props }) => (
     <Button
       type="submit"
       color="primary"
+      variant="raised"
       className={classes.button}
       fullWidth={true}>
       Reset

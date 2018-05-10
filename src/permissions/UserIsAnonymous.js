@@ -1,6 +1,6 @@
 import { compose, path, not } from 'ramda'
-import * as STATE from '../constants/state'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect'
+import * as STATE from '../constants/state'
 
 export default connectedRouterRedirect({
   redirectPath: '/sign-in',

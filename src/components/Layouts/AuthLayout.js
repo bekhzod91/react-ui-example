@@ -2,8 +2,8 @@ import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
-import Logo from '../Logo'
 import BgImgWrapper from '../BgImgWarpper/BgImgWrapper'
+import Logo from '../Logo'
 
 export const styles = {
   content: {

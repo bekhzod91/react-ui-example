@@ -5,9 +5,9 @@ import { Field, reduxForm } from 'redux-form'
 import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
 import Button from 'material-ui/Button'
-import TableDialog from '../../../components/Table/TableDialog'
-import CompanySearchField from '../components/Form/CompanySearchField'
 import TextWithClearField from '../../../components/Form/TextWithClearField'
+import CompanySearchField from '../components/Form/CompanySearchField'
+import TableDialog from '../../../components/Table/TableDialog'
 
 const styles = {
   buttonGroup: {

@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
-import { getDefaultProps } from '../../helpers/app'
-import Snackbar from '../Snackbar'
 import PageLoading from '../PageLoading'
+import Snackbar from '../Snackbar'
+import { getDefaultProps } from '../../helpers/app'
 
 const styles = {
   '@global': {

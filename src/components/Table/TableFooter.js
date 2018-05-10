@@ -2,9 +2,9 @@ import React from 'react'
 import { TableFooter as TableFooterMUI, TableRow, TablePagination } from 'material-ui/Table'
 import PropTypes from 'prop-types'
 import { compose, withHandlers } from 'recompose'
+import { getFullPathFromLocation } from '../../helpers/get'
 import { appendParamsToUrl } from '../../helpers/urls'
 import { getPageFromRoute, getRowsPerPageFromRouteOr } from './helper'
-import { getFullPathFromLocation } from '../../helpers/get'
 
 const TableFooter = ({ count, onChangePage, defaultRowsPerPage, onChangeRowsPerPage, route }) => {
   const page = getPageFromRoute(route)

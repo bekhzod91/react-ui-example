@@ -6,10 +6,10 @@ import withStyles from 'material-ui/styles/withStyles'
 import List, { ListItem, ListItemIcon } from 'material-ui/List'
 import Avatar from 'material-ui/Avatar'
 import Collapse from 'material-ui/transitions/Collapse'
-import * as STYLE from '../../styles/style'
-import { checkMenuNameInsideMenu } from '../../helpers/menu'
-import avatar from './photo.jpg'
 import backgroundImage from '../Menu/header-sm-01.jpg'
+import { checkMenuNameInsideMenu } from '../../helpers/menu'
+import * as STYLE from '../../styles/style'
+import avatar from './photo.jpg'
 
 const STYLES_BG_IMG_SIZE = 65
 const mapWithIndex = addIndex(map)

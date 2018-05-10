@@ -3,9 +3,9 @@ import Button from 'material-ui/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
-import Page404 from '../../../src/modules/Error/components/Page404'
-import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
+import createStore from '../../../src/store/createStore'
+import Page404 from '../../../src/modules/Error/components/Page404'
 
 describe('(Component) Page404', () => {
   let onGoHome, component, store

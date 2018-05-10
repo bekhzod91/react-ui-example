@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
-import * as ROUTER from '../../../constants/routes'
-import ResetPasswordForm from '../components/ResetPasswordForm'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
+import ResetPasswordForm from '../components/ResetPasswordForm'
+import * as ROUTER from '../../../constants/routes'
 
 const styles = {
   footer: wrapStyle.footer

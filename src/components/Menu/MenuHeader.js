@@ -13,8 +13,8 @@ import KeyboardArrowUpIcon from 'material-ui-icons/KeyboardArrowUp'
 import AccountCircleIcon from 'material-ui-icons/AccountCircle'
 import SettingsIcon from 'material-ui-icons/Settings'
 import ExitToAppIcon from 'material-ui-icons/ExitToApp'
-import avatar from './photo.jpg'
 import backgroundImage from './header-sm-01.jpg'
+import avatar from './photo.jpg'
 
 const styles = theme => ({
   card: {

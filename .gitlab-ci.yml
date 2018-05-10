@@ -5,6 +5,7 @@ services:
 
 before_script:
   - docker info
+  - pip install docker-compose
   - docker-compose --version
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN lab.wienerdeming.com:4567
   - whoaim
@@ -25,7 +26,6 @@ build:
 test:
   stage: test
   script:
-    - pip install docker-compose
     - docker-compose -f docker-compose.test.yml run web
   tags:
     - staging
@@ -33,7 +33,6 @@ test:
 deploy:
   stage: deploy
   script:
-    - pip install docker-compose
     - docker-compose down
     - docker-compose run web
   only:

@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { setObservableConfig } from 'recompose'
 import createHistory from 'history/createBrowserHistory'
-import createStore from './store'
+import createStore from './store/createStore'
 import './styles/main.scss'
 
 // Store Initialization

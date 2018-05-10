@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import MUIMuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { muiTheme } from '../src/styles/themes'
-import createStore from '../src/store'
+import createStore from '../src/store/createStore'
 
 const WrapperProvider = ({ store, children }) => (
   <Provider store={store || createStore({})}>

@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import Page404 from '../../../src/modules/Error/components/Page404'
-import createStore from '../../../src/store'
+import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) Page404', () => {

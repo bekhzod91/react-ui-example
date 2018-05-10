@@ -4,7 +4,7 @@ import { mount } from 'enzyme'
 import Checkbox from '../../../../src/components/Form/Checkbox'
 import validate from '../../../../src/helpers/validate'
 import WrapperProvider from '../../../WrapperProvider'
-import createStore from '../../../../src/store'
+import createStore from '../../../../src/store/createStore'
 import { getFormValueFromState } from '../../../../src/helpers/form'
 
 const FORM = 'TestForm'

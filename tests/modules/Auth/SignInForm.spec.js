@@ -9,7 +9,7 @@ import axios from '../../../src/helpers/axios'
 import { getFormValueFromState } from '../../../src/helpers/form'
 import TextField from '../../../src/components/Form/TextField'
 import { signInAction, API_SIGN_IN_URL } from '../../../src/modules/Auth/actions/signIn'
-import createStore from '../../../src/store'
+import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) SignInForm', () => {

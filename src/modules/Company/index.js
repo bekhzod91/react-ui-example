@@ -1,4 +1,4 @@
-import { injectReducers } from '../../reducers'
+import { injectReducers } from '../../store/reducers'
 import AppLayout from '../../components/Layouts/AppLayout'
 import { AsyncComponent } from '../../components/Layouts/RouterLayout'
 import * as ROUTE from '../../constants/routes'

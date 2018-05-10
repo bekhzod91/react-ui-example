@@ -4,7 +4,7 @@ import { mount } from 'enzyme'
 import TextField from '../../../../src/components/Form/TextField'
 import validate from '../../../../src/helpers/validate'
 import WrapperProvider from '../../../WrapperProvider'
-import createStore from '../../../../src/store'
+import createStore from '../../../../src/store/createStore'
 import { getFormValueFromState } from '../../../../src/helpers/form'
 
 const FORM = 'TestForm'

@@ -1,11 +1,13 @@
-before_script:
-  - "export PATH=$PATH:/usr/local/bin"
-  - "export PROJECT_DIR=/var/www/gs1_ui"
-  - "export BUILD_DIR=~/gs1_ui"
+image: docker:latest
 
-  # Information
-  - "whoami"
-  - "echo \"Current location:\" `pwd`"
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+  - docker-compose --version
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN lab.wienerdeming.com:4567
+  - whoaim
 
 stages:
   - build
@@ -15,34 +17,25 @@ stages:
 build:
   stage: build
   script:
-    # Clear old source
-    - "rm -rf ${BUILD_DIR}"
-    # Copy project
-    - "mkdir ${BUILD_DIR}"
-    - "cp -r `pwd`/. ${BUILD_DIR}/"
-    - "cd $BUILD_DIR"
-    # Start build
-    - "docker-compose -f docker-compose.test.yml build"
+    - docker build -t lab.wienerdeming.com:4567/gs1/gs1_ui .
+    - docker push lab.wienerdeming.com:4567/gs1/gs1_ui
   tags:
     - staging
 
 test:
   stage: test
   script:
-    - "cd $BUILD_DIR"
-    - "docker-compose -f docker-compose.test.yml run web"
+    - pip install docker-compose
+    - docker-compose -f docker-compose.test.yml run web
   tags:
     - staging
 
 deploy:
   stage: deploy
   script:
-    - "cd ${PROJECT_DIR}"
-    - "cp -R ${BUILD_DIR}/docker-compose.yml ./"
-    # Stop application
-    - "docker-compose down"
-    # Start application
-    - "docker-compose run web"
+    - pip install docker-compose
+    - docker-compose down
+    - docker-compose run web
   only:
     - master
   tags:

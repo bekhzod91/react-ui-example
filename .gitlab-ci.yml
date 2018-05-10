@@ -9,7 +9,6 @@ before_script:
   - docker info
   - docker-compose --version
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN lab.wienerdeming.com:4567
-  - whoaim
 
 stages:
   - build

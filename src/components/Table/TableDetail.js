@@ -1,32 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import withStyles from 'material-ui/styles/withStyles'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
-import Divider from 'material-ui/Divider'
+import Collapse from 'material-ui/transitions/Collapse'
 
 const styles = theme => ({
   root: {
-    padding: '1px 0',
     backgroundColor: theme.table.backgroundColor
   },
-  content: {
-    padding: 10
-  },
+
   progress: {
     height: 2
   },
+
+  collapse: {
+    height: 0
+  },
+
+  collapseOpen: {
+    height: 'auto',
+  },
+
+  entered: {
+    overflow: 'visible'
+  }
 })
 
 const TableDetail = ({ classes, loading, children }) => {
   return (
     <div className={classes.root}>
       {loading && <LinearProgress className={classes.progress} />}
-      {!loading && <div>
-        <Divider />
-        <div className={classes.content}>
-          {children}
+      <Collapse
+        in={!loading}
+        classes={{
+          entered: classes.entered,
+          wrapper: classNames(
+            classes.collapse, {
+              [classes.collapseOpen]: !loading
+            })
+        }}>
+        <div>
+          <div className={classes.content}>
+            {!loading && children}
+          </div>
         </div>
-      </div>}
+      </Collapse>
     </div>
   )
 }

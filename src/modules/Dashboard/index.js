@@ -1,5 +1,5 @@
-import { AsyncComponent } from '../../helpers/router'
-import AppLayout from '../../layout/AppLayout'
+import AppLayout from '../../components/Layouts/AppLayout'
+import { AsyncComponent } from '../../components/Layouts/RouterLayout'
 import * as ROUTE from '../../constants/routes'
 
 const getDashboardContainer = () =>
@@ -10,6 +10,6 @@ export default (store) => ([
   {
     layout: AppLayout,
     path: ROUTE.DASHBOARD_URL,
-    component: AsyncComponent(getDashboardContainer)
+    component: AsyncComponent(() => getDashboardContainer())
   }
 ])

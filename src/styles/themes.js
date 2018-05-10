@@ -1,17 +1,11 @@
-import blue from 'material-ui/colors/blue'
+import indigo from 'material-ui/colors/indigo'
 import deepPurple from 'material-ui/colors/deepPurple'
 import { createMuiTheme } from 'material-ui/styles'
 
 export const muiTheme = createMuiTheme({
   palette: {
     type: 'light',
-    primary: {
-      ...blue,
-      A100: '#80d8ff',
-      A200: '#40c4ff',
-      A400: '#00b0ff',
-      A700: '#0091ea',
-    },
+    primary: indigo,
     secondary: deepPurple,
     input: {
       bottomLine: '#e3ecf7',

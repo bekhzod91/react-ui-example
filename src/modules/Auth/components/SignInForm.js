@@ -1,24 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui/styles/withStyles'
 import { compose } from 'recompose'
 import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router-dom'
+import withStyles from 'material-ui/styles/withStyles'
 import TextField from '../../../components/Form/TextField'
 import PasswordViewField from '../../../components/Form/PasswordViewField'
 import Checkbox from '../../../components/Form/Checkbox'
 import Button from '../../../components/Button'
 import validate from '../../../helpers/validate'
 import * as STYLE from '../../../styles/style'
+import * as ROUTES from '../../../constants/routes'
 
 export const FORM = 'SignInForm'
 
 const styles = {
-  generalError: {
+  error: {
     textAlign: 'center',
     color: STYLE.DANGER_COLOR,
   },
 
-  loginAction: {
+  remember: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -27,7 +29,7 @@ const styles = {
     padding: '0px',
   },
 
-  signInButton: {
+  submit: {
     marginTop: '40px',
     marginBottom: '10px',
     minHeight: '44px !important',
@@ -41,7 +43,7 @@ const enhance = compose(
 
 export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
   <form onSubmit={handleSubmit(() => props.onSubmit().catch(validate))}>
-    {error && <div className={classes.generalError}>{error}</div>}
+    {error && <div className={classes.error}>{error}</div>}
 
     <Field
       name="username"
@@ -62,19 +64,20 @@ export const SignIn = ({ classes, error, handleSubmit, ...props }) => (
       margin="normal"
     /><br />
 
-    <div className={classes.loginAction}>
+    <div className={classes.remember}>
       <Field
         name="rememberMe"
         component={Checkbox}
         label="Remember me"
       />
 
+      <Link to={ROUTES.RECOVERY_URL}>Forgot Password?</Link>
     </div>
 
     <Button
       type="submit"
       color="primary"
-      className={classes.signInButton}>
+      className={classes.submit}>
       Sign In
     </Button>
   </form>

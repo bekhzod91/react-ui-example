@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { mount } from 'enzyme'
 import BaseLayout from '../../src/components/Layouts/BaseLayout'
 import createStore from '../../src/store'
-import MuiThemeProvider from '../MuiThemeProvider'
+import WrapperProvider from '../WrapperProvider'
 
 describe('(Layout) PageLayout', () => {
   let store
@@ -16,11 +16,11 @@ describe('(Layout) PageLayout', () => {
     const Child = (appBar) => <div>Hello</div>
     const component = mount(
       <Provider store={store}>
-        <MuiThemeProvider>
+        <WrapperProvider>
           <BaseLayout>
             <Child />
           </BaseLayout>
-        </MuiThemeProvider>
+        </WrapperProvider>
       </Provider>
     )
     expect(component).to.have.lengthOf(1)
@@ -30,11 +30,11 @@ describe('(Layout) PageLayout', () => {
     const Child = (appBar) => <h2>child</h2>
     const component = mount(
       <Provider store={store}>
-        <MuiThemeProvider>
+        <WrapperProvider>
           <BaseLayout>
             <Child />
           </BaseLayout>
-        </MuiThemeProvider>
+        </WrapperProvider>
       </Provider>
     )
 

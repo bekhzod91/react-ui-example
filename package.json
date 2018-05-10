@@ -20,6 +20,7 @@
     "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "dom-helpers": "^3.2.1",
+    "history": "^4.7.2",
     "material-ui": "next",
     "material-ui-icons": "^1.0.0-beta.5",
     "moment": "^2.18.1",

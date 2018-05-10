@@ -28,6 +28,6 @@ export const watchSocailAuth = ({ location, ...props }) => {
 export const watchAuthToken = ({ token, formValues, location, push }) => {
   if (token) {
     setToken(token, prop('rememberMe', formValues))
-    push(path(['query', 'redirect'], location) || ROUTER.COMPANY_MY_LIST_URL)
+    push(path(['query', 'redirect'], location) || ROUTER.DASHBOARD_URL)
   }
 }

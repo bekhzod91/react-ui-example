@@ -1,4 +1,3 @@
-import { path } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, withState, withHandlers } from 'recompose'
@@ -14,8 +13,8 @@ import KeyboardArrowUpIcon from 'material-ui-icons/KeyboardArrowUp'
 import AccountCircleIcon from 'material-ui-icons/AccountCircle'
 import SettingsIcon from 'material-ui-icons/Settings'
 import ExitToAppIcon from 'material-ui-icons/ExitToApp'
-import avatar from '../assets/photo.jpg'
-import backgroundImage from '../assets/header-sm-01.jpg'
+import avatar from './photo.jpg'
+import backgroundImage from './header-sm-01.jpg'
 
 const styles = theme => ({
   card: {
@@ -44,7 +43,10 @@ const styles = theme => ({
     justifyContent: 'space-between',
     maxHeight: 42,
     padding: '0 !important',
-    color: theme.menu.textColor
+    color: theme.menu.textColor,
+    '& > div': {
+      margin: '0 0 0 10px'
+    }
   },
   buttonWrapper: {
     position: 'absolute',
@@ -67,8 +69,8 @@ const enhance = compose(
   })
 )
 
-const MenuHeader = ({ classes, logout, ...props }) => (
-  <Collapse in={props.profileIsVisible}>
+const MenuHeader = ({ classes, ...props }) => (
+  <Collapse in={props.openProfile}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.media}
@@ -78,9 +80,7 @@ const MenuHeader = ({ classes, logout, ...props }) => (
         </div>
       </CardMedia>
       <CardActions className={classes.action}>
-        <div id="userEmail">
-          {path(['profile', 'email'], props)}
-        </div>
+        <div id="username">{props.username}</div>
         <div className={classes.buttonWrapper}>
           <IconButton
             className={classes.button}
@@ -106,7 +106,7 @@ const MenuHeader = ({ classes, logout, ...props }) => (
           <ListItemText inset={true} primary={'Settings'} />
         </ListItem>
 
-        <ListItem button={true} onClick={logout}>
+        <ListItem button={true} onClick={props.logout}>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
@@ -120,11 +120,11 @@ const MenuHeader = ({ classes, logout, ...props }) => (
 
 MenuHeader.propTypes = {
   classes: PropTypes.object.isRequired,
-  profileIsVisible: PropTypes.bool.isRequired,
+  openProfile: PropTypes.bool.isRequired,
   settingsIsVisible: PropTypes.bool.isRequired,
   hideSettings: PropTypes.func.isRequired,
   showSettings: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
   logout: PropTypes.func.isRequired,
 }
 

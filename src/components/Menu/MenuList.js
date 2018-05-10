@@ -18,25 +18,23 @@ const styles = theme => ({
   }
 })
 
-const MenuList = ({ classes, route, menuList, activeMenuName }) => (
+const MenuList = ({ classes, menus, activeMenuName }) => (
   <List subheader={<ListSubheader>Navigation</ListSubheader>}>
     {addIndex(map)((item, index) => (
       <MenuListItem
         key={index}
         item={item}
-        route={route}
         isRoot={true}
         className={classes.button}
         activeMenuName={activeMenuName}
       />
-    ), menuList)}
+    ), menus)}
   </List>
 )
 
 MenuList.propTypes = {
   classes: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
-  menuList: PropTypes.array.isRequired,
+  menus: PropTypes.array.isRequired,
   activeMenuName: PropTypes.string.isRequired
 }
 

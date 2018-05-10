@@ -1,4 +1,4 @@
-import { getParamsLikeFormValues } from '../../src/helpers/get'
+import { getParamsLikeFormValues } from '../../src/helpers/form'
 
 describe('check getParamsLikeFormValues', () => {
   it('with string', () => {

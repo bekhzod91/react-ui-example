@@ -36,7 +36,7 @@ const styles = theme => ({
   },
 
   detail: {
-    margin: '50px -20px 50px -20px',
+    margin: '50px -20px',
     border: 'none',
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +

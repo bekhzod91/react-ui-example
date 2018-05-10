@@ -1,6 +1,6 @@
 import { injectReducers } from '../../reducers'
-import { AsyncComponent } from '../../helpers/router'
-import AppLayout from '../../layout/AppLayout'
+import AppLayout from '../../components/Layouts/AppLayout'
+import { AsyncComponent } from '../../components/Layouts/RouterLayout'
 import * as ROUTE from '../../constants/routes'
 
 const getRecoveryContainer = (store) =>

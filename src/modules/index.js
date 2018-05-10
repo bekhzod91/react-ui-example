@@ -1,13 +1,13 @@
 // We only need to import the modules necessary for initial render
 import React from 'react'
 import { Switch } from 'react-router'
-import { RouteWithLayout } from '../helpers/router'
 import Dashboard from './Dashboard'
 import Auth from './Auth'
 import User from './User'
 import Error from './Error'
 import Company from './Company'
 import Common from './Common'
+import RouteWithLayout from '../components/Layouts/RouterLayout'
 
 export default (store) => {
   const routes = [

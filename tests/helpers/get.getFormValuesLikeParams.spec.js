@@ -1,4 +1,5 @@
-import { getFormValuesLikeParams } from '../../src/helpers/get'
+import moment from 'moment'
+import { getFormValuesLikeParams } from '../../src/helpers/form'
 
 describe('check getFormValuesLikeParams', () => {
   it('with string', () => {
@@ -39,6 +40,22 @@ describe('check getFormValuesLikeParams', () => {
   it('with multiple obj', () => {
     const args = { owners: [{ id: 1 }, { id: 2 }] }
     const ret = { owners: 'list:obj:1,obj:2' }
+
+    expect(getFormValuesLikeParams(args)).to.eql(ret)
+  })
+
+  it('with date ', () => {
+    const time = moment()
+    const args = { date: time }
+    const ret = { date: `date:${time.format('X')}` }
+
+    expect(getFormValuesLikeParams(args)).to.eql(ret)
+  })
+
+  it('with date to date', () => {
+    const time = moment()
+    const args = { date: { startDate: time, endDate: time } }
+    const ret = { date: `d2d:${time.format('X')}-${time.format('X')}` }
 
     expect(getFormValuesLikeParams(args)).to.eql(ret)
   })

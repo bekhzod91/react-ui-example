@@ -7,7 +7,7 @@ import AppBar from '../../../components/AppBar'
 import CompanyList from './CompanyList'
 import CompanyDetail from './CompanyDetail'
 
-const Company = ({ appBar, list, filter, ...props }) => {
+const Company = ({ list, filter, ...props }) => {
   const route = getRouteFromProps(props)
 
   const detail = {
@@ -18,7 +18,7 @@ const Company = ({ appBar, list, filter, ...props }) => {
   }
 
   return (
-    <AppBar activeMenuName={ROUTE.COMPANY} {...appBar}>
+    <AppBar activeMenuName={ROUTE.COMPANY}>
       <CompanyList
         route={route}
         filter={filter}
@@ -30,7 +30,6 @@ const Company = ({ appBar, list, filter, ...props }) => {
 }
 
 Company.propTypes = {
-  appBar: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
   detail: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,

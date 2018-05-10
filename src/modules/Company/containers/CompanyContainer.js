@@ -19,14 +19,17 @@ import { form as filterFormName, fields as filterFormFields } from '../component
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
-  getFormValueFromState,
-  getFormValuesLikeParams,
   getParamsCountFromLocation,
-  getInitialFormValuesFromProps,
   getDataFromState,
   getFullPathFromLocation,
   getParamsLikeBooleanFromLocation
 } from '../../../helpers/get'
+
+import {
+  getFormValueFromState,
+  getFormValuesLikeParams,
+  getInitialFormValuesFromProps,
+} from '../../../helpers/form'
 
 const mapStateToProps = (state, props) => {
   const id = getIdFromProps(props)

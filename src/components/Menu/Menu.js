@@ -1,28 +1,61 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import withStyles from 'material-ui/styles/withStyles'
+import MenuIcon from './MenuIcon'
 import MenuHeader from './MenuHeader'
 import MenuList from './MenuList'
 
-const Menu = ({ route, logout, profile, profileIsVisible, menuList, activeMenuName }) => (
-  <div>
-    <MenuHeader
-      logout={logout}
-      profile={profile}
-      profileIsVisible={profileIsVisible} />
-    <MenuList
-      route={route}
-      menuList={menuList}
-      activeMenuName={activeMenuName} />
-  </div>
-)
+const styles = theme => ({
+  root: {
+    transition: '0.5s'
+  },
+  menu: {
+    boxShadow: theme.shadows[5],
+    position: 'fixed',
+    minWidth: 'inherit',
+    maxWidth: 'inherit',
+    height: '100%',
+    overflow: 'hidden',
+    backgroundColor: theme.menu.backgroundColor
+  }
+})
 
-Menu.propTypes = {
-  route: PropTypes.object.isRequired,
-  profile: PropTypes.object,
-  profileIsVisible: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-  activeMenuName: PropTypes.string.isRequired,
-  menuList: PropTypes.array.isRequired
+const Menu = ({ classes, ...props }) => {
+  const width = props.openMenu ? 256 : 56
+
+  return (
+    <div className={classes.root} style={{ minWidth: width, maxWidth: width }}>
+      <div className={classes.menu}>
+        {props.openMenu ? (
+          <div>
+            <MenuHeader
+              logout={props.logout}
+              username={props.username}
+              openProfile={props.openProfile} />
+            <MenuList
+              menus={props.menus}
+              activeMenuName={props.activeMenuName} />
+          </div>
+        ) : (
+          <MenuIcon
+            openProfile={props.openProfile}
+            menus={props.menus}
+            activeMenuName={props.activeMenuName}
+          />
+        )}
+      </div>
+    </div>
+  )
 }
 
-export default Menu
+Menu.propTypes = {
+  classes: PropTypes.object,
+  openMenu: PropTypes.bool.isRequired,
+  openProfile: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  menus: PropTypes.array.isRequired,
+  activeMenuName: PropTypes.string.isRequired
+}
+
+export default withStyles(styles)(Menu)

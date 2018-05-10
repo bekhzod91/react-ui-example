@@ -1,12 +1,11 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { mount } from 'enzyme'
 import Checkbox from '../../../../src/components/Form/Checkbox'
 import validate from '../../../../src/helpers/validate'
-import MuiThemeProvider from '../../../MuiThemeProvider'
+import WrapperProvider from '../../../WrapperProvider'
 import createStore from '../../../../src/store'
-import { getFormValueFromState } from '../../../../src/helpers/get'
+import { getFormValueFromState } from '../../../../src/helpers/form'
 
 const FORM = 'TestForm'
 
@@ -28,11 +27,9 @@ describe('(Component) Checkbox', () => {
     ))
 
     component = mount(
-      <Provider store={store}>
-        <MuiThemeProvider>
-          <TextForm />
-        </MuiThemeProvider>
-      </Provider>
+      <WrapperProvider store={store}>
+        <TextForm />
+      </WrapperProvider>
     )
   })
 

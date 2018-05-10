@@ -43,8 +43,8 @@ export const COMPANY_MY_PATH = `${COMPANY_MY_LIST_URL}/%d`
 
 // DASHBOARD
 export const DASHBOARD = 'dashboard'
-export const DASHBOARD_URL = `${COMPANY_MY_URL}/${DASHBOARD}`
-export const DASHBOARD_PATH = `${COMPANY_MY_PATH}/${DASHBOARD}`
+export const DASHBOARD_URL = `/${DASHBOARD}`
+export const DASHBOARD_PATH = `/${DASHBOARD}`
 
 // USER ROUTE
 export const USER = 'users'
@@ -54,13 +54,13 @@ export const USER_DETAIL_PATH = `${USER_LIST_URL}/%d`
 
 // COMPANY ROUTES
 export const COMPANY = 'company'
-export const COMPANY_LIST_URL = `${COMPANY_MY_URL}/${COMPANY}`
+export const COMPANY_LIST_URL = `/${COMPANY}`
 export const COMPANY_DETAIL_URL = `${COMPANY_LIST_URL}/:id`
-export const COMPANY_LIST_PATH = `${COMPANY_MY_PATH}/${COMPANY}`
+export const COMPANY_LIST_PATH = `/${COMPANY}`
 export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/%d`
 
 // COMMON ROUTE
 export const COMMON = 'common'
 export const COMMON_SETTINGS = `${COMMON}/settings`
-export const COMMON_SETTINGS_URL = `${COMPANY_MY_URL}/${COMMON_SETTINGS}`
-export const COMMON_SETTINGS_PATH = `${COMPANY_MY_PATH}/${COMMON_SETTINGS}`
+export const COMMON_SETTINGS_URL = `/${COMMON_SETTINGS}`
+export const COMMON_SETTINGS_PATH = `/${COMMON_SETTINGS}`

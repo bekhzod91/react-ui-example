@@ -1,14 +1,13 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { mount } from 'enzyme'
 import IconButton from 'material-ui/IconButton'
 import Visibility from 'material-ui-icons/Visibility'
 import VisibilityOff from 'material-ui-icons/VisibilityOff'
 import PasswordViewField from '../../../../src/components/Form/PasswordViewField'
-import MuiThemeProvider from '../../../MuiThemeProvider'
+import WrapperProvider from '../../../WrapperProvider'
 import createStore from '../../../../src/store'
-import { getFormValueFromState } from '../../../../src/helpers/get'
+import { getFormValueFromState } from '../../../../src/helpers/form'
 import validate from '../../../../src/helpers/validate'
 
 const FORM = 'TestForm'
@@ -33,11 +32,9 @@ describe('(Component) PasswordViewField', () => {
     ))
 
     component = mount(
-      <Provider store={store}>
-        <MuiThemeProvider>
-          <PasswordForm />
-        </MuiThemeProvider>
-      </Provider>
+      <WrapperProvider store={store}>
+        <PasswordForm />
+      </WrapperProvider>
     )
   })
 

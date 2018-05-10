@@ -1,14 +1,13 @@
 import { prop, path, findLast, whereEq, head } from 'ramda'
 import React from 'react'
-import { Provider } from 'react-redux'
 import { pure } from 'recompose'
 import { mount } from 'enzyme'
 import { Field, reduxForm } from 'redux-form'
 import { MenuItem } from 'material-ui/Menu'
 import Autosuggest from 'react-autosuggest'
-import MuiThemeProvider from '../../../MuiThemeProvider'
+import WrapperProvider from '../../../WrapperProvider'
 import createStore from '../../../../src/store'
-import { getFormValueFromState } from '../../../../src/helpers/get'
+import { getFormValueFromState } from '../../../../src/helpers/form'
 import validate from '../../../../src/helpers/validate'
 import AutoCompleteField from '../../../../src/components/Form/AutoCompleteField'
 
@@ -62,11 +61,9 @@ describe('(Component) AutoCompleteField', () => {
     ))
 
     component = mount(
-      <Provider store={store}>
-        <MuiThemeProvider>
-          <SearchForm />
-        </MuiThemeProvider>
-      </Provider>
+      <WrapperProvider store={store}>
+        <SearchForm />
+      </WrapperProvider>
     )
   })
 

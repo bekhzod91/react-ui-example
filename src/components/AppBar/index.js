@@ -1,4 +1,3 @@
-import AppBar, { getProps } from './AppBar'
+import AppBar from './AppBar'
 
-export { getProps }
 export default AppBar

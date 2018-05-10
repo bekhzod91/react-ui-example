@@ -14,7 +14,6 @@ import { CircularProgress } from 'material-ui/Progress'
 import Fade from 'material-ui/transitions/Fade'
 import Avatar from 'material-ui/Avatar'
 import Button from 'material-ui/Button'
-import avatar from '../../../../components/assets/photo.jpg'
 import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List'
 import ContactForm from './ContactForm'
 
@@ -155,7 +154,6 @@ const Contacts = ({ classes, alt, list, loading, ...defaultProps }) => {
                   <ListItemAvatar>
                     <Avatar
                       alt={alt}
-                      src={avatar}
                       className={classes.avatar}
                     />
                   </ListItemAvatar>

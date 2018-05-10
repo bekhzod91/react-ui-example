@@ -4,8 +4,8 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 import userReducers from '../modules/User/reducers/highOrderReducers'
 import authReducers from '../modules/Auth/reducers/highOrderReducers'
-import snackbarReducer from '../components/WithState/Snackbar/reducer'
-import pageLoadingReducer from '../components/WithState/PageLoading/reducer'
+import snackbarReducer from '../components/Snackbar/reducer'
+import pageLoadingReducer from '../components/PageLoading/reducer'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({

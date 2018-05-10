@@ -5,21 +5,21 @@ import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get
 // ------------------------------------
 // Action fetchProfileAction
 // ------------------------------------
-export const API_PROFILE_URL = `/me/`
+export const API_ME_URL = `/me/`
 
-export const fetchProfileAction = (data) => {
+export const fetchMeAction = (data) => {
   return (dispatch, getState) => {
-    const payload = axios({ dispatch, getState }).get(API_PROFILE_URL, data)
+    const payload = axios({ dispatch, getState }).get(API_ME_URL, data)
       .then(getPayloadFromSuccess)
       .catch(getPayloadFromError)
 
     return dispatch({
-      type: actionTypes.USER_PROFILE,
+      type: actionTypes.ME,
       payload
     })
   }
 }
 
 export default {
-  fetchProfileAction
+  fetchMeAction
 }

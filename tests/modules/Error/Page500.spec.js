@@ -3,7 +3,7 @@ import Button from 'material-ui/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import Page500 from '../../../src/modules/Error/components/Page500'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) Page500', () => {
   let onGoHome, component
@@ -12,9 +12,9 @@ describe('(Component) Page500', () => {
     onGoHome = sinon.spy()
 
     component = mount(
-      <MuiThemeProvider>
+      <WrapperProvider>
         <Page500 onGoHome={onGoHome} />
-      </MuiThemeProvider>
+      </WrapperProvider>
     )
   })
 

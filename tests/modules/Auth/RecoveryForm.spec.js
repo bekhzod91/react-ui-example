@@ -3,7 +3,6 @@ import React from 'react'
 import sinon from 'sinon'
 import MockAdapter from 'axios-mock-adapter'
 import { mount } from 'enzyme'
-import { Provider } from 'react-redux'
 import RecoveryForm, { FORM } from '../../../src/modules/Auth/components/RecoveryForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
@@ -12,7 +11,7 @@ import axios from '../../../src/helpers/axios'
 import TextField from '../../../src/components/Form/TextField'
 import { recoveryAction, API_RECOVERY_URL } from '../../../src/modules/Auth/actions/recovery'
 import createStore from '../../../src/store'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) RecoveryForm', () => {
   let submit, component, store
@@ -27,11 +26,9 @@ describe('(Component) RecoveryForm', () => {
     })
 
     component = mount(
-      <Provider store={store}>
-        <MuiThemeProvider>
-          <RecoveryForm onSubmit={submit} />
-        </MuiThemeProvider>
-      </Provider>
+      <WrapperProvider store={store}>
+        <RecoveryForm onSubmit={submit} />
+      </WrapperProvider>
     )
 
     component.find('input[name="email"]').simulate('change', { target: { value: 'user@example.com' } })

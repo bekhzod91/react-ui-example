@@ -14,7 +14,7 @@ const styles = {
   },
 
   logoImg: {
-    padding: '27px 15px',
+    padding: '10px 0 0 0',
     maxWidth: '100%'
   }
 }

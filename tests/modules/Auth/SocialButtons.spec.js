@@ -2,7 +2,7 @@ import React from 'react'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import SocialButtons from '../../../src/modules/Auth/components/SocialButtons'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) SignInSocialButtons', () => {
   let buttons, component
@@ -24,9 +24,9 @@ describe('(Component) SignInSocialButtons', () => {
     }
 
     component = mount(
-      <MuiThemeProvider>
+      <WrapperProvider>
         <SocialButtons buttons={buttons} />
-      </MuiThemeProvider>
+      </WrapperProvider>
     )
   })
 

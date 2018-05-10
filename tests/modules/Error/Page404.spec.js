@@ -5,7 +5,7 @@ import { mount } from 'enzyme'
 import { Provider } from 'react-redux'
 import Page404 from '../../../src/modules/Error/components/Page404'
 import createStore from '../../../src/store'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) Page404', () => {
   let onGoHome, component, store
@@ -16,9 +16,9 @@ describe('(Component) Page404', () => {
 
     component = mount(
       <Provider store={store}>
-        <MuiThemeProvider>
+        <WrapperProvider>
           <Page404 onGoHome={onGoHome} />
-        </MuiThemeProvider>
+        </WrapperProvider>
       </Provider>
     )
   })

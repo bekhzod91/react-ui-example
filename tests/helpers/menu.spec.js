@@ -1,6 +1,5 @@
 import * as R from 'ramda'
 import {
-  getMenuWithCompanyId,
   getMenusByPermissions,
   checkMenuNameInsideMenu
 } from '../../src/helpers/menu'
@@ -23,52 +22,6 @@ describe('menu helper', () => {
     expect(checkMenuNameInsideMenu('settings', menu)).to.equal(true)
     expect(checkMenuNameInsideMenu('company', menu)).to.equal(true)
     expect(checkMenuNameInsideMenu('unknown', menu)).to.equal(false)
-  })
-
-  it('check getMenuWithCompanyId', () => {
-    const companyId = 0
-    const beforeMenus = [
-      {
-        name: 'dashboard',
-        url: '/c/%d/dashboard',
-        title: 'Dashboard'
-      },
-      {
-        name: 'settings',
-        url: '/c/%d/settings',
-        title: 'Settings',
-        children: [
-          {
-            name: 'company',
-            url: '/c/%d/company',
-            title: 'Company'
-          },
-        ]
-      }
-    ]
-
-    const afterMenus = [
-      {
-        name: 'dashboard',
-        url: '/c/0/dashboard',
-        title: 'Dashboard'
-      },
-      {
-        name: 'settings',
-        url: '/c/0/settings',
-        title: 'Settings',
-        children: [
-          {
-            name: 'company',
-            url: '/c/0/company',
-            title: 'Company'
-          },
-        ]
-      }
-    ]
-
-    expect(R.equals(getMenuWithCompanyId(beforeMenus, companyId), afterMenus))
-      .to.equal(true)
   })
 
   it('check getMenusByPermissions', () => {

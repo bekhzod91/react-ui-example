@@ -3,7 +3,7 @@ import Button from 'material-ui/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
 import PageWrapper from '../../../src/modules/Error/components/PageWrapper'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) PageWrapper', () => {
   let onGoHome, component, Children
@@ -13,11 +13,11 @@ describe('(Component) PageWrapper', () => {
     Children = (appBar) => <div>Hello</div>
 
     component = mount(
-      <MuiThemeProvider>
+      <WrapperProvider>
         <PageWrapper title="403" onGoHome={onGoHome}>
           <Children />
         </PageWrapper>
-      </MuiThemeProvider>
+      </WrapperProvider>
     )
   })
 

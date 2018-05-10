@@ -1,18 +1,11 @@
 import {
   curry,
   compose,
-  map,
-  is,
-  join,
   prop,
   propOr,
   path,
-  pathOr,
   pick,
-  startsWith,
   filter,
-  split,
-  slice,
   keys,
   toLower,
   ifElse,
@@ -20,71 +13,26 @@ import {
   always,
   length,
   clone,
-  isNil,
   isEmpty,
+  findIndex, omit, map, not, either, isNil,
 } from 'ramda'
 import { getQueryFromUrl } from './urls'
+import { parseUrlParams, serializer } from './form'
+import sprintf from 'sprintf'
 
 export const getBooleanFromString = (boolean) => compose(
   ifElse(equals('false'), always(false), always(true)),
   toLower
 )(boolean)
-export const getIdFromProps = compose(parseInt, path(['match', 'params', 'id']))
-export const getCompanyIdFromProps = compose(parseInt, path(['match', 'params', 'companyId']))
+export const getIdFromProps = compose(parseInt, path(['params', 'id']))
+export const getCompanyIdFromProps = compose(parseInt, path(['params', 'companyId']))
+export const getParamsIdFromProps = curry((param, props) => compose(parseInt, path(['params', param]))(props))
 export const getRouteFromProps = (props) => ({
   location: prop('location', props),
   push: prop('push', props),
+  params: prop('params', props),
   companyId: getCompanyIdFromProps(props)
 })
-
-export const getFormValueFromState = curry((name, state) => pathOr({}, ['form', name, 'values'], state))
-export const getFormValuesLikeParams = map((item) => {
-  if (isNil(item) || isEmpty(item)) {
-    return ''
-  }
-
-  if (is(Array, item)) {
-    return `list:${join(',', getFormValuesLikeParams(item))}`
-  }
-
-  if (is(Object, item)) {
-    return `obj:${prop('id', item)}`
-  }
-
-  if (is(Number, item)) {
-    return `num:${item}`
-  }
-
-  return `str:${item}`
-})
-
-const parseParam = (param) => {
-  if (startsWith('list:', param)) {
-    return compose(
-      map(parseParam),
-      split(','),
-      slice(5, Infinity)
-    )(param)
-  }
-
-  if (startsWith('str:', param)) {
-    return slice(4, Infinity, param)
-  }
-
-  if (startsWith('num:', param)) {
-    return parseFloat(slice(4, Infinity, param))
-  }
-
-  if (startsWith('obj:', param)) {
-    return { id: parseInt(slice(4, Infinity, param)) }
-  }
-
-  return null
-}
-export const getParamsLikeFormValues = curry((fields, params) => compose(
-  map(parseParam),
-  pick(fields),
-)(params))
 
 export const getParamsCountFromLocation = curry((fields, location) => compose(
   length,
@@ -96,12 +44,11 @@ export const getParamsCountFromLocation = curry((fields, location) => compose(
   prop('search'),
 )(location))
 
-export const getInitialFormValuesFromProps = curry((name, state, props) => {
-  const fields = keys(pathOr({}, ['form', name, 'registeredFields'], state))
-  const params = getQueryFromUrl(pathOr('', ['location', 'search'], props)) || {}
-
-  return getParamsLikeFormValues(fields, params)
-})
+export const getRequestFromParams = compose(
+  serializer,
+  map(parseUrlParams),
+  filter(compose(not, either(isNil, isEmpty)))
+)
 
 export const getDataFromState = curry((name, state) => ({
   loading: path([name, 'loading'], state),
@@ -129,3 +76,26 @@ export const getPayloadFromError = compose(
   (data) => Promise.reject(data),
   path(['response', 'data'])
 )
+export const getIndexByTabName = curry((tabs, tabName) => findIndex(equals(tabName), tabs))
+export const getListRequestFromProps = compose(
+  getRequestFromParams,
+  omit(['select', 'filter', 'create']),
+  path(['location', 'query'])
+)
+
+export const getFullPathWithCompanyId = (url, route) => {
+  const companyId = parseInt(path(['params', 'companyId'], route))
+  const search = prop('search', location)
+  const pathname = sprintf(url, companyId)
+  return `${pathname}${search}`
+}
+
+export const getFullPathByTab = (route, url, tab) => {
+  const companyId = parseInt(path(['params', 'companyId'], route))
+  const id = parseInt(path(['params', 'id'], route))
+  const search = prop('search', location)
+  const pathname = sprintf(url, companyId, id, tab)
+  return `${pathname}${search}`
+}
+
+export const getCurrentTabIndex = curry((tabs, route) => findIndex(equals(path(['params', 'tab'], route)), tabs))

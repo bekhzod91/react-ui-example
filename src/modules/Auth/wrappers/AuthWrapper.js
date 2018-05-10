@@ -1,6 +1,6 @@
-import { path } from 'ramda'
+import { path, prop } from 'ramda'
 import { push } from 'react-router-redux'
-import { compose, lifecycle, mapPropsStream } from 'recompose'
+import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ROUTE from '../../../constants/routes'
@@ -8,21 +8,20 @@ import * as STATE from '../../../constants/state'
 import { getToken, clearToken } from '../../../helpers/token'
 import { setTokenAction, clearTokenAction } from '../actions/token'
 import { signOutAction } from '../actions/signOut'
-import { fetchProfileAction } from '../actions/profile'
+import { fetchMeAction } from '../actions/me'
 
 const mapStateToProps = (state) => ({
   token: path([STATE.SING_IN, 'data', 'token'], state),
-  userEmail: path([STATE.USER_PROFILE, 'data', 'email'], state),
-  userImage: path([STATE.USER_PROFILE, 'data', 'image'], state)
+  username: path([STATE.ME, 'data', 'username'], state),
 })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     setTokenAction: bindActionCreators(setTokenAction, dispatch),
     clearTokenAction: bindActionCreators(clearTokenAction, dispatch),
-    fetchProfileAction: bindActionCreators(fetchProfileAction, dispatch),
+    fetchMeAction: bindActionCreators(fetchMeAction, dispatch),
     push: bindActionCreators(push, dispatch),
-    logoutAction: () => {
+    logout: () => {
       dispatch(signOutAction())
         .then(() => {
           clearToken()
@@ -38,24 +37,25 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  lifecycle({
-    componentWillMount () {
-      const token = getToken()
-      token && this.props.setTokenAction(token)
-    }
-  }),
-  mapPropsStream((props$) => {
+  mapPropsStream(props$ => {
     props$
-      .filter((props) => props.token)
-      .distinctUntilChanged(null, (props) => props.token)
-      .subscribe((props) => {
-        props.fetchProfileAction()
-          .catch(() => {
-            return Promise.resolve(props.clearTokenAction())
-              .then(() => clearToken())
-              .then(() => props.push(ROUTE.SIGN_IN))
-          })
+      .first()
+      .subscribe(props => {
+        const token = getToken()
+        token && props.setTokenAction(token)
       })
+
+    props$
+      .filter(prop('token'))
+      .distinctUntilChanged(null, prop('token'))
+      .subscribe(props =>
+        props.fetchMeAction()
+          .catch(() =>
+            Promise.resolve(props.clearTokenAction())
+              .then(clearToken)
+              .then(() => props.push(ROUTE.SIGN_IN))
+          )
+      )
 
     return props$
   })

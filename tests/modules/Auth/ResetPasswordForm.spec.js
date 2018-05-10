@@ -3,17 +3,16 @@ import React from 'react'
 import sinon from 'sinon'
 import MockAdapter from 'axios-mock-adapter'
 import { mount } from 'enzyme'
-import { Provider } from 'react-redux'
 import ResetPasswordForm, { FORM } from '../../../src/modules/Auth/components/ResetPasswordForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/reducers'
 import * as STATE from '../../../src/constants/state'
 import axios from '../../../src/helpers/axios'
-import { getFormValueFromState } from '../../../src/helpers/get'
+import { getFormValueFromState } from '../../../src/helpers/form'
 import TextField from '../../../src/components/Form/TextField'
 import { resetPasswordAction, API_RESET_PASSWORD_URL } from '../../../src/modules/Auth/actions/resetPassword'
 import createStore from '../../../src/store'
-import MuiThemeProvider from '../../MuiThemeProvider'
+import WrapperProvider from '../../WrapperProvider'
 
 describe('(Component) ResetPasswordForm', () => {
   const code = 'generate-secret-code-for-reset-password'
@@ -29,11 +28,9 @@ describe('(Component) ResetPasswordForm', () => {
     })
 
     component = mount(
-      <Provider store={store}>
-        <MuiThemeProvider>
-          <ResetPasswordForm onSubmit={submit} />
-        </MuiThemeProvider>
-      </Provider>
+      <WrapperProvider store={store}>
+        <ResetPasswordForm onSubmit={submit} />
+      </WrapperProvider>
     )
 
     component.find('input[name="password"]').simulate('change', { target: { value: 'secret123' } })

@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
-import Snackbar from '../../components/WithState/Snackbar'
-import PageLoading from '../../components/WithState/PageLoading'
-import { getProps } from '../AppBar'
+import { getDefaultProps } from '../../helpers/app'
+import Snackbar from '../Snackbar'
+import PageLoading from '../PageLoading'
 
 const styles = {
   '@global': {
@@ -29,12 +29,12 @@ class BaseLayout extends React.Component {
   }
 
   render () {
-    const { children, ...props } = this.props
+    const { children } = this.props
 
     return (
       <div style={styles.page}>
         <PageLoading />
-        {children && React.cloneElement(children, { appBar: getProps(props) })}
+        {children && React.cloneElement(children, { app: getDefaultProps(this.props) })}
         <Snackbar />
       </div>
     )

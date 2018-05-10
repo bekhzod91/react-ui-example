@@ -54,10 +54,10 @@ const styles = theme => ({
 
 const SPACE_BETWEEN_SETTINGS_ITEM = 24
 
-const Settings = ({ appBar, classes }) => {
+const Settings = ({ classes }) => {
   const description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
   return (
-    <AppBar activeMenuName={ROUTE.COMMON_SETTINGS} {...appBar}>
+    <AppBar activeMenuName={ROUTE.COMMON_SETTINGS}>
       <div className={classes.root}>
         <div className={classes.header}>
           <h2>Settings <SettingsIcon className={classes.titleIcon} /></h2>
@@ -88,8 +88,7 @@ const Settings = ({ appBar, classes }) => {
 }
 
 Settings.propTypes = {
-  classes: PropTypes.object.isRequired,
-  appBar: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(Settings)

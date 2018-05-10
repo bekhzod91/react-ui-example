@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import AppBar from '../../../components/AppBar'
 import * as ROUTE from '../../../constants/routes'
+import AppBar from '../../../components/AppBar'
 
-const Dashboard = ({ appBar }) => {
+const Dashboard = ({ app, ...props }) => {
   return (
-    <AppBar activeMenuName={ROUTE.DASHBOARD} {...appBar}>
+    <AppBar active={ROUTE.DASHBOARD} {...app}>
       <div>Welcome!</div>
     </AppBar>
   )
 }
 
 Dashboard.propTypes = {
-  appBar: PropTypes.object.isRequired
+  app: PropTypes.object
 }
 
 export default Dashboard

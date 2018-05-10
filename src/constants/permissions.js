@@ -1,1 +1,1 @@
-export const COMPANY_VIEW = 'company.view_company'
+export const COMPANY_LIST = 'company.view_company'

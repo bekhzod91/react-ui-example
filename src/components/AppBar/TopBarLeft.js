@@ -1,9 +1,8 @@
-import { prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import injectSheet from 'react-jss'
+import withStyles from 'material-ui/styles/withStyles'
 import * as STYLE from '../../styles/style'
-import logo from '../assets/logo-icon.png'
+import logo from './logo-icon.png'
 import IconButton from 'material-ui/IconButton'
 import SidebarIcon from '../Icon/SidebarIcon'
 import AccountIcon from '../Icon/AccountIcon'
@@ -15,7 +14,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
-
   },
   logo: {
     paddingLeft: '10px'
@@ -26,35 +24,30 @@ const styles = {
     color: `${STYLE.SECOND_TEXT_COLOR} !important`
   },
 
-  sidebar: {
-    transform: props => prop('menuOpen', props) ? 'scaleX(1)' : 'scaleX(-1)'
-  },
-
-  menuAction: {
+  action: {
     position: 'absolute',
-    display: 'flex',
-    transform: props => prop('menuOpen', props) ? 'translate(250px)' : 'translate(50px)'
+    display: 'flex'
   }
 }
 
-const TopBarLeft = ({ classes, company, menuOpen, setMenuOpen, setVisibleProfile }) => {
+const TopBarLeft = ({ classes, ...props }) => {
+  const actionStyle = { transform: props.open ? 'translate(250px)' : 'translate(50px)' }
+  const sidebarStyle = { transform: props.open ? 'scaleX(1)' : 'scaleX(-1)' }
+
   return (
     <div className={classes.root}>
       <div className={classes.logo}>
         <img src={logo} alt="logo" />
       </div>
 
-      {menuOpen && <h2 className={classes.title}>{company}</h2>}
+      {props.open && <h2 className={classes.title}>GS1</h2>}
 
-      <div className={classes.menuAction}>
-        <IconButton
-          className={classes.sidebar}
-          onClick={setMenuOpen}>
+      <div style={actionStyle} className={classes.action}>
+        <IconButton style={sidebarStyle} onClick={props.onMenuClick}>
           <SidebarIcon />
         </IconButton>
 
-        <IconButton
-          onClick={setVisibleProfile}>
+        <IconButton onClick={props.onProfileClick}>
           <AccountIcon />
         </IconButton>
       </div>
@@ -64,10 +57,9 @@ const TopBarLeft = ({ classes, company, menuOpen, setMenuOpen, setVisibleProfile
 
 TopBarLeft.propTypes = {
   classes: PropTypes.object.isRequired,
-  company: PropTypes.string.isRequired,
-  menuOpen: PropTypes.bool.isRequired,
-  setMenuOpen: PropTypes.func.isRequired,
-  setVisibleProfile: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  onMenuClick: PropTypes.func.isRequired,
+  onProfileClick: PropTypes.func.isRequired,
 }
 
-export default injectSheet(styles)(TopBarLeft)
+export default withStyles(styles)(TopBarLeft)

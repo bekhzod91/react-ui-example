@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import MUISnackbar from 'material-ui/Snackbar'
 import { closeSnackbarAction, SUCCESS_TYPE, INFO_TYPE, WARNING_TYPE, DANGER_TYPE } from './actions'
-import * as STYLE from '../../../styles/style'
+import * as STYLE from '../../styles/style'
 
 const styles = {
   info: {

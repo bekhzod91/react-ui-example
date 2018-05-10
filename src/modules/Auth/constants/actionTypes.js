@@ -1,7 +1,7 @@
 export const SIGN_IN = 'SIGN_IN'
 export const SIGN_OUT = 'SIGN_OUT'
 export const RECOVERY = 'RECOVERY'
-export const USER_PROFILE = 'USER_PROFILE'
+export const ME = 'ME'
 export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const TWITTER_REDIRECT = 'TWITTER_REDIRECT'
 export const SIGN_UP = 'SIGN_UP'

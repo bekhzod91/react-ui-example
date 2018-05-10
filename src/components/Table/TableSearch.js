@@ -6,6 +6,9 @@ import { fade } from 'material-ui/styles/colorManipulator'
 import withStyles from 'material-ui/styles/withStyles'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui-icons/Search'
+import { appendParamsToUrl } from '../../helpers/urls'
+import { getFullPathFromLocation } from '../../helpers/get'
+import { getSearchFromRoute } from './helper'
 
 const styles = theme => ({
   root: {
@@ -79,7 +82,15 @@ TableSearch.propTypes = {
 }
 
 export default compose(
-  withState('search', 'setSearch', ''),
+  withState('search', 'setSearch', ({ route }) => getSearchFromRoute(route)),
+  withHandlers({
+    onSubmit: ({ route }) => (value) => {
+      const { push, location } = route
+      const fullPath = getFullPathFromLocation(location)
+
+      return push(appendParamsToUrl({ page: 1, search: value }, fullPath))
+    }
+  }),
   withHandlers({
     onChange: ({ setSearch }) => (event) => {
       setSearch(event.target.value)

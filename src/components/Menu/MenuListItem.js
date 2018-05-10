@@ -1,6 +1,7 @@
 import { not, path, addIndex, map, equals } from 'ramda'
 import classNames from 'classnames'
 import React from 'react'
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
 import withStyles from 'material-ui/styles/withStyles'
@@ -42,10 +43,10 @@ class MenuListItem extends React.Component {
   }
 
   onClickList = () => {
+    const { history } = this.props
     const url = path(['item', 'url'], this.props)
-    const push = path(['route', 'push'], this.props)
 
-    push(url)
+    history.push(url)
   }
 
   renderButton = () => {
@@ -65,7 +66,7 @@ class MenuListItem extends React.Component {
   }
 
   renderCollapse = () => {
-    const { route, activeMenuName, className } = this.props
+    const { activeMenuName, className } = this.props
     const children = path(['item', 'children'], this.props)
 
     if (!children) {
@@ -77,7 +78,6 @@ class MenuListItem extends React.Component {
         {addIndex(map)((item, index) => (
           <MenuListItemEnhance
             key={index}
-            route={route}
             item={item}
             className={className}
             activeMenuName={activeMenuName} />
@@ -116,14 +116,14 @@ MenuListItem.defaultProps = {
 }
 
 MenuListItem.propTypes = {
+  history: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
   isRoot: PropTypes.bool.isRequired,
   className: PropTypes.string,
   activeMenuName: PropTypes.string.isRequired
 }
 
-const MenuListItemEnhance = compose(withStyles(styles), pure)(MenuListItem)
+const MenuListItemEnhance = compose(withRouter, withStyles(styles), pure)(MenuListItem)
 
 export default MenuListItemEnhance

@@ -8,7 +8,7 @@ export const TWITTER_REDIRECT = 'twitterRedirect'
 export const RECOVERY = 'recovery'
 export const RESET_PASSWORD = 'resetPassword'
 export const USER_COMPANIES = 'userCompanies'
-export const USER_PROFILE = 'userProfile'
+export const ME = 'me'
 export const USER_PERMISSION = 'userPermission'
 
 // User crud state

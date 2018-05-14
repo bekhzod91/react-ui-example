@@ -1,11 +1,11 @@
 import { push } from 'react-router-redux'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { compose as composeR, pure, mapPropsStream, createEventHandler } from 'recompose'
+import { pure, mapPropsStream, createEventHandler } from 'recompose'
 import sprintf from 'sprintf'
 import { compose, prop, omit, path } from 'ramda'
-import * as STATE from '../../../constants/state'
-import * as ROUTE from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
+import * as ROUTES from '../../../constants/routes'
 import { appendParamsToUrl } from '../../../helpers/urls'
 import {
   getCompanyListAction,
@@ -37,8 +37,8 @@ const mapStateToProps = (state, props) => {
   const filterInitialFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
 
   return {
-    list: getDataFromState(STATE.COMPANY_LIST, state),
-    detail: { ...getDataFromState(STATE.COMPANY_DETAIL, state), id },
+    list: getDataFromState(STATES.COMPANY_LIST, state),
+    detail: { ...getDataFromState(STATES.COMPANY_DETAIL, state), id },
     filterInitialFormValue,
     filterFormValue
   }
@@ -53,7 +53,7 @@ const mapDispatchToProps = {
   push
 }
 
-export default composeR(
+export default compose(
   UserIsAuthenticated,
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
@@ -88,7 +88,7 @@ export default composeR(
       .subscribe(([event, { push, location, match }]) => {
         const companyId = parseInt(path(['params', 'companyId'], match))
         const search = prop('search', location)
-        const pathname = sprintf(ROUTE.COMPANY_LIST_PATH, companyId)
+        const pathname = sprintf(ROUTES.COMPANY_LIST_PATH, companyId)
         const fullPath = `${pathname}${search}`
 
         push(appendParamsToUrl({ filter: true }, fullPath))

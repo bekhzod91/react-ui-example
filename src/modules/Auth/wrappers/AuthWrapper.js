@@ -3,16 +3,16 @@ import { connect } from 'react-redux'
 import { compose, mapPropsStream } from 'recompose'
 import { push } from 'react-router-redux'
 import { path, prop } from 'ramda'
-import * as ROUTE from '../../../constants/routes'
-import * as STATE from '../../../constants/state'
+import * as ROUTES from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
 import { getToken, clearToken } from '../../../helpers/token'
 import { setTokenAction, clearTokenAction } from '../actions/token'
 import { signOutAction } from '../actions/signOut'
 import { fetchMeAction } from '../actions/me'
 
 const mapStateToProps = (state) => ({
-  token: path([STATE.SING_IN, 'data', 'token'], state),
-  username: path([STATE.ME, 'data', 'username'], state),
+  token: path([STATES.SING_IN, 'data', 'token'], state),
+  username: path([STATES.ME, 'data', 'username'], state),
 })
 
 const mapDispatchToProps = dispatch => {
@@ -53,7 +53,7 @@ export default compose(
           .catch(() =>
             Promise.resolve(props.clearTokenAction())
               .then(clearToken)
-              .then(() => props.push(ROUTE.SIGN_IN))
+              .then(() => props.push(ROUTES.SIGN_IN))
           )
       )
 

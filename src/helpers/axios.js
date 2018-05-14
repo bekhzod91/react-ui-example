@@ -2,8 +2,8 @@ import axios from 'axios'
 import { push } from 'react-router-redux'
 import { path, is, equals, curry } from 'ramda'
 import { API_URL } from '../constants/api'
-import * as ROUTE from '../constants/routes'
-import * as STATE from '../constants/state'
+import * as ROUTES from '../constants/routes'
+import * as STATES from '../constants/states'
 import toCamelCase from '../helpers/toCamelCase'
 
 const INTERNAL_ERROR = 500
@@ -27,7 +27,7 @@ const apiErrorHandler = curry((push, error) => {
   const status = path(['response', 'status'], error)
 
   if (equals(INTERNAL_ERROR, status)) {
-    push(ROUTE.INTERNAL_SERVER_ERROR)
+    push(ROUTES.INTERNAL_SERVER_ERROR)
   }
 
   return Promise.reject(error)
@@ -35,7 +35,7 @@ const apiErrorHandler = curry((push, error) => {
 
 export default ({ getState, dispatch }) => {
   const state = getState()
-  const token = path([STATE.SING_IN, 'data', 'token'], state)
+  const token = path([STATES.SING_IN, 'data', 'token'], state)
 
   axios.defaults.baseURL = API_URL
   axios.defaults.transformResponse = [responseToCamelCase]

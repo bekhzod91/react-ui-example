@@ -2,17 +2,17 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose, withHandlers } from 'recompose'
 import { path } from 'ramda'
-import * as ROUTE from '../../../constants/routes'
-import * as STATE from '../../../constants/state'
+import * as ROUTES from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
 import { getFormValueFromState } from '../../../helpers/form'
 import Recovery from '../components/Recovery'
 import { FORM } from '../components/RecoveryForm'
 import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  loading: path([STATE.RECOVERY, 'loading'], state),
-  recovery: path([STATE.RECOVERY, 'data'], state),
-  error: path([STATE.RECOVERY, 'error'], state),
+  loading: path([STATES.RECOVERY, 'loading'], state),
+  recovery: path([STATES.RECOVERY, 'data'], state),
+  error: path([STATES.RECOVERY, 'error'], state),
   formValues: getFormValueFromState(FORM, state),
 })
 
@@ -22,7 +22,7 @@ const enhance = compose(
     onSubmit: props => () => {
       return props
         .recoveryAction(props.formValues)
-        .then(() => props.push(ROUTE.RECOVERY_THANK_YOU_URL))
+        .then(() => props.push(ROUTES.RECOVERY_THANK_YOU_URL))
     }
   })
 )

@@ -3,12 +3,12 @@ import { compose, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { fetchMyCompaniesAction } from '../actions/myCompanies'
-import * as STATE from '../../../constants/state'
+import * as STATES from '../../../constants/states'
 import Companies from '../components/Companies'
 
 const mapStateToProps = (state) => ({
-  loading: path([STATE.USER_COMPANIES, 'loading'], state),
-  list: pathOr([], [STATE.USER_COMPANIES, 'data'], state)
+  loading: path([STATES.USER_COMPANIES, 'loading'], state),
+  list: pathOr([], [STATES.USER_COMPANIES, 'data'], state)
 })
 
 const mapDispatchToProps = {

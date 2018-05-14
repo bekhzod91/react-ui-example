@@ -79,7 +79,7 @@ The project structure presented in this boilerplate is **fractal**, where functi
 │   ├── containers           # Global Reusable Container Components
 │   ├── layouts              # Components that dictate major page structure
 │   │   └── PageLayout       # Global application layout in which to render routes
-│   ├── routes               # Main route definitions and async split points
+│   ├── modules              # Main modules definitions and async split points
 │   │   ├── index.js         # Bootstrap main application routes with store
 │   │   ├── Home             # Fractal route
 │   │   │   ├── index.js     # Route definitions and async split points

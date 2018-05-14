@@ -2,13 +2,13 @@ import { path } from 'ramda'
 import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import * as ROUTE from '../../../constants/routes'
-import * as STATE from '../../../constants/state'
+import * as ROUTES from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
 import RecoveryThankYou from '../components/RecoveryThankYou'
 import actions from '../actions/recovery'
 
 const mapStateToProps = (state) => ({
-  recovery: path([STATE.RECOVERY, 'data'], state),
+  recovery: path([STATES.RECOVERY, 'data'], state),
 })
 
 const enhance = compose(
@@ -17,7 +17,7 @@ const enhance = compose(
     const email = path(['recovery', 'email'], props)
 
     if (!email) {
-      props.push(ROUTE.SIGN_IN_URL)
+      props.push(ROUTES.SIGN_IN_URL)
     }
   }),
   mapProps((props) => {

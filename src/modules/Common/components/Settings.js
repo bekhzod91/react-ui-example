@@ -4,7 +4,7 @@ import withStyles from 'material-ui/styles/withStyles'
 import SettingsIcon from 'material-ui-icons/Settings'
 import BusinessIcon from 'material-ui-icons/Business'
 import Grid from 'material-ui/Grid'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 import AppBar from '../../../components/AppBar'
 import SettingsIconItem from './SettingsItem'
 
@@ -57,7 +57,7 @@ const SPACE_BETWEEN_SETTINGS_ITEM = 24
 const Settings = ({ classes }) => {
   const description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
   return (
-    <AppBar activeMenuName={ROUTE.COMMON_SETTINGS}>
+    <AppBar activeMenuName={ROUTES.COMMON_SETTINGS}>
       <div className={classes.root}>
         <div className={classes.header}>
           <h2>Settings <SettingsIcon className={classes.titleIcon} /></h2>

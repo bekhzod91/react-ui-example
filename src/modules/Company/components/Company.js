@@ -1,13 +1,13 @@
 import { path, prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 import { getRouteFromProps } from '../../../helpers/get'
 import AppBar from '../../../components/AppBar'
 import CompanyDetail from './CompanyDetail'
 import CompanyList from './CompanyList'
 
-const Company = ({ list, filter, ...props }) => {
+const Company = ({ list, filter, app, ...props }) => {
   const route = getRouteFromProps(props)
 
   const detail = {
@@ -18,7 +18,7 @@ const Company = ({ list, filter, ...props }) => {
   }
 
   return (
-    <AppBar activeMenuName={ROUTE.COMPANY}>
+    <AppBar active={ROUTES.COMPANY} {...app}>
       <CompanyList
         route={route}
         filter={filter}
@@ -30,6 +30,7 @@ const Company = ({ list, filter, ...props }) => {
 }
 
 Company.propTypes = {
+  app: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
   detail: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,

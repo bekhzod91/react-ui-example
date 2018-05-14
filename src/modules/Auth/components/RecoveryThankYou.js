@@ -5,13 +5,13 @@ import { compose as flow, branch, renderNothing } from 'recompose'
 import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 
 const styles = {
   footer: wrapStyle.footer
 }
 
-const RecoveryThankYou = ({ classes, email, firstName, changeEmail }) => (
+const RecoveryThankYou = ({ classes, email, firstName }) => (
   <AuthLayout
     title={`Thank you ${firstName}`}
     loading={false}>
@@ -21,11 +21,11 @@ const RecoveryThankYou = ({ classes, email, firstName, changeEmail }) => (
       <p style={{ textAlign: 'center' }}>Please click the link in that message to reset password</p>
 
       <p style={{ textAlign: 'center' }}>
-        <Link to={ROUTE.RECOVERY_URL}>Change your email</Link>
+        <Link to={ROUTES.RECOVERY_URL}>Change your email</Link>
       </p>
 
       <div className={classes.footer}>
-        <p>Do you want return main page? <Link to={ROUTE.SIGN_IN_URL}>Sign In</Link></p>
+        <p>Do you want return main page? <Link to={ROUTES.SIGN_IN_URL}>Sign In</Link></p>
       </div>
     </div>
   </AuthLayout>

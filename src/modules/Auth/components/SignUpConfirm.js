@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 
 const styles = {
   title: wrapStyle.title,
@@ -14,7 +14,7 @@ const styles = {
   }
 }
 
-export const SingUpConfirm = ({ classes, loading, data, failed }) => (
+export const SingUpConfirm = ({ classes, loading, data }) => (
   <AuthLayout
     title={loading ? ' ' : `Welcome ${prop('firstName', data)}`}
     loading={loading}>
@@ -24,7 +24,7 @@ export const SingUpConfirm = ({ classes, loading, data, failed }) => (
       <p className={classes.center}>You can sign in with email address {prop('email', data)}</p>
 
       <div className={classes.footer}>
-        <p>Do you want return main page? <Link to={ROUTE.SIGN_IN_URL}>Sign In</Link></p>
+        <p>Do you want return main page? <Link to={ROUTES.SIGN_IN_URL}>Sign In</Link></p>
       </div>
     </div>}
   </AuthLayout>

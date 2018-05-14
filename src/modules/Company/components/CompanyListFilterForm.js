@@ -45,7 +45,12 @@ const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (
       />
 
       <div className={classes.buttonGroup}>
-        <Button color="primary" raised={true} type="submit">Apply</Button>
+        <Button
+          color="primary"
+          variant="raised"
+          type="submit">
+          Apply
+        </Button>
       </div>
     </form>
   </TableDialog>

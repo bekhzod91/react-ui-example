@@ -11,7 +11,7 @@ import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight'
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
 import AuthLayout from '../../../components/Layouts/AuthLayout'
 import { fromNow } from '../../../helpers/dateFormat'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 
 const styles = theme => ({
   avatarWithOutLogo: {
@@ -51,7 +51,7 @@ const Companies = ({ classes, push, loading, list }) => {
     const activityInfo = lastActivityDate ? (
       `Last activity ${fromNow(lastActivityDate, 'D MMM YYYY')}`
     ) : 'Never been activity'
-    const companyPage = sprintf(ROUTE.DASHBOARD_PATH, id)
+    const companyPage = sprintf(ROUTES.DASHBOARD_PATH, id)
 
     const logo = logoUrl ? (
       <Avatar
@@ -93,7 +93,7 @@ const Companies = ({ classes, push, loading, list }) => {
       <ListItem
         button={true}
         className={classes.goBack}
-        onClick={() => push(ROUTE.SIGN_IN_URL)}>
+        onClick={() => push(ROUTES.SIGN_IN_URL)}>
         <KeyboardArrowLeft />
         <ListItemText primary="Go back" />
       </ListItem>

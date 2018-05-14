@@ -21,12 +21,13 @@ const styles = theme => ({
   }
 })
 
-const CompanyListActions = ({ classes, onOpenFilter, filterCount, ...props }) => (
+const CompanyListActions = ({ classes, onOpenFilter, filterCount }) => (
   <div className={classes.root}>
     <IconButton onClick={onOpenFilter}>
-      <Badge badgeContent={filterCount} color="accent">
+      {Boolean(filterCount) && <Badge badgeContent={filterCount} color="secondary">
         <FilterListIcon />
-      </Badge>
+      </Badge>}
+      {!filterCount && <FilterListIcon />}
     </IconButton>
     <More>
       <Menu className={classes.menu}>

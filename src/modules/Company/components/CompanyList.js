@@ -10,7 +10,7 @@ import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../c
 import { appendParamsToUrl } from '../../../helpers/urls'
 import { fromNow } from '../../../helpers/dateFormat'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
-import * as ROUTE from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 import CompanyListActions from './CompanyListActions'
 import CompanyListFilterForm from './CompanyListFilterForm'
 
@@ -19,7 +19,7 @@ const CompanyList = ({ route, filter, list, detail }) => {
   const query = path(['location', 'query'], route)
   const getLink = (item) => {
     const id = prop('id', item)
-    const url = sprintf(ROUTE.COMPANY_DETAIL_PATH, parseInt(companyId), parseInt(id))
+    const url = sprintf(ROUTES.COMPANY_DETAIL_PATH, parseInt(companyId), parseInt(id))
     const urlWithParams = appendParamsToUrl(query, url)
 
     return (
@@ -75,7 +75,7 @@ const CompanyList = ({ route, filter, list, detail }) => {
         <TableColumn content={getFullNameOrEmail} columnSize={3} />
         <TableColumn content={prop('status')} columnSize={2} />
         <TableColumn content={getCreateDate} columnSize={2} />
-        <TableColumn content={(item) => <div>
+        <TableColumn content={() => <div>
           <IconButton><EditIcon /></IconButton>
           <IconButton><DeleteIcon /></IconButton>
         </div>} />

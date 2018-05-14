@@ -42,7 +42,7 @@ const styles = theme => ({
     background: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'space-between',
     maxHeight: 42,
-    padding: '0 !important',
+    padding: '11px 0 11px 0',
     color: theme.menu.textColor,
     '& > div': {
       margin: '0 0 0 10px'

@@ -14,7 +14,7 @@ export const getPermissionsAction = () => {
       .catch(getPayloadFromError)
 
     return dispatch({
-      type: actionsTypes.USER_PERMISSION,
+      type: actionsTypes.PERMISSIONS,
       payload
     })
   }

@@ -2,13 +2,13 @@ import { path } from 'ramda'
 import { compose, withPropsOnChange, mapProps } from 'recompose'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import * as ROUTE from '../../../constants/routes'
-import * as STATE from '../../../constants/state'
+import * as ROUTES from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
 import SignUpMessageResend from '../components/SignUpMessageResend'
 import { resendMessageAction } from '../actions/signUp'
 
 const mapStateToProps = (state) => ({
-  data: path([STATE.SIGN_UP, 'data'], state)
+  data: path([STATES.SIGN_UP, 'data'], state)
 })
 
 const enhance = compose(
@@ -17,7 +17,7 @@ const enhance = compose(
     const email = path(['data', 'email'], props)
 
     if (!email) {
-      props.push(ROUTE.SIGN_IN_URL)
+      props.push(ROUTES.SIGN_IN_URL)
     }
   }),
   mapProps((props) => {

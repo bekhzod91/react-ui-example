@@ -1,12 +1,10 @@
-import { compose, path, pathOr, prop, length } from 'ramda'
+import { compose, path, pathOr, prop, length, equals } from 'ramda'
 import React from 'react'
 import { pure, mapProps, withHandlers, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from 'material-ui/styles/withStyles'
 import CircularProgress from 'material-ui/Progress/CircularProgress'
-import Fade from 'material-ui/transitions/Fade'
-import Render from '../../components/Transitions/Render'
 import { getFullPathFromLocation } from '../../helpers/get'
 import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 import TableFooter from '../../components/Table/TableFooter'
@@ -97,7 +95,7 @@ const styles = theme => ({
     }
   },
 
-  noData: {
+  empty: {
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
       '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
       '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
@@ -131,7 +129,7 @@ const enhance = compose(
     getById: path(['id']),
     defaultRowsPerPage: 10,
     checkboxEnable: true,
-    searchEnable: true,
+    search: true,
   }),
   withHandlers({
     onCheckAll: ({ getById, route, list }) => () => {
@@ -167,14 +165,14 @@ const enhance = compose(
       actions,
       dialogs,
       defaultRowsPerPage,
-      searchEnable
+      search
     } = props
 
     const loading = prop('loading', list)
     const count = pathOr(0, ['data', 'count'], list)
     const selectIds = getSelectIdsFromRoute(route)
-    const selectCount = length(selectIds)
-    const listIsEmpty = !loading && length(path(['data', 'results'], list)) === 0
+    const idsCount = length(selectIds)
+    const empty = compose(equals(0), length, path(['data', 'results']))(list)
     const renderHeader = () => renderTableHeaderFromProps(props)
     const renderBody = () => renderTableBodyFromProps(props)
 
@@ -188,34 +186,34 @@ const enhance = compose(
       defaultRowsPerPage,
       renderHeader,
       renderBody,
-      listIsEmpty,
-      selectCount,
-      searchEnable
+      empty,
+      idsCount,
+      search
     }
   }),
   pure
 )
 
-const Table = ({ classes, loading, dialogs, actions, renderHeader, renderBody, route, ...props }) => {
-  const { count, listIsEmpty, selectCount, searchEnable, defaultRowsPerPage } = props
-  const selectCountVisible = selectCount !== 0
+const Table = ({ classes, renderHeader, renderBody, route, ...props }) => {
+  const bodyIsVisible = !(props.loading || props.empty)
 
   return (
     <div className={classes.root}>
       <div>
-        {dialogs}
-        <div className={classNames(classes.header, { [classes.select]: selectCount })}>
+        {props.dialogs}
+        <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
           <div>
-            <Render render={searchEnable}>
+            {props.search && (
               <TableSearch className={classes.search} route={route} />
-            </Render>
-            {selectCountVisible && (
+            )}
+
+            {Boolean(props.idsCount) && (
               <div className={classes.selectCount} data-test="table-select-count">
-                {selectCount} selected
+                {props.idsCount} selected
               </div>
             )}
             <div className={classes.actions}>
-              {actions}
+              {props.actions}
             </div>
           </div>
           <div>
@@ -223,33 +221,26 @@ const Table = ({ classes, loading, dialogs, actions, renderHeader, renderBody, r
           </div>
         </div>
         <div className={classes.body}>
-          <Render render={loading}>
+          {props.loading && (
             <div className={classes.loader}>
-              <CircularProgress
-                size={75}
-                color="secondary"
-              />
+              <CircularProgress size={75} color="secondary" />
             </div>
-          </Render>
-          <Fade
-            in={!loading}
-            className={classNames('', { [classes.hide]: loading })}>
-            <div>
-              {!loading && renderBody()}
-            </div>
-          </Fade>
-          {listIsEmpty && <div>
-            <div className={classes.noData}>
+          )}
+
+          {props.empty && (
+            <div className={classes.empty}>
               <img src={NotFoundImage} />
               <div>
                 <h4>Ooops, Item Not Found</h4>
                 <span>Try rewording your search or entering a new keyword</span>
               </div>
             </div>
-          </div>}
+          )}
+
+          {bodyIsVisible && <div>{renderBody()}</div>}
         </div>
         <div className={classes.footer}>
-          <TableFooter route={route} count={count} defaultRowsPerPage={defaultRowsPerPage} />
+          <TableFooter route={route} count={props.count} defaultRowsPerPage={props.defaultRowsPerPage} />
         </div>
       </div>
     </div>
@@ -266,12 +257,12 @@ Table.propTypes = {
   actions: PropTypes.node,
   renderHeader: PropTypes.func.isRequired,
   renderBody: PropTypes.func.isRequired,
-  count: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
+  search: PropTypes.bool.isRequired,
+  empty: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
+  idsCount: PropTypes.number.isRequired,
   defaultRowsPerPage: PropTypes.number.isRequired,
-  searchEnable: PropTypes.bool.isRequired,
-  selectCount: PropTypes.number.isRequired,
-  listIsEmpty: PropTypes.bool.isRequired,
 }
 
 export default enhance(Table)

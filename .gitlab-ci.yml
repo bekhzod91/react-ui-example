@@ -27,7 +27,7 @@ build:
 test:
   stage: test
   script:
-    - docker-compose -f docker-compose.test.yml run web
+    - docker-compose run test
   tags:
     - staging
 
@@ -35,7 +35,7 @@ deploy:
   stage: deploy
   script:
     - cd /gs1_ui
-    - docker-compose run web
+    - docker-compose run app
   only:
     - master
   tags:

@@ -1,15 +1,15 @@
 import AppLayout from '../../components/Layouts/AppLayout'
 import { AsyncComponent } from '../../components/Layouts/RouterLayout'
-import * as ROUTE from '../../constants/routes'
+import * as ROUTES from '../../constants/routes'
 
 const getSettingsContainer = () =>
   import(/* webpackChunkName: "settings" */ './containers/SettingsContainer')
     .then(module => module.default)
 
-export default (store) => ([
+export default () => ([
   {
     layout: AppLayout,
-    path: ROUTE.COMMON_SETTINGS_URL,
+    path: ROUTES.COMMON_SETTINGS_URL,
     component: AsyncComponent(getSettingsContainer)
   }
 ])

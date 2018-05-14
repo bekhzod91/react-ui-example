@@ -9,7 +9,7 @@ export const RECOVERY = 'recovery'
 export const RESET_PASSWORD = 'resetPassword'
 export const USER_COMPANIES = 'userCompanies'
 export const ME = 'me'
-export const USER_PERMISSION = 'userPermission'
+export const PERMISSIONS = 'permissions'
 
 // User crud state
 export const USER_LIST = 'userList'

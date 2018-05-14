@@ -2,8 +2,12 @@ version: "3"
 
 services:
   # App
-  web:
-    restart: always
+  test:
+    environment:
+      - NODE_ENV=testing
+    build: .
+
+  app:
     env_file:
       - .env
     build: .
@@ -12,5 +16,3 @@ services:
     volumes:
       - ./dist:/gs1_ui
 
-volumes:
-  web:

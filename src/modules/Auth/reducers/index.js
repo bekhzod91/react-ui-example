@@ -1,12 +1,12 @@
 import thunkReducer from '../../../helpers/thunkReducer'
-import * as STATE from '../../../constants/state'
+import * as STATES from '../../../constants/states'
 import * as actionsTypes from '../constants/actionTypes'
 
 export default {
-  [STATE.RECOVERY]: thunkReducer(actionsTypes.RECOVERY),
-  [STATE.RESET_PASSWORD]: thunkReducer(actionsTypes.RESET_PASSWORD),
-  [STATE.TWITTER_REDIRECT]: thunkReducer(actionsTypes.TWITTER_REDIRECT),
-  [STATE.SIGN_UP]: thunkReducer(actionsTypes.SIGN_UP),
-  [STATE.RESEND_MESSAGE]: thunkReducer(actionsTypes.RESEND_MESSAGE),
-  [STATE.SIGN_UP_EMAIL_CONFIRM]: thunkReducer(actionsTypes.SIGN_UP_EMAIL_CONFIRM)
+  [STATES.RECOVERY]: thunkReducer(actionsTypes.RECOVERY),
+  [STATES.RESET_PASSWORD]: thunkReducer(actionsTypes.RESET_PASSWORD),
+  [STATES.TWITTER_REDIRECT]: thunkReducer(actionsTypes.TWITTER_REDIRECT),
+  [STATES.SIGN_UP]: thunkReducer(actionsTypes.SIGN_UP),
+  [STATES.RESEND_MESSAGE]: thunkReducer(actionsTypes.RESEND_MESSAGE),
+  [STATES.SIGN_UP_EMAIL_CONFIRM]: thunkReducer(actionsTypes.SIGN_UP_EMAIL_CONFIRM)
 }

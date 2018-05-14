@@ -2,8 +2,8 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose, withHandlers, mapProps, withPropsOnChange } from 'recompose'
 import { path } from 'ramda'
-import * as ROUTE from '../../../constants/routes'
-import * as STATE from '../../../constants/state'
+import * as ROUTES from '../../../constants/routes'
+import * as STATES from '../../../constants/states'
 import { redirect } from '../../../helpers/window'
 import { fbLoginURL } from '../../../helpers/facebook'
 import { googleLoginURL } from '../../../helpers/google'
@@ -14,10 +14,10 @@ import { signUpAction } from '../actions/signUp'
 import actions from '../actions/signIn'
 
 const mapStateToProps = (state) => ({
-  loading: path([STATE.SIGN_UP, 'loading'], state) || path([STATE.TWITTER_REDIRECT, 'loading'], state),
-  twitter: path([STATE.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
-  token: path([STATE.SING_IN, 'data', 'token'], state),
-  signUp: path([STATE.SIGN_UP, 'data'], state),
+  loading: path([STATES.SIGN_UP, 'loading'], state) || path([STATES.TWITTER_REDIRECT, 'loading'], state),
+  twitter: path([STATES.TWITTER_REDIRECT, 'data', 'redirect'], state) || null,
+  token: path([STATES.SING_IN, 'data', 'token'], state),
+  signUp: path([STATES.SIGN_UP, 'data'], state),
   formValues: path(['form', FORM, 'values'], state)
 })
 
@@ -57,7 +57,7 @@ const enhance = compose(
     onSubmit: props => () => {
       return props
         .signUpAction(props.formValues)
-        .then(() => props.push(ROUTE.SIGN_UP_THANK_YOU_URL))
+        .then(() => props.push(ROUTES.SIGN_UP_THANK_YOU_URL))
     }
   })
 )

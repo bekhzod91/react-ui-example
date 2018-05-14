@@ -1,6 +1,6 @@
 import { path, prop } from 'ramda'
 import { setToken } from '../../helpers/token'
-import * as ROUTER from '../../constants/routes'
+import * as ROUTES from '../../constants/routes'
 
 export const watchSocailAuth = ({ location, ...props }) => {
   // Twitter
@@ -28,6 +28,6 @@ export const watchSocailAuth = ({ location, ...props }) => {
 export const watchAuthToken = ({ token, formValues, location, push }) => {
   if (token) {
     setToken(token, prop('rememberMe', formValues))
-    push(path(['query', 'redirect'], location) || ROUTER.DASHBOARD_URL)
+    push(path(['query', 'redirect'], location) || ROUTES.DASHBOARD_URL)
   }
 }

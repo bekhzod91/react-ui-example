@@ -1,12 +1,12 @@
-import { compose, not, prop } from 'ramda'
+import { compose, not, path } from 'ramda'
 import { mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
-import * as STATE from '../../../constants/state'
+import * as STATES from '../../../constants/states'
 import { getPermissionsAction } from '../actions/permissions'
 import { getDataFromState } from '../../../helpers/get'
 
 const mapStateToProps = (state) => ({
-  permission: getDataFromState(STATE.USER_PERMISSION, state)
+  permission: getDataFromState(STATES.PERMISSIONS, state)
 })
 
 export default compose(
@@ -14,8 +14,8 @@ export default compose(
   mapPropsStream(props$ => {
     props$
       .first()
-      .filter(compose(not, prop('permissions')))
-      .flatMap(props => props.getPermissionsAction())
+      .filter(compose(not, path(['permission', 'data'])))
+      .subscribe(props => props.getPermissionsAction())
 
     return props$
   })

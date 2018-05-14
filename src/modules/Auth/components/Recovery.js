@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
 import RecoveryForm from '../components/RecoveryForm'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
-import * as ROUTER from '../../../constants/routes'
+import * as ROUTES from '../../../constants/routes'
 
 const styles = {
   footer: wrapStyle.footer
@@ -18,7 +18,7 @@ const Recovery = ({ classes, loading, onSubmit }) => (
       <RecoveryForm onSubmit={onSubmit} />
 
       <div className={classes.footer}>
-        <p>Do you want return previous page? <Link to={ROUTER.SIGN_IN_URL}>Sign In</Link></p>
+        <p>Do you want return previous page? <Link to={ROUTES.SIGN_IN_URL}>Sign In</Link></p>
       </div>
     </div>
   </AuthLayout>

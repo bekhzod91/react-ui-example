@@ -11,8 +11,9 @@ services:
     environment:
       - API_HOST=apigs1.wienerdeming.com
     build: .
+    image: lab.wienerdeming.com:4567/gs1/gs1_ui
     ports:
       - "3000:3000"
     volumes:
-      - ./dist:/gs1_ui
+      - ./dist:/gs1_ui/
 

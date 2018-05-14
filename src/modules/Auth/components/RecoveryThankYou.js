@@ -34,8 +34,7 @@ const RecoveryThankYou = ({ classes, email, firstName }) => (
 RecoveryThankYou.propTypes = {
   classes: PropTypes.object.isRequired,
   email: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  changeEmail: PropTypes.func.isRequired
+  firstName: PropTypes.string.isRequired
 }
 
 const enhance = flow(

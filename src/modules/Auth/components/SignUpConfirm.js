@@ -33,8 +33,7 @@ export const SingUpConfirm = ({ classes, loading, data }) => (
 SingUpConfirm.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  failed: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(SingUpConfirm)

@@ -5,7 +5,7 @@ import LinearProgress from 'material-ui/Progress/LinearProgress'
 import BgImgWrapper from '../BgImgWarpper/BgImgWrapper'
 import Logo from '../Logo'
 
-const styles = {
+export const styles = {
   content: {
     overflow: 'hidden',
     background: '#fff',

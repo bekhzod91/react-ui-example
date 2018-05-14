@@ -8,8 +8,8 @@ services:
     build: .
 
   app:
-    env_file:
-      - .env
+    environment:
+      - API_HOST=apigs1.wienerdeming.com
     build: .
     ports:
       - "3000:3000"

@@ -3,14 +3,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
-import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
+import AuthLayout from '../../../components/Layouts/AuthLayout'
 import * as ROUTES from '../../../constants/routes'
 
 const styles = {
-  title: wrapStyle.title,
-  footer: wrapStyle.footer,
+  title: {
+    textAlign: 'center',
+    fontSize: '1.5em',
+    margin: '10px auto',
+    textTransform: 'uppercase'
+  },
   center: {
     textAlign: 'center'
+  },
+  footer:{
+    padding: 15,
+    '& p': {
+      textAlign: 'justify',
+      '&:after': {
+        content: '""',
+        display: 'inline-block',
+        width: '100%'
+      }
+    }
   }
 }
 

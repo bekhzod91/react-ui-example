@@ -34,8 +34,8 @@ test:
 deploy:
   stage: deploy
   script:
-    - cd /gs1_ui
     - docker-compose run app
+    - cp -r dist/ /gs1_ui
   only:
     - master
   tags:

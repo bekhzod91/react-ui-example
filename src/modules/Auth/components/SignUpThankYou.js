@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { compose as flow, branch, renderNothing } from 'recompose'
-import withStyles from 'material-ui/styles/withStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import AuthLayout, { styles as wrapStyle } from '../../../components/Layouts/AuthLayout'
 import * as ROUTES from '../../../constants/routes'
 

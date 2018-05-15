@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router'
-import LinearProgress from 'material-ui/Progress/LinearProgress'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 const style = {
   position: 'absolute',

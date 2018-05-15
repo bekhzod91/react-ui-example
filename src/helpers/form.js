@@ -4,7 +4,7 @@ import {
   chain
 } from 'ramda'
 import moment from 'moment'
-import { getQueryFromUrl } from './urls'
+import { parseParams } from './urls'
 import { toSnake } from './toSnakeCase'
 
 export const getFormValueFromState = curry((name, state) => pathOr({}, ['form', name, 'values'], state))
@@ -80,7 +80,7 @@ export const getParamsLikeFormValues = curry((fields, params) => compose(
 
 export const getInitialFormValuesFromProps = curry((name, state, props) => {
   const fields = keys(pathOr({}, ['form', name, 'registeredFields'], state))
-  const params = getQueryFromUrl(pathOr('', ['location', 'search'], props)) || {}
+  const params = parseParams(pathOr('', ['location', 'search'], props)) || {}
 
   return getParamsLikeFormValues(fields, params)
 })

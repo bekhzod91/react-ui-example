@@ -3,12 +3,12 @@ import React from 'react'
 import { pure, mapProps, withHandlers, defaultProps } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import withStyles from 'material-ui/styles/withStyles'
-import CircularProgress from 'material-ui/Progress/CircularProgress'
+import withStyles from '@material-ui/core/styles/withStyles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { getFullPathFromLocation } from '../../helpers/get'
 import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
-import TableFooter from '../../components/Table/TableFooter'
 import TableSearch from '../Table/TableSearch'
+import TablePagination from './TablePagination'
 import NotFoundImage from './searchIcon.svg'
 import {
   getIdsFromList,
@@ -240,7 +240,7 @@ const Table = ({ classes, renderHeader, renderBody, route, ...props }) => {
           {bodyIsVisible && <div>{renderBody()}</div>}
         </div>
         <div className={classes.footer}>
-          <TableFooter route={route} count={props.count} defaultRowsPerPage={props.defaultRowsPerPage} />
+          <TablePagination route={route} count={props.count} defaultRowsPerPage={props.defaultRowsPerPage} />
         </div>
       </div>
     </div>

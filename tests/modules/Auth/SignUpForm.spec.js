@@ -13,6 +13,7 @@ import TextField from '../../../src/components/Form/TextField'
 import { signUpAction, API_SIGN_UP_URL } from '../../../src/modules/Auth/actions/signUp'
 import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
+import FormHelperText from "@material-ui/core/FormHelperText/index";
 
 describe('(Component) SignUpForm', () => {
   let submit, component, store
@@ -81,10 +82,10 @@ describe('(Component) SignUpForm', () => {
     expect(path([STATE.SIGN_UP, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['email'][0])
-      expect(component.find(TextField).at(1).instance().props.meta.error[0]).to.equal(response['firstName'][0])
-      expect(component.find(TextField).at(2).instance().props.meta.error[0]).to.equal(response['secondName'][0])
-      expect(component.find(TextField).at(3).instance().props.meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(FormHelperText).at(0).instance().props.children[0]).to.equal(response['email'][0])
+      expect(component.find(FormHelperText).at(1).instance().props.children[0]).to.equal(response['firstName'][0])
+      expect(component.find(FormHelperText).at(2).instance().props.children[0]).to.equal(response['secondName'][0])
+      expect(component.find(FormHelperText).at(3).instance().props.children[0]).to.equal(response['password'][0])
 
       done()
     })

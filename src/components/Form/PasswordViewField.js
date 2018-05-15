@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withState } from 'recompose'
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 import Visibility from 'material-ui-icons/Visibility'
 import VisibilityOff from 'material-ui-icons/VisibilityOff'
 import TextField from './TextField'
@@ -11,7 +11,7 @@ const PasswordViewField = ({ visibility, setVisibility, ...props }) => {
     <div style={{ position: 'relative' }}>
       <TextField
         {...props}
-        type={visibility ? 'text' : 'password'}
+        inputProps={{ type: visibility ? 'text' : 'password' }}
       />
       <IconButton
         onMouseDown={() => setVisibility(true)}

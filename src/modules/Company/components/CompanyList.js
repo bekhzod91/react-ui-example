@@ -3,7 +3,7 @@ import sprintf from 'sprintf'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 import EditIcon from 'material-ui-icons/Edit'
 import DeleteIcon from 'material-ui-icons/Delete'
 import { Table, TableHeader, TableCell, TableRow, TableColumn } from '../../../components/Table'
@@ -14,12 +14,11 @@ import * as ROUTES from '../../../constants/routes'
 import CompanyListActions from './CompanyListActions'
 import CompanyListFilterForm from './CompanyListFilterForm'
 
-const CompanyList = ({ route, filter, list, detail }) => {
-  const companyId = prop('companyId', route)
+const CompanyList = ({ route, filter, list, detail, ...props }) => {
   const query = path(['location', 'query'], route)
   const getLink = (item) => {
     const id = prop('id', item)
-    const url = sprintf(ROUTES.COMPANY_DETAIL_PATH, parseInt(companyId), parseInt(id))
+    const url = sprintf(ROUTES.COMPANY_DETAIL_PATH, parseInt(id))
     const urlWithParams = appendParamsToUrl(query, url)
 
     return (
@@ -63,7 +62,7 @@ const CompanyList = ({ route, filter, list, detail }) => {
       dialogs={dialogs}>
       <TableHeader>
         <TableCell sort="id">ID</TableCell>
-        <TableCell columnSize={3} sort="name">Title</TableCell>
+        <TableCell columnSize={3} sort="name">Name</TableCell>
         <TableCell sort="owner" columnSize={3}>Owner</TableCell>
         <TableCell columnSize={2} sort="status">Status</TableCell>
         <TableCell columnSize={2} sort="createDate">Create date</TableCell>

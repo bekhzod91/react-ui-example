@@ -1,17 +1,17 @@
 import {
   pipe, split, map, fromPairs, toPairs, head, join, pathOr, findLast, endsWith, isNil,
   merge, prop, equals, defaultTo, filter, without, sort, uniq, gte, concat, not, isEmpty,
-  append, reverse, is
+  append, reverse, is, curry
 } from 'ramda'
 
-const getQueryFromUrl = (url) => {
+const parseParams = (url) => {
   const [, search] = split('?', url)
   const searchToObject = pipe(
     split('&'),
     map(split('=')),
     fromPairs
   )
-  return search ? searchToObject(search) : ''
+  return search ? searchToObject(search) : {}
 }
 
 const paramsToSearch = pipe(
@@ -25,16 +25,16 @@ const getPathnameFromUrl = pipe(
   head
 )
 
-const appendParamsToUrl = (appendParams, url) => {
+const appendParamsToUrl = curry((appendParams, url) => {
   const pathname = getPathnameFromUrl(url)
-  const params = getQueryFromUrl(url)
+  const params = parseParams(url)
   const newParams = merge(params, appendParams)
 
   return pathname + '?' + paramsToSearch(newParams)
-}
+})
 
 const sortingStatus = (url, key, value) => {
-  const params = getQueryFromUrl(url)
+  const params = parseParams(url)
   const currentValue = pipe(
     pathOr('', [key]),
     split(','),
@@ -53,7 +53,7 @@ const sortingStatus = (url, key, value) => {
 }
 
 const sortingUrl = (url, key, value) => {
-  const params = getQueryFromUrl(url)
+  const params = parseParams(url)
   const sortValues = prop(key, params) || ''
   const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
   const status = sortingStatus(url, key, value)
@@ -70,7 +70,7 @@ const sortingUrl = (url, key, value) => {
 }
 
 const removeItemFromSelect = (url, key, value) => {
-  const params = getQueryFromUrl(url)
+  const params = parseParams(url)
   const values = is(Array, value) ? map(String, value) : [String(value)]
 
   const selector = pipe(
@@ -88,7 +88,7 @@ const removeItemFromSelect = (url, key, value) => {
 }
 
 const addItemToSelect = (url, key, value) => {
-  const params = getQueryFromUrl(url)
+  const params = parseParams(url)
   const values = is(Array, value) ? map(String, value) : [String(value)]
   const selector = pipe(
     prop(key),
@@ -105,7 +105,7 @@ const addItemToSelect = (url, key, value) => {
 }
 
 export {
-  getQueryFromUrl,
+  parseParams,
   appendParamsToUrl,
   sortingUrl,
   sortingStatus,

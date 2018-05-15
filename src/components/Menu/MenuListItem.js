@@ -4,10 +4,13 @@ import React from 'react'
 import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import { compose, pure } from 'recompose'
-import withStyles from 'material-ui/styles/withStyles'
-import Collapse from 'material-ui/transitions/Collapse'
-import IconButton from 'material-ui/IconButton'
-import { ListItem, ListItemText, ListItemSecondaryAction, ListItemIcon } from 'material-ui/List'
+import withStyles from '@material-ui/core/styles/withStyles'
+import Collapse from '@material-ui/core/Collapse'
+import IconButton from '@material-ui/core/IconButton'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
 import { checkMenuNameInsideMenu } from '../../helpers/menu'
@@ -93,6 +96,7 @@ class MenuListItem extends React.Component {
     return (
       <div>
         <ListItem
+          component="div"
           button={true}
           className={classNames(className, {
             [classes.nested]: not(isRoot),

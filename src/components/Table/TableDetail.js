@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import withStyles from 'material-ui/styles/withStyles'
-import LinearProgress from 'material-ui/Progress/LinearProgress'
-import Collapse from 'material-ui/transitions/Collapse'
+import withStyles from '@material-ui/core/styles/withStyles'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Collapse from '@material-ui/core/Collapse'
 
 const styles = theme => ({
   root: {

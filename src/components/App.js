@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import ConnectedRouter from 'react-router-redux/ConnectedRouter'
 import PropTypes from 'prop-types'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { muiTheme } from '../styles/themes'
 
 class App extends React.Component {

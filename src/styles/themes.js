@@ -1,5 +1,5 @@
-import indigo from 'material-ui/colors/indigo'
-import deepPurple from 'material-ui/colors/deepPurple'
+import indigo from '@material-ui/core/colors/indigo'
+import deepPurple from '@material-ui/core/colors/deepPurple'
 import { createMuiTheme } from 'material-ui/styles'
 
 export const muiTheme = createMuiTheme({

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui/styles/withStyles'
-import ButtonBase from 'material-ui/ButtonBase'
+import withStyles from '@material-ui/core/styles/withStyles'
+import ButtonBase from '@material-ui/core/ButtonBase'
 
 const styles = theme => ({
   root: {

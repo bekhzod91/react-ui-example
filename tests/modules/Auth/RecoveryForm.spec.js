@@ -3,6 +3,7 @@ import MockAdapter from 'axios-mock-adapter'
 import sinon from 'sinon'
 import React from 'react'
 import * as R from 'ramda'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import RecoveryForm, { FORM } from '../../../src/modules/Auth/components/RecoveryForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/store/reducers'
@@ -78,7 +79,7 @@ describe('(Component) RecoveryForm', () => {
     expect(R.path([STATE.RECOVERY, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).first().instance().props.meta.error[0]).to.equal(response['email'][0])
+      expect(component.find(FormHelperText).first().instance().props.children[0]).to.equal(response['email'][0])
 
       done()
     })

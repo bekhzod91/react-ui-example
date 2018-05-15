@@ -6,7 +6,7 @@ import sprintf from 'sprintf'
 import { compose, prop, omit, path } from 'ramda'
 import * as STATES from '../../../constants/states'
 import * as ROUTES from '../../../constants/routes'
-import { appendParamsToUrl } from '../../../helpers/urls'
+import { parseParams, appendParamsToUrl } from '../../../helpers/urls'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
@@ -61,7 +61,8 @@ export default compose(
   mapPropsStream((props$) => {
     const getListRequestFromProps = compose(
       omit(['ids', 'filter']),
-      path(['location', 'query'])
+      parseParams,
+      path(['history', 'location', 'search'])
     )
 
     // Get list

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MUIButton from 'material-ui/Button'
+import MUIButton from '@material-ui/core/Button'
 
 const Button = ({ fullWidth, style, ...props }) => {
   return (

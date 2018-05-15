@@ -2,8 +2,8 @@ import { compose, path, assoc, __ } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import LinearProgress from 'material-ui/Progress/LinearProgress'
-import withStyles from 'material-ui/styles/withStyles'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import withStyles from '@material-ui/core/styles/withStyles'
 
 const styles = {
   root: {

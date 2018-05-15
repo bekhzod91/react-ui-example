@@ -6,6 +6,7 @@ import validate from '../../../../src/helpers/validate'
 import WrapperProvider from '../../../WrapperProvider'
 import createStore from '../../../../src/store/createStore'
 import { getFormValueFromState } from '../../../../src/helpers/form'
+import FormHelperText from "@material-ui/core/FormHelperText/index";
 
 const FORM = 'TestForm'
 
@@ -45,6 +46,6 @@ describe('(Component) TextField', () => {
   it('error', () => {
     component.find('form').simulate('submit')
 
-    expect(component.find(TextField).first().instance().props.meta.error[0]).to.equal('This field is required.')
+    expect(component.find(FormHelperText).at(0).instance().props.children[0]).to.equal('This field is required.')
   })
 })

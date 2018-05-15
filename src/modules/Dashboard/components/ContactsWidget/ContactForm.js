@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
-import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog'
-import Button from 'material-ui/Button'
-import IconButton from 'material-ui/IconButton'
-import Close from 'material-ui-icons/Close'
-import withStyles from 'material-ui/styles/withStyles'
-import Avatar from 'material-ui/Avatar'
-import PhotoCamera from 'material-ui-icons/PhotoCamera'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import withStyles from '@material-ui/core/styles/withStyles'
+import Avatar from '@material-ui/core/Avatar'
 import { Field, reduxForm } from 'redux-form'
-import Slide from 'material-ui/transitions/Slide'
+import Slide from '@material-ui/core/Slide'
+import Close from 'material-ui-icons/Close'
+import PhotoCamera from 'material-ui-icons/PhotoCamera'
 import TextField from '../../../../components/Form/TextField'
 
 const styles = theme => ({
@@ -129,18 +131,18 @@ const ContactForm = ({ classes, open, close }) => {
 
             <div className={classes.actions}>
               <Button
-                raised={true}
+                variant="raised"
                 className={classes.delete}>
                 Delete
               </Button>
 
-              <Button raised={true} onClick={close}>
+              <Button variant="raised" onClick={close}>
                 Cancel
               </Button>
 
               <Button
                 type="submit"
-                raised={true}
+                variant="raised"
                 color="primary"
                 className={classes.submit}>
                 Save

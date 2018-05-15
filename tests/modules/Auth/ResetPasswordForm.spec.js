@@ -3,13 +3,13 @@ import MockAdapter from 'axios-mock-adapter'
 import sinon from 'sinon'
 import React from 'react'
 import * as R from 'ramda'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import ResetPasswordForm, { FORM } from '../../../src/modules/Auth/components/ResetPasswordForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/store/reducers'
 import * as STATE from '../../../src/constants/states'
 import axios from '../../../src/helpers/axios'
 import { getFormValueFromState } from '../../../src/helpers/form'
-import TextField from '../../../src/components/Form/TextField'
 import { resetPasswordAction, API_RESET_PASSWORD_URL } from '../../../src/modules/Auth/actions/resetPassword'
 import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
@@ -76,7 +76,7 @@ describe('(Component) ResetPasswordForm', () => {
     expect(R.path([STATE.RESET_PASSWORD, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(FormHelperText).at(0).instance().props.children[0]).to.equal(response['password'][0])
 
       done()
     })

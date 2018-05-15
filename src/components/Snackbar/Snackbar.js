@@ -3,7 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import MUISnackbar from 'material-ui/Snackbar'
+import MUISnackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
+import withStyles from '@material-ui/core/styles/withStyles'
 import * as STYLE from '../../styles/style'
 import { closeSnackbarAction, SUCCESS_TYPE, INFO_TYPE, WARNING_TYPE, DANGER_TYPE } from './actions'
 
@@ -22,19 +24,21 @@ const styles = {
   }
 }
 
-const Snackbar = ({ open, message, action, duration, close, ...props }) => (
-  <MUISnackbar
-    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-    open={open}
-    message={message}
-    bodyStyle={styles[action]}
-    autoHideDuration={duration}
-    onRequestClose={() => close()}
-    {...props}
-  />
-)
+const Snackbar = ({ classes, open, message, action, duration, close, ...props }) => {
+  return (
+    <MUISnackbar
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      open={open}
+      autoHideDuration={duration}
+      onExit={() => close()}
+      {...props}>
+      <SnackbarContent classes={{ root: classes[action] }} message={message} />
+    </MUISnackbar>
+  )
+}
 
 Snackbar.propTypes = {
+  classes: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   message: PropTypes.any.isRequired,
   duration: PropTypes.number.isRequired,
@@ -45,6 +49,7 @@ Snackbar.propTypes = {
 }
 
 const enhance = compose(
+  withStyles(styles),
   connect((state) => ({
     open: path(['snackbar', 'open'], state),
     message: path(['snackbar', 'message'], state),

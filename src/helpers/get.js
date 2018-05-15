@@ -17,7 +17,7 @@ import {
   findIndex, omit, map, not, either, isNil,
 } from 'ramda'
 import sprintf from 'sprintf'
-import { getQueryFromUrl } from './urls'
+import { parseParams } from './urls'
 import { parseUrlParams, serializer } from './form'
 
 export const getBooleanFromString = (boolean) => compose(
@@ -40,7 +40,7 @@ export const getParamsCountFromLocation = curry((fields, location) => compose(
   filter(Boolean),
   pick(fields),
   ifElse(isEmpty, always({}), clone),
-  getQueryFromUrl,
+  parseParams,
   prop('search'),
 )(location))
 
@@ -58,7 +58,7 @@ export const getDataFromState = curry((name, state) => ({
 export const getParamsLikeBooleanFromLocation = curry((name, location) => compose(
   getBooleanFromString,
   propOr('false', name),
-  getQueryFromUrl,
+  parseParams,
   prop('search'),
 )(location))
 export const getFullPathFromLocation = (location) => `${prop('pathname', location)}${prop('search', location)}`
@@ -66,7 +66,7 @@ export const getFullPathFromRoute = ({ location }) => getFullPathFromLocation(lo
 export const getFullPathFromProps = ({ route }) => getFullPathFromRoute(route)
 export const getQueryValueFormLocation = curry((key, location) => compose(
   prop(key),
-  getQueryFromUrl,
+  parseParams,
   getFullPathFromLocation,
 )(location))
 export const getQueryValueFormRoute = curry((key, { location }) => getQueryValueFormLocation(key, location))

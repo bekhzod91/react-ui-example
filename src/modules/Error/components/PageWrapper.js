@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import withStyles from 'material-ui/styles/withStyles'
-import Button from 'material-ui/Button'
+import withStyles from '@material-ui/core/styles/withStyles'
+import Button from '@material-ui/core/Button'
 import BgImgWrapper from '../../../components/BgImgWarpper/BgImgWrapper'
 
 const styles = {
@@ -43,7 +43,7 @@ const PageWrapper = ({ classes, title, children, onGoHome }) => (
       <h2 className={classes.h2}>{children}</h2>
       <div className={classes.buttonWrapper}>
         <Button
-          raised={true}
+          variant="raised"
           color="primary"
           onClick={onGoHome}>
           Let's go home

@@ -3,11 +3,11 @@ import MockAdapter from 'axios-mock-adapter'
 import sinon from 'sinon'
 import React from 'react'
 import * as R from 'ramda'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import SignInForm, { FORM } from '../../../src/modules/Auth/components/SignInForm'
 import * as STATE from '../../../src/constants/states'
 import axios from '../../../src/helpers/axios'
 import { getFormValueFromState } from '../../../src/helpers/form'
-import TextField from '../../../src/components/Form/TextField'
 import { signInAction, API_SIGN_IN_URL } from '../../../src/modules/Auth/actions/signIn'
 import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
@@ -74,8 +74,8 @@ describe('(Component) SignInForm', () => {
     expect(R.path([STATE.SING_IN, 'loading'], store.getState())).to.equal(true)
 
     setTimeout(() => {
-      expect(component.find(TextField).at(0).instance().props.meta.error[0]).to.equal(response['username'][0])
-      expect(component.find(TextField).at(1).instance().props.meta.error[0]).to.equal(response['password'][0])
+      expect(component.find(FormHelperText).at(0).instance().props.children[0]).to.equal(response['username'][0])
+      expect(component.find(FormHelperText).at(1).instance().props.children[0]).to.equal(response['password'][0])
 
       done()
     })

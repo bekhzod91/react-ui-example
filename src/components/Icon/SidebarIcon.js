@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
-import SvgIcon from 'material-ui/SvgIcon'
+import SvgIcon from '@material-ui/core/SvgIcon'
 import * as STYLE from '../../styles/style'
 
 const styles = {

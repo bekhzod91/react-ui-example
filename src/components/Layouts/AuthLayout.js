@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet from 'react-jss'
 import PropTypes from 'prop-types'
-import LinearProgress from 'material-ui/Progress/LinearProgress'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import BgImgWrapper from '../BgImgWarpper/BgImgWrapper'
 import Logo from '../Logo'
 

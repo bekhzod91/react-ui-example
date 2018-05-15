@@ -1,8 +1,10 @@
 import {
-  any, compose, curry, equals, filter, findLast, gte, head, isNil, map, not, pathOr, pipe, prop, sort, split, whereEq,
+  any, compose, curry, equals, filter, findLast, gte, head, isNil, map,
+  not, pathOr, pipe, prop, sort, split, whereEq, path, defaultTo,
   without
 } from 'ramda'
 import React from 'react'
+import { parseParams } from '../../helpers/urls'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 
@@ -34,15 +36,23 @@ export const getSelectIdsFromRoute = pipe(
   sort(gte)
 )
 
-export const getPageFromRoute = compose(
+export const getPage = compose(
   parseInt,
-  pathOr(1, ['location', 'query', 'page'])
+  defaultTo(1),
+  prop('page'),
+  parseParams,
+  path(['location', 'search'])
 )
 
-export const getRowsPerPageFromRouteOr = curry((defaultRowsPerPage, route) => compose(
-  parseInt,
-  pathOr(defaultRowsPerPage, ['location', 'query', 'rowsPerPage'])
-)(route))
+export const getRowsPerPage = curry((defaultRowsPerPage, props) =>
+  compose(
+    parseInt,
+    defaultTo(defaultRowsPerPage),
+    prop('rowsPerPage'),
+    parseParams,
+    path(['location', 'search'])
+  )(props)
+)
 
 export const getSearchFromRoute = pathOr('', ['location', 'query', 'search'])
 

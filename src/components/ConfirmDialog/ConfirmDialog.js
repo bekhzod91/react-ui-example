@@ -3,14 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import withStyles from 'material-ui/styles/withStyles'
+import withStyles from '@material-ui/core/styles/withStyles'
 import Dialog, {
   DialogActions,
   DialogTitle,
   DialogContent,
   DialogContentText
-} from 'material-ui/Dialog'
-import Button from 'material-ui/Button'
+} from '@material-ui/core/Dialog'
+import Button from '@material-ui/core/Button'
 import { closeConfirmDialogAction } from './actions'
 
 const styles = theme => ({

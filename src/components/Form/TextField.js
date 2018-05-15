@@ -1,64 +1,37 @@
 import React from 'react'
-import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import MUITextField from 'material-ui/TextField'
-import withStyles from 'material-ui/styles/withStyles'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
 
-const styles = theme => ({
-  input: {
-    '&:before': {
-      height: '2px',
-      backgroundColor: `${theme.palette.input.bottomLine} !important`
-    },
-    '&:hover:before': {
-      height: '2px !important',
-      backgroundColor: `${theme.palette.input.bottomLine} !important`
-    }
-  },
-  inputError: {
-    '&:before': {
-      height: '2px',
-      backgroundColor: `${theme.palette.error['A200']}`
-    },
-    '&:hover:before': {
-      height: '2px !important',
-      backgroundColor: `${theme.palette.error['A200']} !important`
-    }
-  },
-  helperTextError: {
-    textAlign: 'left',
-    color: theme.palette.error['A200']
-  }
-})
-
-const TextField = ({ classes, input, meta: { error }, placeholder, helperText, inputProps, ...defaultProps }) => {
+const TextField = ({
+  classes, input, meta, disabled, fullWidth,
+  helperText, label, inputProps, margin, ...props
+}) => {
   return (
-    <MUITextField
-      InputProps={{
-        placeholder: placeholder,
-        className: classNames({
-          [classes.input]: !error,
-          [classes.inputError]: error
-        }),
-        ...inputProps
-      }}
-      helperText={error || helperText}
-      helperTextClassName={classNames({
-        [classes.helperTextError]: error
-      })}
-      {...input}
-      {...defaultProps}
-    />
+    <FormControl
+      margin={margin}
+      disabled={disabled}
+      fullWidth={fullWidth}
+      error={Boolean(meta.error)}>
+      <InputLabel>{label}</InputLabel>
+      <Input {...input} {...inputProps} {...props} />
+      <FormHelperText>{meta.error || helperText}</FormHelperText>
+    </FormControl>
   )
 }
 
 TextField.propTypes = {
   classes: PropTypes.object.isRequired,
-  placeholder: PropTypes.string,
+  label: PropTypes.string,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
+  fullWidth: PropTypes.bool,
   helperText: PropTypes.string,
+  margin: PropTypes.string,
   inputProps: PropTypes.object,
 }
 
-export default withStyles(styles)(TextField)
+export default TextField

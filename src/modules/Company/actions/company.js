@@ -8,12 +8,10 @@ import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get
 // ------------------------------------
 export const API_COMPANY_LIST_URL = `/companies/`
 
-export const getCompanyListAction = () => {
-  const url = sprintf(API_COMPANY_LIST_URL)
-
+export const getCompanyListAction = (params) => {
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState })
-      .get(url)
+      .get(API_COMPANY_LIST_URL, { params })
       .then(getPayloadFromSuccess)
       .catch(getPayloadFromError)
 

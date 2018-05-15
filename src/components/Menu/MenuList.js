@@ -2,9 +2,9 @@ import { map, addIndex } from 'ramda'
 import { compose } from 'recompose'
 import React from 'react'
 import PropTypes from 'prop-types'
-import List from 'material-ui/List'
-import ListSubheader from 'material-ui/List/ListSubheader'
-import withStyles from 'material-ui/styles/withStyles'
+import List from '@material-ui/core/List'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import withStyles from '@material-ui/core/styles/withStyles'
 import MenuListItem from '../Menu/MenuListItem'
 
 const styles = theme => ({
@@ -19,7 +19,7 @@ const styles = theme => ({
 })
 
 const MenuList = ({ classes, menus, activeMenuName }) => (
-  <List subheader={<ListSubheader>Navigation</ListSubheader>}>
+  <List component="nav" subheader={<ListSubheader>Navigation</ListSubheader>}>
     {addIndex(map)((item, index) => (
       <MenuListItem
         key={index}

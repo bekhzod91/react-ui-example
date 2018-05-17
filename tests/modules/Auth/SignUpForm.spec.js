@@ -3,17 +3,16 @@ import MockAdapter from 'axios-mock-adapter'
 import sinon from 'sinon'
 import React from 'react'
 import { path } from 'ramda'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import SignUpForm, { FORM } from '../../../src/modules/Auth/components/SignUpForm'
 import authReducers from '../../../src/modules/Auth/reducers'
 import { injectReducers } from '../../../src/store/reducers'
 import * as STATE from '../../../src/constants/states'
 import axios from '../../../src/helpers/axios'
 import { getFormValueFromState } from '../../../src/helpers/form'
-import TextField from '../../../src/components/Form/TextField'
 import { signUpAction, API_SIGN_UP_URL } from '../../../src/modules/Auth/actions/signUp'
 import createStore from '../../../src/store/createStore'
 import WrapperProvider from '../../WrapperProvider'
-import FormHelperText from "@material-ui/core/FormHelperText/index";
 
 describe('(Component) SignUpForm', () => {
   let submit, component, store

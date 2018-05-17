@@ -1,12 +1,12 @@
 import { mount } from 'enzyme'
 import { Field, reduxForm } from 'redux-form'
 import React from 'react'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import TextField from '../../../../src/components/Form/TextField'
 import validate from '../../../../src/helpers/validate'
 import WrapperProvider from '../../../WrapperProvider'
 import createStore from '../../../../src/store/createStore'
 import { getFormValueFromState } from '../../../../src/helpers/form'
-import FormHelperText from "@material-ui/core/FormHelperText/index";
 
 const FORM = 'TestForm'
 

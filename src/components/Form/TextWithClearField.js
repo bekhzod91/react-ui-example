@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import Fade from '@material-ui/core/Fade'
 import withStyles from '@material-ui/core/styles/withStyles'
-import ClearIcon from 'material-ui-icons/Clear'
+import ClearIcon from '@material-ui/icons/Clear'
 import TextField from './TextField'
 
 const styles = theme => ({

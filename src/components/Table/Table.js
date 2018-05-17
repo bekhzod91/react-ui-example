@@ -1,6 +1,6 @@
 import { compose, path, pathOr, prop, length, equals } from 'ramda'
 import React from 'react'
-import { pure, mapProps, withHandlers, defaultProps } from 'recompose'
+import { pure, mapProps, withHandlers, defaultProps, componentFromStream } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -194,58 +194,64 @@ const enhance = compose(
   pure
 )
 
-const Table = ({ classes, renderHeader, renderBody, route, ...props }) => {
-  const bodyIsVisible = !(props.loading || props.empty)
+const Table = componentFromStream(props$ => {
+  return props$.combineLatest(props => {
+    const { classes, renderHeader, renderBody, route } = props
+    const bodyIsVisible = !(props.loading || props.empty)
 
-  return (
-    <div className={classes.root}>
-      <div>
-        {props.dialogs}
-        <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
-          <div>
-            {props.search && (
-              <TableSearch className={classes.search} route={route} />
-            )}
+    return (
+      <div className={classes.root}>
+        <div>
+          {props.dialogs}
+          <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
+            <div>
+              {props.search && (
+                <TableSearch className={classes.search} route={route} />
+              )}
 
-            {Boolean(props.idsCount) && (
-              <div className={classes.selectCount} data-test="table-select-count">
-                {props.idsCount} selected
-              </div>
-            )}
-            <div className={classes.actions}>
-              {props.actions}
-            </div>
-          </div>
-          <div>
-            {renderHeader()}
-          </div>
-        </div>
-        <div className={classes.body}>
-          {props.loading && (
-            <div className={classes.loader}>
-              <CircularProgress size={75} color="secondary" />
-            </div>
-          )}
-
-          {props.empty && (
-            <div className={classes.empty}>
-              <img src={NotFoundImage} />
-              <div>
-                <h4>Ooops, Item Not Found</h4>
-                <span>Try rewording your search or entering a new keyword</span>
+              {Boolean(props.idsCount) && props.search && (
+                <div className={classes.selectCount} data-test="table-select-count">
+                  {props.idsCount} selected
+                </div>
+              )}
+              <div className={classes.actions}>
+                {props.actions}
               </div>
             </div>
-          )}
+            <div>
+              {renderHeader()}
+            </div>
+          </div>
+          <div className={classes.body}>
+            {props.loading && (
+              <div className={classes.loader}>
+                <CircularProgress size={75} color="secondary" />
+              </div>
+            )}
 
-          {bodyIsVisible && <div>{renderBody()}</div>}
-        </div>
-        <div className={classes.footer}>
-          <TablePagination route={route} count={props.count} defaultRowsPerPage={props.defaultRowsPerPage} />
+            {props.empty && (
+              <div className={classes.empty}>
+                <img src={NotFoundImage} />
+                <div>
+                  <h4>Ooops, Item Not Found</h4>
+                  <span>Try rewording your search or entering a new keyword</span>
+                </div>
+              </div>
+            )}
+
+            {bodyIsVisible && <div>{renderBody()}</div>}
+          </div>
+          <div className={classes.footer}>
+            <TablePagination
+              count={props.count}
+              defaultRowsPerPage={props.defaultRowsPerPage}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  })
+})
 
 Table.propTypes = {
   classes: PropTypes.object.isRequired,

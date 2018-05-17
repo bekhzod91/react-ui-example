@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withState } from 'recompose'
 import IconButton from '@material-ui/core/IconButton'
-import Visibility from 'material-ui-icons/Visibility'
-import VisibilityOff from 'material-ui-icons/VisibilityOff'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import TextField from './TextField'
 
 const PasswordViewField = ({ visibility, setVisibility, ...props }) => {

@@ -10,8 +10,8 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Avatar from '@material-ui/core/Avatar'
 import { Field, reduxForm } from 'redux-form'
 import Slide from '@material-ui/core/Slide'
-import Close from 'material-ui-icons/Close'
-import PhotoCamera from 'material-ui-icons/PhotoCamera'
+import Close from '@material-ui/icons/Close'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import TextField from '../../../../components/Form/TextField'
 
 const styles = theme => ({

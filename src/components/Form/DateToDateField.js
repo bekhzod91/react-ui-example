@@ -6,8 +6,8 @@ import '../../styles/datepicker.css'
 import React from 'react'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import DateRangeIcon from 'material-ui-icons/DateRange'
-import ArrowForwardIcon from 'material-ui-icons/ArrowForward'
+import DateRangeIcon from '@material-ui/icons/DateRange'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import * as DATE from '../../constants/dateFormat'
 
 const styles = theme => ({

@@ -3,47 +3,46 @@ import sinon from 'sinon'
 import { compose, map, always, prop, range, slice, length } from 'ramda'
 import { mount } from 'enzyme'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import TablePagination from '@material-ui/core/Table'
-import IconButton from '@material-ui/core/IconButton'
-import createStore from '../../../src/store/createStore'
+import ButtonBase from '@material-ui/core/ButtonBase'
+import createHistory from 'history/createBrowserHistory'
+import TablePagination from '../../../src/components/Table/TablePagination'
 import WrapperProvider from '../../WrapperProvider'
 import { Table, TableCell, TableRow, TableHeader, TableColumn, TableSearch } from '../../../src/components/Table'
 
-describe('(Component) Table', () => {
-  const Action = () => <div>Action</div>
-  const Dialog = () => <div>Dialog</div>
-  const Detail = () => <div>Detail</div>
-  const getListByPage = (rowsPerPage, page, list) => slice((page - 1) * rowsPerPage, page * rowsPerPage, list)
-  const ROWS_PER_PAGE = 10
-  const PAGE = 1
-  const LIST = map((item) => ({
-    id: item,
-    name: `User${item}`,
-    email: `admin${item}@example.com`,
-    status: item % 2 === 0 ? 'ACTIVE' : 'INACTIVE',
-    createDate: new Date()
-  }), range(1, 40))
+const Action = () => <div>Action</div>
+const Dialog = () => <div>Dialog</div>
+const Detail = () => <div>Detail</div>
+const getListByPage = (rowsPerPage, page, list) => slice((page - 1) * rowsPerPage, page * rowsPerPage, list)
+const ROWS_PER_PAGE = 10
+const PAGE = 1
+const LIST = map((item) => ({
+  id: item,
+  name: `User${item}`,
+  email: `admin${item}@example.com`,
+  status: item % 2 === 0 ? 'ACTIVE' : 'INACTIVE',
+  createDate: new Date()
+}), range(1, 40))
 
-  const DEFAULT_PROPS = {
-    route: {
-      location: {
-        pathname: '',
-        search: '?',
-        query: { search: 'hello', select: '1,2,3,4,5' }
-      },
-      push: always(true),
-      companyId: 0
+const DEFAULT_PROPS = {
+  route: {
+    location: {
+      pathname: '',
+      search: '?',
+      query: { search: 'hello', select: '1,2,3,4,5' }
     },
-    list: { loading: false, data: { count: length(LIST), results: getListByPage(ROWS_PER_PAGE, PAGE, LIST) } },
-    detail: { id: 1, detail: <Detail /> },
-    actions: (<Action />),
-    dialogs: (<Dialog />),
-  }
-  const getComponentFromProps = (props) => {
-    const store = createStore({})
+    push: always(true),
+    companyId: 0
+  },
+  list: { loading: false, data: { count: length(LIST), results: getListByPage(ROWS_PER_PAGE, PAGE, LIST) } },
+  detail: { id: 1, detail: <Detail /> },
+  actions: (<Action />),
+  dialogs: (<Dialog />),
+}
 
+describe('(Component) Table', () => {
+  const getComponentFromProps = (props, history) => {
     return mount(
-      <WrapperProvider store={store}>
+      <WrapperProvider history={history}>
         <Table {...props}>
           <TableHeader>
             <TableCell sort="id">ID</TableCell>
@@ -143,33 +142,34 @@ describe('(Component) Table', () => {
     expect(component.find(TableCell).at(1).find('a')).to.have.lengthOf(0)
   })
 
-  it('click pagination prev', () => {
-    const spy = sinon.spy((page) => page)
-    const defaultRoute = prop('route', DEFAULT_PROPS)
-    const route = {
-      ...defaultRoute,
-      location: {
-        query: { page: 3 },
-        search: '?',
-        pathname: ''
-      },
-      push: spy
-    }
-    const component = getComponentFromProps({ ...DEFAULT_PROPS, route })
+  it('click pagination prev', (done) => {
+    const history = createHistory()
+    history.location.search = '?page=3'
+    sinon.spy(history, 'push')
 
-    component.find(TablePagination).find(IconButton).at(0).simulate('click')
-    expect(spy).to.have.property('callCount', 1)
-    expect(spy.getCall(0).returnValue).to.equal('?page=2')
+    expect(history.push.calledOnce).to.equal(false)
+
+    const component = getComponentFromProps(DEFAULT_PROPS, history)
+    component.find(TablePagination).find(ButtonBase).at(0).simulate('click')
+
+    setTimeout(() => {
+      expect(history.push.calledOnce).to.equal(true)
+      done()
+    })
   })
 
-  it('click pagination next', () => {
-    const spy = sinon.spy((page) => page)
-    const defaultRoute = prop('route', DEFAULT_PROPS)
-    const component = getComponentFromProps({ ...DEFAULT_PROPS, route: { ...defaultRoute, push: spy } })
+  it('click pagination next', (done) => {
+    const history = createHistory()
+    sinon.spy(history, 'push')
 
-    component.find(TablePagination).find(IconButton).at(1).simulate('click')
-    expect(spy).to.have.property('callCount', 1)
-    // page 2 correct because page start with zero
-    expect(spy.getCall(0).returnValue).to.equal('?page=2')
+    expect(history.push.calledOnce).to.equal(false)
+
+    const component = getComponentFromProps(DEFAULT_PROPS, history)
+    component.find(TablePagination).find(ButtonBase).at(1).simulate('click')
+
+    setTimeout(() => {
+      expect(history.push.calledOnce).to.equal(true)
+      done()
+    })
   })
 })

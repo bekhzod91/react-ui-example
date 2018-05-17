@@ -8,7 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import Paper from '@material-ui/core/Paper'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Fade from '@material-ui/core/Fade'
-import SearchIcon from 'material-ui-icons/Search'
+import SearchIcon from '@material-ui/icons/Search'
 import { axiosCancelRequest } from '../../helpers/cancel'
 import TextField from './TextField'
 

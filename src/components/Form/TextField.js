@@ -6,7 +6,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 
 const TextField = ({
-  classes, input, meta, disabled, fullWidth,
+  input, meta, disabled, fullWidth,
   helperText, label, inputProps, margin, ...props
 }) => {
   return (
@@ -23,7 +23,6 @@ const TextField = ({
 }
 
 TextField.propTypes = {
-  classes: PropTypes.object.isRequired,
   label: PropTypes.string,
   input: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,

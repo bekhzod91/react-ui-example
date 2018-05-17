@@ -13,7 +13,7 @@ const Button = ({ fullWidth, style, ...props }) => {
 
 Button.defaultProps = {
   fullWidth: true,
-  raised: true
+  variant: 'raised'
 }
 
 Button.propTypes = {

@@ -1,9 +1,8 @@
 import { prop, path, findLast, whereEq, head } from 'ramda'
 import React from 'react'
-import { pure } from 'recompose'
 import { mount } from 'enzyme'
 import { Field, reduxForm } from 'redux-form'
-import { MenuItem } from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import Autosuggest from 'react-autosuggest'
 import AutoCompleteField from '../../../../src/components/Form/AutoCompleteField'
 import validate from '../../../../src/helpers/validate'
@@ -17,7 +16,7 @@ const SEARCH_RESULTS = [
   { id: 2, name: 'Name 2' },
 ]
 
-const SearchField = (pure)((props) => (
+const SearchField = (props) => (
   <AutoCompleteField
     {...props}
     getSuggestionByKeyword={() => Promise.resolve(SEARCH_RESULTS)}
@@ -39,16 +38,17 @@ const SearchField = (pure)((props) => (
     getId={path(['input', 'value', 'id'])}
     getValue={(value) => prop('name', value)}
   />
-))
+)
 
 describe('(Component) AutoCompleteField', () => {
   let component, store
 
   beforeEach(() => {
     store = createStore({})
+    const wrapper = reduxForm({ form: FORM })
 
-    const SearchForm = reduxForm({ form: FORM })(({ handleSubmit }) => (
-      <form onSubmit={handleSubmit(() => validate({ search: ['This field is required.'] }))}>
+    const SearchForm = wrapper(props =>
+      <form onSubmit={props.handleSubmit(() => validate({ search: ['This field is required.'] }))}>
         <Field
           name="search"
           component={SearchField}
@@ -58,7 +58,7 @@ describe('(Component) AutoCompleteField', () => {
           margin="normal"
         />
       </form>
-    ))
+    )
 
     component = mount(
       <WrapperProvider store={store}>

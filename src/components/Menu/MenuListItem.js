@@ -11,8 +11,8 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ExpandLess from 'material-ui-icons/ExpandLess'
-import ExpandMore from 'material-ui-icons/ExpandMore'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
 import { checkMenuNameInsideMenu } from '../../helpers/menu'
 
 const styles = theme => ({

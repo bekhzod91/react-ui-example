@@ -1,6 +1,6 @@
 import React from 'react'
-import DashboardIcon from 'material-ui-icons/Dashboard'
-import GroupIcon from 'material-ui-icons/Group'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import GroupIcon from '@material-ui/icons/Group'
 import * as ROUTES from './routes'
 
 export default [

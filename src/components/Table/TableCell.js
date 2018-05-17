@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { compose, defaultProps, withHandlers } from 'recompose'
 import withStyles from '@material-ui/core/styles/withStyles'
-import ArrowUpwardIcon from 'material-ui-icons/ArrowUpward'
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import { sortingUrl, sortingStatus } from '../../helpers/urls'
 
 const styles = theme => ({

@@ -15,9 +15,10 @@ describe('(Component) TextField', () => {
 
   beforeEach(() => {
     store = createStore({})
+    const enhance = reduxForm({ form: FORM })
 
-    const TextForm = reduxForm({ form: FORM })(({ handleSubmit }) => (
-      <form onSubmit={handleSubmit(() => validate({ text: ['This field is required.'] }))}>
+    const TextForm = enhance(props => (
+      <form onSubmit={props.handleSubmit(() => validate({ text: ['This field is required.'] }))}>
         <Field
           name="text"
           component={TextField}

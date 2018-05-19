@@ -1,7 +1,7 @@
-import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import { compose, withHandlers } from 'recompose'
 import { path } from 'ramda'
+import { push } from 'react-router-redux'
 import * as ROUTES from '../../../constants/routes'
 import * as STATES from '../../../constants/states'
 import { getFormValueFromState } from '../../../helpers/form'

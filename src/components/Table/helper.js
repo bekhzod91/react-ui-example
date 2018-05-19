@@ -54,7 +54,12 @@ export const getRowsPerPage = curry((defaultRowsPerPage, props) =>
   )(props)
 )
 
-export const getSearchFromRoute = pathOr('', ['location', 'query', 'search'])
+export const getSearchFromRoute = compose(
+  defaultTo(''),
+  prop('search'),
+  parseParams,
+  path(['location', 'search'])
+)
 
 const cloneFromChildren = curry((part, props, children) =>
   pipe(

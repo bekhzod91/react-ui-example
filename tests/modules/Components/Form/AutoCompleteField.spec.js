@@ -45,9 +45,9 @@ describe('(Component) AutoCompleteField', () => {
 
   beforeEach(() => {
     store = createStore({})
-    const wrapper = reduxForm({ form: FORM })
+    const enhance = reduxForm({ form: FORM })
 
-    const SearchForm = wrapper(props =>
+    const SearchForm = enhance(props =>
       <form onSubmit={props.handleSubmit(() => validate({ search: ['This field is required.'] }))}>
         <Field
           name="search"

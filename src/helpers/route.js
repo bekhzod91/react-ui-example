@@ -1,11 +1,19 @@
-import { curry, compose, defaultTo, path, concat, __ } from 'ramda'
+import { curry, compose, defaultTo, path, assoc, __ } from 'ramda'
 import { appendParamsToUrl } from './urls'
 
 export const redirect = curry(({ pathname, params }, history) =>
   compose(
     history.push,
     appendParamsToUrl(params),
-    concat(__, path(['location', 'search'], history)),
     defaultTo(path(['location', 'pathname'], history))
   )(pathname)
+)
+
+export const addParamsRoute = curry((params, history) =>
+  compose(
+    redirect(__, history),
+    assoc('pathname', __, {}),
+    appendParamsToUrl(params),
+    path(['location', 'search']),
+  )(history)
 )

@@ -17,9 +17,10 @@ describe('(Component) PasswordViewField', () => {
 
   beforeEach(() => {
     store = createStore({})
+    const enhance = reduxForm({ form: FORM })
 
-    const PasswordForm = reduxForm({ form: FORM })(({ handleSubmit }) => (
-      <form onSubmit={handleSubmit(() => validate({ password: ['This field is required.'] }))}>
+    const PasswordForm = enhance(props => (
+      <form onSubmit={props.handleSubmit(() => validate({ password: ['This field is required.'] }))}>
         <Field
           name="password"
           component={PasswordViewField}

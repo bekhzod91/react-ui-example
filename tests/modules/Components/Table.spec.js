@@ -103,20 +103,28 @@ describe('(Component) Table', () => {
   })
 
   it('search value get from URL', () => {
-    const component = getComponentFromProps(DEFAULT_PROPS)
+    const history = createHistory()
+    history.push('?search=hello')
+    const component = getComponentFromProps(DEFAULT_PROPS, history)
     expect(component.find(TableSearch).find('input').props().value).to.equals('hello')
   })
 
-  it('search change value', () => {
-    const spy = sinon.spy((value) => value)
-    const defaultRoute = prop('route', DEFAULT_PROPS)
-    const component = getComponentFromProps({ ...DEFAULT_PROPS, route: { ...defaultRoute, push: spy } })
+  it('search change value', done => {
+    const history = createHistory()
+    history.push('?page=1')
+    sinon.spy(history, 'push')
+
+    const component = getComponentFromProps(DEFAULT_PROPS, history)
 
     component.find(TableSearch).find('input').simulate('change', { target: { value: 'myname' } })
     component.find(TableSearch).find('input').simulate('keypress', { key: 'Enter' })
 
-    expect(spy).to.have.property('callCount', 1)
-    expect(spy.getCall(0).returnValue).to.equal('?page=1&search=myname')
+    setTimeout(() => {
+      expect(history.push.calledOnce).to.equal(true)
+      expect(history.push.getCall(0).args[0]).to.equal('/?page=1&search=myname')
+
+      done()
+    })
   })
 
   it('select count correct', () => {
@@ -142,7 +150,7 @@ describe('(Component) Table', () => {
     expect(component.find(TableCell).at(1).find('a')).to.have.lengthOf(0)
   })
 
-  it('click pagination prev', (done) => {
+  it('click pagination prev', done => {
     const history = createHistory()
     history.location.search = '?page=3'
     sinon.spy(history, 'push')
@@ -158,7 +166,7 @@ describe('(Component) Table', () => {
     })
   })
 
-  it('click pagination next', (done) => {
+  it('click pagination next', done => {
     const history = createHistory()
     sinon.spy(history, 'push')
 

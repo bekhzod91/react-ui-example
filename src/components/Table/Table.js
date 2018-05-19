@@ -56,12 +56,6 @@ const styles = theme => ({
     },
   },
 
-  search: {
-    '& input': {
-      color: theme.table.headerTextColor
-    }
-  },
-
   select: {
     background: theme.palette.secondary['400'],
   },
@@ -196,7 +190,7 @@ const enhance = compose(
 
 const Table = componentFromStream(props$ => {
   return props$.combineLatest(props => {
-    const { classes, renderHeader, renderBody, route } = props
+    const { classes, renderHeader, renderBody } = props
     const bodyIsVisible = !(props.loading || props.empty)
 
     return (
@@ -205,9 +199,7 @@ const Table = componentFromStream(props$ => {
           {props.dialogs}
           <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
             <div>
-              {props.search && (
-                <TableSearch className={classes.search} route={route} />
-              )}
+              {props.search && (<TableSearch />)}
 
               {Boolean(props.idsCount) && props.search && (
                 <div className={classes.selectCount} data-test="table-select-count">

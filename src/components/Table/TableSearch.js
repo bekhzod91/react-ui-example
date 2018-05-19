@@ -1,7 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
-import { compose, pure, withState, withHandlers } from 'recompose'
+import { compose, pure, withState, withHandlers, componentFromStream } from 'recompose'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
@@ -53,27 +54,30 @@ const styles = theme => ({
     '&:focus': {
       outline: 0,
       width: '250px !important'
-    }
+    },
+    color: theme.table.headerTextColor
   }
 })
 
-function TableSearch (props) {
-  const { classes, search, onChange, onKeyPress, onSubmit, className } = props
-
-  return (
-    <div className={classNames(classes.root, {}, className)}>
+const TableSearch = componentFromStream(props$ => {
+  return props$.combineLatest(({ classes, ...props }) => (
+    <div className={classNames(classes.root)}>
       <div className={classes.search}>
-        <IconButton onClick={() => onSubmit(search)}>
+        <IconButton onClick={() => props.onSubmit(props.search)}>
           <SearchIcon />
         </IconButton>
       </div>
-      <input value={search} onChange={onChange} onKeyPress={onKeyPress} className={classes.input} />
+      <input
+        value={props.search}
+        onChange={props.onChange}
+        onKeyPress={props.onKeyPress}
+        className={classes.input}
+      />
     </div>
-  )
-}
+  ))
+})
 
 TableSearch.propTypes = {
-  className: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   search: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
@@ -82,13 +86,14 @@ TableSearch.propTypes = {
 }
 
 export default compose(
-  withState('search', 'setSearch', ({ route }) => getSearchFromRoute(route)),
+  withRouter,
+  withState('search', 'setSearch', ({ history }) => getSearchFromRoute(history)),
   withHandlers({
-    onSubmit: ({ route }) => (value) => {
-      const { push, location } = route
-      const fullPath = getFullPathFromLocation(location)
+    onSubmit: ({ history }) => (value) => {
+      const fullPath = getFullPathFromLocation(history.location)
 
-      return push(appendParamsToUrl({ page: 1, search: value }, fullPath))
+      console.log(appendParamsToUrl({ page: 1, search: value }, fullPath))
+      history.push(appendParamsToUrl({ page: 1, search: value }, fullPath))
     }
   }),
   withHandlers({

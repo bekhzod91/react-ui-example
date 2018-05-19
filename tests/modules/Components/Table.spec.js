@@ -121,7 +121,7 @@ describe('(Component) Table', () => {
 
     setTimeout(() => {
       expect(history.push.calledOnce).to.equal(true)
-      expect(history.push.getCall(0).args[0]).to.equal('/?page=1&search=myname')
+      expect(history.push.getCall(0).args[0]).to.equal('?page=1&search=myname')
 
       done()
     })

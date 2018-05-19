@@ -1,15 +1,22 @@
+import { compose, assocPath, path, prop, defaultTo } from 'ramda'
 import React from 'react'
 import classNames from 'classnames'
-import { compose, pure, withState, withHandlers, componentFromStream } from 'recompose'
+import { pure, componentFromStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
-import { getFullPathFromLocation } from '../../helpers/get'
-import { appendParamsToUrl } from '../../helpers/urls'
-import { getSearchFromRoute } from './helper'
+import { addParamsRoute } from '../../helpers/route'
+import { parseParams } from '../../helpers/urls'
+
+export const searchFormHistory = compose(
+  defaultTo(''),
+  prop('search'),
+  parseParams,
+  path(['location', 'search'])
+)
 
 const styles = theme => ({
   root: {
@@ -60,17 +67,46 @@ const styles = theme => ({
 })
 
 const TableSearch = componentFromStream(props$ => {
-  return props$.combineLatest(({ classes, ...props }) => (
+  const { stream: onChange$, handler: onChange } = createEventHandler()
+  const { stream: onKeyPress$, handler: onKeyPress } = createEventHandler()
+  const { stream: onSubmit$, handler: onSubmit } = createEventHandler()
+
+  props$
+    .first()
+    .subscribe(({ history }) => {
+      const search = searchFormHistory(history)
+      const event = assocPath(['target', 'value'], search, {})
+      onChange(event)
+    })
+
+  const search$ = onChange$
+    .startWith('')
+    .map(compose(defaultTo(''), path(['target', 'value'])))
+
+  onSubmit$
+    .withLatestFrom(props$)
+    .subscribe(([ search, { history } ]) => {
+      addParamsRoute({ search }, history)
+    })
+
+  onKeyPress$
+    .subscribe((event) => {
+      if (event.key === 'Enter') {
+        onSubmit(event.target.value)
+      }
+    })
+
+  return props$.combineLatest(search$, ({ classes, ...props }, search) => (
     <div className={classNames(classes.root)}>
       <div className={classes.search}>
-        <IconButton onClick={() => props.onSubmit(props.search)}>
+        <IconButton onClick={() => onSubmit(search)}>
           <SearchIcon />
         </IconButton>
       </div>
       <input
-        value={props.search}
-        onChange={props.onChange}
-        onKeyPress={props.onKeyPress}
+        value={search}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
         className={classes.input}
       />
     </div>
@@ -78,34 +114,11 @@ const TableSearch = componentFromStream(props$ => {
 })
 
 TableSearch.propTypes = {
-  classes: PropTypes.object.isRequired,
-  search: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onKeyPress: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default compose(
   withRouter,
-  withState('search', 'setSearch', ({ history }) => getSearchFromRoute(history)),
-  withHandlers({
-    onSubmit: ({ history }) => (value) => {
-      const fullPath = getFullPathFromLocation(history.location)
-
-      console.log(appendParamsToUrl({ page: 1, search: value }, fullPath))
-      history.push(appendParamsToUrl({ page: 1, search: value }, fullPath))
-    }
-  }),
-  withHandlers({
-    onChange: ({ setSearch }) => (event) => {
-      setSearch(event.target.value)
-    },
-    onKeyPress: ({ search, onSubmit }) => (event) => {
-      if (event.key === 'Enter') {
-        onSubmit(search)
-      }
-    }
-  }),
   withStyles(styles),
   pure,
 )(TableSearch)

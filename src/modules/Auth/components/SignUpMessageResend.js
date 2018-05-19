@@ -38,7 +38,7 @@ SignUpMessageResend.propTypes = {
 
 const enhance = flow(
   (render =>
-      branch(render, renderNothing)
+    branch(render, renderNothing)
   )(compose(not, prop('email'))),
   withStyles(styles),
 )

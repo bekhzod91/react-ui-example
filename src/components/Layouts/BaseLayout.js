@@ -23,22 +23,17 @@ const styles = {
   }
 }
 
-class BaseLayout extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-  }
+const BaseLayout = ({ classes, ...props }) => (
+  <div className={classes.page}>
+    <PageLoading />
+    {props.children && React.cloneElement(props.children, { app: getDefaultProps(props) })}
+    <Snackbar />
+  </div>
+)
 
-  render () {
-    const { children } = this.props
-
-    return (
-      <div style={styles.page}>
-        <PageLoading />
-        {children && React.cloneElement(children, { app: getDefaultProps(this.props) })}
-        <Snackbar />
-      </div>
-    )
-  }
+BaseLayout.propTypes = {
+  classes: PropTypes.object,
+  children: PropTypes.node,
 }
 
 export default compose(

@@ -199,7 +199,7 @@ const Table = componentFromStream(props$ => {
           {props.dialogs}
           <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
             <div>
-              {props.search && (<TableSearch />)}
+              {props.search && <TableSearch />}
 
               {Boolean(props.idsCount) && props.search && (
                 <div className={classes.selectCount} data-test="table-select-count">

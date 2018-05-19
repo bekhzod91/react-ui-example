@@ -51,7 +51,7 @@ SignUpThankYou.propTypes = {
 const enhance = flow(
   withStyles(styles),
   (render =>
-      branch(render, renderNothing)
+    branch(render, renderNothing)
   )(compose(not, prop('email'))),
 )
 

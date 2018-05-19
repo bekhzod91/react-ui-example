@@ -12,8 +12,6 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 
 const styles = theme => ({
-  card: {
-  },
   cardTop: {
     backgroundColor: theme.palette.primary[500],
     position: 'relative',
@@ -76,9 +74,12 @@ const styles = theme => ({
 })
 
 class Widget extends React.Component {
-  state = {
-    value: 0,
-    expanded: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      value: 0,
+      expanded: false
+    }
   }
 
   handleChange = (event, value) => {
@@ -93,7 +94,7 @@ class Widget extends React.Component {
     const { value } = this.state
 
     return (
-      <Card className={classes.card}>
+      <Card>
         <div className={classes.cardTop}>
           <CardHeader
             className={classes.cardHeader}

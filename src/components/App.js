@@ -6,12 +6,6 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { muiTheme } from '../styles/themes'
 
 class App extends React.Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    renderRoute: PropTypes.func.isRequired,
-  }
-
   shouldComponentUpdate () {
     return false
   }
@@ -27,6 +21,12 @@ class App extends React.Component {
       </Provider>
     )
   }
+}
+
+App.propTypes = {
+  store: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  renderRoute: PropTypes.func.isRequired,
 }
 
 export default App

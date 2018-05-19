@@ -11,7 +11,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { addParamsRoute } from '../../helpers/route'
 import { parseParams } from '../../helpers/urls'
 
-export const searchFormHistory = compose(
+const searchFormHistory = compose(
   defaultTo(''),
   prop('search'),
   parseParams,
@@ -66,6 +66,12 @@ const styles = theme => ({
   }
 })
 
+const enhance = compose(
+  withRouter,
+  withStyles(styles),
+  pure,
+)
+
 const TableSearch = componentFromStream(props$ => {
   const { stream: onChange$, handler: onChange } = createEventHandler()
   const { stream: onKeyPress$, handler: onKeyPress } = createEventHandler()
@@ -117,8 +123,4 @@ TableSearch.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default compose(
-  withRouter,
-  withStyles(styles),
-  pure,
-)(TableSearch)
+export default enhance(TableSearch)

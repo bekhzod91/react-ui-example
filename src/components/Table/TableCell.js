@@ -1,11 +1,65 @@
-import { prop } from 'ramda'
+import {
+  append,
+  endsWith,
+  equals,
+  filter,
+  findLast,
+  isEmpty,
+  isNil,
+  join,
+  not,
+  pathOr,
+  compose,
+  prop,
+  reverse,
+  split
+} from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { compose, defaultProps, withHandlers } from 'recompose'
+import { withRouter } from 'react-router-dom'
+import { branch, renderComponent, componentFromStream, createEventHandler } from 'recompose'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Grid from '@material-ui/core/Grid'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
-import { sortingUrl, sortingStatus } from '../../helpers/urls'
+import { parseParams } from '../../helpers/urls'
+import { addParamsRoute } from '../../helpers/route'
+
+export const sortingStatus = (url, key, value) => {
+  const params = parseParams(url)
+  const currentValue = compose(
+    findLast(endsWith(value)),
+    split(','),
+    pathOr('', [key])
+  )(params)
+
+  if (isNil(currentValue)) {
+    return 'not'
+  }
+
+  return compose(
+    descSort => descSort ? 'desc' : 'asc',
+    equals('-'),
+    prop(0),
+  )(currentValue)
+}
+
+export const nextOrderingParams = (url, key, value) => {
+  const params = parseParams(url)
+  const sortValues = prop(key, params) || ''
+  const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
+  const status = sortingStatus(url, key, value)
+  const newValue = compose(
+    join(','),
+    reverse,
+    filter(compose(not, isEmpty)),
+    append(prop(status, possibleValue)),
+    filter(compose(not, endsWith(value))),
+    split(','),
+  )(sortValues)
+
+  return { [key]: newValue }
+}
 
 const styles = theme => ({
   button: {
@@ -39,7 +93,7 @@ const styles = theme => ({
     padding: '10px 10px 10px 10px',
     boxSizing: 'border-box',
   },
-  iconWrapper: {
+  ordering: {
     position: 'absolute',
     top: 6,
     right: -24
@@ -62,90 +116,81 @@ const styles = theme => ({
   }
 })
 
-const FULL_WIDTH = 99.99999
-const MAX_COLUMN = 12
-const COLUMN_SIZE = FULL_WIDTH / MAX_COLUMN
-
-const TableCell = ({ classes, children, ...props }) => {
-  const { sort, columnSize, getSortingUrl, renderIcon, style } = props
-  const icon = sort && renderIcon(sort)
-  const onKeyPress = (event) => {
-    event.preventDefault()
-    if (event.keyCode === 0) {
-      getSortingUrl(event, sort)
-    }
-  }
-
-  return (
-    <div style={{ ...style, width: `${columnSize * COLUMN_SIZE}%`, }}>
-      {sort ? (<div>
-        <a
-          tabIndex="0"
-          className={classes.button}
-          onClick={(event) => getSortingUrl(event, sort)}
-          onKeyPress={onKeyPress}>
-          <span>{children}</span>
-          {icon && (<div className={classes.iconWrapper}>{icon}</div>)}
-        </a>
-      </div>) : (
-        <span className={classes.text}>{children}</span>
-      )}
-    </div>
+const enhance = compose(
+  withRouter,
+  withStyles(styles),
+  branch(
+    compose(not, prop('sortKey')),
+    renderComponent(props => {
+      return (
+        <Grid item={true} xs={props.columnSize}>
+          <span className={props.classes.text}>{props.children}</span>
+        </Grid>
+      )
+    })
   )
-}
+)
+
+const TableCell = componentFromStream(props$ => {
+  const { stream: onClick$, handler: onClick } = createEventHandler()
+  const { stream: onKeyPress$, handler: onKeyPress } = createEventHandler()
+
+  onKeyPress$
+    .withLatestFrom(props$)
+    .subscribe(([event, { history, sortKey }]) => {
+      event.preventDefault()
+      if (event.key === 'Enter') {
+        const params = nextOrderingParams(history.location.search, 'sort', sortKey)
+
+        addParamsRoute(params, history)
+      }
+    })
+
+  onClick$
+    .withLatestFrom(props$)
+    .subscribe(([event, { history, sortKey }]) => {
+      event.preventDefault()
+      const params = nextOrderingParams(history.location.search, 'sort', sortKey)
+
+      addParamsRoute(params, history)
+    })
+
+  return props$.combineLatest(({ classes, history, ...props }) => {
+    const search = history.location.search
+    const orderStatus = sortingStatus(search, 'sort', props.sortKey)
+
+    return (
+      <Grid item={true} xs={props.columnSize}>
+        <a tabIndex="0"
+          className={classes.button}
+          onClick={onClick}
+          onKeyPress={onKeyPress}>
+          <span>{props.children}</span>
+          <div className={classes.ordering}>
+            <ArrowUpwardIcon
+              className={classNames(classes.icon, {
+                [classes.iconDesc]: orderStatus === 'desc',
+                [classes.iconAsc]: orderStatus === 'asc',
+                [classes.iconNot]: orderStatus === 'not',
+              })}
+            />
+          </div>
+        </a>
+      </Grid>
+    )
+  })
+})
 
 TableCell.defaultProps = {
-  columnSize: 1
+  columnSize: 1,
+  sortKey: null
 }
 
 TableCell.propTypes = {
+  classes: PropTypes.object,
   columnSize: PropTypes.number,
   children: PropTypes.any,
-  classes: PropTypes.object,
-  style: PropTypes.object,
-  route: PropTypes.shape({
-    companyId: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired
-  }).isRequired,
-  getSortingUrl: PropTypes.func.isRequired,
-  renderIcon: PropTypes.func.isRequired,
-  sort: PropTypes.string
+  sortKey: PropTypes.string
 }
-
-const enhance = compose(
-  defaultProps({
-    sort: null,
-    columnSize: 1
-  }),
-  withStyles(styles),
-  withHandlers({
-    getSortingUrl: ({ route, sort }) => (event, value) => {
-      const { location, push } = route
-      const pathname = prop('pathname', location)
-      const search = prop('search', location)
-      const fullPath = `${pathname}${search}`
-
-      event.preventDefault()
-
-      return push(sortingUrl(fullPath, 'sort', value))
-    },
-    renderIcon: ({ classes, route, sort }) => (value) => {
-      const { location } = route
-      const pathname = prop('pathname', location)
-      const search = prop('search', location)
-      const fullPath = `${pathname}${search}`
-      const icon = sortingStatus(fullPath, 'sort', value)
-
-      return (<ArrowUpwardIcon
-        className={classNames(classes.icon, {
-          [classes.iconDesc]: icon === 'desc',
-          [classes.iconAsc]: icon === 'asc',
-          [classes.iconNot]: icon === 'not',
-        })}
-      />)
-    }
-  })
-)
 
 export default enhance(TableCell)

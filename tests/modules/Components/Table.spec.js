@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import createHistory from 'history/createBrowserHistory'
 import TablePagination from '../../../src/components/Table/TablePagination'
+import { nextOrderingParams, sortingStatus } from '../../../src/components/Table/TableCell'
 import WrapperProvider from '../../WrapperProvider'
 import { Table, TableCell, TableRow, TableHeader, TableColumn, TableSearch } from '../../../src/components/Table'
 
@@ -45,7 +46,7 @@ describe('(Component) Table', () => {
       <WrapperProvider history={history}>
         <Table {...props}>
           <TableHeader>
-            <TableCell sort="id">ID</TableCell>
+            <TableCell sortKey="id">ID</TableCell>
             <TableCell columnSize={3}>Title</TableCell>
             <TableCell columnSize={3}>Owner</TableCell>
             <TableCell columnSize={2}>Status</TableCell>
@@ -133,13 +134,18 @@ describe('(Component) Table', () => {
     expect(selectCount).to.equals(5)
   })
 
-  it('click to sortable column', () => {
-    const spy = sinon.spy()
-    const defaultRoute = prop('route', DEFAULT_PROPS)
-    const component = getComponentFromProps({ ...DEFAULT_PROPS, route: { ...defaultRoute, push: spy } })
+  it('click to sortable column', done => {
+    const history = createHistory()
+    history.push('?page=1')
+    sinon.spy(history, 'push')
 
-    component.find(TableCell).at(0).find('a').first().simulate('click')
-    expect(spy).to.have.property('callCount', 1)
+    const component = getComponentFromProps(DEFAULT_PROPS, history)
+    component.find(TableCell).first().find('a').first().simulate('click')
+
+    setTimeout(() => {
+      expect(history.push.calledOnce).to.be.equal(true)
+      done()
+    })
   })
 
   it('not render link to none sortable column', () => {
@@ -179,5 +185,37 @@ describe('(Component) Table', () => {
       expect(history.push.calledOnce).to.equal(true)
       done()
     })
+  })
+
+  it('nextOrderingParams add or change params for sorting', () => {
+    expect(nextOrderingParams('?page=3', 'sort', 'id')).to.eql({ sort: 'id' })
+    expect(nextOrderingParams('?page=3&sort=id', 'sort', 'id')).to.eql({ sort: '-id' })
+    expect(nextOrderingParams('?page=3&sort=-id', 'sort', 'id')).to.eql({ sort: '' })
+
+    expect(nextOrderingParams('?page=3', 'sortBy', 'id')).to.eql({ sortBy: 'id' })
+    expect(nextOrderingParams('?page=3&sortBy=id', 'sortBy', 'id')).to.eql({ sortBy: '-id' })
+    expect(nextOrderingParams('?page=3&sortBy=-id', 'sortBy', 'id')).to.eql({ sortBy: '' })
+
+    expect(nextOrderingParams('?page=3&sort=id', 'sort', 'createDate'))
+      .to.eql({ sort: 'createDate,id' })
+    expect(nextOrderingParams('?page=3&sort=id,createDate', 'sort', 'createDate'))
+      .to.eql({ sort: '-createDate,id' })
+    expect(nextOrderingParams('?page=3&sort=id,-createDate', 'sort', 'createDate')).to.eql({ sort: 'id' })
+
+    expect(nextOrderingParams('?page=3&sort=createDate,id', 'sort', 'id')).to.eql({ sort: '-id,createDate' })
+  })
+
+  it('sortingStatus get ordering status from sorting', () => {
+    expect(sortingStatus('/c/0/company/1/?page=3', 'sort', 'id')).to.equal('not')
+    expect(sortingStatus('/c/0/company/1/?page=3&sort=id', 'sort', 'id')).to.equal('asc')
+    expect(sortingStatus('/c/0/company/1/?page=3&sort=-id', 'sort', 'id')).to.equal('desc')
+
+    expect(sortingStatus('/c/0/company/1/?page=3', 'sortBy', 'id')).to.equal('not')
+    expect(sortingStatus('/c/0/company/1/?page=3&sortBy=id', 'sortBy', 'id')).to.equal('asc')
+    expect(sortingStatus('/c/0/company/1/?page=3&sortBy=-id', 'sortBy', 'id')).to.equal('desc')
+
+    expect(sortingStatus('/c/0/company/1/?page=3&sort=id', 'sort', 'createDate')).to.equal('not')
+    expect(sortingStatus('/c/0/company/1/?page=3&sort=id,createDate', 'sort', 'createDate')).to.equal('asc')
+    expect(sortingStatus('/c/0/company/1/?page=3&sort=id,-createDate', 'sort', 'createDate')).to.equal('desc')
   })
 })

@@ -1,9 +1,7 @@
 import {
   appendParamsToUrl,
   removeItemFromSelect,
-  addItemToSelect,
-  sortingUrl,
-  sortingStatus,
+  addItemToSelect
 } from '../../src/helpers/urls'
 
 describe('(URL) urls', () => {
@@ -55,39 +53,5 @@ describe('(URL) urls', () => {
 
     expect(addItemToSelect('/c/0/company/1/?ids=1', 'ids', ['2', '3', '4']))
       .to.equal('/c/0/company/1/?ids=1,2,3,4')
-  })
-
-  it('sortingUrl add or change params for sorting', () => {
-    expect(sortingUrl('/c/0/company/1/?page=3', 'sort', 'id')).to.equal('/c/0/company/1/?page=3&sort=id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=id', 'sort', 'id')).to.equal('/c/0/company/1/?page=3&sort=-id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=-id', 'sort', 'id')).to.equal('/c/0/company/1/?page=3&sort=')
-
-    expect(sortingUrl('/c/0/company/1/?page=3', 'sortBy', 'id')).to.equal('/c/0/company/1/?page=3&sortBy=id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sortBy=id', 'sortBy', 'id')).to.equal('/c/0/company/1/?page=3&sortBy=-id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sortBy=-id', 'sortBy', 'id')).to.equal('/c/0/company/1/?page=3&sortBy=')
-
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=id', 'sort', 'createDate'))
-      .to.equal('/c/0/company/1/?page=3&sort=createDate,id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=id,createDate', 'sort', 'createDate'))
-      .to.equal('/c/0/company/1/?page=3&sort=-createDate,id')
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=id,-createDate', 'sort', 'createDate'))
-      .to.equal('/c/0/company/1/?page=3&sort=id')
-
-    expect(sortingUrl('/c/0/company/1/?page=3&sort=createDate,id', 'sort', 'id'))
-      .to.equal('/c/0/company/1/?page=3&sort=-id,createDate')
-  })
-
-  it('sortingStatus get ordering status from sorting', () => {
-    expect(sortingStatus('/c/0/company/1/?page=3', 'sort', 'id')).to.equal('not')
-    expect(sortingStatus('/c/0/company/1/?page=3&sort=id', 'sort', 'id')).to.equal('asc')
-    expect(sortingStatus('/c/0/company/1/?page=3&sort=-id', 'sort', 'id')).to.equal('desc')
-
-    expect(sortingStatus('/c/0/company/1/?page=3', 'sortBy', 'id')).to.equal('not')
-    expect(sortingStatus('/c/0/company/1/?page=3&sortBy=id', 'sortBy', 'id')).to.equal('asc')
-    expect(sortingStatus('/c/0/company/1/?page=3&sortBy=-id', 'sortBy', 'id')).to.equal('desc')
-
-    expect(sortingStatus('/c/0/company/1/?page=3&sort=id', 'sort', 'createDate')).to.equal('not')
-    expect(sortingStatus('/c/0/company/1/?page=3&sort=id,createDate', 'sort', 'createDate')).to.equal('asc')
-    expect(sortingStatus('/c/0/company/1/?page=3&sort=id,-createDate', 'sort', 'createDate')).to.equal('desc')
   })
 })

@@ -61,12 +61,12 @@ const CompanyList = ({ route, filter, list, detail, ...props }) => {
       actions={actions}
       dialogs={dialogs}>
       <TableHeader>
-        <TableCell sort="id">ID</TableCell>
-        <TableCell columnSize={3} sort="name">Name</TableCell>
+        <TableCell sortKey="id">ID</TableCell>
+        <TableCell columnSize={3} sortKey="name">Name</TableCell>
         <TableCell sort="owner" columnSize={3}>Owner</TableCell>
-        <TableCell columnSize={2} sort="status">Status</TableCell>
-        <TableCell columnSize={2} sort="createDate">Create date</TableCell>
-        <TableCell style={{ textAlign: 'center' }}>Actions</TableCell>
+        <TableCell columnSize={2} sortKey="status">Status</TableCell>
+        <TableCell columnSize={2} sortKey="createDate">Create date</TableCell>
+        <TableCell>Actions</TableCell>
       </TableHeader>
       <TableRow>
         <TableColumn content={getLink} />

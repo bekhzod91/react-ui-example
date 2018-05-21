@@ -1,7 +1,7 @@
 import {
-  pipe, split, map, fromPairs, toPairs, head, join, pathOr, findLast, endsWith, isNil,
-  merge, prop, equals, defaultTo, filter, without, sort, uniq, gte, concat, not, isEmpty,
-  append, reverse, is, curry
+  pipe, split, map, fromPairs, toPairs, head, join,
+  merge, prop, defaultTo, filter, without, sort, uniq, gte, concat,
+  is, curry
 } from 'ramda'
 
 const parseParams = (url) => {
@@ -32,42 +32,6 @@ const appendParamsToUrl = curry((appendParams, url) => {
 
   return pathname + '?' + paramsToSearch(newParams)
 })
-
-const sortingStatus = (url, key, value) => {
-  const params = parseParams(url)
-  const currentValue = pipe(
-    pathOr('', [key]),
-    split(','),
-    findLast(endsWith(value))
-  )(params)
-
-  if (isNil(currentValue)) {
-    return 'not'
-  }
-
-  return pipe(
-    prop(0),
-    equals('-'),
-    descSort => descSort ? 'desc' : 'asc',
-  )(currentValue)
-}
-
-const sortingUrl = (url, key, value) => {
-  const params = parseParams(url)
-  const sortValues = prop(key, params) || ''
-  const possibleValue = { 'not': value, 'asc': `-${value}`, 'desc': '' }
-  const status = sortingStatus(url, key, value)
-  const newValue = pipe(
-    split(','),
-    filter(pipe(endsWith(value), not)),
-    append(prop(status, possibleValue)),
-    filter(pipe(isEmpty, not)),
-    reverse,
-    join(',')
-  )(sortValues)
-
-  return appendParamsToUrl({ [key]: newValue }, url)
-}
 
 const removeItemFromSelect = (url, key, value) => {
   const params = parseParams(url)
@@ -107,8 +71,6 @@ const addItemToSelect = (url, key, value) => {
 export {
   parseParams,
   appendParamsToUrl,
-  sortingUrl,
-  sortingStatus,
   removeItemFromSelect,
   addItemToSelect
 }

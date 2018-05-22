@@ -3,16 +3,13 @@ import {
   not, pathOr, pipe, prop, sort, split, whereEq, path, defaultTo,
   without
 } from 'ramda'
-import React from 'react'
 import { parseParams } from '../../helpers/urls'
-import TableHeader from './TableHeader'
-import TableRow from './TableRow'
 
-export const getIdsFromList = curry((getById, list) => pipe(
+export const getIdsFromList = pipe(
   pathOr([], ['data', 'results']),
-  map(pipe(getById, parseInt)),
+  map(pipe(prop('id'), parseInt)),
   sort(gte)
-)(list))
+)
 
 export const selectIdsIncludeListIds = curry((selectIds, listIds) =>
   equals(
@@ -29,12 +26,15 @@ export const selectIdsIncludeAnyListIds = curry((selectIds, listIds) =>
 )
 
 export const getSelectIdsFromRoute = pipe(
-  pathOr('', ['location', 'query', 'select']),
-  split(','),
-  map(parseInt),
-  filter(pipe(isNaN, not)),
-  sort(gte)
-)
+    path(['location', 'search']),
+    parseParams,
+    prop('select'),
+    defaultTo(''),
+    split(','),
+    map(parseInt),
+    filter(pipe(isNaN, not)),
+    sort(gte)
+  )
 
 export const getPage = compose(
   parseInt,
@@ -53,38 +53,3 @@ export const getRowsPerPage = curry((defaultRowsPerPage, props) =>
     path(['location', 'search'])
   )(props)
 )
-
-const cloneFromChildren = curry((part, props, children) =>
-  pipe(
-    filter(whereEq({ type: part })),
-    head,
-    item => item && React.cloneElement(item, props)
-  )(children)
-)
-
-export const renderTableBodyFromProps = ({ children, route, list, detail, ...defaultProps }) => {
-  const { onCheckItem, getById, checkboxEnable } = defaultProps
-  const results = pathOr([], ['data', 'results'], list)
-  const loading = prop('loading', list)
-  const selectIds = getSelectIdsFromRoute(route)
-
-  if (loading) {
-    return null
-  }
-
-  return cloneFromChildren(TableRow, {
-    list: results, detail, checkboxEnable, selectIds, getById, onCheckItem
-  })(children)
-}
-
-export const renderTableHeaderFromProps = ({ children, route, list, ...defaultProps }) => {
-  const { onCheckAll, onUnCheckAll, checkboxEnable, getById } = defaultProps
-  const listIds = getIdsFromList(getById, list)
-  const selectIds = getSelectIdsFromRoute(route)
-  const checkboxIsChecked = selectIdsIncludeListIds(selectIds, listIds)
-  const checkboxMinusChecked = !checkboxIsChecked ? selectIdsIncludeAnyListIds(selectIds, listIds) : false
-
-  return cloneFromChildren(TableHeader, {
-    route, checkboxEnable, checkboxIsChecked, checkboxMinusChecked, onCheckAll, onUnCheckAll
-  })(children)
-}

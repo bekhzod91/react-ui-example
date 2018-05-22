@@ -1,20 +1,16 @@
-import { compose, path, pathOr, prop, length, equals } from 'ramda'
+import { compose, path, pathOr, prop, length } from 'ramda'
 import React from 'react'
 import { pure, mapProps, withHandlers, defaultProps, componentFromStream } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { getFullPathFromLocation } from '../../helpers/get'
 import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 import TableSearch from '../Table/TableSearch'
 import TablePagination from './TablePagination'
-import NotFoundImage from './searchIcon.svg'
 import {
   getIdsFromList,
   getSelectIdsFromRoute,
-  renderTableBodyFromProps,
-  renderTableHeaderFromProps
 } from './helper'
 
 const styles = theme => ({
@@ -52,7 +48,7 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      margin: '5px 12px 5px 12px'
+      margin: '5px 12px 0 12px'
     },
   },
 
@@ -122,26 +118,26 @@ const enhance = compose(
   defaultProps({
     getById: path(['id']),
     defaultRowsPerPage: 10,
-    checkboxEnable: true,
+    withCheckbox: true,
     search: true,
   }),
   withHandlers({
-    onCheckAll: ({ getById, route, list }) => () => {
-      const { push, location } = route
+    onCheckAll: ({ getById, history, list }) => () => {
+      const { push, location } = history
       const listIds = getIdsFromList(getById, list)
       const fullPath = getFullPathFromLocation(location)
 
       return push(addItemToSelect(fullPath, 'select', listIds))
     },
-    onUnCheckAll: ({ getById, route, list }) => () => {
-      const { push, location } = route
+    onUnCheckAll: ({ getById, history, list }) => () => {
+      const { push, location } = history
       const listIds = getIdsFromList(getById, list)
       const fullPath = getFullPathFromLocation(location)
 
       return push(removeItemFromSelect(fullPath, 'select', listIds))
     },
-    onCheckItem: ({ route }) => (isChecked, id) => {
-      const { push, location } = route
+    onCheckItem: ({ history }) => (isChecked, id) => {
+      const { push, location } = history
       const fullPath = getFullPathFromLocation(location)
 
       if (isChecked) {
@@ -159,17 +155,15 @@ const enhance = compose(
       actions,
       dialogs,
       defaultRowsPerPage,
-      search
+      search,
+      children,
+      withCheckbox
     } = props
 
     const loading = prop('loading', list)
     const count = pathOr(0, ['data', 'count'], list)
     const selectIds = getSelectIdsFromRoute(route)
     const idsCount = length(selectIds)
-    const empty = compose(equals(0), length, path(['data', 'results']))(list)
-    const renderHeader = () => renderTableHeaderFromProps(props)
-    const renderBody = () => renderTableBodyFromProps(props)
-
     return {
       classes,
       route,
@@ -177,21 +171,20 @@ const enhance = compose(
       loading,
       dialogs,
       actions,
+      list,
       defaultRowsPerPage,
-      renderHeader,
-      renderBody,
-      empty,
       idsCount,
-      search
+      search,
+      children,
+      withCheckbox
     }
   }),
   pure
 )
 
 const Table = componentFromStream(props$ => {
-  return props$.combineLatest(props => {
-    const { classes, renderHeader, renderBody } = props
-    const bodyIsVisible = !(props.loading || props.empty)
+  return props$.combineLatest(({ classes, ...props }) => {
+    const ids = getIdsFromList(props.list)
 
     return (
       <div className={classes.root}>
@@ -210,29 +203,14 @@ const Table = componentFromStream(props$ => {
                 {props.actions}
               </div>
             </div>
-            <div>
-              {renderHeader()}
-            </div>
           </div>
-          <div className={classes.body}>
-            {props.loading && (
-              <div className={classes.loader}>
-                <CircularProgress size={75} color="secondary" />
-              </div>
-            )}
-
-            {props.empty && (
-              <div className={classes.empty}>
-                <img src={NotFoundImage} />
-                <div>
-                  <h4>Ooops, Item Not Found</h4>
-                  <span>Try rewording your search or entering a new keyword</span>
-                </div>
-              </div>
-            )}
-
-            {bodyIsVisible && <div>{renderBody()}</div>}
-          </div>
+          {props.children.map((child) =>
+            React.cloneElement(child, {
+              ids,
+              loading: props.loading,
+              withCheckbox: props.withCheckbox
+            })
+          )}
           <div className={classes.footer}>
             <TablePagination
               count={props.count}
@@ -253,14 +231,13 @@ Table.propTypes = {
   ]),
   route: PropTypes.object.isRequired,
   actions: PropTypes.node,
-  renderHeader: PropTypes.func.isRequired,
-  renderBody: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   search: PropTypes.bool.isRequired,
   empty: PropTypes.bool.isRequired,
   count: PropTypes.number.isRequired,
   idsCount: PropTypes.number.isRequired,
   defaultRowsPerPage: PropTypes.number.isRequired,
+  withCheckbox: PropTypes.bool
 }
 
 export default enhance(Table)

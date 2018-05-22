@@ -16,7 +16,7 @@ const COLUMN_SIZE = FULL_WIDTH / MAX_COLUMN
 const TableColumn = ({ classes, columnSize, item, index, content, style, ...props }) => {
   return (
     <div className={classes.root} style={{ width: `${columnSize * COLUMN_SIZE}%`, ...style }} {...props}>
-      {content(item, index)}
+      {/*content(item, index)*/}
     </div>
   )
 }

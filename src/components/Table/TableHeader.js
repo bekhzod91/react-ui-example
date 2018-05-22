@@ -1,10 +1,15 @@
 import React from 'react'
+import { compose, withHandlers } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Checkbox from '@material-ui/core/Checkbox'
+import { removeItemFromSelect } from '../../helpers/urls'
+import { addParamsRoute } from '../../helpers/route'
+import { getSelectIdsFromRoute, selectIdsIncludeAnyListIds, selectIdsIncludeListIds} from './helper'
 
 const styles = theme => ({
   root: {
+    padding: '3px 0 3px 0',
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
@@ -16,21 +21,38 @@ const styles = theme => ({
   },
 })
 
-const TableHeader = ({ classes, children, route, ...props }) => {
-  const { checkboxEnable, checkboxMinusChecked, checkboxIsChecked, onCheckAll, onUnCheckAll } = props
+const enhance = compose(
+  withRouter,
+  withStyles(styles),
+  withHandlers({
+    onCheckAll: ({ history, ids }) => () => {
+      addParamsRoute({ 'select': ids.join(',') }, history)
+    },
+    onUnCheckAll: ({ history, ids }) => () => {
+      const search = history.location.search
+      const newIds = removeItemFromSelect(search, 'select', ids)
+
+      addParamsRoute({ 'select': newIds }, history)
+    },
+  })
+)
+
+const TableHeader = ({ classes, ...props }) => {
+  const selectIds = getSelectIdsFromRoute(props.history)
+  const fullyChecked = selectIdsIncludeListIds(selectIds, props.ids)
+  const partiallyChecked = fullyChecked ? false : selectIdsIncludeAnyListIds(selectIds, props.ids)
 
   return (
     <div className={classes.root}>
-      {checkboxEnable && (
-        <div className={classes.checkbox}>
-          <Checkbox
-            onChange={(event, value) => !checkboxMinusChecked && value ? onCheckAll() : onUnCheckAll()}
-            checked={checkboxIsChecked}
-            indeterminate={checkboxMinusChecked}
-          />
-        </div>
-      )}
-      {React.Children.map(children, child => React.cloneElement(child, { route }))}
+      {props.children &&
+      React.cloneElement(props.children, {
+        noBg: true,
+        fullyChecked,
+        partiallyChecked,
+        withCheckbox: props.withCheckbox,
+        onUnCheckAll: props.onUnCheckAll,
+        onCheckAll: props.onCheckAll
+      })}
     </div>
   )
 }
@@ -43,11 +65,13 @@ TableHeader.propTypes = {
     location: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired
   }).isRequired,
-  checkboxEnable: PropTypes.bool.isRequired,
+  withCheckbox: PropTypes.bool.isRequired,
   checkboxMinusChecked: PropTypes.bool.isRequired,
   checkboxIsChecked: PropTypes.bool.isRequired,
   onCheckAll: PropTypes.func.isRequired,
   onUnCheckAll: PropTypes.func.isRequired,
+  history: PropTypes.object,
+  ids: PropTypes.array
 }
 
-export default withStyles(styles)(TableHeader)
+export default enhance(TableHeader)

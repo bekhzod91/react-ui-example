@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { Table, TableHeader, TableCell, TableRow, TableColumn, TableBody } from '../../../components/Table'
+import { Table, TableHeader, TableCell, TableRow, TableBody } from '../../../components/Table'
 import { appendParamsToUrl } from '../../../helpers/urls'
 import { fromNow } from '../../../helpers/dateFormat'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
@@ -87,7 +87,7 @@ const CompanyList = ({ route, filter, list, detail, ...props }) => {
               </div>
             </TableCell>
           </TableRow>
-      ))}
+        ))}
       </TableBody>
     </Table>
   )

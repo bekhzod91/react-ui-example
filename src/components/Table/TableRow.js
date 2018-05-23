@@ -71,40 +71,40 @@ const TableRow = ({ classes, ...props }) => {
   const selectIds = getSelectIdsFromRoute(props.history)
   const checked = find(equals(parseInt(props.id)), selectIds)
 
-//  const detailNode = prop('detail', detail)
-//  const detailId = prop('id', detail)
+  //  const detailNode = prop('detail', detail)
+  //  const detailId = prop('id', detail)
   // console.warn(children)
-//   const rows = mapWithIndex((item, index) => {
-//     const id = getById(item)
-//     const active = equals(id, detailId)
-//     const beforeActive = equals(getById(path([index + 1], list)), detailId)
-//     const afterActive = equals(getById(path([index - 1], list)), detailId)
-//     const column = renderColumn(item, index, children)
-//     const className = classNames(classes.root, {
-//       [classes.detail]: active,
-//       [classes.beforeActive]: beforeActive,
-//       [classes.afterActive]: afterActive,
-//     })
-//     const checked = pipe(
-//       filter((item) => item === id),
-//       isEmpty,
-//       not
-//     )(selectIds)
-//
-//     return (
-//       <div key={index} className={className}>
-//         <div className={classes.column}>
-//           {checkboxEnable && (
-//             <div className={classes.checkbox}>
-// {/*              <Checkbox onChange={(event, value) => onCheckItem(value, id)} checked={checked} />*/}
-//             </div>
-//           )}
-//           {column}
-//         </div>
-//         {active && detailNode}
-//       </div>
-//     )
-//   }, list)
+  //   const rows = mapWithIndex((item, index) => {
+  //     const id = getById(item)
+  //     const active = equals(id, detailId)
+  //     const beforeActive = equals(getById(path([index + 1], list)), detailId)
+  //     const afterActive = equals(getById(path([index - 1], list)), detailId)
+  //     const column = renderColumn(item, index, children)
+  //     const className = classNames(classes.root, {
+  //       [classes.detail]: active,
+  //       [classes.beforeActive]: beforeActive,
+  //       [classes.afterActive]: afterActive,
+  //     })
+  //     const checked = pipe(
+  //       filter((item) => item === id),
+  //       isEmpty,
+  //       not
+  //     )(selectIds)
+  //
+  //     return (
+  //       <div key={index} className={className}>
+  //         <div className={classes.column}>
+  //           {checkboxEnable && (
+  //             <div className={classes.checkbox}>
+  // {/*              <Checkbox onChange={(event, value) => onCheckItem(value, id)} checked={checked} />*/}
+  //             </div>
+  //           )}
+  //           {column}
+  //         </div>
+  //         {active && detailNode}
+  //       </div>
+  //     )
+  //   }, list)
 
   return (
     <div className={classNames(classes.root, { [classes.noBackground]: props.noBg })}>

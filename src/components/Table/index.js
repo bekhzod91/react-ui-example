@@ -3,7 +3,6 @@ import Table from './Table'
 import TableHeader from './TableHeader'
 import TableCell from './TableCell'
 import TableRow from './TableRow'
-import TableColumn from './TableColumn'
 import TableDetail from './TableDetail'
 import TableSearch from './TableSearch'
 import TableBody from './TableBody'
@@ -20,4 +19,4 @@ const listToTableProps = (results) => {
   }
 }
 
-export { Table, TableHeader, TableCell, TableRow, TableColumn, TableDetail, TableSearch, TableBody, listToTableProps }
+export { Table, TableHeader, TableCell, TableRow, TableDetail, TableSearch, TableBody, listToTableProps }

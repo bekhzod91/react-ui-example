@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { removeItemFromSelect } from '../../helpers/urls'
 import { addParamsRoute } from '../../helpers/route'
-import { getSelectIdsFromRoute, selectIdsIncludeAnyListIds, selectIdsIncludeListIds} from './helper'
+import { getSelectIdsFromRoute, selectIdsIncludeAnyListIds, selectIdsIncludeListIds } from './helper'
 
 const styles = theme => ({
   root: {

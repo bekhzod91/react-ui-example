@@ -1,5 +1,5 @@
 import React from 'react'
-import { pathOr, prop, compose, length, equals, path } from 'ramda'
+import { compose, length, equals, path } from 'ramda'
 import withStyles from '@material-ui/core/styles/withStyles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PropTypes from 'prop-types'

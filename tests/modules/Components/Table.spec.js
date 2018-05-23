@@ -8,7 +8,7 @@ import createHistory from 'history/createBrowserHistory'
 import TablePagination from '../../../src/components/Table/TablePagination'
 import { nextOrderingParams, sortingStatus } from '../../../src/components/Table/TableCell'
 import WrapperProvider from '../../WrapperProvider'
-import { Table, TableCell, TableRow, TableHeader, TableColumn, TableSearch } from '../../../src/components/Table'
+import { Table, TableCell, TableRow, TableHeader, TableBody, TableSearch } from '../../../src/components/Table'
 
 const Action = () => <div>Action</div>
 const Dialog = () => <div>Dialog</div>
@@ -46,19 +46,23 @@ describe('(Component) Table', () => {
       <WrapperProvider history={history}>
         <Table {...props}>
           <TableHeader>
-            <TableCell sortKey="id">ID</TableCell>
-            <TableCell columnSize={3}>Title</TableCell>
-            <TableCell columnSize={3}>Owner</TableCell>
-            <TableCell columnSize={2}>Status</TableCell>
-            <TableCell columnSize={3}>Create date</TableCell>
+            <TableRow>
+              <TableCell sortKey="id">ID</TableCell>
+              <TableCell columnSize={3}>Title</TableCell>
+              <TableCell columnSize={3}>Owner</TableCell>
+              <TableCell columnSize={2}>Status</TableCell>
+              <TableCell columnSize={3}>Create date</TableCell>
+            </TableRow>
           </TableHeader>
-          <TableRow>
-            <TableColumn content={prop('id')} />
-            <TableColumn content={prop('name')} columnSize={3} />
-            <TableColumn content={prop('email')} columnSize={3} />
-            <TableColumn content={prop('status')} columnSize={2} />
-            <TableColumn content={compose(String, prop('createDate'))} columnSize={3} />
-          </TableRow>
+          <TableBody>
+            <TableRow>
+              <TableCell >{prop('id')}</TableCell>
+              <TableCell columnSize={3} >{prop('name')}</TableCell>
+              <TableCell columnSize={3} >{prop('email')}</TableCell>
+              <TableCell columnSize={2} >{prop('status')}</TableCell>
+              <TableCell columnSize={3} >{compose(String, prop('createDate'))}</TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </WrapperProvider>
     )
@@ -66,7 +70,7 @@ describe('(Component) Table', () => {
 
   it('render Content', () => {
     const component = getComponentFromProps(DEFAULT_PROPS)
-    expect(component.find(TableColumn)).to.have.lengthOf(10 * 5)
+    expect(component.find(TableCell)).to.have.lengthOf(10 * 5)
   })
 
   it('render Header', () => {

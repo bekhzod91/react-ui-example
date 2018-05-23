@@ -1,6 +1,6 @@
 import {
-  any, compose, curry, equals, filter, findLast, gte, head, isNil, map,
-  not, pathOr, pipe, prop, sort, split, whereEq, path, defaultTo,
+  any, compose, curry, equals, filter, findLast, gte, isNil, map,
+  not, pathOr, pipe, prop, sort, split, path, defaultTo,
   without
 } from 'ramda'
 import { parseParams } from '../../helpers/urls'
@@ -26,15 +26,15 @@ export const selectIdsIncludeAnyListIds = curry((selectIds, listIds) =>
 )
 
 export const getSelectIdsFromRoute = pipe(
-    path(['location', 'search']),
-    parseParams,
-    prop('select'),
-    defaultTo(''),
-    split(','),
-    map(parseInt),
-    filter(pipe(isNaN, not)),
-    sort(gte)
-  )
+  path(['location', 'search']),
+  parseParams,
+  prop('select'),
+  defaultTo(''),
+  split(','),
+  map(parseInt),
+  filter(pipe(isNaN, not)),
+  sort(gte)
+)
 
 export const getPage = compose(
   parseInt,

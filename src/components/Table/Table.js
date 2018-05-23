@@ -1,11 +1,10 @@
-import { compose, path, pathOr, prop, length } from 'ramda'
+import { compose, path, pathOr, length } from 'ramda'
 import React from 'react'
-import { pure, mapProps, withHandlers, defaultProps, componentFromStream } from 'recompose'
+import { withRouter } from 'react-router-dom'
+import { pure, defaultProps, setDisplayName, componentFromStream } from 'recompose'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
-import { getFullPathFromLocation } from '../../helpers/get'
-import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
 import TableSearch from '../Table/TableSearch'
 import TablePagination from './TablePagination'
 import {
@@ -114,70 +113,13 @@ const styles = theme => ({
 })
 
 const enhance = compose(
+  setDisplayName('Table'),
   withStyles(styles),
+  withRouter,
   defaultProps({
-    getById: path(['id']),
     defaultRowsPerPage: 10,
     withCheckbox: true,
     search: true,
-  }),
-  withHandlers({
-    onCheckAll: ({ getById, history, list }) => () => {
-      const { push, location } = history
-      const listIds = getIdsFromList(getById, list)
-      const fullPath = getFullPathFromLocation(location)
-
-      return push(addItemToSelect(fullPath, 'select', listIds))
-    },
-    onUnCheckAll: ({ getById, history, list }) => () => {
-      const { push, location } = history
-      const listIds = getIdsFromList(getById, list)
-      const fullPath = getFullPathFromLocation(location)
-
-      return push(removeItemFromSelect(fullPath, 'select', listIds))
-    },
-    onCheckItem: ({ history }) => (isChecked, id) => {
-      const { push, location } = history
-      const fullPath = getFullPathFromLocation(location)
-
-      if (isChecked) {
-        return push(addItemToSelect(fullPath, 'select', id))
-      }
-
-      return push(removeItemFromSelect(fullPath, 'select', id))
-    }
-  }),
-  mapProps((props) => {
-    const {
-      classes,
-      route,
-      list,
-      actions,
-      dialogs,
-      defaultRowsPerPage,
-      search,
-      children,
-      withCheckbox
-    } = props
-
-    const loading = prop('loading', list)
-    const count = pathOr(0, ['data', 'count'], list)
-    const selectIds = getSelectIdsFromRoute(route)
-    const idsCount = length(selectIds)
-    return {
-      classes,
-      route,
-      count,
-      loading,
-      dialogs,
-      actions,
-      list,
-      defaultRowsPerPage,
-      idsCount,
-      search,
-      children,
-      withCheckbox
-    }
   }),
   pure
 )
@@ -185,18 +127,22 @@ const enhance = compose(
 const Table = componentFromStream(props$ => {
   return props$.combineLatest(({ classes, ...props }) => {
     const ids = getIdsFromList(props.list)
+    const selectIds = getSelectIdsFromRoute(props.history)
+    const idsCount = length(selectIds)
+    const loading = path(['list', 'loading'], props)
+    const count = pathOr(0, ['list', 'data', 'count'], props)
 
     return (
       <div className={classes.root}>
         <div>
           {props.dialogs}
-          <div className={classNames(classes.header, { [classes.select]: Boolean(props.idsCount) })}>
+          <div className={classNames(classes.header, { [classes.select]: Boolean(idsCount) })}>
             <div>
               {props.search && <TableSearch />}
 
-              {Boolean(props.idsCount) && props.search && (
+              {Boolean(idsCount) && props.search && (
                 <div className={classes.selectCount} data-test="table-select-count">
-                  {props.idsCount} selected
+                  {idsCount} selected
                 </div>
               )}
               <div className={classes.actions}>
@@ -204,16 +150,17 @@ const Table = componentFromStream(props$ => {
               </div>
             </div>
           </div>
-          {props.children.map((child) =>
+          {props.children.map((child, key) =>
             React.cloneElement(child, {
               ids,
-              loading: props.loading,
-              withCheckbox: props.withCheckbox
+              key,
+              loading,
+              withCheckbox: props.withCheckbox,
             })
           )}
           <div className={classes.footer}>
             <TablePagination
-              count={props.count}
+              count={count}
               defaultRowsPerPage={props.defaultRowsPerPage}
             />
           </div>
@@ -229,13 +176,9 @@ Table.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
-  route: PropTypes.object.isRequired,
   actions: PropTypes.node,
-  loading: PropTypes.bool.isRequired,
+  list: PropTypes.object.isRequired,
   search: PropTypes.bool.isRequired,
-  empty: PropTypes.bool.isRequired,
-  count: PropTypes.number.isRequired,
-  idsCount: PropTypes.number.isRequired,
   defaultRowsPerPage: PropTypes.number.isRequired,
   withCheckbox: PropTypes.bool
 }

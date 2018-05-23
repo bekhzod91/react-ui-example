@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withHandlers } from 'recompose'
+import { compose, createEventHandler, componentFromStream, pure } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -24,53 +24,60 @@ const styles = theme => ({
 const enhance = compose(
   withRouter,
   withStyles(styles),
-  withHandlers({
-    onCheckAll: ({ history, ids }) => () => {
-      addParamsRoute({ 'select': ids.join(',') }, history)
-    },
-    onUnCheckAll: ({ history, ids }) => () => {
-      const search = history.location.search
-      const newIds = removeItemFromSelect(search, 'select', ids)
-
-      addParamsRoute({ 'select': newIds }, history)
-    },
-  })
+  pure
 )
 
-const TableHeader = ({ classes, ...props }) => {
-  const selectIds = getSelectIdsFromRoute(props.history)
-  const fullyChecked = selectIdsIncludeListIds(selectIds, props.ids)
-  const partiallyChecked = fullyChecked ? false : selectIdsIncludeAnyListIds(selectIds, props.ids)
+const getCheckedStatus = (history, ids) => {
+  const selectIds = getSelectIdsFromRoute(history)
+  const fullyChecked = selectIdsIncludeListIds(selectIds, ids)
+  const partiallyChecked = fullyChecked ? false : selectIdsIncludeAnyListIds(selectIds, ids)
 
-  return (
-    <div className={classes.root}>
-      {props.children &&
-      React.cloneElement(props.children, {
-        noBg: true,
-        fullyChecked,
-        partiallyChecked,
-        withCheckbox: props.withCheckbox,
-        onUnCheckAll: props.onUnCheckAll,
-        onCheckAll: props.onCheckAll
-      })}
-    </div>
-  )
+  return { partiallyChecked, fullyChecked }
 }
 
+const TableHeader = componentFromStream(props$ => {
+  const { stream: onCheckAll$, handler: onCheckAll } = createEventHandler()
+
+  onCheckAll$
+    .withLatestFrom(props$)
+    .subscribe(([checked, { history, ids }]) => {
+      const { partiallyChecked } = getCheckedStatus(history, ids)
+
+      if (checked && !partiallyChecked) {
+        addParamsRoute({ 'select': ids.join(',') }, history)
+      } else {
+        const search = history.location.search
+        const newIds = removeItemFromSelect(search, 'select', ids)
+
+        addParamsRoute({ 'select': newIds }, history)
+      }
+    })
+
+  return props$.combineLatest(props$, ({ classes, ...props }) => {
+    const { partiallyChecked, fullyChecked } = getCheckedStatus(props.history, props.ids)
+
+    return (
+      <div className={classes.root}>
+        {props.children &&
+        React.cloneElement(props.children, {
+          noBg: true,
+          withCheckbox: props.withCheckbox,
+          onCheckAll: onCheckAll,
+          partiallyChecked,
+          fullyChecked
+        })}
+      </div>
+    )
+  })
+})
+
+TableHeader.defaultProps = {
+  fullyChecked: false
+}
 TableHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.any,
-  route: PropTypes.shape({
-    companyId: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired
-  }).isRequired,
   withCheckbox: PropTypes.bool.isRequired,
-  checkboxMinusChecked: PropTypes.bool.isRequired,
-  checkboxIsChecked: PropTypes.bool.isRequired,
-  onCheckAll: PropTypes.func.isRequired,
-  onUnCheckAll: PropTypes.func.isRequired,
-  history: PropTypes.object,
   ids: PropTypes.array
 }
 

@@ -18,40 +18,40 @@ describe('(URL) urls', () => {
 
   it('removeItemFromSelect remove value from select', () => {
     expect(removeItemFromSelect('/c/0/company/1/?page=3&ids=1,2,3', 'ids', '1'))
-      .to.equal('/c/0/company/1/?page=3&ids=2,3')
+      .to.equal('2,3')
     expect(removeItemFromSelect('/c/0/company/1/?page=3&ids=1,2,3', 'ids', '2'))
-      .to.equal('/c/0/company/1/?page=3&ids=1,3')
+      .to.equal('1,3')
     expect(removeItemFromSelect('/c/0/company/1/?page=3&ids=1,2,3', 'ids', '3'))
-      .to.equal('/c/0/company/1/?page=3&ids=1,2')
+      .to.equal('1,2')
 
     expect(removeItemFromSelect('/c/0/company/1/', 'ids', '1'))
-      .to.equal('/c/0/company/1/?ids=')
+      .to.equal('')
 
-    expect(removeItemFromSelect('/c/0/company/1/', 'listIds', '1'))
-      .to.equal('/c/0/company/1/?listIds=')
+    expect(removeItemFromSelect('/c/0/company/1/?listIds=1,2', 'listIds', '1'))
+      .to.equal('2')
 
     expect(removeItemFromSelect('/c/0/company/1/?ids=1,2,3,4', 'ids', ['2', '3', '4']))
-      .to.equal('/c/0/company/1/?ids=1')
+      .to.equal('1')
   })
 
   it('addItemFromSelect add value to select', () => {
     expect(addItemToSelect('/c/0/company/1/?page=3&ids=2,3', 'ids', '1'))
-      .to.equal('/c/0/company/1/?page=3&ids=1,2,3')
+      .to.equal('1,2,3')
     expect(addItemToSelect('/c/0/company/1/?page=3&ids=1,3', 'ids', '2'))
-      .to.equal('/c/0/company/1/?page=3&ids=1,2,3')
+      .to.equal('1,2,3')
     expect(addItemToSelect('/c/0/company/1/?page=3&ids=1,2', 'ids', '3'))
-      .to.equal('/c/0/company/1/?page=3&ids=1,2,3')
+      .to.equal('1,2,3')
 
     expect(addItemToSelect('/c/0/company/1/', 'ids', '1'))
-      .to.equal('/c/0/company/1/?ids=1')
+      .to.equal('1')
 
-    expect(addItemToSelect('/c/0/company/1/', 'listIds', '1'))
-      .to.equal('/c/0/company/1/?listIds=1')
+    expect(addItemToSelect('/c/0/company/1/?listIds=2', 'listIds', '1'))
+      .to.equal('1,2')
 
     expect(addItemToSelect('/c/0/company/1/?ids=1', 'ids', '1'))
-      .to.equal('/c/0/company/1/?ids=1')
+      .to.equal('1')
 
     expect(addItemToSelect('/c/0/company/1/?ids=1', 'ids', ['2', '3', '4']))
-      .to.equal('/c/0/company/1/?ids=1,2,3,4')
+      .to.equal('1,2,3,4')
   })
 })

@@ -52,7 +52,8 @@ const removeItemFromSelect = (search, key, value) => {
 const addItemToSelect = (url, key, value) => {
   const params = parseParams(url)
   const values = is(Array, value) ? map(String, value) : [String(value)]
-  const selector = pipe(
+
+  return pipe(
     prop(key),
     defaultTo(''),
     split(','),
@@ -62,8 +63,6 @@ const addItemToSelect = (url, key, value) => {
     sort(gte),
     join(','),
   )(params)
-
-  return appendParamsToUrl({ [key]: selector }, url)
 }
 
 export {

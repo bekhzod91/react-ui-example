@@ -5,7 +5,6 @@ import classNames from 'classnames'
 import { compose } from 'recompose'
 import Checkbox from '@material-ui/core/Checkbox'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Grid from '@material-ui/core/Grid'
 import { withRouter } from 'react-router-dom'
 import { getSelectIdsFromRoute } from './helper'
 
@@ -30,17 +29,14 @@ const styles = theme => ({
     marginRight: '5px',
     maxWidth: '100px !important'
   },
-  checked: {
-    color: '#fff !important'
-  },
-  unChecked: {
-    color: '#fff'
-  },
   column: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: theme.table.backgroundColor
+  },
+  checkboxHead: {
+    color: '#fff !important'
   },
   noBackground: {
     boxShadow: 'unset',
@@ -49,16 +45,17 @@ const styles = theme => ({
       backgroundColor: 'transparent'
     }
   },
-  progress: {
-    height: 2
-  },
-
   detail: {
     margin: '50px -20px',
     border: 'none',
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)'
+  },
+  row: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
   }
 })
 
@@ -69,7 +66,7 @@ const enhance = compose(
 
 const TableRow = ({ classes, ...props }) => {
   const selectIds = getSelectIdsFromRoute(props.history)
-  const checked = find(equals(parseInt(props.id)), selectIds)
+  const checked = Boolean(find(equals(parseInt(props.id)), selectIds))
 
   //  const detailNode = prop('detail', detail)
   //  const detailId = prop('id', detail)
@@ -110,26 +107,27 @@ const TableRow = ({ classes, ...props }) => {
     <div className={classNames(classes.root, { [classes.noBackground]: props.noBg })}>
       <div className={classes.column}>
         {props.withCheckbox && (
-          <Grid item={true} xs="1" className={classes.checkbox}>
+          <div className={classes.checkbox}>
             {props.isBody ? (
               <Checkbox
-                onChange={(event, value) => props.onCheckItem(value, props.id)}
+                onChange={(event, value) => props.onCheckItem({ value, id: props.id })}
                 checked={checked}
               />
             ) : (
               <Checkbox
                 classes={{
-                  checked: classes.checked
+                  root: classes.checkboxHead
                 }}
-                onChange={(event, value) => !props.partiallyChecked && value
-                  ? props.onCheckAll() : props.onUnCheckAll()}
+                onChange={(event, value) => props.onCheckAll(value)}
                 checked={props.fullyChecked}
                 indeterminate={props.partiallyChecked}
               />
             )}
-          </Grid>
+          </div>
         )}
-        {props.children}
+        <div className={classes.row}>
+          {props.children}
+        </div>
       </div>
     </div>
   )
@@ -144,7 +142,7 @@ TableRow.propTypes = {
   children: PropTypes.node,
   detail: PropTypes.object,
   noBg: PropTypes.bool,
-  history: PropTypes.bool,
+  history: PropTypes.object,
   id: PropTypes.string,
   isBody: PropTypes.bool,
   withCheckbox: PropTypes.bool.isRequired,
@@ -152,7 +150,6 @@ TableRow.propTypes = {
   fullyChecked: PropTypes.bool,
   onCheckItem: PropTypes.func,
   onCheckAll: PropTypes.func,
-  onUnCheckAll: PropTypes.func
 }
 
 export default enhance(TableRow)

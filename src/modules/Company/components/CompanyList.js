@@ -57,7 +57,6 @@ const CompanyList = ({ route, filter, list, detail, ...props }) => {
 
   return (
     <Table
-      route={route}
       list={list}
       detail={detail}
       actions={actions}
@@ -65,7 +64,7 @@ const CompanyList = ({ route, filter, list, detail, ...props }) => {
       <TableHeader>
         <TableRow>
           <TableCell sortKey="id">ID</TableCell>
-          <TableCell columnSize={2} sortKey="name">Name</TableCell>
+          <TableCell columnSize={3} sortKey="name">Name</TableCell>
           <TableCell columnSize={3} sort="owner">Owner</TableCell>
           <TableCell columnSize={2} sortKey="status">Status</TableCell>
           <TableCell columnSize={2} sortKey="createDate">Create date</TableCell>
@@ -73,10 +72,10 @@ const CompanyList = ({ route, filter, list, detail, ...props }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {results.map((item, index) => (
+        {results.map((item) => (
           <TableRow key={item.id}>
-            <TableCell >{getLink(item)}</TableCell>
-            <TableCell columnSize={2}> {prop('name', item)}</TableCell>
+            <TableCell>{getLink(item)}</TableCell>
+            <TableCell columnSize={3}> {prop('name', item)}</TableCell>
             <TableCell columnSize={3}>{getFullNameOrEmail(item)}</TableCell>
             <TableCell columnSize={2}>{prop('status', item)} </TableCell>
             <TableCell columnSize={2}>{getCreateDate(item)}</TableCell>

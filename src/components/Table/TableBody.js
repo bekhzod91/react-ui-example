@@ -1,12 +1,12 @@
 import React from 'react'
-import { compose, length, equals, path } from 'ramda'
+import { compose, length, equals } from 'ramda'
 import withStyles from '@material-ui/core/styles/withStyles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { pure, withHandlers, defaultProps } from 'recompose'
+import { pure, componentFromStream, createEventHandler } from 'recompose'
 import { addItemToSelect, removeItemFromSelect } from '../../helpers/urls'
-import { getFullPathFromLocation } from '../../helpers/get'
+import { addParamsRoute } from '../../helpers/route'
 import NotFoundImage from './searchIcon.svg'
 
 const styles = theme => ({
@@ -103,29 +103,28 @@ const styles = theme => ({
 const enhance = compose(
   withRouter,
   withStyles(styles),
-  defaultProps({
-    getById: path(['id']),
-  }),
-  withHandlers({
-    onCheckItem: ({ history }) => (isChecked, id) => {
-      const { push, location } = history
-      const fullPath = getFullPathFromLocation(location)
-
-      console.warn(fullPath)
-      if (isChecked) {
-        return push(addItemToSelect(fullPath, 'select', id))
-      }
-
-      return push(removeItemFromSelect(fullPath, 'select', id))
-    }
-  }),
   pure
 )
 
-const TableBody = ({ classes, ...props }) => {
-  const empty = compose(equals(0), length)(props.list)
+const TableBody = componentFromStream(props$ => {
+  const { stream: onCheckItem$, handler: onCheckItem } = createEventHandler()
+  const isEmpty = compose(equals(0), length)
 
-  return (
+  onCheckItem$
+    .withLatestFrom(props$)
+    .subscribe(([{ value, id }, { history }]) => {
+      const search = history.location.search
+
+      if (value) {
+        const param = addItemToSelect(search, 'select', id)
+        addParamsRoute({ 'select': param }, history)
+      } else {
+        const param = removeItemFromSelect(search, 'select', id)
+        addParamsRoute({ 'select': param }, history)
+      }
+    })
+
+  return props$.combineLatest(({ classes, ...props }) => (
     <div className={classes.body}>
       {props.loading && (
         <div className={classes.loader}>
@@ -133,7 +132,7 @@ const TableBody = ({ classes, ...props }) => {
         </div>
       )}
 
-      {empty && (
+      {isEmpty(props.list) && (
         <div className={classes.empty}>
           <img src={NotFoundImage} />
           <div>
@@ -143,17 +142,18 @@ const TableBody = ({ classes, ...props }) => {
         </div>
       )}
 
-      {props.children.map((item) =>
+      {!props.loading && props.children.map((item) =>
         React.cloneElement(item, {
           withCheckbox: props.withCheckbox,
-          onCheckItem: props.onCheckItem,
+          onCheckItem: onCheckItem,
           id: item.key,
           isBody: true
         })
       )}
     </div>
   )
-}
+  )
+})
 
 TableBody.propTypes = {
   classes: PropTypes.object.isRequired,

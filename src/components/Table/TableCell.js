@@ -18,7 +18,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
-import { branch, renderComponent, componentFromStream, createEventHandler } from 'recompose'
+import { branch, defaultProps, renderComponent, componentFromStream, createEventHandler } from 'recompose'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Grid from '@material-ui/core/Grid'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
@@ -117,17 +117,19 @@ const styles = theme => ({
 })
 
 const enhance = compose(
+  defaultProps({
+    columnSize: 1,
+    sortKey: null
+  }),
   withRouter,
   withStyles(styles),
   branch(
     compose(not, prop('sortKey')),
-    renderComponent(props => {
-      return (
-        <Grid item={true} xs={props.columnSize}>
-          <span className={props.classes.text}>{props.children}</span>
-        </Grid>
-      )
-    })
+    renderComponent(props => (
+      <Grid item={true} xs={props.columnSize}>
+        <span className={props.classes.text}>{props.children}</span>
+      </Grid>
+    ))
   )
 )
 
@@ -180,11 +182,6 @@ const TableCell = componentFromStream(props$ => {
     )
   })
 })
-
-TableCell.defaultProps = {
-  columnSize: 1,
-  sortKey: null
-}
 
 TableCell.propTypes = {
   classes: PropTypes.object,

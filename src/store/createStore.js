@@ -22,8 +22,8 @@ const createStore = (history, initialState = {}) => {
     }
 
     // Enable redux change log
-    const logger = require('redux-logger').default
-    middleware.push(logger)
+    const logger = require('redux-logger')
+    middleware.push(logger.createLogger({ collapsed: true }))
   }
 
   // ======================================================

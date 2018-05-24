@@ -2,7 +2,7 @@ import { find, equals } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { compose } from 'recompose'
+import { compose, setDisplayName } from 'recompose'
 import Checkbox from '@material-ui/core/Checkbox'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { withRouter } from 'react-router-dom'
@@ -61,7 +61,8 @@ const styles = theme => ({
 
 const enhance = compose(
   withRouter,
-  withStyles(styles)
+  withStyles(styles),
+  setDisplayName('TableRow')
 )
 
 const TableRow = ({ classes, ...props }) => {

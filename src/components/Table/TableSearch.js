@@ -1,7 +1,7 @@
 import { compose, assocPath, path, prop, defaultTo } from 'ramda'
 import React from 'react'
 import classNames from 'classnames'
-import { pure, componentFromStream, createEventHandler } from 'recompose'
+import { pure, setDisplayName, componentFromStream, createEventHandler } from 'recompose'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -70,6 +70,7 @@ const enhance = compose(
   withRouter,
   withStyles(styles),
   pure,
+  setDisplayName('TableSearch')
 )
 
 const TableSearch = componentFromStream(props$ => {

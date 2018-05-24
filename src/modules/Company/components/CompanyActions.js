@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 })
 
-const CompanyListActions = ({ classes, onOpenFilter, filterCount }) => (
+const CompanyActions = ({ classes, onOpenFilter, filterCount }) => (
   <div className={classes.root}>
     <IconButton onClick={onOpenFilter}>
       {Boolean(filterCount) && <Badge badgeContent={filterCount} color="secondary">
@@ -43,10 +43,10 @@ const CompanyListActions = ({ classes, onOpenFilter, filterCount }) => (
   </div>
 )
 
-CompanyListActions.propTypes = {
+CompanyActions.propTypes = {
   classes: PropTypes.object.isRequired,
   filterCount: PropTypes.number.isRequired,
   onOpenFilter: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(CompanyListActions)
+export default withStyles(styles)(CompanyActions)

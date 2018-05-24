@@ -90,7 +90,8 @@ const styles = theme => ({
     }
   },
   text: {
-    padding: '10px 10px 10px 10px',
+    padding: '5px 10px 5px 10px',
+    display: 'inline-block',
     boxSizing: 'border-box',
   },
   ordering: {

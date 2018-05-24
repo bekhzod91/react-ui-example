@@ -14,8 +14,8 @@ import {
   editCompanyAction,
   deleteCompanyAction
 } from '../actions/company'
-import Company from '../components/Company'
-import { form as filterFormName, fields as filterFormFields } from '../components/CompanyListFilterForm'
+import CompanyList from '../components/CompanyList'
+import { form as filterFormName, fields as filterFormFields } from '../components/CompanyFilterForm'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 import {
   getIdFromProps,
@@ -132,4 +132,4 @@ export default compose(
       })
   }),
   pure
-)(Company)
+)(CompanyList)

@@ -59,6 +59,7 @@ TableContent.defaultProps = {
 TableContent.propTypes = {
   classes: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
+  id: PropTypes.any.isRequired,
   children: PropTypes.any.isRequired
 }
 

@@ -21,9 +21,9 @@ const styles = {
 }
 
 export const fields = ['email', 'owner']
-export const form = 'CompanyListFilterForm'
+export const form = 'CompanyFilterForm'
 
-const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (
+const CompanyFilterForm = ({ classes, handleSubmit, filter }) => (
   <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseFilter}>
     <form onSubmit={filter.onSubmitFilter}>
       <Field
@@ -56,7 +56,7 @@ const CompanyListFilterForm = ({ classes, handleSubmit, filter }) => (
   </TableDialog>
 )
 
-CompanyListFilterForm.propTypes = {
+CompanyFilterForm.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   filter: PropTypes.shape({
@@ -72,4 +72,4 @@ export default compose(
   reduxForm({ form, enableReinitialize: true }),
   withStyles(styles),
   pure
-)(CompanyListFilterForm)
+)(CompanyFilterForm)

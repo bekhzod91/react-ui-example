@@ -1,11 +1,15 @@
 import React from 'react'
-import { compose, createEventHandler, componentFromStream, pure } from 'recompose'
+import { compose, pure, setDisplayName, createEventHandler, componentFromStream } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { removeItemFromSelect } from '../../helpers/urls'
 import { addParamsRoute } from '../../helpers/route'
-import { getSelectIdsFromRoute, selectIdsIncludeAnyListIds, selectIdsIncludeListIds } from './helper'
+import {
+  getSelectIdsFromRoute,
+  selectIdsIncludeAnyListIds,
+  selectIdsIncludeListIds
+} from './helper'
 
 const styles = theme => ({
   root: {
@@ -24,7 +28,8 @@ const styles = theme => ({
 const enhance = compose(
   withRouter,
   withStyles(styles),
-  pure
+  pure,
+  setDisplayName('TableHeader')
 )
 
 const getCheckedStatus = (history, ids) => {

@@ -15,10 +15,10 @@ import * as DATE_FORMAT from '../../../constants/dateFromat'
 import { fromNow } from '../../../helpers/dateFormat'
 import { appendParamsToUrl } from '../../../helpers/urls'
 import CompanyDetail from './CompanyDetail'
-import CompanyListActions from './CompanyListActions'
-import CompanyListFilterForm from './CompanyListFilterForm'
+import CompanyActions from './CompanyActions'
+import CompanyFilterForm from './CompanyFilterForm'
 
-const Company = ({ list, item, filter, ...props }) => {
+const CompanyList = ({ list, item, filter, ...props }) => {
   const route = getRouteFromProps(props)
 
   const query = path(['location', 'query'], route)
@@ -50,12 +50,12 @@ const Company = ({ list, item, filter, ...props }) => {
   )
 
   const dialogs = (
-    <CompanyListFilterForm
+    <CompanyFilterForm
       filter={filter}
       initialValues={filter.initialValues} />
   )
   const actions = (
-    <CompanyListActions
+    <CompanyActions
       filterCount={filter.count}
       onOpenFilter={filter.onOpenFilter} />
   )
@@ -105,11 +105,11 @@ const Company = ({ list, item, filter, ...props }) => {
   )
 }
 
-Company.propTypes = {
+CompanyList.propTypes = {
   app: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,
 }
 
-export default Company
+export default CompanyList

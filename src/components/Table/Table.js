@@ -34,7 +34,6 @@ const styles = theme => ({
   },
 
   header: {
-    paddingTop: 1,
     boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
     '0px -1px 5px 0px rgba(0, 0, 0, 0.14), ' +
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
@@ -47,7 +46,7 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      margin: '5px 12px 0 12px'
+      padding: '2px 12px 2px 12px'
     },
   },
 
@@ -113,7 +112,6 @@ const styles = theme => ({
 })
 
 const enhance = compose(
-  setDisplayName('Table'),
   withStyles(styles),
   withRouter,
   defaultProps({
@@ -121,7 +119,8 @@ const enhance = compose(
     withCheckbox: true,
     search: true,
   }),
-  pure
+  pure,
+  setDisplayName('Table'),
 )
 
 const Table = componentFromStream(props$ => {

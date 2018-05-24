@@ -4,21 +4,24 @@ import PropTypes from 'prop-types'
 import * as ROUTES from '../../../constants/routes'
 import { getRouteFromProps } from '../../../helpers/get'
 import AppBar from '../../../components/AppBar'
+import TableContent from '../../../components/Table/TableContent'
 import CompanyDetail from './CompanyDetail'
 import CompanyList from './CompanyList'
 
-const Company = ({ list, filter, app, ...props }) => {
+const Company = ({ list, item, filter, ...props }) => {
   const route = getRouteFromProps(props)
 
   const detail = {
     id: path(['detail', 'id'], props),
-    detail: (
-      <CompanyDetail route={route} detail={prop('detail', props)} />
+    detail:(
+      <TableContent loading={item.loading}>
+        {item.data && <CompanyDetail data={item.data} />}
+      </TableContent>
     )
   }
 
   return (
-    <AppBar active={ROUTES.COMPANY} {...app}>
+    <AppBar active={ROUTES.COMPANY} {...props.app}>
       <CompanyList
         route={route}
         filter={filter}
@@ -32,6 +35,7 @@ const Company = ({ list, filter, app, ...props }) => {
 Company.propTypes = {
   app: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
   detail: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,
 }

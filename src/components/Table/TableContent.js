@@ -7,7 +7,7 @@ import Collapse from '@material-ui/core/Collapse'
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.table.backgroundColor
+    backgroundColor: theme.components.table.contentBgColor
   },
 
   progress: {
@@ -27,22 +27,24 @@ const styles = theme => ({
   }
 })
 
-const TableDetail = ({ classes, loading, children }) => {
+const TableContent = ({ classes, ...props }) => {
+  const open = !props.loading
+
   return (
     <div className={classes.root}>
-      {loading && <LinearProgress className={classes.progress} />}
+      {props.loading && <LinearProgress className={classes.progress} />}
       <Collapse
-        in={!loading}
+        in={open}
         classes={{
           entered: classes.entered,
           wrapper: classNames(
             classes.collapse, {
-              [classes.collapseOpen]: !loading
+              [classes.collapseOpen]: open
             })
         }}>
         <div>
           <div className={classes.content}>
-            {!loading && children}
+            {open && props.children}
           </div>
         </div>
       </Collapse>
@@ -50,14 +52,14 @@ const TableDetail = ({ classes, loading, children }) => {
   )
 }
 
-TableDetail.defaultProps = {
+TableContent.defaultProps = {
   columnSize: 1
 }
 
-TableDetail.propTypes = {
+TableContent.propTypes = {
   classes: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   children: PropTypes.any.isRequired
 }
 
-export default withStyles(styles)(TableDetail)
+export default withStyles(styles)(TableContent)

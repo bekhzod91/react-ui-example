@@ -32,13 +32,12 @@ import {
 } from '../../../helpers/form'
 
 const mapStateToProps = (state, props) => {
-  const id = getIdFromProps(props)
   const filterFormValue = getFormValueFromState(filterFormName, state)
   const filterInitialFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
 
   return {
     list: getDataFromState(STATES.COMPANY_LIST, state),
-    detail: { ...getDataFromState(STATES.COMPANY_DETAIL, state), id },
+    item: getDataFromState(STATES.COMPANY_DETAIL, state),
     filterInitialFormValue,
     filterFormValue
   }

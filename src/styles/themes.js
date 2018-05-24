@@ -15,16 +15,10 @@ export const muiTheme = createMuiTheme({
       disabled: 'rgba(0, 0, 0, 0.42)',
     }
   },
-  app: {
-    facebookColor: '#3b5998',
-    facebookTextColor: '#fff',
-    googlePlusColor:'#dd4b39',
-    googlePlusTextColor: '#fff',
-    twitterColor: '#55acee',
-    twitterTextColor: '#fff'
-  },
-  appBar: {
-    buttonColor: '#fff'
+  components: {
+    table: {
+      contentBgColor: '#fff',
+    }
   },
   menu: {
     buttonHover: 'rgb(234, 243, 248)',

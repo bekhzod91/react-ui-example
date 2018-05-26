@@ -1,4 +1,4 @@
-# React Redux Starter Kit
+# React ui example
 
 [![pipeline status](https://lab.wienerdeming.com/GS1/gs1_ui/badges/master/pipeline.svg)](https://lab.wienerdeming.com/GS1/gs1_ui/commits/master)
 [![devDependency Status](https://david-dm.org/davezuko/react-redux-starter-kit/dev-status.svg)](https://david-dm.org/davezuko/react-redux-starter-kit#info=devDependencies)
@@ -9,9 +9,6 @@ This starter kit is designed to get you up and running with a bunch of awesome f
 The primary goal of this project is to provide a stable foundation upon which to build modern web appliications. Its purpose is not to dictate your project structure or to demonstrate a complete real-world application, but to provide a set of tools intended to make front-end development robust, easy, and, most importantly, fun. Check out the full feature list below!
 
 Finally, This project wouldn't be possible without the help of our many contributors. What you see today is the product of hundreds changes made to keep up with an ever-evolving ecosystem. [Thank you](#thank-you) for all of your help.
-
-### Before start read react style guid
-[![Airbnb react style guid](https://github.com/airbnb/javascript/tree/master/react)
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -34,7 +31,7 @@ Finally, This project wouldn't be possible without the help of our many contribu
 After confirming that your environment meets the above [requirements](#requirements), you can create a new project based on `react-redux-starter-kit` by doing the following:
 
 ```bash
-$ git clone https://github.com/davezuko/react-redux-starter-kit.git <my-project-name>
+$ git clone https://github.com/myrubapa/react-ui-example.git <my-project-name>
 $ cd <my-project-name>
 ```
 

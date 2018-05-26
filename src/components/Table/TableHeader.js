@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { removeItemFromSelect } from '../../helpers/urls'
 import { addParamsRoute } from '../../helpers/route'
+import { CHECKBOX_PARAM } from './constant'
 import {
   getSelectIdsFromRoute,
   selectIdsIncludeAnyListIds,
@@ -13,12 +14,12 @@ import {
 
 const styles = theme => ({
   root: {
-    padding: '3px 0 3px 0',
     display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: theme.palette.primary['300'],
-    color: theme.table.headerTextColor
+    flexDirection: 'column',
+    color: theme.table.headerTextColor,
+    '& span': {
+      textTransform: 'uppercase'
+    }
   },
   checkbox: {
     marginRight: '5px'
@@ -49,12 +50,12 @@ const TableHeader = componentFromStream(props$ => {
       const { partiallyChecked } = getCheckedStatus(history, ids)
 
       if (checked && !partiallyChecked) {
-        addParamsRoute({ 'select': ids.join(',') }, history)
+        addParamsRoute({ [CHECKBOX_PARAM]: ids.join(',') }, history)
       } else {
         const search = history.location.search
-        const newIds = removeItemFromSelect(search, 'select', ids)
+        const newIds = removeItemFromSelect(search, CHECKBOX_PARAM, ids)
 
-        addParamsRoute({ 'select': newIds }, history)
+        addParamsRoute({ [CHECKBOX_PARAM]: newIds }, history)
       }
     })
 
@@ -63,9 +64,7 @@ const TableHeader = componentFromStream(props$ => {
 
     return (
       <div className={classes.root}>
-        {props.children &&
-        React.cloneElement(props.children, {
-          noBg: true,
+        {props.children && React.cloneElement(props.children, {
           withCheckbox: props.withCheckbox,
           onCheckAll: onCheckAll,
           partiallyChecked,

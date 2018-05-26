@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import MUITablePagination from '@material-ui/core/TablePagination'
 import { componentFromStream, createEventHandler } from 'recompose'
-import { redirect } from '../../helpers/route'
+import { addParamsRoute } from '../../helpers/route'
 import { getPage, getRowsPerPage } from './helper'
 
 const TablePagination = componentFromStream(props$ => {
@@ -14,14 +14,14 @@ const TablePagination = componentFromStream(props$ => {
     .withLatestFrom(props$)
     .subscribe(([page, { history }]) => {
       const params = { page: page + 1 }
-      redirect({ params }, history)
+      addParamsRoute(params, history)
     })
 
   onChangeRowsPerPage$
     .withLatestFrom(props$)
     .subscribe(([rowsPerPage, { history }]) => {
       const params = { rowsPerPage: rowsPerPage.target.value, page: 1 }
-      redirect({ params }, history)
+      addParamsRoute(params, history)
     })
 
   return props$.combineLatest(props => {

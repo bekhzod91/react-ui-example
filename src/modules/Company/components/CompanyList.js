@@ -1,37 +1,24 @@
 import { compose, __, curry, path, pathOr, prop } from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import sprintf from 'sprintf'
 import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import * as ROUTES from '../../../constants/routes'
-import { getRouteFromProps } from '../../../helpers/get'
 import AppBar from '../../../components/AppBar'
 import TableContent from '../../../components/Table/TableContent'
 import { Table, TableHeader, TableCell, TableRow, TableBody } from '../../../components/Table'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
 import { fromNow } from '../../../helpers/dateFormat'
-import { appendParamsToUrl } from '../../../helpers/urls'
+import { capitalize } from '../../../helpers/textFormat'
 import CompanyDetail from './CompanyDetail'
 import CompanyActions from './CompanyActions'
 import CompanyFilterForm from './CompanyFilterForm'
 
-const CompanyList = ({ list, item, filter, ...props }) => {
-  const route = getRouteFromProps(props)
-
-  const query = path(['location', 'query'], route)
+const CompanyList = props => {
+  const { list, item, filter, history, match } = props
   const results = pathOr([], ['data', 'results'], list)
-  const getLink = item => {
-    const id = prop('id', item)
-    const url = sprintf(ROUTES.COMPANY_DETAIL_PATH, parseInt(id))
-    const urlWithParams = appendParamsToUrl(query, url)
-
-    return (
-      <Link to={urlWithParams}><strong>{id}</strong></Link>
-    )
-  }
 
   const getFullNameOrEmail = (item) => {
     const firstName = path(['owner', 'firstName'], item)
@@ -60,8 +47,8 @@ const CompanyList = ({ list, item, filter, ...props }) => {
       onOpenFilter={filter.onOpenFilter} />
   )
 
-  const detail = (
-    <TableContent loading={item.loading}>
+  const content = (
+    <TableContent key={11} loading={item.loading}>
       {item.data && <CompanyDetail data={item.data} />}
     </TableContent>
   )
@@ -70,26 +57,31 @@ const CompanyList = ({ list, item, filter, ...props }) => {
     <AppBar active={ROUTES.COMPANY} {...props.app}>
       <Table
         list={list}
-        detail={detail}
         actions={actions}
         dialogs={dialogs}>
         <TableHeader>
           <TableRow>
-            <TableCell sortKey="id">ID</TableCell>
-            <TableCell columnSize={3} sortKey="name">Name</TableCell>
-            <TableCell columnSize={3} sort="owner">Owner</TableCell>
-            <TableCell columnSize={2} sortKey="status">Status</TableCell>
-            <TableCell columnSize={2} sortKey="createDate">Create date</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell sortKey="id">id</TableCell>
+            <TableCell columnSize={2} sortKey="name">name</TableCell>
+            <TableCell columnSize={2}>gcp</TableCell>
+            <TableCell columnSize={2} sortKey="owner">owner</TableCell>
+            <TableCell columnSize={2} sortKey="status">status</TableCell>
+            <TableCell columnSize={2} sortKey="created_date">created date</TableCell>
+            <TableCell>action</TableCell>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody content={content}>
           {results.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>{getLink(item)}</TableCell>
-              <TableCell columnSize={3}> {prop('name', item)}</TableCell>
-              <TableCell columnSize={3}>{getFullNameOrEmail(item)}</TableCell>
-              <TableCell columnSize={2}>{prop('status', item)} </TableCell>
+              <TableCell>
+                <Link to={`${match.url}/${item.id}${history.location.search}`}>
+                  <strong>{item.id}</strong>
+                </Link>
+              </TableCell>
+              <TableCell columnSize={2}>{item.name}</TableCell>
+              <TableCell columnSize={2}>{item.gcp}</TableCell>
+              <TableCell columnSize={2}>{getFullNameOrEmail(item)}</TableCell>
+              <TableCell columnSize={2}>{capitalize(item.status)}</TableCell>
               <TableCell columnSize={2}>{getCreateDate(item)}</TableCell>
               <TableCell>
                 <div>
@@ -109,6 +101,8 @@ CompanyList.propTypes = {
   app: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   filter: PropTypes.object.isRequired,
 }
 

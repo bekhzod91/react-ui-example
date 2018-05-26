@@ -1,7 +1,7 @@
 import { injectReducers } from '../../store/reducers'
+import * as ROUTES from '../../constants/routes'
 import AppLayout from '../../components/Layouts/AppLayout'
 import { AsyncComponent } from '../../components/Layouts/RouterLayout'
-import * as ROUTES from '../../constants/routes'
 
 const getCompanyContainer = store =>
   import(/* webpackChunkName: "user" */ './reducers')

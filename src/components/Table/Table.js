@@ -14,12 +14,9 @@ import {
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    '& > div:first-child': {
-      marginLeft: '10px',
-      marginRight: '10px',
-      position: 'relative'
-    }
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative'
   },
 
   loader: {
@@ -65,11 +62,6 @@ const styles = theme => ({
     justifyContent: 'flex-end'
   },
 
-  body: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-
   footer: {
     position: 'relative',
     display: 'flex',
@@ -80,34 +72,7 @@ const styles = theme => ({
     '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
     '& td': {
       border: 'none !important'
-    }
-  },
-
-  empty: {
-    boxShadow: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), ' +
-      '0px 4px 5px 0px rgba(0, 0, 0, 0.14), ' +
-      '0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-    background: '#fff',
-    height: 400,
-    display: 'flex',
-    alignItems: 'center',
-    fontSize: 20,
-    '& img': {
-      width: '25%',
-      margin: '0 60px'
     },
-    '& h4': {
-      margin: '0 0 10px',
-      fontSize: '1.5em',
-      textAlign: 'center'
-    }
-  },
-
-  hide: {
-    minHeight: 0,
-    maxHeight: 0,
-    height: 0,
-    visibility: 'hidden'
   }
 })
 
@@ -133,36 +98,34 @@ const Table = componentFromStream(props$ => {
 
     return (
       <div className={classes.root}>
-        <div>
-          {props.dialogs}
-          <div className={classNames(classes.header, { [classes.select]: Boolean(idsCount) })}>
-            <div>
-              {props.search && <TableSearch />}
+        {props.dialogs}
+        <div className={classNames(classes.header, { [classes.select]: Boolean(idsCount) })}>
+          <div>
+            {props.search && <TableSearch />}
 
-              {Boolean(idsCount) && props.search && (
-                <div className={classes.selectCount} data-test="table-select-count">
-                  {idsCount} selected
-                </div>
-              )}
-              <div className={classes.actions}>
-                {props.actions}
+            {Boolean(idsCount) && props.search && (
+              <div className={classes.selectCount} data-test="table-select-count">
+                {idsCount} selected
               </div>
+            )}
+            <div className={classes.actions}>
+              {props.actions}
             </div>
           </div>
-          {props.children.map((child, key) =>
-            React.cloneElement(child, {
-              ids,
-              key,
-              loading,
-              withCheckbox: props.withCheckbox,
-            })
-          )}
-          <div className={classes.footer}>
-            <TablePagination
-              count={count}
-              defaultRowsPerPage={props.defaultRowsPerPage}
-            />
-          </div>
+        </div>
+        {props.children.map((child, key) =>
+          React.cloneElement(child, {
+            ids,
+            key,
+            loading,
+            withCheckbox: props.withCheckbox,
+          })
+        )}
+        <div className={classes.footer}>
+          <TablePagination
+            count={count}
+            defaultRowsPerPage={props.defaultRowsPerPage}
+          />
         </div>
       </div>
     )

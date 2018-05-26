@@ -4,6 +4,7 @@ import {
   without
 } from 'ramda'
 import { parseParams } from '../../helpers/urls'
+import { CHECKBOX_PARAM } from './constant'
 
 export const getIdsFromList = pipe(
   pathOr([], ['data', 'results']),
@@ -28,7 +29,7 @@ export const selectIdsIncludeAnyListIds = curry((selectIds, listIds) =>
 export const getSelectIdsFromRoute = pipe(
   path(['location', 'search']),
   parseParams,
-  prop('select'),
+  prop(CHECKBOX_PARAM),
   defaultTo(''),
   split(','),
   map(parseInt),

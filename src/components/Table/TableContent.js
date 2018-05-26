@@ -7,7 +7,9 @@ import Collapse from '@material-ui/core/Collapse'
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.components.table.contentBgColor
+    minHeight: 50,
+    backgroundColor: theme.components.table.contentBgColor,
+    boxShadow: theme.shadows[3]
   },
 
   progress: {

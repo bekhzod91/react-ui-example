@@ -24,6 +24,7 @@ import Grid from '@material-ui/core/Grid'
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 import { parseParams } from '../../helpers/urls'
 import { addParamsRoute } from '../../helpers/route'
+import { ORDERING_PARAM } from './constant'
 
 export const sortingStatus = (url, key, value) => {
   const params = parseParams(url)
@@ -143,7 +144,7 @@ const TableCell = componentFromStream(props$ => {
     .subscribe(([event, { history, sortKey }]) => {
       event.preventDefault()
       if (event.key === 'Enter') {
-        const params = nextOrderingParams(history.location.search, 'sort', sortKey)
+        const params = nextOrderingParams(history.location.search, ORDERING_PARAM, sortKey)
 
         addParamsRoute(params, history)
       }
@@ -153,14 +154,14 @@ const TableCell = componentFromStream(props$ => {
     .withLatestFrom(props$)
     .subscribe(([event, { history, sortKey }]) => {
       event.preventDefault()
-      const params = nextOrderingParams(history.location.search, 'sort', sortKey)
+      const params = nextOrderingParams(history.location.search, ORDERING_PARAM, sortKey)
 
       addParamsRoute(params, history)
     })
 
   return props$.combineLatest(({ classes, history, ...props }) => {
     const search = history.location.search
-    const orderStatus = sortingStatus(search, 'sort', props.sortKey)
+    const orderStatus = sortingStatus(search, ORDERING_PARAM, props.sortKey)
 
     return (
       <Grid item={true} xs={props.columnSize}>

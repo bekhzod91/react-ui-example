@@ -18,7 +18,7 @@ const styles = {
   },
   content: {
     transition: '0.5s',
-    padding: '15px 20px',
+    padding: '20px 20px',
     flex: '1'
   },
   '@media (min-width: 600px)': {

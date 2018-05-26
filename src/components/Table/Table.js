@@ -5,7 +5,7 @@ import { pure, defaultProps, setDisplayName, componentFromStream } from 'recompo
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withStyles from '@material-ui/core/styles/withStyles'
-import TableSearch from '../Table/TableSearch'
+import TableSearch from './TableSearch'
 import TablePagination from './TablePagination'
 import {
   getIdsFromList,
@@ -139,7 +139,17 @@ Table.propTypes = {
     PropTypes.node
   ]),
   actions: PropTypes.node,
-  list: PropTypes.object.isRequired,
+  list: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    data: PropTypes.shape({
+      count: PropTypes.number.isRequired,
+      results: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number.isRequired
+        })
+      ).isRequired,
+    }),
+  }).isRequired,
   search: PropTypes.bool.isRequired,
   defaultRowsPerPage: PropTypes.number.isRequired,
   withCheckbox: PropTypes.bool

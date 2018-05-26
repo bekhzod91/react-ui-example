@@ -130,7 +130,6 @@ describe('(Component) Table', () => {
     const history = createHistory()
     history.push('?ids=1,2,3,4,5')
     const component = getComponentFromProps(DEFAULT_PROPS)
-    console.log(component.find('div[data-test="table-select-count"]'))
     const selectCount = component.find('[data-test="table-select-count"]').props().children[0]
 
     expect(selectCount).to.equals(5)

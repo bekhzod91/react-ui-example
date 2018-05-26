@@ -24,7 +24,7 @@ export const getBooleanFromString = (boolean) => compose(
   ifElse(equals('false'), always(false), always(true)),
   toLower
 )(boolean)
-export const getIdFromProps = compose(parseInt, path(['params', 'id']))
+export const getIdFromProps = compose(parseInt, path(['match', 'params', 'id']))
 export const getCompanyIdFromProps = compose(parseInt, path(['params', 'companyId']))
 export const getParamsIdFromProps = curry((param, props) => compose(parseInt, path(['params', param]))(props))
 export const getRouteFromProps = (props) => ({

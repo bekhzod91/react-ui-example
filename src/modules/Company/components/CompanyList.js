@@ -10,6 +10,7 @@ import AppBar from '../../../components/AppBar'
 import TableContent from '../../../components/Table/TableContent'
 import { Table, TableHeader, TableCell, TableRow, TableBody } from '../../../components/Table'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
+import { getIdFromProps } from '../../../helpers/get'
 import { fromNow } from '../../../helpers/dateFormat'
 import { capitalize } from '../../../helpers/textFormat'
 import CompanyDetail from './CompanyDetail'
@@ -17,9 +18,10 @@ import CompanyActions from './CompanyActions'
 import CompanyFilterForm from './CompanyFilterForm'
 
 const CompanyList = props => {
-  const { list, item, filter, history, match } = props
+  const { list, item, filter } = props
   const results = pathOr([], ['data', 'results'], list)
 
+  const id = getIdFromProps(props)
   const getFullNameOrEmail = (item) => {
     const firstName = path(['owner', 'firstName'], item)
     const secondName = path(['owner', 'secondName'], item)
@@ -48,7 +50,7 @@ const CompanyList = props => {
   )
 
   const content = (
-    <TableContent key={11} loading={item.loading}>
+    <TableContent key={id} loading={item.loading}>
       {item.data && <CompanyDetail data={item.data} />}
     </TableContent>
   )
@@ -71,10 +73,10 @@ const CompanyList = props => {
           </TableRow>
         </TableHeader>
         <TableBody content={content}>
-          {results.map((item) => (
+          {results.map(item => (
             <TableRow key={item.id}>
               <TableCell>
-                <Link to={`${match.url}/${item.id}${history.location.search}`}>
+                <Link to={`/company/${item.id}`}>
                   <strong>{item.id}</strong>
                 </Link>
               </TableCell>

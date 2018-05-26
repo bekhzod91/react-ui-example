@@ -12,12 +12,8 @@ const getCompanyContainer = store =>
 export default (store) => ([
   {
     layout: AppLayout,
-    path: ROUTES.COMPANY_LIST_URL,
+    exact: true,
+    path: [ROUTES.COMPANY_LIST_URL, ROUTES.COMPANY_DETAIL_URL],
     component: AsyncComponent(() => getCompanyContainer(store)),
-  },
-  {
-    layout: AppLayout,
-    path: ROUTES.COMPANY_DETAIL_URL,
-    component: AsyncComponent(() => getCompanyContainer(store))
   }
 ])

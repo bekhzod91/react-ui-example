@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
@@ -14,6 +15,7 @@ const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 
 const config = {
+  mode: __DEV__ ? 'development' : 'production',
   entry: {
     normalize: [
       inProjectSrc('normalize'),
@@ -22,6 +24,7 @@ const config = {
       inProjectSrc(project.main),
     ],
   },
+  optimization: { minimizer: [] },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
@@ -93,7 +96,7 @@ config.module.rules.push({
 // Styles
 // ------------------------------------
 const extractStyles = new ExtractTextPlugin({
-  filename: 'styles/[name].[contenthash].css',
+  filename: 'styles/[name].[md5:contenthash:hex:20].css',
   allChunks: true,
   disable: __DEV__,
 })
@@ -198,38 +201,39 @@ if (__DEV__) {
 // Bundle Splitting
 // ------------------------------------
 if (!__TEST__) {
-  const bundles = ['normalize', 'manifest']
-
-  if (project.vendors && project.vendors.length) {
-    bundles.unshift('vendor')
-    config.entry.vendor = project.vendors
+  config.optimization.splitChunks = {
+    chunks: "async",
+    minSize: 30000,
+    minChunks: 1,
+    maxAsyncRequests: 5,
+    maxInitialRequests: 3,
+    automaticNameDelimiter: '~',
+    name: true,
+    cacheGroups: {
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        chunks: 'all',
+        name: 'vendors',
+        enforce: true
+      },
+      default: {
+        minChunks: 2,
+        priority: -20,
+        reuseExistingChunk: true
+      }
+    }
   }
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
 }
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
-  config.plugins.push(
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: !!config.devtool,
-      comments: false,
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        conditionals: true,
-        unused: true,
-        comparisons: true,
-        sequences: true,
-        dead_code: true,
-        evaluate: true,
-        if_return: true,
-        join_vars: true,
-      },
+  config.optimization.minimizer.push(
+    new UglifyJsPlugin({
+      parallel: true,
+      uglifyOptions: {
+        ecma: 8
+      }
     })
   )
 }

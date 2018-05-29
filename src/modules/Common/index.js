@@ -10,6 +10,6 @@ export default () => ([
   {
     layout: AppLayout,
     path: ROUTES.COMMON_SETTINGS_URL,
-    component: AsyncComponent(getSettingsContainer)
+    component: AsyncComponent(() => getSettingsContainer)
   }
 ])

@@ -6,7 +6,7 @@ import { parseParams } from './urls'
 import { decodeURLParams } from './mapper'
 
 export const getFormValueFromState = curry((name, state) => pathOr({}, ['form', name, 'values'], state))
-const fromMoment = compose((val) => moment(val, 'X'), parseInt)
+export const fromMoment = compose((val) => moment(val, 'X'), parseInt)
 export const getFormInitValueFromHistory = curry((fields, history) => compose(
   decodeURLParams,
   pick(fields),

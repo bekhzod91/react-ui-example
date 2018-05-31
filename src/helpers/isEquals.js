@@ -1,4 +1,4 @@
-import {compose, path, omit, equals, curry, either, not, isEmpty, filter, isNil} from 'ramda'
+import { compose, path, omit, equals, curry, either, not, isEmpty, filter, isNil } from 'ramda'
 import { parseParams } from './urls'
 
 export const IGNORE_PARAMS = ['ids', 'filter', 'create']

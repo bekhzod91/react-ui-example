@@ -106,6 +106,7 @@ const CompanyList = props => {
 CompanyList.propTypes = {
   app: PropTypes.object.isRequired,
   list: PropTypes.object.isRequired,
+  create: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,

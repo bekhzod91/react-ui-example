@@ -2,47 +2,44 @@ import { compose, prop, path } from 'ramda'
 import { pure, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
 import { stopSubmit } from 'redux-form'
-import {
-  getFullPathWithCompanyId,
-  getListRequestFromProps,
-} from '../helpers/get'
 import { getReduxFormError } from '../helpers/validate'
-import { getFormValueFromState, serializer as defaultSerializer } from '../helpers/form'
+import { getFormValueFromState } from '../helpers/form'
+import { getListParamsFromProps } from '../helpers/get'
+import { addParamsRoute } from '../helpers/route'
+import { mapParamsToRequest } from '../helpers/mapper'
 import { openSnackbarAction, DANGER_TYPE, SUCCESS_TYPE } from '../components/Snackbar/actions'
 
-export default ({ listUrl, formName, formSerializer, editAction, getListAction, getDetailAction }) => {
-  const serializer = formSerializer || defaultSerializer
+const key = 'edit'
 
-  const mapStateToProps = (state) => ({
+export default ({ listUrl, formName, mapper = mapParamsToRequest, editAction, getListAction, getDetailAction }) => {
+  const mapStateToProps = state => ({
     editFormValue: getFormValueFromState(formName, state)
   })
+  const mapDispatchToProps = { editAction, getListAction, getDetailAction, stopSubmit, openSnackbarAction }
 
   return compose(
-    connect(mapStateToProps, { editAction, getListAction, getDetailAction, stopSubmit, openSnackbarAction }),
-    // Details
+    connect(mapStateToProps, mapDispatchToProps),
     mapPropsStream(props$ => {
       const { handler: onCloseEdit, stream: onCloseEdit$ } = createEventHandler()
       const { handler: onSubmitEdit, stream: onSubmitEdit$ } = createEventHandler()
 
       onCloseEdit$
         .withLatestFrom(props$)
-        .subscribe(([event, { route }]) => {
-          const fullPath = getFullPathWithCompanyId(listUrl, route)
-
-          route.push(fullPath)
-        })
+        .subscribe(([, { history }]) =>
+          addParamsRoute({ [key]: false }, history)
+        )
 
       onSubmitEdit$
         .withLatestFrom(props$)
         .subscribe(([event, { route, editFormValue, ...props }]) => {
           const companyId = prop('companyId', route)
           const id = parseInt(path(['params', 'id'], route))
-          const data = serializer(editFormValue)
+          const data = mapper(editFormValue)
 
           props.editAction(data, id, companyId)
             .then(() => props.openSnackbarAction({ message: 'Successfully saved', action: SUCCESS_TYPE }))
             .then(() => Promise.all([
-              props.getListAction(getListRequestFromProps(props), companyId),
+              props.getListAction(getListParamsFromProps(props), companyId),
               props.getDetailAction(id, companyId)
             ]))
             .catch(error => Promise.resolve()

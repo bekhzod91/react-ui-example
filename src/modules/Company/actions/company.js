@@ -1,7 +1,6 @@
 import sprintf from 'sprintf'
-import axios from '../../../helpers/axios'
+import axios, { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/axios'
 import * as actionsTypes from '../constants/actionTypes'
-import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
 
 // ------------------------------------
 // Action fetch user list

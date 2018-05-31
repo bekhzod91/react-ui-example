@@ -1,6 +1,5 @@
 import sprintf from 'sprintf'
-import axios from '../../../helpers/axios'
-import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
+import axios, { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/axios'
 import * as actionsTypes from '../constants/actionTypes'
 
 // ------------------------------------

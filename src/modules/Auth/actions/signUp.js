@@ -1,7 +1,6 @@
-import axios from '../../../helpers/axios'
+import axios, { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/axios'
 import * as actionTypes from '../constants/actionTypes'
 import { signUpSerializer } from '../serializers/SignUpSerializer'
-import { getPayloadFromSuccess, getPayloadFromError } from '../../../helpers/get'
 
 // ------------------------------------
 // Action Sign Up

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { push } from 'react-router-redux'
-import { path, is, equals, curry } from 'ramda'
+import { path, is, equals, curry, prop, compose } from 'ramda'
 import { API_URL } from '../constants/api'
 import * as ROUTES from '../constants/routes'
 import * as STATES from '../constants/states'
@@ -32,6 +32,12 @@ const apiErrorHandler = curry((push, error) => {
 
   return Promise.reject(error)
 })
+
+export const getPayloadFromSuccess = prop('data')
+export const getPayloadFromError = compose(
+  (data) => Promise.reject(data),
+  path(['response', 'data'])
+)
 
 export default ({ getState, dispatch }) => {
   const state = getState()

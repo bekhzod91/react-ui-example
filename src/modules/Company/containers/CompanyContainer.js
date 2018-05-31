@@ -1,12 +1,10 @@
-import { push } from 'react-router-redux'
 import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { pure, mapPropsStream, createEventHandler } from 'recompose'
-import sprintf from 'sprintf'
-import { compose, prop, omit, path } from 'ramda'
+import { pure } from 'recompose'
+import { compose } from 'ramda'
 import * as STATES from '../../../constants/states'
-import * as ROUTES from '../../../constants/routes'
-import { parseParams, appendParamsToUrl } from '../../../helpers/urls'
+import FilterWrapper from '../../../wrappers/FilterWrapper'
+import ListWrapper from '../../../wrappers/ListWrapper'
+import DetailWrapper from '../../../wrappers/DetailWrapper'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
@@ -17,119 +15,20 @@ import {
 import CompanyList from '../components/CompanyList'
 import { form as filterFormName, fields as filterFormFields } from '../components/CompanyFilterForm'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
-import {
-  getIdFromProps,
-  getParamsCountFromLocation,
-  getDataFromState,
-  getFullPathFromLocation,
-  getParamsLikeBooleanFromLocation
-} from '../../../helpers/get'
-
-import {
-  getFormValueFromState,
-  getFormValuesLikeParams,
-  getInitialFormValuesFromProps,
-} from '../../../helpers/form'
-
-const mapStateToProps = (state, props) => {
-  const filterFormValue = getFormValueFromState(filterFormName, state)
-  const filterInitialFormValue = getInitialFormValuesFromProps(filterFormName, state, props)
-
-  return {
-    list: getDataFromState(STATES.COMPANY_LIST, state),
-    item: getDataFromState(STATES.COMPANY_DETAIL, state),
-    filterInitialFormValue,
-    filterFormValue
-  }
-}
 
 const mapDispatchToProps = {
   getCompanyListAction,
   getCompanyDetailAction,
   addCompanyAction,
   editCompanyAction,
-  deleteCompanyAction,
-  push
+  deleteCompanyAction
 }
 
 export default compose(
   UserIsAuthenticated,
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
-  // List fetch
-  mapPropsStream((props$) => {
-    const getListRequestFromProps = compose(
-      omit(['ids', 'filter']),
-      parseParams,
-      path(['history', 'location', 'search'])
-    )
-
-    // Get list
-    props$
-      .distinctUntilChanged(null, props => JSON.stringify(getListRequestFromProps(props)))
-      .subscribe(props => props.getCompanyListAction(getListRequestFromProps(props)))
-
-    // Get detail
-    props$
-      .filter(getIdFromProps)
-      .distinctUntilChanged(null, getIdFromProps)
-      .subscribe(props => props.getCompanyDetailAction(getIdFromProps(props)))
-
-    return props$
-  }),
-  // Filter events
-  mapPropsStream(props$ => {
-    const { handler: onOpenFilter, stream: onOpenFilter$ } = createEventHandler()
-    const { handler: onCloseFilter, stream: onCloseFilter$ } = createEventHandler()
-    const { handler: onSubmitFilter, stream: onSubmitFilter$ } = createEventHandler()
-
-    onOpenFilter$
-      .withLatestFrom(props$)
-      .subscribe(([event, { push, location, match }]) => {
-        const companyId = parseInt(path(['params', 'companyId'], match))
-        const search = prop('search', location)
-        const pathname = sprintf(ROUTES.COMPANY_LIST_PATH, companyId)
-        const fullPath = `${pathname}${search}`
-
-        push(appendParamsToUrl({ filter: true }, fullPath))
-      })
-
-    onCloseFilter$
-      .withLatestFrom(props$)
-      .subscribe(([event, { push, location }]) => {
-        const fullPath = getFullPathFromLocation(location)
-
-        push(appendParamsToUrl({ filter: false }, fullPath))
-      })
-
-    onSubmitFilter$
-      .withLatestFrom(props$)
-      .subscribe(([event, { push, location, filterFormValue }]) => {
-        event && event.preventDefault()
-
-        const fullPath = getFullPathFromLocation(location)
-        const params = getFormValuesLikeParams(filterFormValue)
-
-        push(appendParamsToUrl({ ...params, filter: false }, fullPath))
-      })
-
-    return props$
-      .combineLatest(({ filterInitialFormValue, filterFormValue, ...props }) => {
-        const location = prop('location', props)
-
-        return {
-          ...props,
-          filter: {
-            count: getParamsCountFromLocation(filterFormFields, location),
-            open: getParamsLikeBooleanFromLocation('filter', location),
-            value: filterFormValue,
-            initialValues: filterInitialFormValue,
-            onSubmitFilter,
-            onOpenFilter,
-            onCloseFilter
-          }
-        }
-      })
-  }),
+  FilterWrapper({ formName: filterFormName, fields: filterFormFields }),
+  ListWrapper({ stateName: STATES.COMPANY_LIST, action: getCompanyListAction }),
+  DetailWrapper({ stateName: STATES.COMPANY_DETAIL, action: getCompanyDetailAction }),
   pure
 )(CompanyList)

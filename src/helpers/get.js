@@ -16,7 +16,7 @@ import {
   findIndex,
 } from 'ramda'
 import { parseParams } from './urls'
-import { mapStrToBoolean } from './mapper'
+import { mapParamsToRequest, mapStrToBoolean, decodeURLParams } from './mapper'
 
 export const getIdFromProps = compose(parseInt, path(['match', 'params', 'id']))
 export const getParamsFormHistory = compose(
@@ -45,6 +45,13 @@ export const getBooleanFromHistory = curry((name, history) => compose(
   parseParams,
   path(['location', 'search']),
 )(history))
+
+export const getListParamsFromProps = compose(
+  mapParamsToRequest,
+  decodeURLParams,
+  getParamsFormHistory,
+  prop('history')
+)
 
 export const getIndexByTabName = curry((tabs, tabName) => findIndex(equals(tabName), tabs))
 export const getCurrentTabIndex = curry((tabs, route) => findIndex(equals(path(['params', 'tab'], route)), tabs))

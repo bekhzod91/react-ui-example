@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import * as ROUTES from '../../../constants/routes'
 import AppBar from '../../../components/AppBar'
+import FloatingButton from '../../../components/FloatingButton'
 import TableContent from '../../../components/Table/TableContent'
 import { Table, TableHeader, TableCell, TableRow, TableBody } from '../../../components/Table'
 import * as DATE_FORMAT from '../../../constants/dateFromat'
@@ -16,9 +17,10 @@ import { capitalize } from '../../../helpers/textFormat'
 import CompanyDetail from './CompanyDetail'
 import CompanyActions from './CompanyActions'
 import CompanyFilterForm from './CompanyFilterForm'
+import CompanyCreate from './CompanyCreate'
 
 const CompanyList = props => {
-  const { list, item, filter } = props
+  const { list, item, filter, create } = props
   const results = pathOr([], ['data', 'results'], list)
 
   const id = getIdFromProps(props)
@@ -46,7 +48,7 @@ const CompanyList = props => {
   const actions = (
     <CompanyActions
       filterCount={filter.count}
-      onOpenFilter={filter.onOpenFilter} />
+      onOpenModal={filter.onOpenModal} />
   )
 
   const content = (
@@ -95,6 +97,8 @@ const CompanyList = props => {
           ))}
         </TableBody>
       </Table>
+      <CompanyCreate {...create} />
+      <FloatingButton action={create.onOpenModal} />
     </AppBar>
   )
 }

@@ -5,30 +5,23 @@ import * as STATES from '../../../constants/states'
 import FilterWrapper from '../../../wrappers/FilterWrapper'
 import ListWrapper from '../../../wrappers/ListWrapper'
 import DetailWrapper from '../../../wrappers/DetailWrapper'
+import CreateWrapper from '../../../wrappers/CreateWrapper'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
   addCompanyAction,
-  editCompanyAction,
-  deleteCompanyAction
 } from '../actions/company'
 import CompanyList from '../components/CompanyList'
-import { form as filterFormName, fields as filterFormFields } from '../components/CompanyFilterForm'
+import { formConfig as filterFormConfig } from '../components/CompanyFilterForm'
+import { formConfig as createFormConfig } from '../components/CompanyCreate'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
-
-const mapDispatchToProps = {
-  getCompanyListAction,
-  getCompanyDetailAction,
-  addCompanyAction,
-  editCompanyAction,
-  deleteCompanyAction
-}
 
 export default compose(
   UserIsAuthenticated,
   withRouter,
-  FilterWrapper({ formName: filterFormName, fields: filterFormFields }),
+  FilterWrapper(filterFormConfig),
   ListWrapper({ stateName: STATES.COMPANY_LIST, action: getCompanyListAction }),
   DetailWrapper({ stateName: STATES.COMPANY_DETAIL, action: getCompanyDetailAction }),
+  CreateWrapper({ ...createFormConfig, action: addCompanyAction, listAction: getCompanyListAction }),
   pure
 )(CompanyList)

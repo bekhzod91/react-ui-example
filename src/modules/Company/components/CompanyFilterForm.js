@@ -20,12 +20,19 @@ const styles = {
   }
 }
 
-export const fields = ['email', 'owner']
 export const form = 'CompanyFilterForm'
+export const fields = ['email', 'owner']
+export const formConfig = { form, fields }
+
+const enhance = compose(
+  reduxForm({ form, enableReinitialize: true }),
+  withStyles(styles),
+  pure
+)
 
 const CompanyFilterForm = ({ classes, handleSubmit, filter }) => (
-  <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseFilter}>
-    <form onSubmit={filter.onSubmitFilter}>
+  <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseModal}>
+    <form onSubmit={filter.onSubmitModal}>
       <Field
         component={TextWithClearField}
         name="email"
@@ -62,14 +69,10 @@ CompanyFilterForm.propTypes = {
   filter: PropTypes.shape({
     open: PropTypes.bool.isRequired,
     initialValues: PropTypes.object.isRequired,
-    onSubmitFilter: PropTypes.func.isRequired,
-    onCloseFilter: PropTypes.func.isRequired,
-    onOpenFilter: PropTypes.func.isRequired,
+    onSubmitModal: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
+    onOpenModal: PropTypes.func.isRequired,
   }).isRequired
 }
 
-export default compose(
-  reduxForm({ form, enableReinitialize: true }),
-  withStyles(styles),
-  pure
-)(CompanyFilterForm)
+export default enhance(CompanyFilterForm)

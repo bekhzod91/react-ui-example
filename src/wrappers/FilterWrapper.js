@@ -1,58 +1,52 @@
+import { prop, omit } from 'ramda'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { compose, pure, mapPropsStream, createEventHandler } from 'recompose'
+import { compose, pure, mapPropsStream } from 'recompose'
 import { addParamsRoute } from '../helpers/route'
 import { getFormInitValueFromHistory } from '../helpers/form'
-import { getParamsCountFromHistory, getBooleanFromHistory } from '../helpers/get'
+import { getParamsCountFromHistory } from '../helpers/get'
 import { encodeURLParams } from '../helpers/mapper'
+import ModalWrapper from '../wrappers/ModalWrapper'
 
-export default params => {
-  const { formName, fields } = params
-  const selector = formValueSelector(formName)
-  const mapStateToProps = state => ({ filterValue: selector(state, ...fields) })
+const key = 'filter'
+const formValue = 'values'
+
+const FilterWrapper = params => {
+  const { form, fields } = params
+
+  if (!form) console.error('Params form required for FilterWrapper')
+  if (!fields) console.error('Params fields required for FilterWrapper')
+
+  const selector = formValueSelector(form)
+  const mapStateToProps = state => ({ [formValue]: selector(state, ...fields) })
+  const handlerOnSubmit = (event, props) => {
+    event && event.preventDefault()
+    const value = prop(formValue, props)
+    const params = encodeURLParams(value)
+
+    addParamsRoute({ ...params, [key]: false }, history)
+  }
 
   return compose(
     connect(mapStateToProps),
-    mapPropsStream(props$ => {
-      const { handler: onOpenFilter, stream: onOpenFilter$ } = createEventHandler()
-      const { handler: onCloseFilter, stream: onCloseFilter$ } = createEventHandler()
-      const { handler: onSubmitFilter, stream: onSubmitFilter$ } = createEventHandler()
+    ModalWrapper({ key, handlerOnSubmit }),
+    mapPropsStream(props$ => props$
+      .combineLatest(props => {
+        const model = prop(key, props)
+        const defaultProps = omit([formValue, key], props)
 
-      onOpenFilter$
-        .withLatestFrom(props$)
-        .subscribe(([, { history }]) =>
-          addParamsRoute({ filter: true }, history)
-        )
-
-      onCloseFilter$
-        .withLatestFrom(props$)
-        .subscribe(([, { history }]) =>
-          addParamsRoute({ filter: false }, history)
-        )
-
-      onSubmitFilter$
-        .withLatestFrom(props$)
-        .subscribe(([event, { history, filterValue }]) => {
-          event && event.preventDefault()
-          const params = encodeURLParams(filterValue)
-
-          addParamsRoute({ ...params, filter: false }, history)
-        })
-
-      return props$
-        .combineLatest(({ filterValue, ...props }) => ({
-          ...props,
-          filter: {
-            onSubmitFilter,
-            onOpenFilter,
-            onCloseFilter,
-            values: filterValue,
-            open: getBooleanFromHistory('filter', props.history),
+        return ({
+          ...defaultProps,
+          [key]: {
+            ...model,
             count: getParamsCountFromHistory(fields, props.history),
-            initialValues: getFormInitValueFromHistory(fields, props.history)
+            initialValues: getFormInitValueFromHistory(fields, props.history),
           }
-        }))
-    }),
+        })
+      })
+    ),
     pure
   )
 }
+
+export default FilterWrapper

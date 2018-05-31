@@ -1,83 +1,61 @@
-import { compose, prop } from 'ramda'
-import { pure, mapPropsStream, createEventHandler } from 'recompose'
+import { prop, omit } from 'ramda'
 import { connect } from 'react-redux'
-import { stopSubmit } from 'redux-form'
-import {
-  getFullPathFromRoute,
-  getFullPathWithCompanyId,
-  getListRequestFromProps,
-  getParamsLikeBooleanFromLocation,
-} from '../helpers/get'
-import { appendParamsToUrl } from '../helpers/urls'
+import { formValueSelector, stopSubmit } from 'redux-form'
+import { compose, pure, mapPropsStream } from 'recompose'
+import { addParamsRoute } from '../helpers/route'
+import { getListParamsFromProps } from '../helpers/get'
+import { mapParamsToRequest } from '../helpers/mapper'
 import { getReduxFormError } from '../helpers/validate'
-import { openSnackbarAction, DANGER_TYPE, SUCCESS_TYPE } from '../components/WithState/Snackbar/actions'
-import { getFormValueFromState, serializer as defaultSerializer } from '../helpers/form'
+import { openSnackbarAction, DANGER_TYPE, SUCCESS_TYPE } from '../components/Snackbar/actions'
+import ModalWrapper from '../wrappers/ModalWrapper'
 
-export default ({ listUrl, createAction, getListAction, formName, formSerializer }) => {
-  const serializer = formSerializer || defaultSerializer
+const key = 'create'
+const formValue = 'values'
 
-  const mapStateToProps = (state) => ({
-    createFormValue: getFormValueFromState(formName, state)
-  })
+const CreateWrapper = params => {
+  const {
+    form,
+    fields,
+    action,
+    mapper = mapParamsToRequest,
+    listAction,
+    listMapper = getListParamsFromProps
+  } = params
+  const selector = formValueSelector(form)
+  const mapStateToProps = state => ({ [formValue]: selector(state, ...fields) })
+  const mapDispatchToProps = { action, listAction, stopSubmit, openSnackbarAction }
+
+  const handlerOnSubmit = (event, props) => {
+    event && event.preventDefault()
+    const data = prop(formValue, props)
+
+    props.action(mapper(data))
+      .then(() => addParamsRoute({ [key]: false }, props.history))
+      .then(() => props.openSnackbarAction({ message: 'Successfully saved', action: SUCCESS_TYPE }))
+      .then(() => props.listAction(listMapper(props)))
+      .catch(error =>
+        Promise.resolve()
+          .then(() => props.stopSubmit(form, getReduxFormError(error)))
+          .then(() => props.openSnackbarAction({ message: 'Save failed', action: DANGER_TYPE }))
+      )
+  }
 
   return compose(
-    connect(mapStateToProps, { createAction, getListAction, stopSubmit, openSnackbarAction }),
-    mapPropsStream(props$ => {
-      const { handler: onOpenCreate, stream: onOpenCreate$ } = createEventHandler()
-      const { handler: onCloseCreate, stream: onCloseCreate$ } = createEventHandler()
-      const { handler: onSubmitCreate, stream: onSubmitCreate$ } = createEventHandler()
+    connect(mapStateToProps, mapDispatchToProps),
+    ModalWrapper({ key, handlerOnSubmit }),
+    mapPropsStream(props$ => props$
+      .combineLatest(props => {
+        const model = prop(key, props)
+        const defaultProps = omit([formValue, key], props)
 
-      onOpenCreate$
-        .withLatestFrom(props$)
-        .subscribe(([event, { route }]) => {
-          const push = prop('push', route)
-          const fullPath = getFullPathWithCompanyId(listUrl, route)
-
-          push(appendParamsToUrl({ filter: false, create: true }, fullPath))
+        return ({
+          ...defaultProps,
+          [key]: model,
         })
-
-      onCloseCreate$
-        .withLatestFrom(props$)
-        .subscribe(([event, { route }]) => {
-          const push = prop('push', route)
-          const fullPath = getFullPathFromRoute(route)
-
-          push(appendParamsToUrl({ create: false }, fullPath))
-        })
-
-      onSubmitCreate$
-        .withLatestFrom(props$)
-        .subscribe(([event, { route, createFormValue, ...props }]) => {
-          const push = prop('push', route)
-          const companyId = prop('companyId', route)
-          const data = serializer(createFormValue)
-          const fullPath = getFullPathFromRoute(route)
-
-          props.createAction(data, companyId)
-            .then(() => push(appendParamsToUrl({ create: false }, fullPath)))
-            .then(() => props.openSnackbarAction({ message: 'Successfully saved', action: SUCCESS_TYPE }))
-            .then(() => props.getListAction(getListRequestFromProps(props), companyId))
-            .catch(error => Promise.resolve()
-              .then(() => props.stopSubmit(formName, getReduxFormError(error)))
-              .then(() => props.openSnackbarAction({ message: 'Save failed', action: DANGER_TYPE }))
-            )
-        })
-
-      return props$
-        .combineLatest(({ ...props }) => {
-          const location = prop('location', props)
-
-          return {
-            ...props,
-            create: {
-              open: getParamsLikeBooleanFromLocation('create', location),
-              onSubmitCreate,
-              onOpenCreate,
-              onCloseCreate
-            }
-          }
-        })
-    }),
+      })
+    ),
     pure
   )
 }
+
+export default CreateWrapper

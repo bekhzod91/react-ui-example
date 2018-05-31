@@ -22,9 +22,9 @@ const styles = theme => ({
   }
 })
 
-const CompanyActions = ({ classes, onOpenFilter, filterCount }) => (
+const CompanyActions = ({ classes, onOpenModal, filterCount }) => (
   <div className={classes.root}>
-    <IconButton onClick={onOpenFilter}>
+    <IconButton onClick={onOpenModal}>
       {Boolean(filterCount) && <Badge badgeContent={filterCount} color="secondary">
         <FilterListIcon />
       </Badge>}
@@ -46,7 +46,7 @@ const CompanyActions = ({ classes, onOpenFilter, filterCount }) => (
 CompanyActions.propTypes = {
   classes: PropTypes.object.isRequired,
   filterCount: PropTypes.number.isRequired,
-  onOpenFilter: PropTypes.func.isRequired
+  onOpenModal: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(CompanyActions)

@@ -2,8 +2,8 @@ import { compose, pure, mapPropsStream, createEventHandler } from 'recompose'
 import { addParamsRoute } from '../helpers/route'
 import { getBooleanFromHistory } from '../helpers/get'
 
-export default ({ key, handlerOnSubmit }) => {
-  return compose(
+const ModalWrapper = ({ key, handlerOnSubmit }) =>
+  compose(
     mapPropsStream(props$ => {
       const { handler: onOpenModal, stream: onOpenModal$ } = createEventHandler()
       const { handler: onCloseModal, stream: onCloseModal$ } = createEventHandler()
@@ -11,9 +11,9 @@ export default ({ key, handlerOnSubmit }) => {
 
       onOpenModal$
         .withLatestFrom(props$)
-        .subscribe(([, { history }]) =>
+        .subscribe(([, { history }]) => {
           addParamsRoute({ [key]: true }, history)
-        )
+        })
 
       onCloseModal$
         .withLatestFrom(props$)
@@ -41,4 +41,5 @@ export default ({ key, handlerOnSubmit }) => {
     }),
     pure
   )
-}
+
+export default ModalWrapper

@@ -10,4 +10,9 @@ const validate = (data) => {
   })
 }
 
+export const getReduxFormError = data => ({
+  ...data,
+  _error: prop('nonFieldErrors', data) || prop('detail', data)
+})
+
 export default validate

@@ -1,34 +1,35 @@
-import { compose, path, prop } from 'ramda'
-import { pure, mapPropsStream, createEventHandler } from 'recompose'
+import { prop, always } from 'ramda'
+import { compose, pure, mapPropsStream, createEventHandler } from 'recompose'
 import { connect } from 'react-redux'
-import { getListRequestFromProps } from '../helpers/get'
-import { closeConfirmDialogAction, openConfirmDialogAction } from '../components/WithState/ConfirmDialog/actions'
+import { getListParamsFromProps } from '../helpers/get'
+import { closeConfirmDialogAction, openConfirmDialogAction } from '../components/ConfirmDialog/actions'
 
-export default ({ getIdByItem = prop('id'), deleteAction, getListAction }) => {
+export default ({ action, listAction }) => {
+  const mapStateToProps = always({})
+  const mapDispatchToProps = { action, listAction, closeConfirmDialogAction, openConfirmDialogAction }
+
   return compose(
-    connect(() => ({}), { deleteAction, getListAction, closeConfirmDialogAction, openConfirmDialogAction }),
-    // Details
+    connect(mapStateToProps, mapDispatchToProps),
     mapPropsStream(props$ => {
       const { handler: onConfirmRemove, stream: onConfirmRemove$ } = createEventHandler()
 
       onConfirmRemove$
         .withLatestFrom(props$)
-        .subscribe(([item, props]) => {
-          const id = getIdByItem(item)
-          const companyId = parseInt(path(['params', 'companyId'], props))
-
-          return props
-            .deleteAction(id, companyId)
+        .subscribe(([item, props]) =>
+          props
+            .action(prop('id', item))
             .then(() => props.closeConfirmDialogAction())
-            .then(() => props.getListAction(getListRequestFromProps(props), companyId))
-        })
+            .then(() => props.listAction(getListParamsFromProps(props)))
+        )
 
-      return props$.combineLatest(props => ({
-        ...props,
-        remove: {
-          openConfirmDialog: (item) => props.openConfirmDialogAction({ onConfirm: () => onConfirmRemove(item) })
-        }
-      }))
+      return props$.combineLatest(
+        props => ({
+          ...props,
+          remove: {
+            openConfirmDialog: item => props.openConfirmDialogAction({ onConfirm: () => onConfirmRemove(item) })
+          }
+        })
+      )
     }),
     pure
   )

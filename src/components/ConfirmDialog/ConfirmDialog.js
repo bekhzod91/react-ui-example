@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog, {
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  DialogContentText
-} from '@material-ui/core/Dialog'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+
 import Button from '@material-ui/core/Button'
 import { closeConfirmDialogAction } from './actions'
 
@@ -18,20 +18,20 @@ const styles = theme => ({
     width: 400
   },
   title: {
-    backgroundColor: theme.common.confirmDialog.backgroundColor,
+    backgroundColor: theme.components.confirmDialog.backgroundColor,
     padding: '12px 24px',
     ' & h2': {
-      color: theme.common.confirmDialog.text
+      color: theme.components.confirmDialog.text
     }
   },
   content: {
     padding: '12px 24px'
   },
   confirmButton: {
-    backgroundColor: theme.common.confirmDialog.backgroundColor,
-    color: theme.common.confirmDialog.text,
+    backgroundColor: theme.components.confirmDialog.backgroundColor,
+    color: theme.components.confirmDialog.text,
     '&:hover': {
-      backgroundColor: theme.common.confirmDialog.hover.backgroundColor
+      backgroundColor: theme.components.confirmDialog.hover.backgroundColor
     }
   }
 })

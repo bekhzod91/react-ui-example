@@ -4,6 +4,7 @@ import { compose, pure } from 'recompose'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PageLoading from '../PageLoading'
 import Snackbar from '../Snackbar'
+import ConfirmDialog from '../ConfirmDialog'
 import { getDefaultProps } from '../../helpers/app'
 
 const styles = {
@@ -28,6 +29,7 @@ const BaseLayout = ({ classes, ...props }) => (
     <PageLoading />
     {props.children && React.cloneElement(props.children, { app: getDefaultProps(props) })}
     <Snackbar />
+    <ConfirmDialog />
   </div>
 )
 

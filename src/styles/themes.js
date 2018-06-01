@@ -18,6 +18,13 @@ export const muiTheme = createMuiTheme({
   components: {
     table: {
       contentBgColor: '#fff',
+    },
+    confirmDialog: {
+      backgroundColor: '#F44336',
+      text: '#fff',
+      hover: {
+        backgroundColor: '#E53935'
+      }
     }
   },
   menu: {

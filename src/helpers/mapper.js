@@ -12,7 +12,10 @@ import { toSnake } from './toSnakeCase'
 
 export const mapStrToBoolean = str => toLower(str) === 'true'
 
-const decodeURLParam = compose(tryCatch(JSON.parse, always(undefined)), decodeURIComponent)
+const decodeURLParam = val => compose(
+  tryCatch(JSON.parse, always(val)),
+  decodeURIComponent
+)(val)
 export const decodeURLParams = map(decodeURLParam)
 
 const encodeURLParam = compose(encodeURIComponent, JSON.stringify)
@@ -20,7 +23,7 @@ export const encodeURLParams = map(encodeURLParam)
 
 const renameKeys = {
   rowsPerPage: 'page_size',
-  sort: 'ordering'
+  ordering: 'ordering'
 }
 
 const mapValue = ([key, value]) => {

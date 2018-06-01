@@ -1,65 +1,73 @@
-import { compose, prop, path } from 'ramda'
-import { pure, mapPropsStream, createEventHandler } from 'recompose'
+import { compose, prop, omit } from 'ramda'
+import { pure, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
-import { stopSubmit } from 'redux-form'
+import { formValueSelector, stopSubmit } from 'redux-form'
 import { getReduxFormError } from '../helpers/validate'
-import { getFormValueFromState } from '../helpers/form'
-import { getListParamsFromProps } from '../helpers/get'
-import { addParamsRoute } from '../helpers/route'
+import { getDataFromState, getIdFromProps, getListParamsFromProps } from '../helpers/get'
 import { mapParamsToRequest } from '../helpers/mapper'
 import { openSnackbarAction, DANGER_TYPE, SUCCESS_TYPE } from '../components/Snackbar/actions'
+import ModalWrapper from './ModalWrapper'
 
 const key = 'edit'
+const formValue = 'values'
 
-export default ({ listUrl, formName, mapper = mapParamsToRequest, editAction, getListAction, getDetailAction }) => {
+const EditWrapper = params => {
+  const {
+    form,
+    fields,
+    action,
+    stateName,
+    mapper = mapParamsToRequest,
+    initialMapper = prop('data'),
+    listAction,
+    listMapper = getListParamsFromProps,
+    detailAction
+  } = params
+  const selector = formValueSelector(form)
   const mapStateToProps = state => ({
-    editFormValue: getFormValueFromState(formName, state)
+    [formValue]: selector(state, ...fields),
+    item: getDataFromState(stateName, state)
   })
-  const mapDispatchToProps = { editAction, getListAction, getDetailAction, stopSubmit, openSnackbarAction }
+  const mapDispatchToProps = { action, listAction, detailAction, stopSubmit, openSnackbarAction }
+
+  const handlerOnSubmit = (event, props) => {
+    event && event.preventDefault()
+    const id = getIdFromProps(props)
+    const data = prop(formValue, props)
+
+    props.action(mapper(data), id)
+      .then(() => props.openSnackbarAction({ message: 'Successfully saved', action: SUCCESS_TYPE }))
+      .then(() => Promise.all([
+        props.listAction(listMapper(props)),
+        props.detailAction(id)
+      ]))
+      .catch(error => Promise.resolve()
+        .then(() => props.stopSubmit(form, getReduxFormError(error)))
+        .then(() => props.openSnackbarAction({ message: 'Save failed', action: DANGER_TYPE }))
+      )
+  }
 
   return compose(
     connect(mapStateToProps, mapDispatchToProps),
+    ModalWrapper({ key, handlerOnSubmit }),
     mapPropsStream(props$ => {
-      const { handler: onCloseEdit, stream: onCloseEdit$ } = createEventHandler()
-      const { handler: onSubmitEdit, stream: onSubmitEdit$ } = createEventHandler()
+      return props$
+        .combineLatest(props => {
+          const model = prop(key, props)
+          const item = prop('item', props)
+          const defaultProps = omit([formValue, key], props)
 
-      onCloseEdit$
-        .withLatestFrom(props$)
-        .subscribe(([, { history }]) =>
-          addParamsRoute({ [key]: false }, history)
-        )
-
-      onSubmitEdit$
-        .withLatestFrom(props$)
-        .subscribe(([event, { route, editFormValue, ...props }]) => {
-          const companyId = prop('companyId', route)
-          const id = parseInt(path(['params', 'id'], route))
-          const data = mapper(editFormValue)
-
-          props.editAction(data, id, companyId)
-            .then(() => props.openSnackbarAction({ message: 'Successfully saved', action: SUCCESS_TYPE }))
-            .then(() => Promise.all([
-              props.getListAction(getListParamsFromProps(props), companyId),
-              props.getDetailAction(id, companyId)
-            ]))
-            .catch(error => Promise.resolve()
-              .then(() => props.stopSubmit(formName, getReduxFormError(error)))
-              .then(() => props.openSnackbarAction({ message: 'Save failed', action: DANGER_TYPE }))
-            )
+          return ({
+            ...defaultProps,
+            [key]: {
+              ...model,
+              initialValues: initialMapper(item, props)
+            },
+          })
         })
-
-      return props$.combineLatest(({ detail, ...props }) => {
-        return {
-          ...props,
-          detail: {
-            ...detail,
-            onSubmitEdit,
-            onCloseEdit,
-            formValues: props.editFormValue,
-          }
-        }
-      })
     }),
     pure
   )
 }
+
+export default EditWrapper

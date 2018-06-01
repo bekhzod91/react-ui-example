@@ -39,7 +39,7 @@ export function AsyncComponent (getComponent) {
   }
 }
 
-const RouteWithLayout = ({ layout, component, path, exact, subRoute }) => {
+const RouteWithLayout = ({ layout, component, path, exact }) => {
   return (
     <Route exact={exact} path={path} render={props =>
       React.createElement(layout, props, React.createElement(component, props))
@@ -52,7 +52,6 @@ RouteWithLayout.defaultProps = {
 }
 
 RouteWithLayout.propTypes = {
-  subRoute: PropTypes.array,
   exact: PropTypes.bool.isRequired,
   layout: PropTypes.any.isRequired,
   path: PropTypes.any.isRequired,

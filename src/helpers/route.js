@@ -17,3 +17,20 @@ export const addParamsRoute = curry((params, history) =>
     path(['location', 'search']),
   )(history)
 )
+
+export const replace = curry(({ pathname, params }, history) =>
+  compose(
+    history.replace,
+    appendParamsToUrl(params),
+    defaultTo(path(['location', 'pathname'], history))
+  )(pathname)
+)
+
+export const replaceParamsRoute = curry((params, history) =>
+  compose(
+    replace(__, history),
+    assoc('pathname', __, {}),
+    appendParamsToUrl(params),
+    path(['location', 'search']),
+  )(history)
+)

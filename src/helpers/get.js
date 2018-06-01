@@ -54,4 +54,6 @@ export const getListParamsFromProps = compose(
 )
 
 export const getIndexByTabName = curry((tabs, tabName) => findIndex(equals(tabName), tabs))
-export const getCurrentTabIndex = curry((tabs, route) => findIndex(equals(path(['params', 'tab'], route)), tabs))
+export const getCurrentTabIndex = curry((tabs, match) =>
+  findIndex(equals(path(['params', 'tab'], match)), tabs)
+)

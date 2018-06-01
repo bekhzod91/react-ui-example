@@ -6,14 +6,18 @@ import FilterWrapper from '../../../wrappers/FilterWrapper'
 import ListWrapper from '../../../wrappers/ListWrapper'
 import DetailWrapper from '../../../wrappers/DetailWrapper'
 import CreateWrapper from '../../../wrappers/CreateWrapper'
+import EditWrapper from '../../../wrappers/EditWrapper'
+import DeleteContainer from '../../../wrappers/DeleteContainer'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
   addCompanyAction,
+  editCompanyAction,
+  deleteCompanyAction,
 } from '../actions/company'
 import CompanyList from '../components/CompanyList'
 import { formConfig as filterFormConfig } from '../components/CompanyFilterForm'
-import { formConfig as createFormConfig } from '../components/CompanyCreate'
+import { formConfig } from '../components/CompanyForm'
 import UserIsAuthenticated from '../../../permissions/UserIsAuthenticated'
 
 export default compose(
@@ -22,6 +26,13 @@ export default compose(
   FilterWrapper(filterFormConfig),
   ListWrapper({ stateName: STATES.COMPANY_LIST, action: getCompanyListAction }),
   DetailWrapper({ stateName: STATES.COMPANY_DETAIL, action: getCompanyDetailAction }),
-  CreateWrapper({ ...createFormConfig, action: addCompanyAction, listAction: getCompanyListAction }),
+  CreateWrapper({ ...formConfig, action: addCompanyAction, listAction: getCompanyListAction }),
+  EditWrapper({
+    ...formConfig,
+    stateName: STATES.COMPANY_DETAIL,
+    action: editCompanyAction,
+    listAction: getCompanyListAction
+  }),
+  DeleteContainer({ action: deleteCompanyAction, listAction: getCompanyListAction }),
   pure
 )(CompanyList)

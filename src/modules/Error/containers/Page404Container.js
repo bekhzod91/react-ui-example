@@ -8,7 +8,7 @@ export default compose(
   connect(null, { push }),
   withHandlers({
     onGoHome: ({ push }) => () => {
-      return push(ROUTES.COMPANY_MY_LIST_URL)
+      return push(ROUTES.DASHBOARD_URL)
     }
   })
 )(Page404)

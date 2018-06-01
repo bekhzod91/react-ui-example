@@ -13,7 +13,11 @@ export default (store) => ([
   {
     layout: AppLayout,
     exact: true,
-    path: [ROUTES.COMPANY_LIST_URL, ROUTES.COMPANY_DETAIL_URL],
+    path: [
+      ROUTES.COMPANY_LIST_PATH,
+      ROUTES.COMPANY_DETAIL_PATH,
+      ROUTES.COMPANY_DETAIL_TAB_PATH
+    ],
     component: AsyncComponent(() => getCompanyContainer(store)),
   }
 ])

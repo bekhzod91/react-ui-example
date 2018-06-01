@@ -1,15 +1,14 @@
-import { compose, path, omit, equals, curry, either, not, isEmpty, filter, isNil } from 'ramda'
+import { compose, omit, equals, curry, either, not, isEmpty, filter, isNil } from 'ramda'
 import { parseParams } from './urls'
 
 export const IGNORE_PARAMS = ['ids', 'filter', 'create']
 
-const getParamsFromProps = ({ history }, ignore = IGNORE_PARAMS) => compose(
+const excludeParams = (search, ignore) => compose(
   filter(compose(not, either(isNil, isEmpty))),
-  omit(IGNORE_PARAMS),
-  parseParams,
-  path(['location', 'search'])
-)(history)
+  omit(ignore),
+  parseParams
+)(search)
 
-export const isEqualSearch = curry((ignore, prev, current) =>
-  equals(getParamsFromProps(prev, ignore), getParamsFromProps(current, ignore))
-)
+export const isEqualSearch = curry((ignore, prev, current) => {
+  return equals(excludeParams(prev, ignore), excludeParams(current, ignore))
+})

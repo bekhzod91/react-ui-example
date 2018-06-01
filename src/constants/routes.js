@@ -35,12 +35,6 @@ export const SIGN_UP_EMAIL_CONFIRM_URL = `/${SIGN_UP}/${SIGN_UP_EMAIL_CONFIRM}/:
 export const INTERNAL_SERVER_ERROR = '500'
 export const INTERNAL_SERVER_ERROR_URL = `/${INTERNAL_SERVER_ERROR}`
 
-// COMPANY_MY ROUTES
-export const COMPANY_MY = 'c'
-export const COMPANY_MY_LIST_URL = `/${COMPANY_MY}`
-export const COMPANY_MY_URL = `${COMPANY_MY_LIST_URL}/:companyId`
-export const COMPANY_MY_PATH = `${COMPANY_MY_LIST_URL}/%d`
-
 // DASHBOARD
 export const DASHBOARD = 'dashboard'
 export const DASHBOARD_URL = `/${DASHBOARD}`
@@ -48,16 +42,17 @@ export const DASHBOARD_PATH = `/${DASHBOARD}`
 
 // USER ROUTE
 export const USER = 'users'
-export const USER_LIST_URL = `${COMPANY_MY_URL}/${USER}`
+export const USER_LIST_URL = `/${USER}`
 export const USER_DETAIL_URL = `${USER_LIST_URL}/:id`
 export const USER_DETAIL_PATH = `${USER_LIST_URL}/%d`
 
 // COMPANY ROUTES
 export const COMPANY = 'company'
-export const COMPANY_LIST_URL = `/${COMPANY}`
-export const COMPANY_DETAIL_URL = `${COMPANY_LIST_URL}/:id`
 export const COMPANY_LIST_PATH = `/${COMPANY}`
-export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/%d`
+export const COMPANY_DETAIL_PATH = `${COMPANY_LIST_PATH}/:id`
+export const COMPANY_DETAIL_TAB_PATH = `${COMPANY_LIST_PATH}/:id/:tab`
+export const COMPANY_DETAIL_URL = `${COMPANY_LIST_PATH}/%d`
+export const COMPANY_DETAIL_TAB_URL = `${COMPANY_LIST_PATH}/%d/%s`
 
 // COMMON ROUTE
 export const COMMON = 'common'

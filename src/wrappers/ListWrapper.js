@@ -1,3 +1,4 @@
+import { path } from 'ramda'
 import { compose, pure, mapPropsStream } from 'recompose'
 import { connect } from 'react-redux'
 import { getDataFromState, getListParamsFromProps } from '../helpers/get'
@@ -11,7 +12,10 @@ export default params => {
     connect(mapStateToProps, { action }),
     mapPropsStream(props$ => {
       props$
-        .distinctUntilChanged(isEqualSearch(ignore))
+        .distinctUntilChanged(
+          isEqualSearch(ignore),
+          path(['history', 'location', 'search'])
+        )
         .subscribe(props => props.action(mapper(props)))
 
       return props$

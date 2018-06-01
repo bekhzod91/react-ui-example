@@ -12,7 +12,7 @@ export default [
   },
   {
     name: ROUTES.COMPANY,
-    url: ROUTES.COMPANY_LIST_URL,
+    url: ROUTES.COMPANY_LIST_PATH,
     title: 'Company',
     icon: (<GroupIcon />)
   },

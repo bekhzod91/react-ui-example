@@ -14,6 +14,7 @@ import {
   clone,
   isEmpty,
   findIndex,
+  __
 } from 'ramda'
 import { parseParams } from './urls'
 import { mapParamsToRequest, mapStrToBoolean, decodeURLParams } from './mapper'

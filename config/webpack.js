@@ -24,7 +24,9 @@ const config = {
       inProjectSrc(project.main),
     ],
   },
-  optimization: { minimizer: [] },
+  optimization: {
+    minimizer: []
+  },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
@@ -44,7 +46,9 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin(Object.assign({
-      'process.env': { NODE_ENV: JSON.stringify(project.env), API_HOST: JSON.stringify(project.API_HOST) },
+      'process.env': {
+        API_HOST: JSON.stringify(project.API_HOST)
+      },
       __DEV__,
       __TEST__,
       __PROD__,
@@ -200,27 +204,25 @@ if (__DEV__) {
 
 // Bundle Splitting
 // ------------------------------------
-if (!__TEST__) {
-  config.optimization.splitChunks = {
-    chunks: "async",
-    minSize: 30000,
-    minChunks: 1,
-    maxAsyncRequests: 5,
-    maxInitialRequests: 3,
-    automaticNameDelimiter: '~',
-    name: true,
-    cacheGroups: {
-      vendors: {
-        test: /[\\/]node_modules[\\/]/,
-        chunks: 'all',
-        name: 'vendors',
-        enforce: true
-      },
-      default: {
-        minChunks: 2,
-        priority: -20,
-        reuseExistingChunk: true
-      }
+config.optimization.splitChunks = {
+  chunks: "async",
+  minSize: 30000,
+  minChunks: 1,
+  maxAsyncRequests: 5,
+  maxInitialRequests: 3,
+  automaticNameDelimiter: '~',
+  name: true,
+  cacheGroups: {
+    vendors: {
+      test: /[\\/]node_modules[\\/]/,
+      chunks: 'all',
+      name: 'vendors',
+      enforce: true
+    },
+    default: {
+      minChunks: 2,
+      priority: -20,
+      reuseExistingChunk: true
     }
   }
 }

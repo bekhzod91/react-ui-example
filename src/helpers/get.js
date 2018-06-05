@@ -13,8 +13,7 @@ import {
   length,
   clone,
   isEmpty,
-  findIndex,
-  __
+  findIndex
 } from 'ramda'
 import { parseParams } from './urls'
 import { mapParamsToRequest, mapStrToBoolean, decodeURLParams } from './mapper'

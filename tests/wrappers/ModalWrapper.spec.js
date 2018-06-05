@@ -37,7 +37,7 @@ describe('(Component) ModalWrapper', () => {
     )
   }
 
-  it('open', done => {
+  it('onOpen', done => {
     before()
     component.find('#open').first().simulate('click')
 
@@ -49,7 +49,7 @@ describe('(Component) ModalWrapper', () => {
     })
   })
 
-  it('close', done => {
+  it('onClose', done => {
     before()
     component.find('#open').first().simulate('click')
 
@@ -61,7 +61,7 @@ describe('(Component) ModalWrapper', () => {
     })
   })
 
-  it('submit', done => {
+  it('onSubmit', done => {
     const handleOnSubmit = sinon.spy()
     before('modal', handleOnSubmit)
 

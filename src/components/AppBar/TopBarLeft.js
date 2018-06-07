@@ -4,10 +4,9 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
 import AccountIcon from '../Icon/AccountIcon'
 import SidebarIcon from '../Icon/SidebarIcon'
-import * as STYLE from '../../styles/style'
 import logo from './logo-icon.png'
 
-const styles = {
+const styles = theme => ({
   root: {
     position: 'relative',
     marginLeft: -24,
@@ -21,14 +20,14 @@ const styles = {
 
   title: {
     paddingLeft: '15px !important',
-    color: `${STYLE.SECOND_TEXT_COLOR} !important`
+    color: `${theme.palette.secondary[4]} !important`
   },
 
   action: {
     position: 'absolute',
     display: 'flex'
   }
-}
+})
 
 const TopBarLeft = ({ classes, ...props }) => {
   const actionStyle = { transform: props.open ? 'translate(250px)' : 'translate(50px)' }

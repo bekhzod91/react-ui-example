@@ -5,14 +5,15 @@ export const defaultState = {
   open: false,
   message: 'Message',
   action: actions.INFO_TYPE,
-  duration: 3000
+  duration: 3000,
+  anchorOrigin: { vertical: 'bottom', horizontal: 'center' }
 }
 
 const reducer = () => {
   return createReducer(defaultState, {
     [`${actions.SNACKBAR_OPEN}`] (state, { payload }) {
       return {
-        ...state,
+        ...defaultState,
         ...payload,
         open: true
       }

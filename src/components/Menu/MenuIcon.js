@@ -10,7 +10,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Collapse from '@material-ui/core/Collapse'
 import backgroundImage from '../Menu/header-sm-01.jpg'
 import { checkMenuNameInsideMenu } from '../../helpers/menu'
-import * as STYLE from '../../styles/style'
 import avatar from './photo.jpg'
 
 const STYLES_BG_IMG_SIZE = 65
@@ -19,7 +18,7 @@ const mapWithIndex = addIndex(map)
 const styles = theme => ({
   activeMenu: {
     borderLeft: `3px solid ${theme.palette.secondary[500]}`,
-    backgroundColor: STYLE.HOVER_COLOR
+    backgroundColor: '#eaf3f8'
   },
   background: {
     padding: '0',

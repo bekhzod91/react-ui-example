@@ -1,14 +1,20 @@
-import { T } from 'ramda'
+import { T, compose, prop, path } from 'ramda'
 import sinon from 'sinon'
 import React from 'react'
 import { mount } from 'enzyme'
-import { compose } from 'recompose'
 import { withRouter } from 'react-router'
 import createHistory from 'history/createBrowserHistory'
 import { parseParams } from '../../src/helpers/urls'
 import { mapStrToBoolean } from '../../src/helpers/mapper'
 import ModalWrapper from '../../src/wrappers/ModalWrapper'
 import WrapperProvider from '../WrapperProvider'
+
+const getModalState = compose(
+  mapStrToBoolean,
+  prop('modal'),
+  parseParams,
+  path(['location', 'search'])
+)
 
 describe('(Component) ModalWrapper', () => {
   let history, component, enhance
@@ -37,14 +43,33 @@ describe('(Component) ModalWrapper', () => {
     )
   }
 
+  it('open true', done => {
+    before()
+    history.push('?modal=true')
+
+    setImmediate(() => {
+      const isOpen = getModalState(history)
+      expect(isOpen).to.be.eq(true)
+
+      done()
+    })
+  })
+
+  it('open false', () => {
+    before()
+
+    const isOpen = getModalState(history)
+    expect(isOpen).to.be.eq(true)
+  })
+
   it('onOpen', done => {
     before()
     component.find('#open').first().simulate('click')
 
     setImmediate(() => {
-      const params = parseParams(history.location.search)
-      const modalIsOpen = mapStrToBoolean(params.modal)
-      expect(modalIsOpen).to.have.eq(true)
+      const isOpen = getModalState(history)
+      expect(isOpen).to.be.eq(true)
+
       done()
     })
   })
@@ -54,9 +79,9 @@ describe('(Component) ModalWrapper', () => {
     component.find('#open').first().simulate('click')
 
     setImmediate(() => {
-      const params = parseParams(history.location.search)
-      const modalIsOpen = mapStrToBoolean(params.modal)
-      expect(modalIsOpen).to.have.eq(true)
+      const isOpen = getModalState(history)
+      expect(isOpen).to.be.eq(true)
+
       done()
     })
   })
@@ -68,7 +93,8 @@ describe('(Component) ModalWrapper', () => {
     component.find('#submit').first().simulate('click')
 
     setImmediate(() => {
-      expect(handleOnSubmit.calledOnce).to.have.eq(true)
+      expect(handleOnSubmit.calledOnce).to.be.eq(true)
+
       done()
     })
   })

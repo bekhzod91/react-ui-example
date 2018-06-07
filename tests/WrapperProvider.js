@@ -9,7 +9,7 @@ import { muiTheme } from '../src/styles/themes'
 
 const WrapperProvider = (props) => {
   const history = props.history || createHistory()
-  const store = props.store || createStore(history, {})
+  const store = props.store || createStore(history)
 
   return (
     <Provider store={store}>

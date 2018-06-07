@@ -6,12 +6,14 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import TextField from './TextField'
 
+const enhance = withState('visibility', 'setVisibility', false)
+
 const PasswordViewField = ({ visibility, setVisibility, ...props }) => {
   return (
     <div style={{ position: 'relative' }}>
       <TextField
         {...props}
-        inputProps={{ type: visibility ? 'text' : 'password' }}
+        type={visibility ? 'text' : 'password'}
       />
       <IconButton
         onMouseDown={() => setVisibility(true)}
@@ -35,4 +37,4 @@ PasswordViewField.propTypes = {
   setVisibility: PropTypes.func.isRequired
 }
 
-export default withState('visibility', 'setVisibility', false)(PasswordViewField)
+export default enhance(PasswordViewField)

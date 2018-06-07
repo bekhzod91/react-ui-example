@@ -26,8 +26,8 @@ export const getCompanyListAction = (params) => {
 // ------------------------------------
 export const API_COMPANY_DETAIL_URL = `/companies/%d/`
 
-export const getCompanyDetailAction = (companyId) => {
-  const url = sprintf(API_COMPANY_DETAIL_URL, companyId)
+export const getCompanyDetailAction = (id) => {
+  const url = sprintf(API_COMPANY_DETAIL_URL, id)
 
   return (dispatch, getState) => {
     const payload = axios({ dispatch, getState })

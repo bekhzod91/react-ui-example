@@ -7,14 +7,13 @@ import Button from '../../../components/Button'
 import TextField from '../../../components/Form/TextField'
 import PasswordViewField from '../../../components/Form/PasswordViewField'
 import validate from '../../../helpers/validate'
-import * as STYLE from '../../../styles/style'
 
 export const FORM = 'SignUpForm'
 
-const styles = {
+const styles = theme => ({
   errors: {
     textAlign: 'center',
-    color: STYLE.DANGER_COLOR,
+    color: theme.error.color,
   },
 
   button: {
@@ -22,7 +21,7 @@ const styles = {
     marginBottom: '10px',
     minHeight: '44px !important'
   },
-}
+})
 
 const enhance = compose(
   reduxForm({

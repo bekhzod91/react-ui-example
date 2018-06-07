@@ -15,7 +15,16 @@ export const muiTheme = createMuiTheme({
       disabled: 'rgba(0, 0, 0, 0.42)',
     }
   },
+  error: {
+    color: '#F44336'
+  },
   components: {
+    snackbar: {
+      info: '#42a5f5',
+      warning: '#f8c200',
+      success: '#28bebd',
+      danger: '#EF5350'
+    },
     table: {
       contentBgColor: '#fff',
     },

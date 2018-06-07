@@ -46,6 +46,14 @@ const karmaConfig = {
     module: webpackConfig.module,
     plugins: webpackConfig.plugins,
     resolve: webpackConfig.resolve,
+    optimization: {
+      splitChunks: {
+        chunks: "async",
+        minSize: 30000,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+      }
+    },
     externals: {
       'react/addons': 'react',
       'react/lib/ExecutionEnvironment': 'react',

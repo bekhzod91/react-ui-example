@@ -1,6 +1,7 @@
 import createReducer from '../../helpers/createReducer'
 import * as actions from './actions'
 
+export const SNACKBAR_STATE = 'snackbar'
 export const defaultState = {
   open: false,
   message: 'Message',

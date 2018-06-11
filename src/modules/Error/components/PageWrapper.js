@@ -54,9 +54,9 @@ const PageWrapper = ({ classes, title, children, onGoHome }) => (
 )
 
 PageWrapper.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
   onGoHome: PropTypes.func.isRequired
 }
 

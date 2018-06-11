@@ -24,7 +24,6 @@ const ModalWrapper = ({ key, handlerOnSubmit }) =>
       onSubmitModal$
         .withLatestFrom(props$)
         .subscribe(([event, props]) => {
-          event && event.preventDefault()
           handlerOnSubmit(event, props)
         })
 

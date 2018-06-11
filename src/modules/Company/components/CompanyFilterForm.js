@@ -32,7 +32,7 @@ const enhance = compose(
 
 const CompanyFilterForm = ({ classes, handleSubmit, filter }) => (
   <TableDialog title="Filter" open={filter.open} onClose={filter.onCloseModal}>
-    <form onSubmit={filter.onSubmitModal}>
+    <form onSubmit={handleSubmit(filter.onSubmitModal)}>
       <Field
         component={TextWithClearField}
         name="email"

@@ -4,7 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import { routerReducer } from 'react-router-redux'
 import userReducers from '../modules/User/reducers/highOrderReducers'
 import authReducers from '../modules/Auth/reducers/highOrderReducers'
-import snackbarReducer from '../components/Snackbar/reducer'
+import snackbarReducer, { SNACKBAR_STATE } from '../components/Snackbar/reducer'
 import confirmDialogReducer from '../components/ConfirmDialog/reducer'
 import pageLoadingReducer from '../components/PageLoading/reducer'
 
@@ -12,7 +12,7 @@ export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     form: formReducer,
     routing: routerReducer,
-    snackbar: snackbarReducer(),
+    [SNACKBAR_STATE]: snackbarReducer(),
     pageLoading: pageLoadingReducer(),
     confirmDialog: confirmDialogReducer(),
     ...userReducers,

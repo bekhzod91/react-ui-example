@@ -16,7 +16,7 @@ const getModalState = compose(
   path(['location', 'search'])
 )
 
-describe('(Component) ModalWrapper', () => {
+describe('(Wrapper) ModalWrapper', () => {
   let history, component, enhance
 
   const before = (key = 'modal', handlerOnSubmit = T) => {

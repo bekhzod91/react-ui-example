@@ -41,6 +41,7 @@ const karmaConfig = {
     level: '',
   },
   webpack: {
+    mode: 'development',
     entry: TEST_BUNDLER,
     devtool: 'cheap-module-source-map',
     module: webpackConfig.module,

@@ -7,7 +7,7 @@ import MUIMuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import createStore from '../src/store/createStore'
 import { muiTheme } from '../src/styles/themes'
 
-const WrapperProvider = (props) => {
+const WrapperProvider = props => {
   const history = props.history || createHistory()
   const store = props.store || createStore(history)
 

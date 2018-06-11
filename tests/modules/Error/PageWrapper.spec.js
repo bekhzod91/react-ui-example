@@ -10,7 +10,7 @@ describe('(Component) PageWrapper', () => {
 
   beforeEach(() => {
     onGoHome = sinon.spy()
-    Children = (appBar) => <div>Hello</div>
+    Children = () => <div>Hello</div>
 
     component = mount(
       <WrapperProvider>

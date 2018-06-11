@@ -20,7 +20,6 @@ const FilterWrapper = params => {
   const selector = formValueSelector(form)
   const mapStateToProps = state => ({ [formValue]: selector(state, ...fields) })
   const handlerOnSubmit = (event, props) => {
-    event && event.preventDefault()
     const value = prop(formValue, props)
     const params = encodeURLParams(value)
 

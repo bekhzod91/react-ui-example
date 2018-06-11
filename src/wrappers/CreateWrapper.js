@@ -26,7 +26,6 @@ const CreateWrapper = params => {
   const mapDispatchToProps = { action, listAction, stopSubmit, openSnackbarAction }
 
   const handlerOnSubmit = (event, props) => {
-    event && event.preventDefault()
     const data = prop(formValue, props)
 
     props.action(mapper(data))

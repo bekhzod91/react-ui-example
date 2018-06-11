@@ -2,24 +2,19 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import sinon from 'sinon'
 import { mount } from 'enzyme'
-import { Provider } from 'react-redux'
 import WrapperProvider from '../../WrapperProvider'
-import createStore from '../../../src/store/createStore'
 import Page404 from '../../../src/modules/Error/components/Page404'
 
 describe('(Component) Page404', () => {
-  let onGoHome, component, store
+  let onGoHome, component
 
   beforeEach(() => {
-    store = createStore({})
     onGoHome = sinon.spy()
 
     component = mount(
-      <Provider store={store}>
-        <WrapperProvider>
-          <Page404 onGoHome={onGoHome} />
-        </WrapperProvider>
-      </Provider>
+      <WrapperProvider>
+        <Page404 onGoHome={onGoHome} />
+      </WrapperProvider>
     )
   })
 

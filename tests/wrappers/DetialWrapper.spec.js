@@ -11,9 +11,10 @@ import createStore from '../../src/store/createStore'
 import axios, { getPayloadFromError, getPayloadFromSuccess } from '../../src/helpers/axios'
 import DetailWrapper from '../../src/wrappers/DetailWrapper'
 import WrapperProvider from '../WrapperProvider'
+import { wait } from '../helpers'
 
 const API_URL = '/detail/%d'
-const STATE_NAME = 'detail'
+const DETAIL_STATE = 'detail'
 const ACTION_TYPE = 'DETAIL'
 const action = id => {
   const url = sprintf(API_URL, id)
@@ -31,61 +32,85 @@ const action = id => {
   }
 }
 
-const wait = () =>
-  new Promise(resolve => setTimeout(() => resolve()))
-
-describe('(Component) DetailWrapper', () => {
-  let history, component, store
+describe('(Wrapper) DetailWrapper', () => {
+  let history, wrapper, store
 
   beforeEach(() => {
     history = createHistory()
     store = createStore(history)
-    injectReducers(store, { [STATE_NAME]: createThunkReducer(ACTION_TYPE) })
+    injectReducers(store, { [DETAIL_STATE]: createThunkReducer(ACTION_TYPE) })
+
+    history.push('/')
 
     const enhance = compose(
       withRouter,
-      DetailWrapper({ stateName: STATE_NAME, action })
+      DetailWrapper({ stateName: DETAIL_STATE, action })
     )
     const DetailComponent = enhance(({ item }) =>
-      <div>{path(['data', 'name'], item)}</div>
+      <div>
+        <h1>{path(['data', 'id'], item)}</h1>
+        <span>{path(['data', 'name'], item)}</span>
+      </div>
     )
 
-    component = mount(
+    wrapper = mount(
       <WrapperProvider store={store} history={history}>
         <Route path="/detail/:id" component={DetailComponent} />
       </WrapperProvider>
     )
   })
 
-  it('fetch', () => {
-    const response = { name: 'Hello World' }
+  it('get item', () => {
     const mock = new MockAdapter(axios(store))
-    mock.onGet(sprintf(API_URL, 1)).reply(200, response)
-
-    history.push('/')
 
     return Promise.resolve()
-      .then(() => history.push('/detail/1/'))
+      .then(() => {
+        const url = sprintf(API_URL, 1)
+        const response = { id: 1, name: 'Hello World' }
+        mock.onGet(url).reply(200, response)
+
+        history.push('/detail/1')
+      })
       .then(wait)
-      .then(() => expect(component.text()).to.be.eq('Hello World'))
+      .then(() => {
+        wrapper.update()
+        expect(wrapper.find('h1').at(0).text()).to.be.eq('1')
+        expect(wrapper.find('span').text()).to.be.eq('Hello World')
+      })
   })
 
-  it('fetch on change id', () => {
+  it('get item on change id', () => {
     const mock = new MockAdapter(axios(store))
-    mock.onGet(sprintf(API_URL, 1)).reply(200, { name: 'First' })
-    mock.onGet(sprintf(API_URL, 2)).reply(200, { name: 'Second' })
-
-    history.push('/')
 
     return Promise.resolve()
       // Get detail with id 1
-      .then(() => history.push('/detail/1/'))
+      .then(() => {
+        const url = sprintf(API_URL, 1)
+        const response = { id: 1, name: 'First' }
+        mock.onGet(url).reply(200, response)
+
+        history.push('/detail/1/')
+      })
       .then(wait)
-      .then(() => expect(component.text()).to.be.eq('First'))
+      .then(() => {
+        wrapper.update()
+        expect(wrapper.find('h1').at(0).text()).to.be.eq('1')
+        expect(wrapper.find('span').text()).to.be.eq('First')
+      })
 
       // Get detail with id 2
-      .then(() => history.push('/detail/2/'))
+      .then(() => {
+        const url = sprintf(API_URL, 2)
+        const response = { id: 2, name: 'Second' }
+        mock.onGet(url).reply(200, response)
+
+        history.push('/detail/2/')
+      })
       .then(wait)
-      .then(() => expect(component.text()).to.be.eq('Second'))
+      .then(() => {
+        wrapper.update()
+        expect(wrapper.find('h1').text()).to.be.eq('2')
+        expect(wrapper.find('span').text()).to.be.eq('Second')
+      })
   })
 })

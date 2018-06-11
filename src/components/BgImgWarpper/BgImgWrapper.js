@@ -1,7 +1,7 @@
 import { toLower } from 'ramda'
 import moment from 'moment'
 import React from 'react'
-import injectSheet from 'react-jss'
+import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 
 const getImgBg = () => {
@@ -54,4 +54,4 @@ BgImgWrapper.propTypes = {
   img: PropTypes.string
 }
 
-export default injectSheet(styles)(BgImgWrapper)
+export default withStyles(styles)(BgImgWrapper)

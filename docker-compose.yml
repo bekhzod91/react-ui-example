@@ -6,6 +6,7 @@ services:
     environment:
       - NODE_ENV=testing
     build: .
+    image: lab.wienerdeming.com:4567/gs1/gs1_ui
 
   app:
     environment:

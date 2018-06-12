@@ -16,4 +16,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./dist:/gs1_ui
+      - /var/www/gs1_ui

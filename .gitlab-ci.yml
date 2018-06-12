@@ -3,12 +3,16 @@ image: docker:stable
 services:
   - docker:dind
 
+variables:
+  - DOCKER_REGISTRY: lab.wienerdeming.com:4567
+  - CONTAINER_RELEASE_IMAGE: lab.wienerdeming.com:4567/gs1/gs1_ui
+
 before_script:
   - apk add --no-cache py-pip
   - pip install docker-compose
   - docker info
   - docker-compose --version
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN lab.wienerdeming.com:4567
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $DOCKER_REGISTRY
   - id -un
 
 stages:
@@ -19,14 +23,15 @@ stages:
 build:
   stage: build
   script:
-    - docker build -t lab.wienerdeming.com:4567/gs1/gs1_ui .
-    - docker push lab.wienerdeming.com:4567/gs1/gs1_ui
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
   tags:
     - staging
 
 test:
   stage: test
   script:
+    - docker pull $CONTAINER_RELEASE_IMAGE
     - docker-compose run test
   tags:
     - staging
@@ -34,6 +39,7 @@ test:
 deploy:
   stage: deploy
   script:
+    - docker pull $CONTAINER_RELEASE_IMAGE
     - docker-compose run app
     - cp -r dist/ /gs1_ui
   only:

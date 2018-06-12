@@ -15,4 +15,4 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./dist:/gs1_ui/
+      - ./dist:/gs1_ui

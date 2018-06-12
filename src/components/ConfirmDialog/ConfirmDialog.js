@@ -61,11 +61,13 @@ const ConfirmDialog = ({ classes, title, message, open, onConfirm, onClose, ...p
     </DialogContent>
     <DialogActions>
       <Button
+        test="confirm-dialog-close"
         onClick={onClose}
         variant="raised">
         Cancel
       </Button>
       <Button
+        test="confirm-dialog-confirm"
         onClick={onConfirm}
         variant="raised"
         className={classes.confirmButton}>

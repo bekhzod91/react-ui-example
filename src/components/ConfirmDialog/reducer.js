@@ -1,6 +1,7 @@
 import createReducer from '../../helpers/createReducer'
 import * as actions from './actions'
 
+export const CONFIRM_DIALOG_STATE = 'confirmDialog'
 export const defaultState = {
   open: false,
   title: 'Delete confirmation',

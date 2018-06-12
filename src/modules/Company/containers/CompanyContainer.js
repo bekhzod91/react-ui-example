@@ -7,7 +7,7 @@ import ListWrapper from '../../../wrappers/ListWrapper'
 import DetailWrapper from '../../../wrappers/DetailWrapper'
 import CreateWrapper from '../../../wrappers/CreateWrapper'
 import EditWrapper from '../../../wrappers/EditWrapper'
-import DeleteContainer from '../../../wrappers/DeleteContainer'
+import DeleteWrapper from '../../../wrappers/DeleteWrapper'
 import {
   getCompanyListAction,
   getCompanyDetailAction,
@@ -33,6 +33,6 @@ export default compose(
     action: editCompanyAction,
     listAction: getCompanyListAction
   }),
-  DeleteContainer({ action: deleteCompanyAction, listAction: getCompanyListAction }),
+  DeleteWrapper({ action: deleteCompanyAction, listAction: getCompanyListAction }),
   pure
 )(CompanyList)

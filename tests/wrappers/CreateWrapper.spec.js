@@ -33,9 +33,8 @@ const action = data => {
     })
   }
 }
-const listAction = () => {
-  return { type: 'FETCH_LIST' }
-}
+const listAction = () =>
+  ({ type: 'FETCH_LIST' })
 
 describe('(Wrapper) CreateWrapper', () => {
   let history, wrapper, store
@@ -70,7 +69,7 @@ describe('(Wrapper) CreateWrapper', () => {
     wrapper.find('input').simulate('change', { target: { value: 'My name' } })
   })
 
-  it('valid', () => {
+  it('success', () => {
     const mock = new MockAdapter(axios(store))
     const response = { id: 1, name: 'Name' }
     mock.onPost(API_URL).reply(200, response)
@@ -90,7 +89,7 @@ describe('(Wrapper) CreateWrapper', () => {
       })
   })
 
-  it('invalid', () => {
+  it('fail', () => {
     const mock = new MockAdapter(axios(store))
     const response = { name: ['This field required.'] }
     mock.onPost(API_URL).reply(400, response)

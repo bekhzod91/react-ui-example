@@ -5,7 +5,7 @@ import { routerReducer } from 'react-router-redux'
 import userReducers from '../modules/User/reducers/highOrderReducers'
 import authReducers from '../modules/Auth/reducers/highOrderReducers'
 import snackbarReducer, { SNACKBAR_STATE } from '../components/Snackbar/reducer'
-import confirmDialogReducer from '../components/ConfirmDialog/reducer'
+import confirmDialogReducer, { CONFIRM_DIALOG_STATE } from '../components/ConfirmDialog/reducer'
 import pageLoadingReducer from '../components/PageLoading/reducer'
 
 export const makeRootReducer = (asyncReducers) => {
@@ -14,7 +14,7 @@ export const makeRootReducer = (asyncReducers) => {
     routing: routerReducer,
     [SNACKBAR_STATE]: snackbarReducer(),
     pageLoading: pageLoadingReducer(),
-    confirmDialog: confirmDialogReducer(),
+    [CONFIRM_DIALOG_STATE]: confirmDialogReducer(),
     ...userReducers,
     ...authReducers,
     ...asyncReducers

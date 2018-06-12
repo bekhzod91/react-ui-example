@@ -39,6 +39,7 @@ test:
 deploy:
   stage: deploy
   script:
+    - pwd
     - docker pull $CONTAINER_RELEASE_IMAGE
     - docker-compose run app
     - cp -r /var/www/gs1_ui/dist /gs1_ui

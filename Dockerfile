@@ -53,8 +53,8 @@ USER app
 # Install NVM
 ##############################
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-RUN source ~/.bashrc && nvm install 8.9.3 > /dev/null
-RUN source ~/.bashrc && nvm use 8.9.3
+RUN source ~/.bashrc && nvm install 10.4.0 > /dev/null
+RUN source ~/.bashrc && nvm use 10.4.0
 
 ###############################
 # Install YARN

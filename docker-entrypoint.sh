@@ -23,8 +23,8 @@ if [[ $NODE_ENV == 'production' ]]; then
     chown app:app -R $PROJECT_DIR/dist
 
     # Build source
-    exec gosu app yarn run clean
-    exec gosu app yarn build
+    gosu app yarn run clean
+    gosu app yarn build
     exit
 fi
 

@@ -14,4 +14,4 @@ services:
     build: .
     image: lab.wienerdeming.com:4567/gs1/gs1_ui
     volumes:
-      - "/gs1_ui:/var/www/gs1_ui/dist"
+      - "/var/www/gs1_ui:/var/www/gs1_ui/"

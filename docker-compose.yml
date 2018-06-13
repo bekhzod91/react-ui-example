@@ -9,11 +9,9 @@ services:
 
   app:
     environment:
+      - NODE_ENV=production
       - API_HOST=apigs1.wienerdeming.com
     build: .
     image: lab.wienerdeming.com:4567/gs1/gs1_ui
     volumes:
       - "/gs1_ui:/var/www/gs1_ui/dist"
-
-volumes:
-  gs1_ui:

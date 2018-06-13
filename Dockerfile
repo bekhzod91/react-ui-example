@@ -37,7 +37,6 @@ RUN useradd -u 1000 app
 # Setting Project
 ######################################
 RUN mkdir -p /var/www/$PROJECT_NAME
-RUN mkdir -p /var/www/$PROJECT_NAME/dist
 
 # Cd to working directory
 WORKDIR /var/www/$PROJECT_NAME

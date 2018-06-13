@@ -10,12 +10,8 @@ cd $PROJECT_DIR
 if [[ $NODE_ENV == 'testing' ]]; then
     echo "Run testing mode"
 
-    # Change user
-    gosu app bash
-    source ~/.bashrc
-
     # Run test
-    xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
+    gosu app source ~/.bashrc && xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
     exit
 else
     echo "Run production mode"
@@ -24,12 +20,8 @@ else
     chmod 775 -R $PROJECT_DIR/dist
     chown app:app -R $PROJECT_DIR/dist
 
-    # Change user
-    gosu app bash
-    source ~/.bashrc
-
     # Build source
-    yarn run clean
-    yarn build
+    gosu app source ~/.bashrc && yarn run clean
+    gosu app source ~/.bashrc && yarn build
     exit
 fi

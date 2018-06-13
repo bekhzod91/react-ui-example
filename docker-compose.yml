@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-  # App
   test:
     environment:
       - NODE_ENV=testing

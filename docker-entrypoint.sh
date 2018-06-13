@@ -11,7 +11,7 @@ if [[ $NODE_ENV == 'testing' ]]; then
     echo "Run testing mode"
 
     # Run test
-    gosu app xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
+    gosu app bash && source ~/.bashrc && xvfb-run --server-args='-screen 0, 1024x768x16' yarn test
     exit
 else
     echo "Run production mode"
@@ -21,7 +21,7 @@ else
     chown app:app -R $PROJECT_DIR/dist
 
     # Build source
-    gosu app yarn run clean
-    gosu app yarn build
+    gosu app bash && source ~/.bashrc && yarn run clean
+    gosu app bash && source ~/.bashrc && yarn build
     exit
 fi

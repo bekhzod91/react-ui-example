@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
 
 export HOME=/home/app
 export PROJECT_DIR=/var/www/gs1_ui
 
-# Go to directory
+source $HOME/.bashrc
 cd $PROJECT_DIR
 
 if [[ $NODE_ENV == 'testing' ]]; then
@@ -23,7 +23,9 @@ if [[ $NODE_ENV == 'production' ]]; then
     chown app:app -R $PROJECT_DIR/dist
 
     # Build source
-    exec gosu app bash && source ~/.bashrc && yarn run clean
-    exec gosu app bash && source ~/.bashrc && yarn build
+    exec gosu app yarn run clean
+    exec gosu app yarn build
     exit
 fi
+
+exec "$@"
